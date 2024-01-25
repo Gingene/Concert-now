@@ -7,20 +7,20 @@ import autoprefixer from "autoprefixer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === "production" ? "/project-Concert-now-example/" : "/",
+  base: process.env.NODE_ENV === "production" ? "/Concert-now/" : "/",
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
   },
   server: {
-    open: true
+    open: true,
   },
   css: {
     devSourcemap: true,
     postcss: {
-      plugins: [tailwind(), autoprefixer()]
-    }
-  }
+      plugins: [tailwind(), autoprefixer()],
+    },
+  },
 });
