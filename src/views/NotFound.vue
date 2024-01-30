@@ -12,16 +12,16 @@
   </section>
 </template>
 <script setup>
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 </script>
 <script>
-import { RouterLink } from "vue-router";
+import { RouterLink } from 'vue-router';
 
 export default {
   components: { RouterLink },
-  props: ["route"],
+  props: ['route'],
   created() {
     console.log(this.route);
-  }
+  },
 };
 </script>

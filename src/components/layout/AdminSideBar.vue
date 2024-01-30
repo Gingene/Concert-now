@@ -21,8 +21,8 @@
   </nav>
 </template>
 <script setup>
-import { Button } from "@/components/ui/button";
-import { RouterLink } from "vue-router";
+import { Button } from '@/components/ui/button';
+import { RouterLink } from 'vue-router';
 </script>
 
 <script>
@@ -31,28 +31,28 @@ export default {
     return {
       sidebarNavItems: [
         {
-          title: "分析報表",
-          href: "/admin/analysis"
+          title: '分析報表',
+          href: '/admin/analysis',
         },
         {
-          title: "會員管理",
-          href: "/admin/members"
+          title: '會員管理',
+          href: '/admin/members',
         },
         {
-          title: "評論管理",
-          href: "/admin/comments"
+          title: '評論管理',
+          href: '/admin/comments',
         },
         {
-          title: "歌單管理",
-          href: "/admin/playlists"
+          title: '歌單管理',
+          href: '/admin/playlists',
         },
         {
-          title: "設定",
-          href: "/admin/settings"
-        }
-      ]
+          title: '設定',
+          href: '/admin/settings',
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

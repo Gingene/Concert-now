@@ -1,5 +1,5 @@
 /* eslint-env node */
-require("@rushstack/eslint-patch/modern-module-resolution");
+require('@rushstack/eslint-patch/modern-module-resolution');
 
 module.exports = {
   root: true,
@@ -7,32 +7,32 @@ module.exports = {
     browser: true,
   },
   extends: [
-    "plugin:vue/vue3-essential",
-    "eslint:recommended",
-    "standard",
-    "@vue/eslint-config-prettier/skip-formatting",
+    'plugin:vue/vue3-essential',
+    'eslint:recommended',
+    'standard',
+    '@vue/eslint-config-prettier/skip-formatting',
   ],
   parserOptions: {
-    ecmaVersion: "latest",
+    ecmaVersion: 'latest',
   },
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       alias: {
-        map: [["@", "./src"]],
-        extensions: [".js", ".vue"],
+        map: [['@', './src']],
+        extensions: ['.js', '.vue'],
       },
     },
-    "import/core-modules": ["vite", "@vitejs/plugin-vue"],
+    'import/core-modules': ['vite', '@vitejs/plugin-vue'],
   },
   rules: {
-    semi: ["error", "always"],
-    quotes: ["error", "double"],
-    "no-console": "off",
-    "no-param-reassign": [
-      "error",
+    semi: ['error', 'always'],
+    quotes: ['error', 'single'],
+    'no-console': 'off',
+    'no-param-reassign': [
+      'error',
       {
         props: true,
-        ignorePropertyModificationsFor: ["e", "ctx", "context", "state", "config"],
+        ignorePropertyModificationsFor: ['e', 'ctx', 'context', 'state', 'config'],
       },
     ],
   },

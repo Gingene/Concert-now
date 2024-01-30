@@ -1,6 +1,6 @@
 <script setup>
-import { ComboboxContent, useForwardPropsEmits } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { ComboboxContent, useForwardPropsEmits } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   forceMount: { type: Boolean, required: false },
@@ -22,14 +22,14 @@ const props = defineProps({
   onPlaced: { type: Function, required: false },
   prioritizePosition: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
 const emits = defineEmits([
-  "escapeKeyDown",
-  "pointerDownOutside",
-  "focusOutside",
-  "interactOutside",
-  "dismiss"
+  'escapeKeyDown',
+  'pointerDownOutside',
+  'focusOutside',
+  'interactOutside',
+  'dismiss',
 ]);
 
 const forwarded = useForwardPropsEmits(props, emits);

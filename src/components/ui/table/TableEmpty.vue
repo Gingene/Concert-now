@@ -1,11 +1,11 @@
 <script setup>
-import TableRow from "./TableRow.vue";
-import TableCell from "./TableCell.vue";
-import { cn } from "@/lib/utils";
+import TableRow from './TableRow.vue';
+import TableCell from './TableCell.vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
-  class: { type: String, required: false, default: "" },
-  colspan: { type: Number, required: false, default: 1 }
+  class: { type: String, required: false, default: '' },
+  colspan: { type: Number, required: false, default: 1 },
 });
 </script>
 

@@ -1,11 +1,11 @@
 <script setup>
-import { PaginationLast, useForwardProps } from "radix-vue";
-import { ChevronsRight } from "lucide-vue-next";
-import { Button } from "@/components/ui/button";
+import { PaginationLast, useForwardProps } from 'radix-vue';
+import { ChevronsRight } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false, default: true },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
 const forwarded = useForwardProps(props);
 </script>

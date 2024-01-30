@@ -1,7 +1,7 @@
 <script setup>
-import { ScrollAreaCorner, ScrollAreaRoot, ScrollAreaViewport } from "radix-vue";
-import ScrollBar from "./ScrollBar.vue";
-import { cn } from "@/lib/utils";
+import { ScrollAreaCorner, ScrollAreaRoot, ScrollAreaViewport } from 'radix-vue';
+import ScrollBar from './ScrollBar.vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   type: { type: String, required: false },
@@ -9,7 +9,7 @@ const props = defineProps({
   scrollHideDelay: { type: Number, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  class: { type: String, required: false, default: "" }
+  class: { type: String, required: false, default: '' },
 });
 </script>
 

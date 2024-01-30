@@ -1,13 +1,13 @@
 <script setup>
-import { MenubarRadioGroup } from "radix-vue";
+import { MenubarRadioGroup } from 'radix-vue';
 
 const props = defineProps({
   modelValue: { type: String, required: false },
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue']);
 </script>
 
 <template>

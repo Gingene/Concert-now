@@ -1,5 +1,5 @@
-import axios from "axios";
-import Swal from "sweetalert2";
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const { VITE_APP_SERVICE_API } = import.meta.env;
 
@@ -11,16 +11,16 @@ function alertMessage(icon, msg) {
 }
 
 const http = axios.create({
-  baseURL: VITE_APP_SERVICE_API,
+  baseURL: `${VITE_APP_SERVICE_API}/api`,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
 // 攔截器
 http.interceptors.request.use(
   (config) => {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*)|^.*$/, "$1");
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*)|^.*$/, '$1');
     if (token) {
       config.headers.Authorization = token;
     }
@@ -39,22 +39,22 @@ http.interceptors.response.use(
   (err) => {
     console.log(err);
     if (!err.response) {
-      alertMessage("error", "是不是沒有連接伺服器呢? 請看console><");
+      alertMessage('error', '是不是沒有連接伺服器呢? 請看console><');
       return Promise.reject(err);
     }
-    const { status, statusText } = err.response;
+    const { status } = err.response;
     switch (status) {
       case 401:
-        alertMessage("error", "請重新登入");
+        alertMessage('error', '請重新登入');
         break;
       case 403:
-        alertMessage("error", "權限不足");
+        alertMessage('error', '權限不足');
         break;
       case 404:
-        alertMessage("error", "對不起找不到你要的><");
+        alertMessage('error', '對不起找不到你要的><');
         break;
       default:
-        alertMessage("error", "發生錯誤了 請看console><");
+        alertMessage('error', '發生錯誤了 請看console><');
         break;
     }
     // console.error(`狀態碼${status} 錯誤訊息${statusText}`);
@@ -63,12 +63,15 @@ http.interceptors.response.use(
 );
 
 const path = {
-  users: "/users",
-  artists: "/artists",
-  concerts: "/concerts",
-  songs: "/songs",
-  venues: "/venues",
-  venues_comments: "/venues_comments",
+  users: '/users',
+  artists: '/artists',
+  concerts: '/concerts',
+  songs: '/songs',
+  venues: '/venues',
+  venues_comments: '/venues_comments',
+  me: '/me',
+  login: '/login',
+  register: '/register',
 };
 
 export { http, path };

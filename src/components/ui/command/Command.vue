@@ -1,6 +1,6 @@
 <script setup>
-import { ComboboxRoot, useForwardPropsEmits } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { ComboboxRoot, useForwardPropsEmits } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   modelValue: { type: null, required: false },
@@ -15,9 +15,9 @@ const props = defineProps({
   filterFunction: { type: Function, required: false },
   displayValue: { type: Function, required: false },
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
-const emits = defineEmits(["update:modelValue", "update:open", "update:searchTerm"]);
+const emits = defineEmits(['update:modelValue', 'update:open', 'update:searchTerm']);
 
 const forwarded = useForwardPropsEmits(props, emits);
 </script>
@@ -30,7 +30,7 @@ const forwarded = useForwardPropsEmits(props, emits);
     :class="
       cn(
         'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
-        $attrs.class ?? ''
+        $attrs.class ?? '',
       )
     ">
     <slot />

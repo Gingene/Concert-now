@@ -1,7 +1,7 @@
 <script setup>
-import { RadioGroupIndicator, RadioGroupItem } from "radix-vue";
-import { Circle } from "lucide-vue-next";
-import { cn } from "@/lib/utils";
+import { RadioGroupIndicator, RadioGroupItem } from 'radix-vue';
+import { Circle } from 'lucide-vue-next';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   id: { type: String, required: false },
@@ -11,7 +11,7 @@ const props = defineProps({
   name: { type: String, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 </script>
 
@@ -21,7 +21,7 @@ const props = defineProps({
     :class="
       cn(
         'aspect-square h-4 w-4 rounded-full cursor-pointer flex justify-center items-center border border-primary disabled:cursor-not-allowed disabled:opacity-50',
-        props.class
+        props.class,
       )
     ">
     <RadioGroupIndicator :class="cn('flex items-center justify-center', props.class)">

@@ -1,16 +1,16 @@
 <script setup>
-import { useAttrs } from "vue";
-import { PaginationEllipsis, useForwardProps } from "radix-vue";
-import { MoreHorizontal } from "lucide-vue-next";
-import { cn } from "@/lib/utils";
+import { useAttrs } from 'vue';
+import { PaginationEllipsis, useForwardProps } from 'radix-vue';
+import { MoreHorizontal } from 'lucide-vue-next';
+import { cn } from '@/lib/utils';
 
 defineOptions({
-  inheritAttrs: false
+  inheritAttrs: false,
 });
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
 const forwarded = useForwardProps(props);
 const { class: className, ...rest } = useAttrs();

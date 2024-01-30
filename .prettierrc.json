@@ -4,7 +4,7 @@
   "bracketSameLine": true,
   "bracketSpacing": true,
   "semi": true,
-  "singleQuote": false,
+  "singleQuote": true,
   "quoteProps": "as-needed",
   "trailingComma": "all",
   "singleAttributePerLine": false,

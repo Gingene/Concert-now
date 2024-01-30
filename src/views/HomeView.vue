@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import HelloTest from "@/components/front/home/HelloTest.vue";
+import HelloTest from '@/components/front/home/HelloTest.vue';
 export default {
-  components: { HelloTest }
+  components: { HelloTest },
 };
 </script>

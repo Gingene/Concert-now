@@ -1,6 +1,6 @@
 <script setup>
-import { HoverCardContent, HoverCardPortal, useForwardProps } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { HoverCardContent, HoverCardPortal, useForwardProps } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   forceMount: { type: Boolean, required: false },
@@ -19,7 +19,7 @@ const props = defineProps({
   prioritizePosition: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 
 const forwarded = useForwardProps(props);
@@ -32,7 +32,7 @@ const forwarded = useForwardProps(props);
       :class="
         cn(
           'z-50 w-64 rounded-md bg-background border border-border p-4 text-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-          props.class
+          props.class,
         )
       ">
       <slot />
