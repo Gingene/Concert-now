@@ -1,7 +1,7 @@
 <script setup>
-import { NavigationMenuRoot } from "radix-vue";
-import NavigationMenuViewport from "./NavigationMenuViewport.vue";
-import { cn } from "@/lib/utils";
+import { NavigationMenuRoot } from 'radix-vue';
+import NavigationMenuViewport from './NavigationMenuViewport.vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   modelValue: { type: String, required: false },
@@ -12,10 +12,10 @@ const props = defineProps({
   skipDelayDuration: { type: Number, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue']);
 </script>
 
 <template>

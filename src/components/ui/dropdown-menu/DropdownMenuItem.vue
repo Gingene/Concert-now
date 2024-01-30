@@ -1,6 +1,6 @@
 <script setup>
-import { DropdownMenuItem } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { DropdownMenuItem } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   disabled: { type: Boolean, required: false },
@@ -8,7 +8,7 @@ const props = defineProps({
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
   inset: { type: Boolean, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 </script>
 
@@ -19,8 +19,8 @@ const props = defineProps({
       cn(
         'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
         inset && 'pl-8',
-        props.class
-      )
+        props.class,
+      ),
     ]">
     <slot />
   </DropdownMenuItem>

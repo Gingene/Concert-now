@@ -1,6 +1,6 @@
 <script setup>
-import { SliderRange, SliderRoot, SliderThumb, SliderTrack, useEmitAsProps } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { SliderRange, SliderRoot, SliderThumb, SliderTrack, useEmitAsProps } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   name: { type: String, required: false },
@@ -15,9 +15,9 @@ const props = defineProps({
   step: { type: Number, required: false },
   minStepsBetweenThumbs: { type: Number, required: false },
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
-const emits = defineEmits(["update:modelValue", "valueCommit"]);
+const emits = defineEmits(['update:modelValue', 'valueCommit']);
 
 const emitsAsProps = useEmitAsProps(emits);
 </script>

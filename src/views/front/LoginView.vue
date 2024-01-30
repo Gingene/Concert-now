@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import loginComponent from "@/components/front/login/loginComponent.vue";
+import loginComponent from '@/components/front/login/loginComponent.vue';
 
 export default {
   components: { loginComponent },

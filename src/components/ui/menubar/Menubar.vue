@@ -1,16 +1,16 @@
 <script setup>
-import { MenubarRoot } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { MenubarRoot } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   modelValue: { type: String, required: false },
   defaultValue: { type: String, required: false },
   dir: { type: String, required: false },
   loop: { type: Boolean, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue']);
 </script>
 
 <template>

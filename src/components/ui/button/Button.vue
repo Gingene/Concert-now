@@ -1,13 +1,13 @@
 <script setup>
-import { Primitive } from "radix-vue";
-import { buttonVariants } from ".";
-import { cn } from "@/lib/utils";
+import { Primitive } from 'radix-vue';
+import { buttonVariants } from '.';
+import { cn } from '@/lib/utils';
 
 defineProps({
-  variant: { type: null, required: false, default: "default" },
-  size: { type: null, required: false, default: "default" },
-  as: { type: String, required: false, default: "button" },
-  asChild: { type: Boolean, required: false }
+  variant: { type: null, required: false, default: 'default' },
+  size: { type: null, required: false, default: 'default' },
+  as: { type: String, required: false, default: 'button' },
+  asChild: { type: Boolean, required: false },
 });
 </script>
 

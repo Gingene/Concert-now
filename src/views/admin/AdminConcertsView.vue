@@ -123,9 +123,9 @@
 
 <script setup>
 // sidebar
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 // Checkbos
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from '@/components/ui/checkbox';
 // pagination
 import {
   Pagination,
@@ -135,8 +135,8 @@ import {
   PaginationList,
   PaginationListItem,
   PaginationNext,
-  PaginationPrev
-} from "@/components/ui/pagination";
+  PaginationPrev,
+} from '@/components/ui/pagination';
 // table
 import {
   Table,
@@ -145,8 +145,8 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table";
+  TableRow,
+} from '@/components/ui/table';
 // Command
 // import {
 //   Command,
@@ -167,41 +167,49 @@ import {
   SelectItem,
   SelectLabel,
   SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
+  SelectValue,
+} from '@/components/ui/select';
 // export
 </script>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { concertStore } from '@/stores/concerts';
 export default {
   data() {
     return {
       cities: [
-        "臺北市",
-        "基隆市",
-        "新北市",
-        "宜蘭縣",
-        "新竹市",
-        "新竹縣",
-        "桃園市",
-        "苗栗縣",
-        "臺中市",
-        "彰化縣",
-        "南投縣",
-        "嘉義市",
-        "嘉義縣",
-        "雲林縣",
-        "臺南市",
-        "高雄市",
-        "澎湖縣",
-        "屏東縣",
-        "臺東縣",
-        "花蓮縣",
-        "金門縣",
-        "連江縣"
-      ]
+        '臺北市',
+        '基隆市',
+        '新北市',
+        '宜蘭縣',
+        '新竹市',
+        '新竹縣',
+        '桃園市',
+        '苗栗縣',
+        '臺中市',
+        '彰化縣',
+        '南投縣',
+        '嘉義市',
+        '嘉義縣',
+        '雲林縣',
+        '臺南市',
+        '高雄市',
+        '澎湖縣',
+        '屏東縣',
+        '臺東縣',
+        '花蓮縣',
+        '金門縣',
+        '連江縣',
+      ],
     };
-  }
+  },
+  methods: {
+    ...mapActions(concertStore, ['getConcerts']),
+  },
+  computed: {
+    ...mapState(concertStore, ['concerts']),
+  },
 };
 </script>
 

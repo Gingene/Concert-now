@@ -1,14 +1,14 @@
 <script setup>
-import { NavigationMenuTrigger } from "radix-vue";
-import { ChevronDown } from "lucide-vue-next";
-import { navigationMenuTriggerStyle } from ".";
-import { cn } from "@/lib/utils";
+import { NavigationMenuTrigger } from 'radix-vue';
+import { ChevronDown } from 'lucide-vue-next';
+import { navigationMenuTriggerStyle } from '.';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   disabled: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  class: { type: String, required: false }
+  class: { type: String, required: false },
 });
 </script>
 

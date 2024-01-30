@@ -1,11 +1,11 @@
 <script setup>
-import { AlertDialogCancel } from "radix-vue";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { AlertDialogCancel } from 'radix-vue';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
-  as: { type: null, required: false }
+  as: { type: null, required: false },
 });
 </script>
 
