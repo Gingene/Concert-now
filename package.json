@@ -9,8 +9,8 @@
     "preview": "vite preview",
     "gh": "gh-pages -d dist",
     "deploy": "vite build && gh-pages -d dist",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
-    "format": "prettier --write src/"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .eslintignore",
+    "format": "prettier --write src/ --ignore-path .prettierignore"
   },
   "dependencies": {
     "@vueuse/core": "^10.7.2",
