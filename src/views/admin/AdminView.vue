@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-5 gap-0 min-h-screen">
     <AdminSideBar />
-    <div class="col-span-4 p-12 bg-slate-50">
+    <div class="col-span-5 lg:col-span-4 p-12 bg-slate-50">
       <AdminNav />
       <RouterView />
     </div>
