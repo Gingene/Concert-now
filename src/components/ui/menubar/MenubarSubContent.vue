@@ -25,16 +25,7 @@ const props = defineProps({
   class: { type: String, required: false },
 });
 
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-  'entryFocus',
-  'openAutoFocus',
-  'closeAutoFocus',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss', 'entryFocus', 'openAutoFocus', 'closeAutoFocus']);
 </script>
 
 <template>

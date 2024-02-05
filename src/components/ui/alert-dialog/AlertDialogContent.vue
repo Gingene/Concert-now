@@ -1,10 +1,5 @@
 <script setup>
-import {
-  AlertDialogContent,
-  AlertDialogOverlay,
-  AlertDialogPortal,
-  useEmitAsProps,
-} from 'radix-vue';
+import { AlertDialogContent, AlertDialogOverlay, AlertDialogPortal, useEmitAsProps } from 'radix-vue';
 import { cn } from '@/lib/utils';
 
 const props = defineProps({
@@ -15,15 +10,7 @@ const props = defineProps({
   as: { type: null, required: false },
   class: { type: String, required: false },
 });
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-  'openAutoFocus',
-  'closeAutoFocus',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss', 'openAutoFocus', 'closeAutoFocus']);
 
 const emitsAsProps = useEmitAsProps(emits);
 </script>

@@ -23,9 +23,7 @@ const emitsAsProps = useEmitAsProps(emits);
 </script>
 
 <template>
-  <SliderRoot
-    :class="cn('relative flex w-full touch-none select-none items-center', $attrs.class ?? '')"
-    v-bind="{ ...props, ...emitsAsProps }">
+  <SliderRoot :class="cn('relative flex w-full touch-none select-none items-center', $attrs.class ?? '')" v-bind="{ ...props, ...emitsAsProps }">
     <SliderTrack class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
       <SliderRange class="absolute h-full bg-primary" />
     </SliderTrack>

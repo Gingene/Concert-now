@@ -10,9 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <AlertDialogCancel
-    v-bind="props"
-    :class="cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', $attrs.class ?? '')">
+  <AlertDialogCancel v-bind="props" :class="cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', $attrs.class ?? '')">
     <slot />
   </AlertDialogCancel>
 </template>
