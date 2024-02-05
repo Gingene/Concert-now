@@ -10,9 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <AlertDialogTitle
-    :as-child="props.asChild"
-    :class="cn('text-lg text-foreground font-semibold', props.class)">
+  <AlertDialogTitle :as-child="props.asChild" :class="cn('text-lg text-foreground font-semibold', props.class)">
     <slot />
   </AlertDialogTitle>
 </template>

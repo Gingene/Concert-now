@@ -10,13 +10,7 @@ const props = defineProps({
   class: { type: String, required: false },
 });
 
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss']);
 </script>
 
 <template>

@@ -21,16 +21,7 @@ const props = defineProps({
   as: { type: null, required: false },
   class: { type: String, required: false },
 });
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-  'entryFocus',
-  'openAutoFocus',
-  'closeAutoFocus',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss', 'entryFocus', 'openAutoFocus', 'closeAutoFocus']);
 
 const forwarded = useForwardPropsEmits(props, emits);
 </script>
