@@ -39,46 +39,6 @@
         </Select>
       </div>
     </div>
-
-    <!-- <div class="grid grid-cols-9 gap-3">
-      <div class="col-span-3 relative">
-        <Input type="text" placeholder="請輸入姓名及信箱查詢" v-model.trim()="searchText" />
-        <span class="material-symbols-outlined absolute top-0.5 right-2.5 cursor-pointer hidden">
-          search
-        </span>
-      </div>
-      <Select class="col-span-4 relative">
-        <label for="status" class="text-end pt-2 font-semibold absolute top-[225px]">
-          會員狀態
-        </label>
-        <SelectTrigger>
-          <SelectValue placeholder="全部" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel class="tracking-wide">全部</SelectLabel>
-            <SelectItem value="open">啟用中</SelectItem>
-            <SelectItem value="disable">停權中</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <Select class="col-span-3">
-        <label for="member-time" class="text-end pt-2 font-semibold">加入會員時間</label>
-        <SelectTrigger>
-          <SelectValue placeholder="場地選擇" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>場地選擇</SelectLabel>
-            <SelectItem v-for="jointime in jointimes" :key="jointime.id" :value="jointime.time">
-              {{ jointime.time }}
-            </SelectItem>
-            < <SelectItem value="台中 Legacy"> 台中 Legacy </SelectItem>
-            <SelectItem value="高雄流行音樂中心"> 高雄流行音樂中心 </SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div> -->
   </div>
 </template>
 
