@@ -11,15 +11,7 @@ const props = defineProps({
   as: { type: null, required: false },
   class: { type: String, required: false },
 });
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-  'openAutoFocus',
-  'closeAutoFocus',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss', 'openAutoFocus', 'closeAutoFocus']);
 
 const emitsAsProps = useEmitAsProps(emits);
 </script>
@@ -38,8 +30,7 @@ const emitsAsProps = useEmitAsProps(emits);
       v-bind="{ ...props, ...emitsAsProps }">
       <slot />
 
-      <DialogClose
-        class="absolute top-3 right-3 p-0.5 transition-colors rounded-md hover:bg-secondary">
+      <DialogClose class="absolute top-3 right-3 p-0.5 transition-colors rounded-md hover:bg-secondary">
         <X class="w-4 h-4" />
         <span class="sr-only">Close</span>
       </DialogClose>

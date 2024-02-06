@@ -42,6 +42,7 @@ export default {
   },
   watch: {
     theme(newVal) {
+      console.log(newVal);
       this.changeTheme(newVal);
       this.toggleDarkMode();
     },

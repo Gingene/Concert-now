@@ -24,21 +24,13 @@ const props = defineProps({
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
 });
-const emits = defineEmits([
-  'escapeKeyDown',
-  'pointerDownOutside',
-  'focusOutside',
-  'interactOutside',
-  'dismiss',
-]);
+const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss']);
 
 const forwarded = useForwardPropsEmits(props, emits);
 </script>
 
 <template>
-  <ComboboxContent
-    v-bind="forwarded"
-    :class="cn('max-h-[300px] overflow-y-auto overflow-x-hidden', $attrs.class ?? '')">
+  <ComboboxContent v-bind="forwarded" :class="cn('max-h-[300px] overflow-y-auto overflow-x-hidden', $attrs.class ?? '')">
     <div role="presentation">
       <slot />
     </div>

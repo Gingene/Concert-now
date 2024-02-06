@@ -10,9 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <AlertDialogDescription
-    :class="cn('text-muted-foreground text-sm', props.class)"
-    :as-child="props.asChild">
+  <AlertDialogDescription :class="cn('text-muted-foreground text-sm', props.class)" :as-child="props.asChild">
     <slot />
   </AlertDialogDescription>
 </template>
