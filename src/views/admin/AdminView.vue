@@ -9,12 +9,18 @@
 </template>
 
 <script>
-import { RouterView } from 'vue-router';
 import AdminSideBar from '@/components/layout/AdminSideBar.vue';
 import AdminNav from '@/components/layout/AdminNav.vue';
+import useTheme from '@/hooks/useTheme';
+
+const { toggleDarkTheme, toggleTheme } = useTheme();
 
 export default {
-  components: { RouterView, AdminSideBar, AdminNav },
+  components: { AdminSideBar, AdminNav },
+  mounted() {
+    toggleDarkTheme(false);
+    toggleTheme('theme-admin');
+  },
 };
 </script>
 

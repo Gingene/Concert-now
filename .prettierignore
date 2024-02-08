@@ -2,7 +2,7 @@
 /node_modules/**
 **/*.svg
 /public/*
-*.md
+# *.md
 .vscode
 .idea
 /src/components/ui/**

@@ -16,7 +16,6 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { RouterLink } from 'vue-router';
 </script>
 
 <style lang="scss"></style>

@@ -2,7 +2,7 @@
   <div class="lg:hidden">
     <Sheet>
       <SheetTrigger class="lg:hidden">
-        <span class="material-symbols-outlined p-5 lg:p-0" > menu </span>
+        <span class="material-symbols-outlined p-5 lg:p-0"> menu </span>
       </SheetTrigger>
       <SheetContent>
         <nav class="flex flex-col space-x-0 space-y-1">
@@ -50,16 +50,8 @@
   </nav>
 </template>
 <script setup>
-import { RouterLink } from 'vue-router';
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 </script>
 
 <script>
