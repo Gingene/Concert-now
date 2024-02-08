@@ -12,16 +12,48 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
-      screens: {
-        '2xl': '1400px',
-      },
+      padding: '0.75rem',
+    },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1400px',
+    },
+    fontFamily: {
+      sans: ['var(--font-sans)'],
+      display: ['var(--font-display)'],
+      // body: ['var(--font-body)'],
+      // heading: ['var(--font-heading)'],
+    },
+    fontSize: {
+      tiny: '0.75rem',
+      sm: '0.875rem',
+      base: '1rem',
+      lg: '1.25rem',
+      xl: '1.5rem',
+      '2xl': '1.75rem',
+      '3xl': '2rem',
+      '4xl': '2.5rem',
+      '5xl': '3rem',
+      '6xl': '4rem',
+      '7xl': '5rem',
+    },
+    lineHeight: {
+      display: 1.2,
     },
     extend: {
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
+        'black-100': 'var(--black-100)',
+        'black-80': 'var(--black-80)',
+        'black-60': 'var(--black-60)',
+        'black-40': 'var(--black-40)',
+        'black-20': 'var(--black-20)',
+        'black-0': 'var(--black-0)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -91,29 +123,7 @@ module.exports = {
     animate,
     plugin(function ({ addBase, theme, addComponents }) {
       addBase({
-        '*': { lineHeight: 1.5 },
-        h1: {
-          fontSize: theme('fontSize.3xl'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: 1.2,
-        },
-        h2: {
-          fontSize: theme('fontSize.2xl'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: 1.2,
-        },
-        h3: {
-          fontSize: theme('fontSize.xl'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: 1.2,
-        },
-        h4: {
-          fontSize: theme('fontSize.lg'),
-          fontWeight: theme('fontWeight.bold'),
-          lineHeight: 1.2,
-        },
-        h5: { fontWeight: theme('fontWeight.bold'), lineHeight: 1.2 },
-        h6: { fontWeight: theme('fontWeight.bold'), lineHeight: 1.2 },
+        '*': { lineHeight: 1.5, fontWeight: 400 },
       });
       addComponents({
         ...btn,

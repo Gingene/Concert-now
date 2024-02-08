@@ -44,10 +44,7 @@
       <TableRow class="py-8">
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
-          <label
-            for="terms"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          </label>
+          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">Tom Jones</TableCell>
         <TableCell>Tom Jones湯姆瓊斯演唱會2024台北站</TableCell>
@@ -62,10 +59,7 @@
       <TableRow>
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
-          <label
-            for="terms"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          </label>
+          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">Apink</TableCell>
         <TableCell>2023 Apink FANCONCERT in Taipei [Pink drive]</TableCell>
@@ -80,10 +74,7 @@
       <TableRow>
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
-          <label
-            for="terms"
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-          </label>
+          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">FTIsland</TableCell>
         <TableCell>FTISLAND演唱會2024台北站</TableCell>
@@ -127,26 +118,9 @@ import { Button } from '@/components/ui/button';
 // Checkbos
 import { Checkbox } from '@/components/ui/checkbox';
 // pagination
-import {
-  Pagination,
-  PaginationEllipsis,
-  PaginationFirst,
-  PaginationLast,
-  PaginationList,
-  PaginationListItem,
-  PaginationNext,
-  PaginationPrev,
-} from '@/components/ui/pagination';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 // table
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 // Command
 // import {
 //   Command,
@@ -160,15 +134,7 @@ import {
 //   CommandShortcut,
 // } from "@/components/ui/command";
 // Select
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 // export
 </script>
 

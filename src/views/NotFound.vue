@@ -1,4 +1,5 @@
 <template>
+  <HeaderNav />
   <section class="container min-h-screen flex justify-center items-center">
     <div class="">
       <div>這裡看不到演唱會資料喔~</div>
@@ -15,10 +16,10 @@
 import { Button } from '@/components/ui/button';
 </script>
 <script>
-import { RouterLink } from 'vue-router';
+import HeaderNav from '@/components/layout/HeaderNav.vue';
 
 export default {
-  components: { RouterLink },
+  components: { HeaderNav },
   props: ['route'],
   created() {
     console.log(this.route);

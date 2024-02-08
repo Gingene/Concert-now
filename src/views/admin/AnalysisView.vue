@@ -220,6 +220,9 @@ import axios from 'axios';
 </script>
 
 <script>
+import '@/assets/c3.css';
+import '@/helpers/c3';
+import '@/helpers/d3';
 export default {
   data() {
     return {

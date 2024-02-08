@@ -1,0 +1,49 @@
+$font-display-size3: 120px;
+$font-display-size2: $font-display-size3 * 2;
+$font-display-size1: calc($font-display-size3 / 3 * 8);
+@layer components {
+  // font font-display 在main.scss設定為Lato
+  .font-lato {
+    @apply font-display font-bold;
+  }
+  // 預設3級大標題font-weight-900 大小120px 字距-1%
+  .font-lato-display3 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size3;
+    letter-spacing: $font-display-size3 * -0.01;
+  }
+  // 預設2級大標題font-weight-900 大小240px 字距-1%
+  .font-lato-display2 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size2;
+    letter-spacing: $font-display-size2 * -0.01;
+  }
+  // 預設1級大標題font-weight-900 大小320px 字距-1%
+  .font-lato-display1 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size1;
+    letter-spacing: $font-display-size1 * -0.01;
+  }
+  .font-TC-display {
+    @apply text-7xl font-black drop-shadow-dark;
+  }
+  // 首頁標題字體隨螢幕縮放自適應，letter-spacing對應文字-4%
+  .display-title {
+    @apply font-display font-black leading-display;
+    font-size: 72px;
+    letter-spacing: calc($font-display-size2 * -0.01);
+    @screen md {
+      font-size: calc(72px + 4vw);
+    }
+    @screen lg {
+      font-size: calc($font-display-size3 + 2.5vw);
+      letter-spacing: calc($font-display-size2 * -0.04);
+    }
+    @screen xl {
+      font-size: calc($font-display-size3 + 4.5vw);
+    }
+    @screen 2xl {
+      font-size: calc($font-display-size3 + 5.5vw);
+    }
+  }
+}
