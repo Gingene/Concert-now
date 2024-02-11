@@ -26,6 +26,11 @@ const router = createRouter({
           name: 'base',
           component: () => import('../views/front/BaseView.vue'),
         },
+        {
+          path: '/loading',
+          name: 'loading',
+          component: () => import('../views/LoadingView.vue'),
+        },
       ],
     },
     {

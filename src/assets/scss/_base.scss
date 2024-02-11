@@ -1,6 +1,3 @@
-a {
-  font-size: inherit;
-}
 @layer base {
   h1 {
     @apply text-5xl;
@@ -19,5 +16,8 @@ a {
   }
   h6 {
     @apply text-lg;
+  }
+  a {
+    font-size: inherit;
   }
 }

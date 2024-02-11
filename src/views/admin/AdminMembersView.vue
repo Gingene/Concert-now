@@ -47,9 +47,7 @@
   <div class="mb-4 pl-2"><strong>會員人數: </strong> {{ filteredData.length }} 人</div>
 
   <!-- Table -->
-  <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10"
-    v-show="filteredData.length !== 0"
-  >
+  <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10" v-show="filteredData.length !== 0">
     <TableCaption>會員管理</TableCaption>
     <TableHeader>
       <TableRow>
@@ -165,7 +163,6 @@ export default {
   },
   computed: {
     filteredData() {
-
       // 宣告filter變數
       let filterInput = this.searchText;
       let filterStatus = this.selectStatus;
@@ -173,7 +170,6 @@ export default {
       // 條件篩選 input
       if (filterInput) {
         return this.users.filter((user) => user.username.match(filterInput) || user.email.match(filterInput));
-
       } else {
         // 條件篩選 select
 

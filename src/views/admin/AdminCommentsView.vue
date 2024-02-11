@@ -17,23 +17,50 @@
       </Select>
     </div>
     <div class="flex col-span-2">
-      <Input type="text" placeholder="輸入會場、用戶名稱查詢..." @input="matchComment" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
+      <Input type="text" placeholder="輸入會場、用戶名稱查詢..." @input="searchComment" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
       <Button class="rounded-l-none">
         <span class="material-symbols-outlined absolute"> search </span>
       </Button>
     </div>
 
-    <div class="flex col-span-2 items-center justify-between">
-      列表數量: {{ filterDatas.length }}
+    <div class="flex flex-wrap space-y-4 sm:space-y-0 col-span-2 items-center justify-between">
+      <p>列表數量: {{ filterDatas.length }}</p>
       <div>
-        <Button class="bg-lime-500" @click="checkAllReview">已審閱</Button>
-        <Button class="ml-4" variant="destructive">刪除</Button>
+        <Button class="bg-lime-500 hover:bg-lime-700" @click="checkSelectReview">已審閱</Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button class="ml-4" variant="destructive">刪除</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <div v-if="commentCheckList.length">
+              <AlertDialogHeader>
+                <AlertDialogTitle>是否刪除以下評論</AlertDialogTitle>
+                <AlertDialogDescription>
+                  <p v-for="selectComment in commentCheckList" :key="selectComment.id">
+                    {{ selectComment.comment }}
+                  </p>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction @click="deleteSelectReview" class="bg-destructive hover:bg-destructive/90">刪除</AlertDialogAction>
+              </AlertDialogFooter>
+            </div>
+            <div v-else>
+              <AlertDialogHeader>
+                <AlertDialogTitle class="text-center">請先點取核取方塊</AlertDialogTitle>
+                <AlertDialogDescription> </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+              </AlertDialogFooter>
+            </div>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   </div>
-  <div>
-    {{ commentCheckList }}
-  </div>
+
   <!-- Table -->
 
   <Table class="bg-white rounded-lg text-md mb-10" v-show="filterDatas.length !== 0">
@@ -43,7 +70,7 @@
         <TableHead><Checkbox @click="allCheckList" /></TableHead>
         <TableHead
           ><Button variant="ghost" @click="sortCommentByReportNum"
-            >檢舉人數<span class="material-symbols-outlined" v-if="initial"> stat_1 </span><span class="material-symbols-outlined" v-else> stat_minus_1 </span></Button
+            >檢舉人數<span class="material-symbols-outlined" v-if="sortInitial"> stat_1 </span><span class="material-symbols-outlined" v-else> stat_minus_1 </span></Button
           ></TableHead
         >
         <TableHead>評論內容</TableHead>
@@ -64,7 +91,7 @@
         <TableCell>{{ comment.userId1.email }}</TableCell>
         <TableCell class="space-x-4 flex">
           <Button class="bg-gray-200" v-if="!comment.isReview" @click="checkReview(comment.id)">未審閱</Button>
-          <Button class="bg-lime-500" v-else>已審閱</Button>
+          <Button class="bg-lime-500 hover:bg-lime-700" v-else>已審閱</Button>
 
           <Dialog>
             <DialogTrigger>
@@ -76,7 +103,7 @@
               <DialogHeader>
                 <DialogTitle class="text-center">是否要警告使用者？</DialogTitle>
                 <DialogDescription>
-                  <Select>
+                  <Select v-model="warningReason">
                     <SelectTrigger>
                       <SelectValue placeholder="警告原因" />
                     </SelectTrigger>
@@ -94,7 +121,7 @@
 
               <DialogFooter>
                 <DialogClose><Button class="bg-lime-500" @click="deleteComment(comment.id)">不警告</Button></DialogClose>
-                <DialogClose><Button variant="destructive" @click="warnUser(comment.userId1)">送出警告</Button></DialogClose>
+                <DialogClose><Button variant="destructive" @click="warnUser(comment.id, comment.userId1)">送出警告</Button></DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -114,11 +141,11 @@
 
         <template v-for="(item, index) in items">
           <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'">
               {{ item.value }}
             </Button>
           </PaginationListItem>
-          <PaginationEllipsis v-else :key="item.type" :index="index" />
+          <PaginationEllipsis v-else :key="item.type" :index="index" class="hidden sm:flex" />
         </template>
 
         <PaginationNext />
@@ -143,279 +170,46 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 // Dialog
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
-import Swal from 'sweetalert2';
-
+import { mapActions, mapState, mapWritableState } from 'pinia';
+import { commentStore } from '@/stores/comments';
 export default {
-  data() {
-    return {
-      commentCheckList: [],
-      selectReview: '未審閱',
-      initial: true,
-      backupDatas: [],
-      mockDatas: [
-        {
-          id: '1',
-          report_num: 0,
-          comment: '距離非常近，可以握到手！',
-          isReview: false,
-          venueId: {
-            title: '台北國際會議中心TICC',
-          },
-          userId1: {
-            email: '1@gmail.com',
-          },
-        },
-        {
-          id: '2',
-          report_num: 0,
-          comment: '場地佈置太爛的吧，超大布條擋住視線1',
-          isReview: false,
-          venueId: {
-            title: '台北國際會議中心TICC',
-          },
-          userId1: {
-            email: '2@gmail.com',
-          },
-        },
-        {
-          id: '3',
-          report_num: 1,
-          comment: '有點遠，建議帶望遠鏡',
-          isReview: false,
-          venueId: {
-            title: '台北國際會議中心TICC',
-          },
-          userId1: {
-            email: '3@gmail.com',
-          },
-        },
-        {
-          id: '4',
-          report_num: 0,
-          comment: '前面有柱子擋住，根本看不太到舞台，傻眼',
-          isReview: false,
-          venueId: {
-            title: '新北工商展覽中心',
-          },
-          userId1: {
-            email: '1@gmail.com',
-          },
-        },
-        {
-          id: '5',
-          report_num: 0,
-          comment: '接得到舞台丟下來的禮物！超讚的！',
-          isReview: false,
-          venueId: {
-            title: '新北工商展覽中心',
-          },
-          userId1: {
-            email: '4@gmail.com',
-          },
-        },
-        {
-          id: '6',
-          report_num: 31,
-          comment: '我喜歡吃可麗餅',
-          isReview: false,
-          venueId: {
-            title: '新北工商展覽中心',
-          },
-          userId1: {
-            email: '5@gmail.com',
-          },
-        },
-        {
-          id: '7',
-          report_num: 1,
-          comment: '靠近右邊離音響好近，好大聲，不舒服',
-          isReview: false,
-          venueId: {
-            title: '台北流行音樂中心',
-          },
-          userId1: {
-            email: '7@gmail.com',
-          },
-        },
-        {
-          id: '8',
-          report_num: 0,
-          comment: '視野很好，而且是有座位的，很不錯',
-          isReview: false,
-          venueId: {
-            title: '台北流行音樂中心',
-          },
-          userId1: {
-            email: '8@gmail.com',
-          },
-        },
-        {
-          id: '9',
-          report_num: 0,
-          comment: '空間寬敞，也看得很清楚',
-          isReview: false,
-          venueId: {
-            title: '台北流行音樂中心',
-          },
-          userId1: {
-            email: '9@gmail.com',
-          },
-        },
-        {
-          id: '10',
-          report_num: 0,
-          comment: '空間寬敞，站在噴霧旁邊超衰的',
-          isReview: false,
-          venueId: {
-            title: '高雄流行音樂中心',
-          },
-          userId1: {
-            email: '10@gmail.com',
-          },
-        },
-        {
-          id: '11',
-          report_num: 25,
-          comment: '香雞排好香，想ㄘ',
-          isReview: false,
-          venueId: {
-            title: '高雄流行音樂中心',
-          },
-          userId1: {
-            email: '11@gmail.com',
-          },
-        },
-        {
-          id: '12',
-          report_num: 0,
-          comment: '很遠，要帶望遠鏡。而且很偏，看不是很清楚',
-          isReview: false,
-          venueId: {
-            title: '高雄流行音樂中心',
-          },
-          userId1: {
-            email: '12@gmail.com',
-          },
-        },
-        {
-          id: '13',
-          report_num: 0,
-          comment: '場地不大，前面好擠',
-          isReview: false,
-          venueId: {
-            title: 'Legacy Taichung',
-          },
-          userId1: {
-            email: '13@gmail.com',
-          },
-        },
-        {
-          id: '14',
-          report_num: 0,
-          comment: '視野很不錯，離舞台好近好讚',
-          isReview: false,
-          venueId: {
-            title: 'Legacy Taichung',
-          },
-          userId1: {
-            email: '14@gmail.com',
-          },
-        },
-        {
-          id: '15',
-          report_num: 0,
-          comment: '好遠，應援布條舞台應該看不太到QQ',
-          isReview: false,
-          venueId: {
-            title: 'Legacy Taichung',
-          },
-          userId1: {
-            email: '15@gmail.com',
-          },
-        },
-      ],
-    };
-  },
   methods: {
-    checkReview(id) {
-      const comment = this.mockDatas.find((comment) => comment.id === id);
-      comment.isReview = true;
-    },
-    checkAllReview() {
-      for (const comment of this.mockDatas) {
-        comment.isReview = true;
-      }
-    },
-    chagneCheckList(id) {
-      const comment = this.mockDatas.find((comment) => comment.id === id);
-      const check = this.commentCheckList.findIndex((item) => item.id === comment.id);
-      if (check === -1) {
-        this.commentCheckList.push(comment);
-      } else {
-        this.commentCheckList.splice(check, 1);
-      }
-    },
-    allCheckList() {
-      if (this.commentCheckList.length < this.mockDatas.length) {
-        this.commentCheckList = this.mockDatas;
-      } else {
-        this.commentCheckList = [];
-      }
-    },
-    sortCommentByReportNum() {
-      this.initial = !this.initial;
-      if (this.initial) {
-        this.mockDatas.sort((a, b) => a.report_num - b.report_num);
-      } else {
-        this.mockDatas.sort((a, b) => b.report_num - a.report_num);
-      }
-    },
-    matchComment(e) {
-      this.mockDatas = [...this.backupDatas];
-      if (e.target.value === '') return;
-      const commentContents = this.mockDatas.filter((item) => {
-        const regex = new RegExp(e.target.value, 'i');
-        return regex.test(item.venueId.title);
-      });
-      const commentUser = this.mockDatas.filter((item) => item.userId1.email.match(e.target.value));
-      // if (commentContents.length) this.mockDatas = commentContents;
-      // else this.mockDatas = commentUser;
-      this.mockDatas = [...commentContents, ...commentUser];
-    },
-    // comment 操作
-    deleteComment(id) {
-      console.log(id);
-      this.alertMessage('success', '評論已刪除');
-    },
-    warnUser(id) {
-      console.log(id);
-      this.alertMessage('success', `對${id.email}使用者警告已送出`);
-    },
-    alertMessage(icon, text) {
-      Swal.fire({
-        icon,
-        text,
-      });
-    },
+    ...mapActions(commentStore, [
+      'getComments',
+      'checkReview',
+      'chagneCheckList',
+      'checkSelectReview',
+      'allCheckList',
+      'checkSelectReview',
+      'deleteSelectReview',
+      'sortCommentByReportNum',
+      'searchComment',
+      'deleteComment',
+      'warnUser',
+      'alertMessage',
+      'backupData',
+    ]),
   },
   computed: {
-    filterDatas() {
-      if (this.selectReview === '全部') {
-        return this.mockDatas;
-      } else {
-        if (this.selectReview === '未審閱') {
-          return this.mockDatas.filter((item) => !item.isReview);
-        } else {
-          return this.mockDatas.filter((item) => item.isReview);
-        }
-      }
-    },
+    ...mapState(commentStore, ['comments', 'commentCheckList', 'sortInitial', 'filterDatas']),
+    ...mapWritableState(commentStore, ['selectReview', 'warningReason']),
   },
   mounted() {
-    this.backupDatas = [...this.mockDatas];
+    this.backupData();
   },
 };
 </script>

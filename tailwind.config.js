@@ -54,8 +54,8 @@ module.exports = {
         'black-40': 'var(--black-40)',
         'black-20': 'var(--black-20)',
         'black-0': 'var(--black-0)',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -122,9 +122,6 @@ module.exports = {
   plugins: [
     animate,
     plugin(function ({ addBase, theme, addComponents }) {
-      addBase({
-        '*': { lineHeight: 1.5, fontWeight: 400 },
-      });
       addComponents({
         ...btn,
         ...card,
