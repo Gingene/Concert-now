@@ -193,46 +193,34 @@ export default {
         }
       }
     },
-    // filterSelect() {
-    //   // this.changeFilter = false;
-    //   // console.log(this.changeFilter)
-    //   let filterStatus = this.selectStatus;
-    //   // let filterTimes = this.selectTime;
+    filterSelect() {
+      // this.changeFilter = false;
+      // console.log(this.changeFilter)
+      let filterStatus = this.selectStatus;
+      // let filterTimes = this.selectTime;
 
-    //   if (filterStatus === '全部') {
-    //     return this.users;
-    //   } else {
-    //     return this.users.filter((user) => {
-    //       let filtered = true;
+      if (filterStatus === '全部') {
+        return this.users;
+      } else {
+        return this.users.filter((user) => {
+          let filtered = true;
 
-    //       // 會員身分篩選
-    //       if (filterStatus && filterStatus.length > 0) {
-    //         filtered = user.status === filterStatus;
-    //       }
+          // 會員身分篩選
+          if (filterStatus && filterStatus.length > 0) {
+            filtered = user.status === filterStatus;
+          }
 
-    //       // 會員加入時間篩選
-    //       // if(filtered) {
-    //       //   if( filterTimes && filterTimes.length > 0 ) {
-    //       //     filtered = user.created_at === filterTimes
-    //       //   }
-    //       // }
+          // 會員加入時間篩選
+          // if(filtered) {
+          //   if( filterTimes && filterTimes.length > 0 ) {
+          //     filtered = user.created_at === filterTimes
+          //   }
+          // }
 
-    //       return filtered;
-    //     });
-    //   }
-    // },
-    // filterSelect() {
-    //   if (this.memberStatus === '全部') {
-    //     return this.users
-    //   } else {
-    //     if (this.memberStatus === '啟用中') {
-    //       return this.users.filter((user) => user.status.match(this.memberStatus))
-
-    //     } else if (his.memberStatus === '停權中') {
-    //       return this.users.filter((user) => user.status.match(this.memberStatus))
-    //     }
-    //   }
-    // },
+          return filtered;
+        });
+      }
+    },
   },
   mounted() {},
 };
