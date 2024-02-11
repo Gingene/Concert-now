@@ -23,4 +23,17 @@ export default defineConfig({
       plugins: [tailwind(), autoprefixer()],
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: (id) => {
+          // 可以把 id 印出來看，會更清楚知道他的內容
+          // console.log('id', id.includes('node_modules/lottie-web'));
+          // if (id.includes('node_modules')) {
+          //   const arr = id.toString().split('node_modules/')[1].split('/');
+          // }
+        },
+      },
+    },
+  },
 });

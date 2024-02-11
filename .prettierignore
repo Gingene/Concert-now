@@ -6,3 +6,6 @@
 .vscode
 .idea
 /src/components/ui/**
+/src/helpers/**
+/src/lib/**
+/src/assets/c3.css

@@ -9,7 +9,6 @@
       <RouterLink to="/" class="px-4">Home</RouterLink>
       <RouterLink to="/concerts" class="px-4">演唱會</RouterLink>
       <RouterLink to="/login" class="px-4">登入</RouterLink>
-      <RouterLink to="/base" class="px-4">設計稿基礎設定頁</RouterLink>
       <RouterLink to="/admin/" class="px-4">後台</RouterLink>
     </nav>
   </header>

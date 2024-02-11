@@ -13,6 +13,10 @@
     "format": "prettier --write src/ --ignore-path .prettierignore"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
     "@vueuse/core": "^10.7.2",
     "axios": "^1.6.6",
