@@ -78,12 +78,12 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       component: NotFound,
-      props: (route) => {
-        // console.log(route);
-        return {
-          route,
-        };
-      },
+      // props: (route) => {
+      //   // console.log(route);
+      //   return {
+      //     route,
+      //   };
+      // },
     },
   ],
 });

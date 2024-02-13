@@ -14,7 +14,7 @@
     <p>尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
   </div>
 
-  <div class="md:text-center">
+  <div class="sm:text-center">
     <div class="font-lato-display display-title drop-shadow-light">CONCERT NOW</div>
   </div>
 

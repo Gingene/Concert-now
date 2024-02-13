@@ -39,6 +39,9 @@ module.exports = {
       '5xl': '3rem',
       '6xl': '4rem',
       '7xl': '5rem',
+      'display-3': '7.5rem',
+      'display-2': '15rem',
+      'display-1': '20rem',
     },
     lineHeight: {
       display: 1.2,
@@ -121,7 +124,7 @@ module.exports = {
   },
   plugins: [
     animate,
-    plugin(function ({ addBase, theme, addComponents }) {
+    plugin(function ({ addBase, theme, addComponents, addUtilities }) {
       addComponents({
         ...btn,
         ...card,
