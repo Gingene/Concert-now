@@ -1,16 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-// --primary: 233 80% 98%; // tailwind原始
+@import './scss/base';
+@import './scss/components';
+@import './scss/utilities';
 
+// --primary: 233 80% 98%; // tailwind原始
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
+    --black-100: #101010;
+    --black-80: #525252;
+    --black-60: #919191;
+    --black-40: #d1d1d1;
+    --black-20: #f2f2f2;
+    --black-0: #fff;
+
+    // --background: 0 0% 100%;
+    // --foreground: 224 71.4% 4.1%;
+
+    --background: var(--black-0);
+    --foreground: var(--black-100);
 
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
@@ -37,20 +50,24 @@
     --input: 220 13% 91%;
     --ring: 262.1 83.3% 57.8%;
     --radius: 0.5rem;
+
+    --font-sans: 'Noto Sans TC', sans-serif;
+    --font-display: 'Lato', sans-serif;
   }
 
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
+    --background: var(--black-100);
+    --foreground: var(--black-0);
 
-    --card: 224 71.4% 4.1%;
-    --card-foreground: 210 20% 98%;
+    --card: 0 0% 6.4%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 224 71.4% 4.1%;
-    --popover-foreground: 210 20% 98%;
+    --popover: 0 0% 6.4%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 263.4 70% 50.4%;
-    --primary-foreground: 210 20% 98%;
+    // --primary: 263.4 70% 50.4%;
+    --primary: 0 0% 6.4%;
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -64,17 +81,24 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
 
-    --border: 215 27.9% 16.9%;
-    --input: 215 27.9% 16.9%;
+    --violet: 262.1 83.3% 57.8%;
+    --violet-foreground: 210 20% 98%;
+
     --ring: 263.4 70% 50.4%;
+    --ring-offset-width: -1px;
+
+    --radius: 1rem;
+
+    --border: 0 0 100%;
+    --input: 0 0% 100%;
   }
 }
 
 /* Themes */
 
 .theme-admin {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --background: var(--black-0);
+  --foreground: var(--black-100);
 
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
@@ -87,13 +111,11 @@
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
 
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-
   --primary: 222.2 47.4% 11.2%; // ui原始
+  // --primary: 217 44% 96%;
   // --primary: 120 100% 25%; // 綠
   // --primary: 233 80% 98%; // tailwind原始
-  --primary-foreground: 210 40% 98%;
+  --primary-foreground: 217 44% 96%;
 
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
@@ -111,11 +133,15 @@
   --ring-offset-width: -1px;
 
   --radius: 0.5rem;
+  --border: 217 44% 96%;
+  --input: 217 44% 96%;
 }
 
 .theme-admin.dark {
-  --background: 222.2 84% 4.9%;
-  --foreground: 210 40% 98%;
+  // --background: 222.2 84% 4.9%;
+  // --foreground: 210 40% 98%;
+  --background: var(--black-100);
+  --foreground: var(--black-0);
 
   --muted: 217.2 32.6% 17.5%;
   --muted-foreground: 215 20.2% 65.1%;
