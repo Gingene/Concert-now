@@ -1,21 +1,49 @@
 <template>
-  <header class="container flex justify-between p-3">
+  <header class="container flex justify-between items-center p-3">
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
     <div class="font-lato text-xl">
       <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
     </div>
 
+    <!-- 電腦版導覽列 -->
+    <nav class="hidden lg:flex items-center space-x-5">
+      <template v-for="item in navList" :key="item.title">
+        <RouterLink :to="item.href">{{ item.enTitle }}</RouterLink>
+      </template>
+      <RouterLink to="/login" class="px-4">
+        <Button variant="btn1" class="border-black-80 py-[10px] px-6">Log in</Button>
+      </RouterLink>
+      <RouterLink to="/admin/" class="px-4">後台</RouterLink>
+    </nav>
+
     <!-- 手機版導覽列 -->
     <div class="lg:hidden">
+      <Button class="p-2">
+        <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="text-xl" />
+      </Button>
       <Sheet>
-        <SheetTrigger><font-awesome-icon icon="fa-solid fa-align-justify" class="size-10" /></SheetTrigger>
-        <SheetContent side="top" class="h-full">
+        <SheetTrigger class="p-2 inline-flex"><font-awesome-icon icon="fa-solid fa-align-justify" class="text-xl" /></SheetTrigger>
+        <SheetContent side="top" :hiddenClose="true" class="h-full overflow-y-auto">
           <VisuallyHidden>
-            <SheetHeader>
+            <SheetHeader class="hidden">
               <SheetTitle></SheetTitle>
               <SheetDescription></SheetDescription>
             </SheetHeader>
           </VisuallyHidden>
+          <div class="flex justify-between items-center font-lato text-xl">
+            <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
+
+            <div>
+              <Button class="p-2 me-2">
+                <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="text-xl" />
+              </Button>
+              <SheetClose as-child class="p-2">
+                <Button class="p-2">
+                  <font-awesome-icon icon="fa-solid fa-x" class="text-xl" />
+                </Button>
+              </SheetClose>
+            </div>
+          </div>
 
           <nav class="flex flex-col">
             <ul class="uppercase">
@@ -33,12 +61,9 @@
             </ul>
 
             <SheetClose as-child>
-              <Button variant="btn1" class="border-black-80 py-[10px] px-6">
+              <Button variant="btn1" class="border-black-80 py-[10px] px-6 my-6">
                 <RouterLink to="/login" class="px-4"> Log in </RouterLink>
               </Button>
-            </SheetClose>
-            <SheetClose as-child>
-              <RouterLink to="/" class="px-4">首頁</RouterLink>
             </SheetClose>
 
             <RouterLink to="/admin/" class="px-4">後台</RouterLink>
@@ -46,17 +71,6 @@
         </SheetContent>
       </Sheet>
     </div>
-
-    <!-- 電腦版導覽列 -->
-    <nav class="hidden lg:flex">
-      <template v-for="item in navList" :key="item.title">
-        <RouterLink :to="item.href" class="px-4">{{ item.enTitle }}</RouterLink>
-      </template>
-      <RouterLink to="/admin/" class="px-4">後台</RouterLink>
-      <RouterLink to="/login" class="px-4">
-        <Button variant="btn1" class="border-black-80 py-[10px] px-6">Log in</Button>
-      </RouterLink>
-    </nav>
   </header>
 </template>
 <script setup>
@@ -101,4 +115,4 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style></style>

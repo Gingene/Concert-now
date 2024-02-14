@@ -2,7 +2,7 @@ import './assets/main.scss';
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
-import { http, path } from './api';
+import { http, path, adminPath } from './api';
 
 import App from './App.vue';
 import router from './router';
@@ -24,5 +24,6 @@ app.component('font-awesome-icon', FontAwesomeIcon); //使用kebab-case
 
 app.provide('http', http);
 app.provide('path', path);
+app.provide('adminPath', adminPath);
 
 app.mount('#app');

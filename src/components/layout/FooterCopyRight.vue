@@ -2,12 +2,12 @@
   <footer class="container py-6">
     <nav id="sns" class="mb-6 lg:mb-10">
       <ul class="flex justify-end space-x-2">
-        <li>
+        <li v-for="item in socialIcon" :key="item.icon">
           <a href="#" target="_blank" class="inline-flex justify-center items-center size-10">
-            <font-awesome-icon icon="fa-brands fa-facebook" class="text-xl" />
+            <font-awesome-icon :icon="item.icon" class="text-xl" />
           </a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#" target="_blank" class="inline-flex justify-center items-center size-10">
             <font-awesome-icon icon="fa-brands fa-line" class="text-xl" />
           </a>
@@ -16,7 +16,7 @@
           <a href="#" target="_blank" class="inline-flex justify-center items-center size-10">
             <font-awesome-icon icon="fa-brands fa-instagram" class="text-xl" />
           </a>
-        </li>
+        </li> -->
       </ul>
     </nav>
     <div class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:justify-between lg:items-end">
@@ -40,7 +40,17 @@
 export default {
   data() {
     return {
-      socialList: [],
+      socialIcon: [
+        {
+          icon: 'fa-brands fa-facebook',
+        },
+        {
+          icon: 'fa-brands fa-line',
+        },
+        {
+          icon: 'fa-brands fa-instagram',
+        },
+      ],
     };
   },
 };

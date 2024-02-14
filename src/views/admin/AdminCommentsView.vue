@@ -26,10 +26,10 @@
     <div class="flex flex-wrap space-y-4 sm:space-y-0 col-span-2 items-center justify-between">
       <p>列表數量: {{ filterDatas.length }}</p>
       <div>
-        <Button class="bg-lime-500 hover:bg-lime-700" @click="checkSelectReview">已審閱</Button>
+        <Button class="bg-lime-500 hover:bg-lime-700" @click="checkSelectReview" :disabled="!commentCheckList.length">已審閱</Button>
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button class="ml-4" variant="destructive">刪除</Button>
+            <Button class="ml-4" variant="destructive" :disabled="!commentCheckList.length">刪除</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <div v-if="commentCheckList.length">
@@ -48,7 +48,7 @@
             </div>
             <div v-else>
               <AlertDialogHeader>
-                <AlertDialogTitle class="text-center">請先點取核取方塊</AlertDialogTitle>
+                <AlertDialogTitle class="text-center">請先點取評論</AlertDialogTitle>
                 <AlertDialogDescription> </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>

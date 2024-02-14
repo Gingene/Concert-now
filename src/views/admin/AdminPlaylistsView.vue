@@ -26,10 +26,10 @@
     <div class="flex flex-wrap space-y-4 sm:space-y-0 col-span-2 items-center justify-between">
       <p>列表數量: {{ filterDatas.length }}</p>
       <div>
-        <Button class="bg-lime-500 hover:bg-lime-700" @click="checkSelectReview">已審閱</Button>
+        <Button class="bg-lime-500 hover:bg-lime-700" :disabled="!songCheckList.length" @click="checkSelectReview">已審閱</Button>
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button class="ml-4" variant="destructive">刪除</Button>
+            <Button class="ml-4" variant="destructive" :disabled="!songCheckList.length">刪除</Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <div v-if="songCheckList.length">
@@ -48,7 +48,7 @@
             </div>
             <div v-else>
               <AlertDialogHeader>
-                <AlertDialogTitle class="text-center">請先點取核取方塊</AlertDialogTitle>
+                <AlertDialogTitle class="text-center">請先點取歌曲</AlertDialogTitle>
                 <AlertDialogDescription> </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
@@ -109,7 +109,7 @@
             <TableCell
               ><router-link class="text-purple-500 hover:text-purple-800" :to="`/concert/4`">{{ song.concert.title }}</router-link></TableCell
             >
-            <TableCell>{{ userId1.email }}</TableCell>
+            <TableCell>{{ song.user.email }}</TableCell>
             <TableCell class="space-x-4 flex">
               <Button class="bg-gray-200" v-if="!song.is_reviewed" @click="checkReview(song.id)">未審閱</Button>
               <Button class="bg-lime-500" v-else>已審閱</Button>
@@ -142,7 +142,7 @@
 
                   <DialogFooter>
                     <DialogClose><Button class="bg-lime-500" @click="deleteSong(song.id)">不警告</Button></DialogClose>
-                    <DialogClose><Button variant="destructive" @click="warnUser(song.userId1)">送出警告</Button></DialogClose>
+                    <DialogClose><Button variant="destructive" @click="warnUser(song.user.email)">送出警告</Button></DialogClose>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -169,12 +169,12 @@
       </Suspense>
     </TableBody>
   </Table>
-  <!-- <div v-show="!filterDatas.length" class="flex justify-center py-12">
+  <div v-show="!filterDatas.length" class="flex justify-center py-12">
     <h2>哇! 找不到資料~</h2>
-  </div> -->
+  </div>
   <!-- Pagination -->
   <div class="flex justify-center">
-    <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="1">
+    <Pagination v-slot="{ page }" :total="pagination.total * 10" :sibling-count="1" show-edges :default-page="1">
       <PaginationList v-slot="{ items }" class="flex items-center md:gap-1">
         <PaginationFirst />
         <PaginationPrev />
@@ -231,14 +231,7 @@ import { songsStore } from '@/stores/songs';
 
 export default {
   components: { SongList },
-  data() {
-    return {
-      userId1: {
-        email: '1@gmail.com',
-      },
-    };
-  },
-  inject: ['http', 'path'],
+  inject: ['http', 'path', 'adminPath'],
   methods: {
     ...mapActions(songsStore, [
       'getSongs',
@@ -255,11 +248,12 @@ export default {
     ]),
   },
   computed: {
-    ...mapState(songsStore, ['songs', 'mapSongs', 'songCheckList', 'sortInitial', 'filterDatas']),
+    ...mapState(songsStore, ['songs', 'mapSongs', 'songCheckList', 'sortInitial', 'filterDatas', 'pagination']),
     ...mapWritableState(songsStore, ['selectReview']),
   },
   mounted() {
-    this.getSongs(this.path.songs);
+    // this.logIn();
+    this.getSongs(this.adminPath.songs);
   },
 };
 </script>
