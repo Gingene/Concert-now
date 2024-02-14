@@ -20,9 +20,10 @@ const http = axios.create({
 // 攔截器
 http.interceptors.request.use(
   (config) => {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*)|^.*$/, '$1');
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)AccessToken\s*=\s*([^;]*).*)|^.*$/, '$1');
+    // console.log(token);
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config; // 必須回傳config，否則axios會拋出錯誤
   },
@@ -74,4 +75,12 @@ const path = {
   register: '/register',
 };
 
-export { http, path };
+const adminPath = {
+  concerts: '/admin/concerts',
+  artists: '/admin/artists',
+  venues: '/admin/venues',
+  venues_comments: '/admin/venues_comments',
+  songs: '/admin/songs',
+};
+
+export { http, path, adminPath };

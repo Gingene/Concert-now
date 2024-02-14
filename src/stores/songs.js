@@ -14,9 +14,7 @@ export const songsStore = defineStore('songsStore', {
     songs: [],
     backupDatas: [],
     mapSongs: {},
-    userId1: {
-      email: '1@gmail.com',
-    },
+    pagination: {},
   }),
   actions: {
     getSongs(thePath) {
@@ -25,6 +23,8 @@ export const songsStore = defineStore('songsStore', {
           i.id = i.id.toString();
         }
         this.songs = [...res.data];
+        this.pagination = { ...res.pagination };
+        console.log(this.pagination);
         this.backupDatas = [...res.data];
         this.mapSongs = Object.groupBy([...res.data], ({ concert }) => concert.title);
       });
