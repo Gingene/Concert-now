@@ -164,6 +164,7 @@ export default {
   computed: {
     filteredData() {
       // 宣告filter變數
+
       const filterInput = this.searchText;
       const filterStatus = this.selectStatus;
 
@@ -192,7 +193,9 @@ export default {
     filterSelect() {
       // this.changeFilter = false;
       // console.log(this.changeFilter)
+
       const filterStatus = this.selectStatus;
+
       // let filterTimes = this.selectTime;
 
       if (filterStatus === '全部') {
