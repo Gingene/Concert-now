@@ -164,8 +164,9 @@ export default {
   computed: {
     filteredData() {
       // 宣告filter變數
-      let filterInput = this.searchText;
-      let filterStatus = this.selectStatus;
+
+      const filterInput = this.searchText;
+      const filterStatus = this.selectStatus;
 
       // 條件篩選 input
       if (filterInput) {
@@ -192,7 +193,9 @@ export default {
     filterSelect() {
       // this.changeFilter = false;
       // console.log(this.changeFilter)
-      let filterStatus = this.selectStatus;
+
+      const filterStatus = this.selectStatus;
+
       // let filterTimes = this.selectTime;
 
       if (filterStatus === '全部') {

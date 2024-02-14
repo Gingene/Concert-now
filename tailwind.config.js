@@ -1,3 +1,4 @@
+
 const animate = require('tailwindcss-animate');
 const plugin = require('tailwindcss/plugin');
 const { btn, card } = require('./src/assets/tailwind');
