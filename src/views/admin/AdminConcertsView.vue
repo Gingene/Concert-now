@@ -2,7 +2,7 @@
   <!-- Search/Command -->
   <div class="flex gap-6 mt-3 mb-8 relative">
     <div class="w-[36%] lg:w-[290px] relative pt-8 lg:pt-6">
-      <Input type="text" placeholder="輸入演唱會、表演者、地點..." v-model.trim="searchText" />
+      <Input type="text" placeholder="輸入演唱會、表演者、地點..." />
       <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
     </div>
     <!-- 地點選擇 -->
