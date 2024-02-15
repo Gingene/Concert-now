@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+// import FrontView from '../views/front/FrontView.vue';
+// import HomeView from '../views/front/HomeView.vue';
 import NotFound from '../views/NotFound.vue';
 
 const router = createRouter({
@@ -7,13 +8,30 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/front/LoginView.vue'),
+      component: () => import('../views/front/FrontView.vue'),
+      meta: { hideHF: false },
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('../views/front/HomeView.vue'),
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('../views/front/LoginView.vue'),
+        },
+        {
+          path: 'base',
+          name: 'base',
+          component: () => import('../views/front/BaseView.vue'),
+        },
+        {
+          path: '/loading',
+          name: 'loading',
+          component: () => import('../views/LoadingView.vue'),
+        },
+      ],
     },
     {
       path: '/admin',
@@ -22,7 +40,7 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/admin/AdminView.vue'),
-      meta: { hideHF: true, theme: 'admin' },
+      meta: { hideHF: true },
       children: [
         {
           path: 'concerts',
@@ -60,12 +78,12 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'notFound',
       component: NotFound,
-      props: (route) => {
-        // console.log(route);
-        return {
-          route,
-        };
-      },
+      // props: (route) => {
+      //   // console.log(route);
+      //   return {
+      //     route,
+      //   };
+      // },
     },
   ],
 });

@@ -1,10 +1,11 @@
 <template>
+  <HeaderNav />
   <section class="container min-h-screen flex justify-center items-center">
-    <div class="">
+    <div>
       <div>這裡看不到演唱會資料喔~</div>
 
       <div>
-        <Button variant="default">
+        <Button variant="btn1" size="btn1">
           <RouterLink to="/"> 點我回首頁 </RouterLink>
         </Button>
       </div>
@@ -15,13 +16,15 @@
 import { Button } from '@/components/ui/button';
 </script>
 <script>
-import { RouterLink } from 'vue-router';
+import HeaderNav from '@/components/layout/HeaderNav.vue';
+import useTheme from '@/hooks/useTheme';
+const { toggleDarkTheme, toggleTheme } = useTheme();
 
 export default {
-  components: { RouterLink },
-  props: ['route'],
-  created() {
-    console.log(this.route);
+  components: { HeaderNav },
+  mounted() {
+    toggleDarkTheme(true);
+    toggleTheme('theme-default');
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-5 gap-0 min-h-screen">
     <AdminSideBar />
-    <div class="col-span-4 p-12 bg-slate-50">
+    <div class="col-span-5 lg:col-span-4 p-12 bg-primary-foreground">
       <AdminNav />
       <RouterView />
     </div>
@@ -9,12 +9,18 @@
 </template>
 
 <script>
-import { RouterView } from 'vue-router';
 import AdminSideBar from '@/components/layout/AdminSideBar.vue';
 import AdminNav from '@/components/layout/AdminNav.vue';
+import useTheme from '@/hooks/useTheme';
+
+const { toggleDarkTheme, toggleTheme } = useTheme();
 
 export default {
-  components: { RouterView, AdminSideBar, AdminNav },
+  components: { AdminSideBar, AdminNav },
+  mounted() {
+    toggleDarkTheme(false);
+    toggleTheme('theme-admin');
+  },
 };
 </script>
 

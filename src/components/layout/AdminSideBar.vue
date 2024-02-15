@@ -1,5 +1,34 @@
 <template>
-  <nav class="flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1">
+  <div class="lg:hidden">
+    <Sheet>
+      <SheetTrigger class="lg:hidden">
+        <span class="material-symbols-outlined p-5 lg:p-0"> menu </span>
+      </SheetTrigger>
+      <SheetContent>
+        <nav class="flex flex-col space-x-0 space-y-1">
+          <div class="w-1/2 py-8 flex">
+            <img src="https://via.placeholder.com/200x50" alt="" />
+          </div>
+          <RouterLink to="/admin/concerts">
+            <Button variant="side-bar" size="side-bar">
+              <span class="material-symbols-outlined pe-6"> location_on </span>
+              演唱會資訊管理
+            </Button>
+          </RouterLink>
+
+          <template v-for="item in sidebarNavItems" :key="item.title">
+            <RouterLink :to="item.href">
+              <Button variant="side-bar" size="side-bar">
+                <span class="material-symbols-outlined pe-6"> location_on </span>
+                {{ item.title }}
+              </Button>
+            </RouterLink>
+          </template>
+        </nav>
+      </SheetContent>
+    </Sheet>
+  </div>
+  <nav class="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-1">
     <div class="w-1/2 py-8 flex">
       <img src="https://via.placeholder.com/200x50" alt="" />
     </div>
@@ -22,7 +51,7 @@
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { RouterLink } from 'vue-router';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 </script>
 
 <script>
