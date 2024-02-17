@@ -99,10 +99,12 @@
       <Button variant="btn2" size="btn2"><span class="material-symbols-outlined"> arrow_back </span></Button>
     </div>
   </div>
+  <FormTest />
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-vue-next';
+import FormTest from '@/components/FormTest.vue';
 </script>
 
 <script>
