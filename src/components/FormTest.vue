@@ -44,8 +44,8 @@ const { toast } = useToast();
 // 錯誤訊息文字顏色可以直接在元件外改class或是改/ui/form/FormMessage.vue的text-destructive
 const formSchema = toTypedSchema(
   z.object({
-    email: z.string().email('信箱格式不正確'),
-    password: z.string().min(8, { message: '密碼至少為8碼' }),
+    email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
+    password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
   }),
 );
 
