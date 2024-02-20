@@ -27,6 +27,16 @@ const router = createRouter({
           component: () => import('../views/front/BaseView.vue'),
         },
         {
+          path: 'venues',
+          name: 'venues',
+          component: () => import('../views/front/VenuesView.vue'),
+        },
+        {
+          path: 'venues/:id',
+          name: 'venue',
+          component: () => import('../views/front/VenueSingleView.vue'),
+        },
+        {
           path: '/loading',
           name: 'loading',
           component: () => import('../views/LoadingView.vue'),
