@@ -1,5 +1,5 @@
 <script setup>
-import { PopoverTrigger } from "radix-vue";
+import { PopoverTrigger } from 'radix-vue';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },

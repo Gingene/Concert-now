@@ -1,5 +1,9 @@
+// Google font & icons
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@700;900&family=Noto+Sans+TC:wght@400;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp');
 
 @tailwind base;
 @tailwind components;
@@ -37,6 +41,9 @@
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
 
+    --tiffany: #42dfc8;
+    --pink: #d595f1;
+
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
 
@@ -71,6 +78,9 @@
 
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
+
+    --tiffany: #42dfc8;
+    --pink: #d595f1;
 
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
@@ -119,6 +129,9 @@
 
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
+
+  --tiffany: #42dfc8;
+  --pink: #d595f1;
 
   --accent: 210 40% 96.1%;
   --accent-foreground: 222.2 47.4% 11.2%;
@@ -180,8 +193,25 @@
   }
 }
 
+// Google icons setup
 .material-symbols-outlined {
   line-height: inherit;
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40;
+}
+
+.material-symbols-rounded {
+  font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40;
+}
+
+.material-symbols-sharp {
   font-variation-settings:
     'FILL' 1,
     'wght' 400,

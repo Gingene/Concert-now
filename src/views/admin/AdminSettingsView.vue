@@ -1,8 +1,285 @@
-<template lang="">
-  <div>settings</div>
+<!-- 此頁為寫死的靜態資料，沒有串API，也不會存資料 -->
+<template>
+  <div class="grid grid-cols-4 grid-flow-col gap-4 px-12">
+    <!-- Left: Profile -->
+    <div class="col-span-1">
+      <div
+        class="mb-5 border-2 rounded-full w-[150px] h-[150px] bg-white bg-[length:100px] bg-center bg-no-repeat"
+        style="background-image: url('https://blush.design/api/download?shareUri=kK-78nEmrjoy3GoG&c=Skin_0%7Effdbb4&w=300&h=300&fm=png')"></div>
+      <h2 class="pl-4 pb-3 tracking-widest">隔壁阿姨</h2>
+      <p class="pl-4 pb-8">i-live-next-door@gmail.com</p>
+      <!-- Reset Password -->
+      <Dialog>
+        <DialogTrigger as-child>
+          <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
+        </DialogTrigger>
+        <DialogContent class="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle class="text-center py-4">請輸入以下資料</DialogTitle>
+          </DialogHeader>
+          <div class="grid gap-4 py-4">
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="old-password">舊密碼</Label>
+              <Input id="old-password" type="password" class="col-span-3" />
+            </div>
+            <div class="grid grid-cols-4 items-center gap-4">
+              <Label for="new-password">新密碼</Label>
+              <Input id="new-password" type="password" class="col-span-3" />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose as-child>
+              <Button type="button" variant="secondary">放棄變更</Button>
+            </DialogClose>
+            <!-- 不會真的送出資料，所以用 DialogClose -->
+            <DialogClose as-child>
+              <Button type="button">確認送出</Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+    <!-- Right: Table -->
+    <div class="col-span-3 flex flex-col">
+      <div class="flex">
+        <!-- 新增成員 -->
+        <Dialog>
+          <DialogTrigger as-child>
+            <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">新增成員</Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle class="text-center py-4">新增成員</DialogTitle>
+            </DialogHeader>
+            <div class="grid gap-4 py-4">
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="name">姓名</Label>
+                <Input id="name" class="col-span-3" />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="email">信箱</Label>
+                <Input id="email" class="col-span-3" />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="password">密碼</Label>
+                <Input id="password" type="password" class="col-span-3" />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="photo">上傳大頭照</Label>
+                <Input id="photo" type="file" class="col-span-3" />
+              </div>
+            </div>
+            <DialogFooter>
+              <DialogClose as-child>
+                <Button type="button" variant="secondary">捨棄編輯</Button>
+              </DialogClose>
+              <!-- 不會真的送出資料，所以用 DialogClose -->
+              <DialogClose as-child>
+                <Button type="button">確認新增</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+        <!-- 刪除多筆成員 -->
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">刪除成員</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>確定要刪除 N筆 成員嗎？</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>取消</AlertDialogCancel>
+              <AlertDialogAction>確定刪除</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
+      <!-- Table -->
+      <Table class="my-6 bg-white text-base text-gray-800 rounded-lg">
+        <TableHeader>
+          <TableRow class="hover:bg-inherit">
+            <TableHead class="w-[100px]">選取</TableHead>
+            <TableHead>姓名</TableHead>
+            <TableHead>信箱</TableHead>
+            <TableHead>編輯</TableHead>
+            <TableHead>刪除</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow v-for="member in members" :key="member.id">
+            <TableCell><Checkbox class="ml-3" /></TableCell>
+            <TableCell class="flex items-center">
+              <span class="border-2 rounded-full w-14 h-14 bg-white p-1">
+                <img :src="member.avatar" :alt="member.name" />
+              </span>
+              <span class="ml-4">{{ member.name }}</span></TableCell
+            >
+            <TableCell>{{ member.email }}</TableCell>
+            <!-- edit -->
+            <TableCell>
+              <Dialog>
+                <DialogTrigger as-child>
+                  <span class="material-symbols-outlined hover:text-[#D595F1] hover:cursor-pointer transition ease-in-out hover:-translate-y-1 duration-300">edit</span>
+                </DialogTrigger>
+                <DialogContent class="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle class="text-center py-4">編輯成員</DialogTitle>
+                  </DialogHeader>
+                  <div class="grid gap-4 pb-4">
+                    <!-- edit: photo -->
+                    <div class="grid grid-cols-subgrid pb-4 relative">
+                      <span class="border-2 rounded-full w-24 h-24 bg-white p-1 col-start-2 relative">
+                        <img :src="member.avatar" :alt="member.name" class="w-20" />
+                        <Upload class="p-2 absolute -bottom-5 -right-3 opacity-30 bg-black rounded-full" size="40" stroke-width="2" color="#fff" />
+                      </span>
+                      <Input type="file" class="absolute w-24 h-24 col-start-2 opacity-0 hover:cursor-pointer" />
+                    </div>
+                    <!-- edit: name -->
+                    <div class="grid grid-cols-4 items-center gap-4">
+                      <Label for="name">姓名</Label>
+                      <Input id="name" class="col-span-3" :value="member.name" />
+                    </div>
+                    <!-- edit: email -->
+                    <div class="grid grid-cols-4 items-center gap-4">
+                      <Label for="email">信箱</Label>
+                      <Input id="email" class="col-span-3" :value="member.email" />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <DialogClose as-child>
+                      <Button type="button" variant="secondary">捨棄編輯</Button>
+                    </DialogClose>
+                    <!-- 不會真的送出資料，所以用 DialogClose -->
+                    <DialogClose as-child>
+                      <Button type="button">確認修改</Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </TableCell>
+            <!-- delete -->
+            <TableCell>
+              <AlertDialog>
+                <AlertDialogTrigger>
+                  <span class="material-symbols-outlined hover:text-[#D595F1] transition ease-in-out hover:-translate-y-1 duration-300">delete</span>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>確定要刪除該成員嗎？</AlertDialogTitle>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>取消</AlertDialogCancel>
+                    <AlertDialogAction>確定刪除</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <!-- Pagination -->
+      <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="2" class="self-center py-2">
+        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+          <PaginationFirst />
+          <PaginationPrev />
+
+          <template v-for="(item, index) in items">
+            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+                {{ item.value }}
+              </Button>
+            </PaginationListItem>
+            <PaginationEllipsis v-else :key="item.type" :index="index" />
+          </template>
+
+          <PaginationNext />
+          <PaginationLast />
+        </PaginationList>
+      </Pagination>
+    </div>
+  </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { Upload } from 'lucide-vue-next';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  // DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Table,
+  TableBody,
+  // TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  // AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
-<style lang=""></style>
+
+<script>
+export default {
+  data() {
+    return {
+      members: [
+        {
+          id: 1,
+          name: '豪豪',
+          email: 'b0936486128@gmail.com',
+          avatar: 'https://blush.design/api/download?shareUri=ltwY9be3CZixC6Ry&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
+        },
+        {
+          id: 2,
+          name: '銀光菇',
+          email: 'ginx2618@gmail.com',
+          avatar: 'https://blush.design/api/download?shareUri=9BKmRgzEGqBdo87r&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+        },
+        {
+          id: 3,
+          name: 'Celine 510',
+          email: 'celinewu1010@gmail.com',
+          avatar: 'https://blush.design/api/download?shareUri=reSnnGiW_t0Ou6AT&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+        },
+        {
+          id: 4,
+          name: 'Celine',
+          email: 'celine41104@gmail.com',
+          avatar: 'https://blush.design/api/download?shareUri=oBYs0Utxj_Yarj3B&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+        },
+        {
+          id: 5,
+          name: '人平',
+          email: 'chen.jen.ping@hotmail.com',
+          avatar: 'https://blush.design/api/download?shareUri=PP-s_wAC6c0zMPp3&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+        },
+      ],
+    };
+  },
+};
+</script>
+
+<!-- <style lang=""></style> -->

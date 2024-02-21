@@ -20,7 +20,7 @@ app.use(createPinia());
 app.use(router);
 
 library.add(faInstagram, faFacebook, faLine, faAlignJustify, faArrowLeft, faX, faArrowDown, faArrowUp, faMagnifyingGlass, faPlus, faChevronUp, faChevronDown);
-app.component('font-awesome-icon', FontAwesomeIcon); //使用kebab-case
+app.component('font-awesome-icon', FontAwesomeIcon); // 使用kebab-case
 
 app.provide('http', http);
 app.provide('path', path);

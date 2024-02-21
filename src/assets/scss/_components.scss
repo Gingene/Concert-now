@@ -51,4 +51,31 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
       letter-spacing: calc($font-display-2xl * -0.04);
     }
   }
+  // button類 // 目前會被覆蓋不建議使用
+  // 大小，圓角
+  // .btn-base {
+  //   @apply h-10 p-4 lg:p-6 rounded-btn1;
+  // }
+  // // 顏色
+  // .btn-white-outline {
+  //   @apply bg-transparent border-2 hover:bg-primary-foreground hover:text-primary hover:box-shadow-light1-hover btn-base;
+  // }
+  // .btn-white-blur {
+  //   @apply bg-transparent border-2 box-shadow-light2 hover:bg-primary-foreground hover:text-primary hover:box-shadow-light2-hover;
+  // }
+  // .btn-tiffany-outline {
+  //   @apply border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover;
+  // }
+  // .btn-tiffany-blur {
+  //   @apply border-2 border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover;
+  // }
+  // .btn-tiffany-fill {
+  //   @apply bg-tiffany text-primary;
+  // }
+  // .btn-pink-outline {
+  //   @apply border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover;
+  // }
+  // .btn-pink-blur {
+  //   @apply border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover;
+  // }
 }

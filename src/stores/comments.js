@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia';
 import Swal from 'sweetalert2';
 import { useDebounceFn } from '@vueuse/core';
+import useApiData from '@/hooks/useApiData';
+
+const { httpData } = useApiData();
 
 export const commentStore = defineStore('commentStore', {
   state: () => ({
@@ -241,20 +244,7 @@ export const commentStore = defineStore('commentStore', {
         }
       });
     },
-    checkSelectReview() {
-      this.controlCheckAll = false;
-      const allCheckBox = document.querySelectorAll('[role="checkbox"]');
-      this.commentCheckList.forEach((item) => {
-        this.checkReview(item.id);
-      });
-      // 這邊會點擊到所有的checkbox 設一條件再為false時單純模擬點及行為而不觸發checkAllList
-      allCheckBox.forEach((button) => {
-        if (button.dataset.state === 'checked') {
-          button.click();
-        }
-      });
-      this.controlCheckAll = true;
-    },
+
     deleteSelectReview() {
       this.controlCheckAll = false;
       const allCheckBox = document.querySelectorAll('[role="checkbox"]');

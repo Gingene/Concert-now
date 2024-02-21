@@ -1,7 +1,7 @@
 <script setup>
-import { useFormField } from "./useFormField";
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
+import { useFormField } from './useFormField';
+import { cn } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 
 const props = defineProps({
   for: { type: String, required: false },
@@ -14,10 +14,7 @@ const { error, formItemId } = useFormField();
 </script>
 
 <template>
-  <Label
-    :class="cn(error && 'text-destructive', props.class)"
-    :for="formItemId"
-  >
+  <Label :class="cn(error && 'text-destructive', props.class)" :for="formItemId">
     <slot />
   </Label>
 </template>

@@ -42,20 +42,6 @@ export const songsStore = defineStore('songsStore', {
         this.songCheckList.splice(check, 1);
       }
     },
-    checkSelectReview() {
-      this.controlCheckAll = false;
-      const allCheckBox = document.querySelectorAll('[role="checkbox"]');
-      this.songCheckList.forEach((item) => {
-        this.checkReview(item.id);
-      });
-      // 這邊會點擊到所有的checkbox 設一條件再為false時單純模擬點及行為而不觸發checkAllList
-      allCheckBox.forEach((button) => {
-        if (button.dataset.state === 'checked') {
-          button.click();
-        }
-      });
-      this.controlCheckAll = true;
-    },
     checkAllList() {
       if (!this.controlCheckAll) return;
       const allCheckBox = document.querySelectorAll('[role="checkbox"]');
