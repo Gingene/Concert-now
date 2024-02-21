@@ -1,5 +1,5 @@
 <script setup>
-import { AvatarImage } from "radix-vue";
+import { AvatarImage } from 'radix-vue';
 
 const props = defineProps({
   src: { type: String, required: true },

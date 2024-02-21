@@ -1,5 +1,5 @@
 <script setup>
-import { AvatarFallback } from "radix-vue";
+import { AvatarFallback } from 'radix-vue';
 
 const props = defineProps({
   delayMs: { type: Number, required: false },

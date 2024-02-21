@@ -16,6 +16,28 @@
       <ArrowUpRight class="size-10 flex-shrink-0" />
       <ArrowDownRight class="size-10 flex-shrink-0" />
     </div>
+    <div class="space-y-4 space-x-4 space-x-reverse mb-6">
+      <h3>shadcn預設</h3>
+      <Button variant="white-outline">全部</Button>
+      <Button variant="white-blur">全部</Button>
+      <Button variant="tiffany-outline">全部</Button>
+      <Button variant="tiffany-blur">全部</Button>
+      <Button variant="tiffany-fill">全部</Button>
+      <Button variant="pink-outline">全部</Button>
+      <Button variant="pink-blur">全部</Button>
+    </div>
+    <hr />
+    <div class="space-y-4 space-x-4 space-x-reverse mb-6">
+      <h3>10設計稿的按鈕 size為響應式名稱base mobile padding(全部)為1rem, desktop padding為1.5rem</h3>
+      <Button variant="white-outline" size="base">全部</Button>
+      <Button variant="white-blur" size="base">全部</Button>
+      <Button variant="tiffany-outline" size="base">全部</Button>
+      <Button variant="tiffany-blur" size="base">全部</Button>
+      <Button variant="tiffany-fill" size="base">全部</Button>
+      <Button variant="pink-outline" size="base">全部</Button>
+      <Button variant="pink-blur" size="base">全部</Button>
+    </div>
+    <hr />
     <div class="flex space-x-4 mb-4">
       <div>
         <h1>這是首頁</h1>
@@ -82,21 +104,26 @@
       <div class="font-lato-display2 text-stroke">Title</div>
       <div class="font-lato-display3 text-stroke">Title</div>
     </div>
-    <h4 class="flex flex-col space-y-4 font-lato mb-8">
-      <Button variant="btn1" size="btn1">Button</Button>
-      <Button variant="btn2" size="btn2" class="justify-start"><span class="material-symbols-outlined"> arrow_back </span></Button>
-    </h4>
-    <div class="flex flex-col space-y-4 font-black">
-      <Button variant="btn1" size="btn1">Button</Button>
-      <Button variant="btn2" size="btn2" class="justify-start"><span class="material-symbols-outlined"> arrow_back </span></Button>
+    <div>
+      <h3>設計稿按鈕參考</h3>
+      <div class="flex flex-col space-y-4 font-lato mb-6">
+        <!-- 700 -->
+        <Button variant="white-outline" size="btn1">Button</Button>
+        <Button variant="white-blur" size="btn2"><span class="material-symbols-outlined"> arrow_back </span></Button>
+      </div>
+      <div class="flex flex-col space-y-4 font-lato font-black">
+        <!-- 900 -->
+        <Button variant="white-outline" size="btn1">Button</Button>
+        <Button variant="white-blur" size="btn2" class="justify-start"><span class="material-symbols-outlined"> arrow_back </span></Button>
+      </div>
     </div>
   </div>
   <div class="font-TC-display bg-lime-700 text-black">
     這是標題
     <div class="flex flex-col space-y-4 w-1/2">
-      <Button variant="btn1" size="btn1">按鈕</Button>
+      <Button variant="white-outline" size="btn1">按鈕</Button>
 
-      <Button variant="btn2" size="btn2"><span class="material-symbols-outlined"> arrow_back </span></Button>
+      <Button variant="white-blur" size="btn2"><span class="material-symbols-outlined"> arrow_back </span></Button>
     </div>
   </div>
   <FormTest />
