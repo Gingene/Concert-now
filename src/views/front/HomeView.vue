@@ -29,3 +29,5 @@ import { Button } from '@/components/ui/button';
 <script>
 export default {};
 </script>
+
+<style lang="scss" scoped></style>

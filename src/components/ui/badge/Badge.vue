@@ -1,6 +1,6 @@
 <script setup>
-import { badgeVariants } from ".";
-import { cn } from "@/lib/utils";
+import { badgeVariants } from '.';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   variant: { type: null, required: false },

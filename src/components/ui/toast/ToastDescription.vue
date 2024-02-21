@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { ToastDescription } from "radix-vue";
-import { cn } from "@/lib/utils";
+import { computed } from 'vue';
+import { ToastDescription } from 'radix-vue';
+import { cn } from '@/lib/utils';
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
@@ -17,10 +17,7 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-  <ToastDescription
-    :class="cn('text-sm opacity-90', props.class)"
-    v-bind="delegatedProps"
-  >
+  <ToastDescription :class="cn('text-sm opacity-90', props.class)" v-bind="delegatedProps">
     <slot />
   </ToastDescription>
 </template>

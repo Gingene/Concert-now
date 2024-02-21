@@ -1,7 +1,7 @@
 <template>
   <section class="container relative">
     <div class="grid grid-flow-col">
-      <h2 class="test text-[3.5rem] font-display sm:text-display-3 font-black flex flex-col">
+      <h2 class="test text-[3.5rem] font-display sm:text-display-3 font-black flex flex-col leading-none">
         <span>DISCOVER</span>
         <span class="text-stroke">VENUES</span>
         <span>NOW</span>
@@ -9,33 +9,35 @@
       <div class="grid grid-cols-3">
         <!-- <div class="row-span-9"></div> -->
         <div class="row-start-9 sm:row-start-8 col-start-3 md:col-start-1 -ms-32 sm:-ms-64 lg:-ms-[400px] xl:-ms-[500px] 2xl:-ms-[600px]">
-          <Input placeholder="輸入場地/縣市名稱" class="focus:bg-black-0 focus:text-black-60 focus-visible:box-shadow-light1-hover focus-visible:outline-0 hover:box-shadow-light1-hover" />
+          <Input
+            placeholder="輸入場地/縣市名稱"
+            class="bg-black-0 box-shadow-light1-hover focus:text-black-60 focus-visible:box-shadow-light1-hover focus-visible:outline-0 hover:box-shadow-light1-hover" />
         </div>
       </div>
     </div>
     <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
-        <div class="space-x-4 overflow-x-auto whitespace-nowrap">
-          <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-green"> 全部 </Button>
+        <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
+          <Button variant="tiffany-outline" size="base" class="me-4"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-green"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base"> {{ city }} </Button>
           </template>
         </div>
       </div>
-      <ul class="grid md:grid-cols-2 2xl:grid-cols-4 gap-6">
+      <ul class="grid grid-cols-2 2xl:grid-cols-4 gap-6">
         <li v-for="venue in venues" :key="venue.id">
           <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-t-2xl" />
-              <CardTitle class="border-x-4 p-6 border-black-60">{{ venue.title }}</CardTitle>
+              <CardTitle class="border-x-4 p-6 border-black-60 text-sm lg:text-lg">{{ venue.title }}</CardTitle>
               <CardDescription class="hidden"></CardDescription>
             </CardHeader>
-            <CardContent class="border-x-4 border-black-60"> {{ venue.city }} </CardContent>
+            <CardContent class="border-x-4 border-black-60 text-tiny"> {{ venue.city }} </CardContent>
             <CardFooter class="text-end border-x-4 border-b-4 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/venues/${venue.id}`">
-                <Button variant="btn2" size="btn1">
-                  <span class="text-lg">查看評論</span>
-                  <ArrowRight class="size-6 ms-4" />
+                <Button variant="white-outline" size="base">
+                  <span class="text-sm lg:text-base">查看評論</span>
+                  <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
               </RouterLink>
             </CardFooter>
@@ -124,20 +126,6 @@ export default {
 //   color: #000;
 //   filter: invert(100%);
 // }
-.btn1-green {
-  color: #42dfc8;
-  border: 2px solid #42dfc8;
-  box-shadow:
-    0px 1px 40px 0px rgba(227, 222, 255, 0.2) inset,
-    0px 4px 16px 0px rgba(154, 146, 210, 0.2) inset;
-  &:hover {
-    background-color: #42dfc8;
-    color: #fff;
-    box-shadow:
-      0 0 20px rgba(151, 26, 166, 0.5),
-      0 0 8px #42dfc8;
-  }
-}
 .scrollbar-none {
   scrollbar-width: none;
 }

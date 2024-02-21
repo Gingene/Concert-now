@@ -12,7 +12,7 @@ const props = defineProps({
   disableOutsidePointerEvents: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
-  hiddenClose: { type:Boolean , required: false },
+  hiddenClose: { type: Boolean, required: false },
 });
 
 const emits = defineEmits(['escapeKeyDown', 'pointerDownOutside', 'focusOutside', 'interactOutside', 'dismiss', 'openAutoFocus', 'closeAutoFocus']);
@@ -44,8 +44,8 @@ const sheetVariants = cva(
     <DialogContent :class="cn(sheetVariants({ side: props.side }), props.class)" v-bind="{ ...props, ...emitsAsProps }">
       <slot />
 
-      <DialogClose class="absolute top-4 right-4 p-0.5 transition-colors rounded-md hover:bg-secondary" :class="{'hidden': hiddenClose}">
-        <X class="w-6 h-6 text-muted-foreground " />
+      <DialogClose class="absolute top-4 right-4 p-0.5 transition-colors rounded-md hover:bg-secondary" :class="{ hidden: hiddenClose }">
+        <X class="w-6 h-6 text-muted-foreground" />
       </DialogClose>
     </DialogContent>
   </DialogPortal>

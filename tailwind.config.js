@@ -1,4 +1,3 @@
-
 const animate = require('tailwindcss-animate');
 const plugin = require('tailwindcss/plugin');
 const { btn, card } = require('./src/assets/tailwind');
@@ -44,9 +43,6 @@ module.exports = {
       'display-2': '15rem',
       'display-1': '20rem',
     },
-    lineHeight: {
-      display: 1.2,
-    },
     extend: {
       colors: {
         border: 'hsl(var(--border))',
@@ -57,7 +53,8 @@ module.exports = {
         'black-60': 'var(--black-60)',
         'black-40': 'var(--black-40)',
         'black-20': 'var(--black-20)',
-        'black-0': 'var(--black-0)',
+        tiffany: 'var(--tiffany)',
+        pink: 'var(--pink)',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         primary: {
@@ -96,6 +93,9 @@ module.exports = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      lineHeight: {
+        display: 1.2,
       },
       keyframes: {
         'accordion-down': {

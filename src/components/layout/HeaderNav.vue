@@ -35,7 +35,7 @@
       </nav>
       <div class="hidden lg:block lg:col-span-2 2xl:col-span-1">
         <RouterLink to="/login">
-          <Button variant="btn1" class="border-black-80 py-[10px] px-6">Log in</Button>
+          <Button variant="white-outline" class="border-black-80 py-[10px] px-6">Log in</Button>
         </RouterLink>
         <!-- <RouterLink to="/admin/" class="px-4">後台</RouterLink> -->
       </div>
@@ -85,7 +85,7 @@
               </ul>
 
               <SheetClose as-child>
-                <Button variant="btn1" class="border-black-80 py-[10px] px-6 my-6">
+                <Button variant="white-outline" class="border-black-80 py-[10px] px-6 my-6">
                   <RouterLink to="/login" class="px-4"> Log in </RouterLink>
                 </Button>
               </SheetClose>
