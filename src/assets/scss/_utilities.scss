@@ -1,7 +1,7 @@
 @layer utilities {
   // 文字陰影
   .drop-shadow-light {
-    filter: drop-shadow(0 0px 0px var(--black-0)) drop-shadow(0 0px 20px rgba(255 255 255 / 0.5));
+    filter: drop-shadow(0 0px 2px var(--black-0)) drop-shadow(0 0px 20px rgba(255 255 255 / 0.5));
   }
   .drop-shadow-dark {
     filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.25));
@@ -63,5 +63,12 @@
   .text-stroke {
     @apply text-transparent;
     -webkit-text-stroke: 2px #fff;
+  }
+  .text-stroke-title {
+    // 標題後方裝飾穿透字
+    @apply text-transparent;
+    -webkit-text-stroke: 2px var(--black-80);
+    position: absolute;
+    bottom: 0.8rem;
   }
 }
