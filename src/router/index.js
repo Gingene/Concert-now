@@ -37,6 +37,11 @@ const router = createRouter({
           component: () => import('../views/front/VenueSingleView.vue'),
         },
         {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/front/AboutUsView.vue'),
+        },
+        {
           path: '/loading',
           name: 'loading',
           component: () => import('../views/LoadingView.vue'),
