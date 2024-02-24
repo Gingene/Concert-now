@@ -1,0 +1,1 @@
+import{ad as s}from"./index-0j9focvI.js";import{u as n}from"./useApiData-bqS6_gUH.js";const{httpData:o}=n(),u=s("venues",{state:()=>({venues:[],pagination:{}}),actions:{getVenues(t){o("get",t).then(e=>{console.log(e),this.venues=e.data,this.pagination=e.pagination,localStorage.setItem("tempVenues",JSON.stringify(e.data))})}}});export{u};
