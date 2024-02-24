@@ -3,7 +3,7 @@
     <span class="font-lato-display3 text-stroke-title z-[-1]">
       <slot name="subTitle">CONCERT</slot>
     </span>
-    <h2 class="relative drop-shadow-light">
+    <h2 class="relative drop-shadow-light text-5xl">
       <slot name="mainTitle">演唱會</slot>
     </h2>
   </div>
