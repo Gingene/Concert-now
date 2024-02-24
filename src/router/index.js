@@ -27,6 +27,11 @@ const router = createRouter({
           component: () => import('../views/front/BaseView.vue'),
         },
         {
+          path: 'concerts',
+          name: 'concerts',
+          component: () => import('../views/front/ConcertsView.vue'),
+        },
+        {
           path: 'venues',
           name: 'venues',
           component: () => import('../views/front/VenuesView.vue'),
