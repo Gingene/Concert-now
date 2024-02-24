@@ -1,7 +1,7 @@
 <template>
   <header class="sticky top-0 bg-black-100 z-10">
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-    <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3">
+    <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
       <div class="font-lato text-xl lg:col-span-3 xl:col-span-3 2xl:col-span-2">
         <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
       </div>
@@ -29,14 +29,35 @@
       <nav class="hidden lg:block lg:col-span-5 xl:col-span-4">
         <ul class="flex justify-between items-center">
           <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" ref="linkItems" @mouseover="addBlurEffect(index, $event)" @mouseleave="removeBlurEffect">
-            <RouterLink :to="item.href"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
+            <RouterLink :to="item.href" class="py-5 px-2 2xl:px-4 inline-block"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
           </li>
         </ul>
       </nav>
       <div class="hidden lg:block lg:col-span-2 2xl:col-span-1">
-        <RouterLink to="/login">
+        <!-- <RouterLink to="/login">
           <Button variant="white-outline" class="border-black-80 py-[10px] px-6">Log in</Button>
-        </RouterLink>
+        </RouterLink> -->
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>小明</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul class="w-[150px] border-0 space-y-4">
+                  <li class="px-2 lg:px-4 py-4">
+                    <NavigationMenuLink>
+                      <RouterLink to="/member">個人頁面</RouterLink>
+                    </NavigationMenuLink>
+                  </li>
+                  <li>
+                    <NavigationMenuLink>
+                      <RouterLink to="/admin">管理後台</RouterLink>
+                    </NavigationMenuLink>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
         <!-- <RouterLink to="/admin/" class="px-4">後台</RouterLink> -->
       </div>
 
@@ -105,6 +126,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
 </script>
 
 <script>
@@ -139,6 +161,18 @@ export default {
         },
       ],
       hoveredIndex: -1,
+      personalPage: [
+        {
+          title: '個人頁面',
+          href: '/members',
+          auth: true,
+        },
+        {
+          title: '管理後台',
+          href: '/admin',
+          auth: false,
+        },
+      ],
       mockData: [],
     };
   },

@@ -98,4 +98,8 @@ const router = createRouter({
   ],
 });
 
+router.beforeResolve((to, from) => {
+  window.scroll(0, 0);
+});
+
 export default router;
