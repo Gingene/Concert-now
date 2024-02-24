@@ -18,13 +18,13 @@
     </div>
     <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
-        <div class="space-y-3 space-x-3 -m-1 p-1"> 
+        <div class="space-y-3 space-x-3 -m-1 p-1">
           <!-- <Button variant="pink-blur" size="base" class="me-4"> 全部 </Button> -->
           <template v-for="time in timeRanges" :key="time">
             <Button variant="pink-blur" size="base"> {{ time }} </Button>
           </template>
         </div>
-        <div class="space-y-3 space-x-3 -m-1 p-1"> 
+        <div class="space-y-3 space-x-3 -m-1 p-1">
           <!-- <Button variant="tiffany-blur" size="base" class="me-4"> 全部 </Button> -->
           <template v-for="nationality in nationalityRanges" :key="nationality">
             <Button variant="tiffany-blur" size="base"> {{ nationality }} </Button>
@@ -57,11 +57,11 @@
               <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-t-2xl object-cover" />
               <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
-                  <p class="text-tiny">{{ concert.holding_time.substring(0,10) }}</p>
+                  <p class="text-tiny">{{ concert.holding_time.substring(0, 10) }}</p>
                   <CardTitle class="pt-1 text-base sm:text-lg text-white h-[7rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
                 </div>
                 <button class="mb-auto">
-                  <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4" style="color:var(--pink)" />
+                  <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4" style="color: var(--pink)" />
                 </button>
               </CardDescription>
             </CardHeader>
