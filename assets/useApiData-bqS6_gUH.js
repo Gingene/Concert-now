@@ -1,1 +1,0 @@
-import{ae as i,E as p,ai as u}from"./index-0j9focvI.js";const{setIsLoading:s}=i(),f=()=>{let a;const e=p(null);return{state:a,err:e,httpData:async(n,o,l)=>(s(l),new Promise((r,c)=>{u[n](o).then(t=>{a=t.data,r(a)}).catch(t=>{console.log(t),e.value=t,c(e)}).finally(()=>{s()})}))}};export{f as u};
