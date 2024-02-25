@@ -1,6 +1,5 @@
 const animate = require('tailwindcss-animate');
 const plugin = require('tailwindcss/plugin');
-const { btn, card } = require('./src/assets/tailwind');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -123,13 +122,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    animate,
-    plugin(function ({ addBase, theme, addComponents, addUtilities }) {
-      addComponents({
-        ...btn,
-        ...card,
-      });
-    }),
-  ],
+  plugins: [animate, plugin(function ({ addBase, theme, addComponents, addUtilities }) {})],
 };

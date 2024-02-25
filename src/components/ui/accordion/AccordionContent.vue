@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from 'vue';
-import { AccordionContent } from 'radix-vue';
-import { cn } from '@/lib/utils';
+import { computed } from "vue";
+import { AccordionContent } from "radix-vue";
+import { cn } from "@/lib/utils";
 
 const props = defineProps({
   asChild: { type: Boolean, required: false },
@@ -17,7 +17,10 @@ const delegatedProps = computed(() => {
 </script>
 
 <template>
-  <AccordionContent v-bind="delegatedProps" class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+  <AccordionContent
+    v-bind="delegatedProps"
+    class="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"
+  >
     <div :class="cn('pb-4 pt-0', props.class)">
       <slot />
     </div>
