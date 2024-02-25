@@ -1,1 +1,0 @@
-import{aj as s}from"./index-aBoS_zto.js";import{u as n}from"./useApiData-MJorLIMI.js";const{httpData:o}=n(),u=s("venues",{state:()=>({venues:[],pagination:{}}),actions:{getVenues(t){o("get",t).then(e=>{console.log(e),this.venues=e.data,this.pagination=e.pagination,localStorage.setItem("tempVenues",JSON.stringify(e.data))})}}});export{u};
