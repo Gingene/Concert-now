@@ -114,7 +114,7 @@ export default {
           this.userSignUp.name = '';
           this.userSignUp.email = '';
           this.userSignUp.password = '';
-          window.location = '@/login#/login'; // 待優化...
+          // window.location = '@/login#/login';
         })
         .catch((err) => {
           console.log(err);
@@ -131,7 +131,7 @@ export default {
           alert('登入成功！');
           this.userLogin.email = '';
           this.userLogin.password = '';
-          // window.location = '@/';
+          // window.location = '@/me';
         })
         .catch((err) => {
           console.log(err);
