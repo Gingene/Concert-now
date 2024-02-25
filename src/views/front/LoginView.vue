@@ -125,8 +125,9 @@ export default {
       axios
         .post(`${VITE_APP_SERVICE_API}/api/login`, this.userLogin)
         .then((res) => {
-          const { accessToken } = res.data.data;
-          document.cookie = `AccessToken=${accessToken}; path=/`;
+          const { data } = res.data;
+          document.cookie = `AccessToken=${data.access_token}; path=/`;
+          localStorage.setItem('user', JSON.stringify(res.data.data.user));
           alert('登入成功！');
           this.userLogin.email = '';
           this.userLogin.password = '';

@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// import FrontView from '../views/front/FrontView.vue';
-// import HomeView from '../views/front/HomeView.vue';
 import NotFound from '../views/NotFound.vue';
+import { useUserStore } from '@/stores/user';
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -106,6 +105,13 @@ const router = createRouter({
       // },
     },
   ],
+});
+
+router.beforeResolve((to, from) => {
+  window.scroll(0, 0);
+  const { getToken, getUser } = useUserStore();
+  getToken();
+  getUser();
 });
 
 export default router;

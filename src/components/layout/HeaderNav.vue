@@ -1,7 +1,7 @@
 <template>
   <header class="sticky top-0 bg-black-100 z-10">
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-    <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3">
+    <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
       <div class="font-lato text-xl lg:col-span-3 xl:col-span-3 2xl:col-span-2">
         <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
       </div>
@@ -29,15 +29,52 @@
       <nav class="hidden lg:block lg:col-span-5 xl:col-span-4">
         <ul class="flex justify-between items-center">
           <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" ref="linkItems" @mouseover="addBlurEffect(index, $event)" @mouseleave="removeBlurEffect">
-            <RouterLink :to="item.href"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
+            <RouterLink :to="item.href" class="py-5 px-2 2xl:px-4 inline-block"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
           </li>
         </ul>
       </nav>
       <div class="hidden lg:block lg:col-span-2 2xl:col-span-1">
-        <RouterLink to="/login">
+        <RouterLink to="/login" v-if="!user?.name">
           <Button variant="white-outline" class="border-black-80 py-[10px] px-6">Log in</Button>
         </RouterLink>
-        <!-- <RouterLink to="/admin/" class="px-4">後台</RouterLink> -->
+        <NavigationMenu v-else>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>{{ user.name }}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul class="w-[150px] border-0 space-y-2">
+                  <li>
+                    <NavigationMenuLink as-child>
+                      <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                    </NavigationMenuLink>
+                  </li>
+                  <li v-if="user.is_admin">
+                    <NavigationMenuLink>
+                      <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                    </NavigationMenuLink>
+                  </li>
+                  <li class="py-2">
+                    <AlertDialog>
+                      <AlertDialogTrigger as-child>
+                        <Button variant="ghost" class="w-full"> 登出 </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
+                          <AlertDialogDescription> </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
+                          <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </li>
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
 
       <!-- 手機版導覽列 -->
@@ -84,13 +121,49 @@
                 </li>
               </ul>
 
-              <SheetClose as-child>
+              <SheetClose as-child v-if="!user.name">
                 <Button variant="white-outline" class="border-black-80 py-[10px] px-6 my-6">
                   <RouterLink to="/login" class="px-4"> Log in </RouterLink>
                 </Button>
               </SheetClose>
-
-              <RouterLink to="/admin/" class="px-4">後台</RouterLink>
+              <NavigationMenu v-else class="w-full">
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger class="mt-4">{{ user.name }} 您好</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul class="w-[150px] border-0 space-y-2">
+                        <li>
+                          <NavigationMenuLink as-child>
+                            <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                          </NavigationMenuLink>
+                        </li>
+                        <li v-if="user.is_admin">
+                          <NavigationMenuLink>
+                            <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                          </NavigationMenuLink>
+                        </li>
+                        <li class="py-2">
+                          <AlertDialog>
+                            <AlertDialogTrigger as-child>
+                              <Button variant="ghost" class="w-full"> 登出 </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
+                                <AlertDialogDescription> </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
+                                <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </nav>
           </SheetContent>
         </Sheet>
@@ -105,9 +178,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useUserStore } from '@/stores/user';
 export default {
   data() {
     return {
@@ -139,6 +226,18 @@ export default {
         },
       ],
       hoveredIndex: -1,
+      personalPage: [
+        {
+          title: '個人頁面',
+          href: '/members',
+          auth: true,
+        },
+        {
+          title: '管理後台',
+          href: '/admin',
+          auth: false,
+        },
+      ],
       mockData: [],
     };
   },
@@ -156,6 +255,10 @@ export default {
         item.classList.remove('blur');
       });
     },
+    ...mapActions(useUserStore, ['logout']),
+  },
+  computed: {
+    ...mapState(useUserStore, ['user']),
   },
 };
 </script>
