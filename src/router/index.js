@@ -32,6 +32,11 @@ const router = createRouter({
           component: () => import('../views/front/ConcertsView.vue'),
         },
         {
+          path: 'concerts/:id',
+          name: 'concert',
+          component: () => import('../views/front/ConcertSingleView.vue'),
+        },
+        {
           path: 'venues',
           name: 'venues',
           component: () => import('../views/front/VenuesView.vue'),
