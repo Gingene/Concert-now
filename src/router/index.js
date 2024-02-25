@@ -126,11 +126,14 @@ const router = createRouter({
   ],
 });
 
-router.beforeResolve((to, from) => {
-  window.scroll(0, 0);
+router.beforeEach((to, from) => {
   const { getToken, getUser } = useUserStore();
   getToken();
   getUser();
+});
+
+router.beforeResolve((to, from) => {
+  window.scroll(0, 0);
 });
 
 export default router;

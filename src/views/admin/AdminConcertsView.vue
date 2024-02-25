@@ -318,7 +318,7 @@ import {
 
 <script>
 import { mapState, mapActions } from 'pinia';
-import { concertStore } from '@/stores/concerts';
+import { useConcertsStore } from '@/stores/concerts';
 export default {
   data() {
     return {
@@ -326,10 +326,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(concertStore, ['getConcerts']),
+    ...mapActions(useConcertsStore, ['getConcerts']),
   },
   computed: {
-    ...mapState(concertStore, ['concerts']),
+    ...mapState(useConcertsStore, ['concerts']),
   },
 };
 </script>
