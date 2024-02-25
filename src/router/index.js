@@ -1,6 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import NotFound from '../views/NotFound.vue';
 import { useUserStore } from '@/stores/user';
+import { useToast } from '@/components/ui/toast/use-toast';
+
+const { toast } = useToast();
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -60,6 +63,22 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/admin/AdminView.vue'),
       meta: { hideHF: true },
+      beforeEnter: (to, from) => {
+        const { AccessToken, user } = useUserStore();
+        if (AccessToken && user.is_admin) {
+          toast({
+            title: '歡迎回來',
+            description: '',
+          });
+          return true;
+        } else {
+          toast({
+            title: '對不起，你沒有權限進入',
+            description: '',
+          });
+          return false;
+        }
+      },
       children: [
         {
           path: 'concerts',
