@@ -34,31 +34,47 @@
         </ul>
       </nav>
       <div class="hidden lg:block lg:col-span-2 2xl:col-span-1">
-        <!-- <RouterLink to="/login">
+        <RouterLink to="/login" v-if="!user?.name">
           <Button variant="white-outline" class="border-black-80 py-[10px] px-6">Log in</Button>
-        </RouterLink> -->
-        <NavigationMenu>
+        </RouterLink>
+        <NavigationMenu v-else>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>小明</NavigationMenuTrigger>
+              <NavigationMenuTrigger>{{ user.name }}</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul class="w-[150px] border-0 space-y-4">
-                  <li class="px-2 lg:px-4 py-4">
-                    <NavigationMenuLink>
-                      <RouterLink to="/member">個人頁面</RouterLink>
+                <ul class="w-[150px] border-0 space-y-2">
+                  <li>
+                    <NavigationMenuLink as-child>
+                      <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
                     </NavigationMenuLink>
                   </li>
-                  <li>
+                  <li v-if="user.is_admin">
                     <NavigationMenuLink>
-                      <RouterLink to="/admin">管理後台</RouterLink>
+                      <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
                     </NavigationMenuLink>
+                  </li>
+                  <li class="py-2">
+                    <AlertDialog>
+                      <AlertDialogTrigger as-child>
+                        <Button variant="ghost" class="w-full"> 登出 </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
+                          <AlertDialogDescription> </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
+                          <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </li>
                 </ul>
               </NavigationMenuContent>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <!-- <RouterLink to="/admin/" class="px-4">後台</RouterLink> -->
       </div>
 
       <!-- 手機版導覽列 -->
@@ -105,13 +121,49 @@
                 </li>
               </ul>
 
-              <SheetClose as-child>
+              <SheetClose as-child v-if="!user.name">
                 <Button variant="white-outline" class="border-black-80 py-[10px] px-6 my-6">
                   <RouterLink to="/login" class="px-4"> Log in </RouterLink>
                 </Button>
               </SheetClose>
-
-              <RouterLink to="/admin/" class="px-4">後台</RouterLink>
+              <NavigationMenu v-else class="w-full">
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger class="mt-4">{{ user.name }} 您好</NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul class="w-[150px] border-0 space-y-2">
+                        <li>
+                          <NavigationMenuLink as-child>
+                            <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                          </NavigationMenuLink>
+                        </li>
+                        <li v-if="user.is_admin">
+                          <NavigationMenuLink>
+                            <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                          </NavigationMenuLink>
+                        </li>
+                        <li class="py-2">
+                          <AlertDialog>
+                            <AlertDialogTrigger as-child>
+                              <Button variant="ghost" class="w-full"> 登出 </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
+                                <AlertDialogDescription> </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
+                                <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </nav>
           </SheetContent>
         </Sheet>
@@ -127,9 +179,22 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useUserStore } from '@/stores/user';
 export default {
   data() {
     return {
@@ -190,6 +255,10 @@ export default {
         item.classList.remove('blur');
       });
     },
+    ...mapActions(useUserStore, ['logout']),
+  },
+  computed: {
+    ...mapState(useUserStore, ['user']),
   },
 };
 </script>
