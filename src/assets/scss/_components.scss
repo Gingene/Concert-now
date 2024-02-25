@@ -1,4 +1,5 @@
 $font-display-base: 72px;
+$font-display-size4: 90px;
 $font-display-size3: 120px;
 $font-display-size2: $font-display-size3 * 2;
 $font-display-size1: calc($font-display-size3 / 3 * 8);
@@ -11,6 +12,11 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   // font font-display 在main.scss設定為Lato
   .font-lato {
     @apply font-display font-bold;
+  }
+  // 預設4級大標題font-weight-900 大小120px
+  .font-lato-display4 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size4;
   }
   // 預設3級大標題font-weight-900 大小120px
   .font-lato-display3 {
