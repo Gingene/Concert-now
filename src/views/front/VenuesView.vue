@@ -116,7 +116,7 @@ export default {
     ...mapState(useVenuesStore, ['venues', 'pagination']),
   },
   mounted() {
-    this.getVenues(`${this.path.venues}?page=1`);
+    this.getVenues();
   },
 };
 </script>

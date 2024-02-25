@@ -1,15 +1,18 @@
 <template>
-  <section class="container py-20 lg:py-32 space-y-6 lg:space-y-10">
+  <div class="w-full h-[800px] bg-no-repeat bg-cover absolute top-0 -z-10" :style="`background-image: url(${venue.picture?.horizontal})`"></div>
+  <section class="container pb-20 lg:pb-32 space-y-6 lg:space-y-10 mt-[550px]">
     <div class="text-center">
-      <h2 class="text-2xl font-display md:text-5xl 2xl:text-display-3 font-black">{{ venue.title }}</h2>
-      <p class="text-lg md:text-3xl 2xl:text-5xl">{{ venue.address }}</p>
+      <h2 class="text-2xl font-display lg:text-3xl 2xl:text-5xl font-black">{{ venue.title }}</h2>
+      <!-- <p class="text-lg md:text-3xl 2xl:text-5xl">{{ venue.address }}</p> -->
     </div>
+    <!-- <TitleComponent class="text-center">
+      <template #mainTitle>
+        {{ venue.title }}
+      </template>
+    </TitleComponent> -->
     <main class="space-y-6 lg:space-y-10">
-      <div>
-        <img :src="venue.picture?.horizontal" :alt="venue.title" class="w-full" />
-      </div>
       <div class="text-center">
-        <h3 class="text-2xl font-display md:text-5xl 2xl:text-display-3 font-black">場地體驗</h3>
+        <h3 class="text-2xl font-display lg:text-3xl 2xl:text-5xl font-black">場地體驗</h3>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -18,24 +21,24 @@
         </div>
         <div class="space-y-6 lg:space-y-10">
           <div class="space-x-4 overflow-x-auto whitespace-nowrap">
-            <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-purple"> 全部 </Button>
+            <Button variant="pink-outline"> 全部 </Button>
             <template v-for="seat in venue.seat_areas" :key="seat">
-              <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-purple">{{ seat }}</Button>
+              <Button variant="pink-outline">{{ seat }}</Button>
             </template>
           </div>
           <ScrollArea class="lg:h-[280px] xl:h-[350px] 2xl:h-[500px] p-4">
-            <Card v-for="comment in filterComments" :key="comment.id" class="border-2 border-black-60 mb-4 lg:mb-6">
+            <Card v-for="comment in venue.comments" :key="comment.id" class="border-2 border-black-60 mb-4 lg:mb-6">
               <CardHeader>
                 <CardTitle>
-                  <span class="material-symbols-outlined"> account_circle </span>
-                  <span class="ms-4">小美</span>
+                  <img :src="comment.user.profile_image_url" :alt="comment.user.name" />
+                  <span class="ms-4">{{ comment.user.name }}</span>
                 </CardTitle>
-                <CardDescription>看台區</CardDescription>
+                <CardDescription>{{ comment.seat_area }}</CardDescription>
               </CardHeader>
               <CardContent> {{ comment.comment }} </CardContent>
               <CardFooter class="flex flex-col text-sm text-black-60 space-y-4">
-                <span>FTISLAND 演唱會2024台北站</span>
-                <span>2023/05/01</span>
+                <span>{{ comment.concert.title }}</span>
+                <span>{{ comment.created_at }}</span>
               </CardFooter>
             </Card>
           </ScrollArea>
@@ -71,54 +74,27 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+// import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
-import { commentStore } from '@/stores/comments';
 
 export default {
-  data() {
-    return {
-      venue: {},
-    };
-  },
   inject: ['http', 'path'],
   methods: {
-    getVenue() {
-      const tempVenues = JSON.parse(localStorage.getItem('tempVenues'));
-      this.venue = tempVenues.find((v) => v.id === Number(this.$route.params.id));
-      console.log(this.venue);
-    },
-
-    ...mapActions(useVenuesStore, ['getVenues']),
-    ...mapActions(commentStore, ['getComments']),
+    ...mapActions(useVenuesStore, ['getVenue']),
   },
   computed: {
-    filterComments() {
-      return this.comments.filter((c) => c.venueId.title === this.venue.title);
-    },
-    ...mapState(useVenuesStore, ['venues', 'pagination']),
-    ...mapState(commentStore, ['comments']),
+    ...mapState(useVenuesStore, ['venue', 'pagination']),
   },
-  mounted() {
-    this.getVenue();
-  },
+  // mounted() {
+  //   this.getVenue(this.$route.params.id);
+  // },
 };
 </script>
 <style lang="scss" scoped>
-.btn1-purple {
-  color: #d595f1;
-  border: 2px solid #d595f1;
-  box-shadow:
-    0px 1px 40px 0px rgba(151, 26, 166, 0.5) inset,
-    0px 4px 16px 0px rgba(151, 26, 166, 0.2) inset;
-  &:hover {
-    background: #d595f1;
-    color: #fff;
-    box-shadow:
-      0 0 20px #d595f1,
-      0 0 8px #d595f1; /* 這邊陰影效果不正確 */
-  }
-}
+// .bg-image {
+//   background-image: ;
+// }
 </style>

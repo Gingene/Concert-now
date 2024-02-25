@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 bg-black-100 z-10">
+  <header>
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
     <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
       <div class="font-lato text-xl lg:col-span-3 xl:col-span-3 2xl:col-span-2">
@@ -13,7 +13,7 @@
           <DialogContent class="max-w-[80vw] p-8 top-[20%]">
             <DialogHeader>
               <DialogTitle>
-                <Input placeholder="Search now" class="bg-black-00 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
+                <Input placeholder="Search now" class="bg-black-0 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
