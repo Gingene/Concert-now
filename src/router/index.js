@@ -62,6 +62,11 @@ const router = createRouter({
           component: () => import('../views/front/AboutUsView.vue'),
         },
         {
+          path: 'member',
+          name: 'member',
+          component: () => import('../views/front/Members.vue'),
+        },
+        {
           path: '/loading',
           name: 'loading',
           component: () => import('../views/LoadingView.vue'),
