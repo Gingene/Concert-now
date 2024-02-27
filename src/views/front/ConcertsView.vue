@@ -1,37 +1,27 @@
 <template>
   <!-- <font-awesome-icon icon="fa-regular fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
   <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
-  <section class="container relative pt-20">
-    <div class="grid grid-flow-col pb-10">
-      <h2 class="test text-[3.5rem] font-display sm:text-display-3 font-black flex flex-col leading-[.8]">
-        <span>DISCOVER</span>
-        <span class="text-stroke">CONCERTS</span>
-        <span>NOW</span>
-      </h2>
-      <div class="grid grid-cols-3">
-        <div class="row-start-9 sm:row-start-8 col-start-3 md:col-start-1 -ms-32 sm:-ms-64 lg:-ms-[400px] xl:-ms-[500px] 2xl:-ms-[600px]">
-          <Input
-            placeholder="輸入演唱會名稱"
-            class="bg-black-0 box-shadow-light1-hover focus:text-black-60 focus-visible:box-shadow-light1-hover focus-visible:outline-0 hover:box-shadow-light1-hover" />
-        </div>
-      </div>
-    </div>
-    <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
+  <section class="container relative pt-10">
+    <!-- banner 元件，請在 data 建立變數 bannerInputPlaceholder 並輸入 placeholder 內文字串 -->
+    <BannerComponent :prop-placeholder="bannerInputPlaceholder">
+      <template #mainTitle>CONCERTS</template>
+    </BannerComponent>
+    <main class="space-y-6 lg:space-y-14 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
-        <div class="space-y-3 space-x-3 -m-1 p-1">
-          <!-- <Button variant="pink-blur" size="base" class="me-4"> 全部 </Button> -->
+        <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
+          <Button variant="tiffany-outline" size="base" class="me-4"> 全部 </Button>
           <template v-for="time in timeRanges" :key="time">
-            <Button variant="pink-blur" size="base"> {{ time }} </Button>
+            <Button variant="tiffany-outline" size="base"> {{ time }} </Button>
           </template>
         </div>
-        <div class="space-y-3 space-x-3 -m-1 p-1">
-          <!-- <Button variant="tiffany-blur" size="base" class="me-4"> 全部 </Button> -->
+        <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
+          <Button variant="pink-outline" size="base" class="me-4"> 全部 </Button>
           <template v-for="nationality in nationalityRanges" :key="nationality">
-            <Button variant="tiffany-blur" size="base"> {{ nationality }} </Button>
+            <Button variant="pink-outline" size="base"> {{ nationality }} </Button>
           </template>
         </div>
       </div>
-      <ul class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="concert in concerts" :key="concert.id">
           <!-- <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
@@ -57,8 +47,8 @@
               <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-t-2xl object-cover" />
               <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
-                  <p class="text-tiny">{{ concert.holding_time.substring(0, 10) }}</p>
-                  <CardTitle class="pt-1 text-base sm:text-lg text-white h-[7rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
+                  <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
+                  <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[4rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
                 </div>
                 <button class="mb-auto">
                   <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4" style="color: var(--pink)" />
@@ -100,10 +90,10 @@
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 import { ArrowRight } from 'lucide-vue-next';
+import BannerComponent from '@/components/custom/BannerComponent.vue';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
@@ -111,8 +101,9 @@ import { useConcertsStore } from '@/stores/concerts';
 export default {
   data() {
     return {
-      timeRanges: ['全部', '本日', '本月', '本週'],
-      nationalityRanges: ['全部', '臺灣', '日本', '韓國', '歐美', '其他'],
+      bannerInputPlaceholder: '請輸入演唱會名稱',
+      timeRanges: ['本日', '本月', '本週'],
+      nationalityRanges: ['臺灣', '日本', '韓國', '歐美', '其他'],
     };
   },
   inject: ['http', 'path'],
