@@ -51,7 +51,7 @@
         <img :src="concerts[0].cover_urls.horizontal" alt="" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
-        <div class="w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex items-center justify-center py-4 lg:py-0 relative">
+        <div class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
           <p class="text-2xl font-bold relative">
             <span class="text-base pr-2 absolute bottom-0 left-[-30%]">D-day</span>
             50 : 12 : 40 : 02
@@ -74,7 +74,7 @@
       <div class="flex flex-col">
         <div class="flex items-center justify-start gap-10 lg:gap-20">
           <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.5rem] xl:mb-[-2.5rem]">01</div>
-          <div class="flex justify-between items-center mt-6 xl:mt-10 w-[100%]">
+          <div class="flex justify-between items-center mt-6 xl:mt-10 w-[100%] hover:translate-y-[-0.25rem]">
             <h2 class="text-lg md:text-xl lg:text-3xl">
               <a href="" class="py-4">寬宏售票系統</a>
             </h2>
@@ -95,9 +95,9 @@
         <template #subTitle>SONGS</template>
         <template #mainTitle>歌單</template>
       </TitleComponent>
-      <div class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-8 py-12 flex flex-col items-center mx-auto w-[400px] gap-2">
+      <div class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-8 py-12 flex flex-col items-center mx-auto w-auto max-w-[350px] sm:max-w-none sm:w-[400px] lg:w-[450px] gap-2">
         <iframe
-          class="rounded-[20px]"
+          class="rounded-[20px] w-auto max-w-[284px] sm:max-w-none sm:w-[336px]"
           width="336"
           height="189"
           src="https://www.youtube.com/embed/x8G4xrYfWmw?si=EPcB0Nnm8i3rIFAW"
@@ -105,19 +105,7 @@
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen></iframe>
-        <!-- 第3版:無'新增曲目'字樣，標題旁新增按鈕 -->
-        <!-- <div class="flex items-center justify-between">
-          <div class="text-xl lg:text-2xl font-bold marquee-container w-[285.5px] mr-4">
-            <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 </div>
-            <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 </div>
-            <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 </div>
-          </div>
-          <button class="px-1 space-x-2 ml-auto border-2 rounded-[50%] w-8 h-8">
-            <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
-          </button>
-        </div>
-        <div class="w-full h-[4px] bg-white"></div> -->
-        <div class="text-xl lg:text-2xl font-bold marquee-container w-[336px]">
+        <div class="text-xl lg:text-2xl font-bold marquee-container w-[284px] sm:w-[336px]">
           <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站</div>
           <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站</div>
           <div class="marquee-text">Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站 Tom Jones 湯姆瓊斯演唱會 2024 台北站</div>
@@ -132,8 +120,6 @@
           <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
           <p>新增曲目</p>
         </button> -->
-        <!-- <div class="w-full h-[4px] bg-white"></div> -->
-        <!-- <div class="w-full h-[1px] bg-white"></div> -->
         <!-- hover:box-shadow-pink-blur-hover -->
         <!-- hover:bg-[var(--tiffany)] hover:text-black hover:font-bold -->
         <ScrollArea class="h-[19rem] w-full pt-4">
@@ -141,8 +127,8 @@
             <div class="text-base flex justify-between items-center bg-trans">
               <div>{{ index + 1 }}</div>
               <!-- (待完成)點擊更換YT嵌入 -->
-              <button class="ml-4 mr-auto py-3">歌曲名稱{{ item }}</button>
-              <div class="flex pr-4 gap-6 h-14">
+              <button class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">歌曲名稱{{ item }}</button>
+              <div class="flex pr-4 gap-2 sm:gap-6 h-14">
                 <!-- (待完成)推與倒推按鈕 -->
                 <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
@@ -226,5 +212,8 @@ export default {
 }
 .bg-trans:hover {
   background: rgba(165, 165, 165, 0.1);
+}
+.btn-explore-icon-color:hover svg path {
+  fill: #1e1e1e;
 }
 </style>
