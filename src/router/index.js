@@ -2,10 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import NotFound from '../views/NotFound.vue';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
-import { useVenuesStore } from '@/stores/venues';
 
 const { toast } = useToast();
-
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
@@ -48,13 +46,7 @@ const router = createRouter({
           path: 'venues/:id',
           name: 'venue',
           component: () => import('../views/front/VenueSingleView.vue'),
-          props: (route) => {
-            const { getVenue } = useVenuesStore();
-            getVenue(route.params.id);
-            // return {
-            //   route,
-            // };
-          },
+          props: true,
         },
         {
           path: 'about',

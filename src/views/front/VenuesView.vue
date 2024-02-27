@@ -35,7 +35,7 @@
             <CardContent class="border-x-4 border-black-60 text-tiny"> {{ venue.city }} </CardContent>
             <CardFooter class="text-end border-x-4 border-b-4 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/venues/${venue.id}`">
-                <Button variant="white-outline" size="base">
+                <Button variant="white-outline" size="base" @click="getVenue(venue.id)">
                   <span class="text-sm lg:text-base">查看評論</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
@@ -110,7 +110,7 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useVenuesStore, ['getVenues']),
+    ...mapActions(useVenuesStore, ['getVenues', 'getVenue']),
   },
   computed: {
     ...mapState(useVenuesStore, ['venues', 'pagination']),

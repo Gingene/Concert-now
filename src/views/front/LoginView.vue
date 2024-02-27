@@ -132,6 +132,8 @@ export default {
           this.userLogin.email = '';
           this.userLogin.password = '';
           // window.location = '@/me';
+          // console.log(this.$router);
+          this.$router.push('/member');
         })
         .catch((err) => {
           console.log(err);
