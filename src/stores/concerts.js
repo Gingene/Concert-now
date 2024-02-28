@@ -16,6 +16,7 @@ export const useConcertsStore = defineStore('concerts', {
   },
   actions: {
     getConcerts(filterFactor, rangeFactor, page = 1) {
+      // console.log(this.$refs.timeButtons);
       // 全部按鈕帶空字串，其他按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
