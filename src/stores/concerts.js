@@ -1,31 +1,30 @@
 import { defineStore } from 'pinia';
-import { http, path } from '@/api';
-// import Swal from 'sweetalert2';
+import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
 
-export const useConcertsStore = defineStore('concertStore', {
+const { timeCountryFilter } = useTimeCountryFilter();
+
+export const useConcertsStore = defineStore('concerts', {
   state: () => {
     return {
       concerts: [],
       pagination: {},
+      // 儲存篩選條件
+      timeFactor: '',
+      countryFactor: '',
+      pageFactor: '',
     };
   },
   actions: {
-    getConcerts() {
-      http
-        .get(path.concerts)
-        .then((res) => {
-          console.log(res);
-          this.concerts = [...res.data.data];
-          this.pagination = res.data.pagination;
-          // Swal.fire({
-          //   icon: 'success',
-          //   text: '成功抓取演唱會資料',
-          //   timer: 1000
-          // });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    getConcerts(filterFactor, rangeFactor, page = 1) {
+      // 全部按鈕帶空字串，其他按鈕帶該字
+      if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
+      if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
+      this.pageFactor = page;
+
+      timeCountryFilter('concerts', this.timeFactor, this.countryFactor, this.pageFactor).then((data) => {
+        this.concerts = data.data;
+        this.pagination = data.pagination;
+      });
     },
   },
 });

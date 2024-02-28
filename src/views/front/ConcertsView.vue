@@ -1,6 +1,4 @@
 <template>
-  <!-- <font-awesome-icon icon="fa-regular fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
-  <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
   <section class="container relative pt-10">
     <!-- banner 元件，請在 data 建立變數 bannerInputPlaceholder 並輸入 placeholder 內文字串 -->
     <BannerComponent :prop-placeholder="bannerInputPlaceholder">
@@ -9,53 +7,48 @@
     <main class="space-y-6 lg:space-y-14 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4"> 全部 </Button>
+          <Button variant="tiffany-outline" size="base" class="me-4" @click="getConcerts('time','all')"> 全部 </Button>
           <template v-for="time in timeRanges" :key="time">
-            <Button variant="tiffany-outline" size="base"> {{ time }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="getConcerts('time',time)"> {{ time }} </Button>
           </template>
         </div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="pink-outline" size="base" class="me-4"> 全部 </Button>
-          <template v-for="nationality in nationalityRanges" :key="nationality">
-            <Button variant="pink-outline" size="base"> {{ nationality }} </Button>
+          <Button variant="pink-outline" size="base" class="me-4" @click="getConcerts('country','all')"> 全部 </Button>
+          <template v-for="country in countryRanges" :key="country">
+            <Button variant="pink-outline" size="base" @click="getConcerts('country',country)"> {{ country }} </Button>
           </template>
         </div>
       </div>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="concert in concerts" :key="concert.id">
-          <!-- <Card class="border-black-60">
-            <CardHeader class="rounded-t-2xl space-y-0 p-0">
-              <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-t-2xl object-cover" />
-              <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
-                <p class="text-tiny">{{ concert.holding_time.substring(0,10) }}</p>
-                <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl" style="color:var(--pink)" />
-              </CardDescription>
-              <CardTitle class="border-x-2 pt-1 px-6 border-black-60 text-sm sm:text-lg lg:text-2xl">{{ concert.title }}</CardTitle>
-            </CardHeader>
-            <CardContent class="border-x-2 pt-5 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
-            <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
-              <RouterLink :to="`/concerts/${concert.id}`">
-                <Button variant="white-outline" size="base">
-                  <span class="text-sm lg:text-base">查看評論</span>
-                  <ArrowRight class="size-6 ms-2 lg:ms-4" />
-                </Button>
-              </RouterLink>
-            </CardFooter>
-          </Card> -->
           <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
-              <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-t-2xl object-cover" />
+              <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-2xl object-cover" />
               <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
                   <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
-                  <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[4rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
+                  <router-link :to="`/concerts/${concert.id}`">
+                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[4rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
+                  </router-link>
                 </div>
-                <button class="mb-auto">
-                  <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4" style="color: var(--pink)" />
-                </button>
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <button class="mb-auto">
+                      <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                      <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)]" /> -->
+                    </button>
+                  </HoverCardTrigger>
+                  <!-- 辨識登入狀態，未登入才顯示提示框 -->
+                  <HoverCardContent class="mt-[-12rem]" v-if="!userLogged">
+                  <!-- <HoverCardContent class="mt-[-12rem]"> -->
+                    登入開啟收藏功能
+                  </HoverCardContent>
+                </HoverCard>
               </CardDescription>
             </CardHeader>
-            <CardContent class="border-x-2 pt-5 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
+            <router-link :to="`/venues/${concert.venue.id}`">
+              <CardContent class="border-x-2 pt-5 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
+            </router-link>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
                 <Button variant="white-outline" size="base">
@@ -92,18 +85,22 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ArrowRight } from 'lucide-vue-next';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
+import { useUserStore } from '@/stores/user';
+
 export default {
   data() {
     return {
       bannerInputPlaceholder: '請輸入演唱會名稱',
-      timeRanges: ['本日', '本月', '本週'],
-      nationalityRanges: ['臺灣', '日本', '韓國', '歐美', '其他'],
+      userLogged: false,
+      timeRanges: ['本日', '本週', '本月'],
+      countryRanges: ['台灣', '日本', '韓國', '歐美', '其他'],
     };
   },
   inject: ['http', 'path'],
@@ -112,11 +109,12 @@ export default {
   },
   computed: {
     ...mapState(useConcertsStore, ['concerts', 'pagination']),
+    ...mapState(useUserStore, ['AccessToken']),
   },
   mounted() {
-    // this.getConcerts(`${this.path.venues}?page=1`);
     this.getConcerts();
+    // 使用者是否已登入
+    this.userLogged = !this.AccessToken === undefined;
   },
 };
 </script>
-<style lang="scss" scoped></style>

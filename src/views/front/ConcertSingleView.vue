@@ -173,21 +173,17 @@ export default {
     // },
 
     ...mapActions(useConcertsStore, ['getConcerts']),
-    // ...mapActions(commentStore, ['getComments']),
   },
   computed: {
-    // filterComments() {
-    //   return this.comments.filter((c) => c.venueId.title === this.venue.title);
-    // },
     ...mapState(useConcertsStore, ['concerts', 'pagination']),
-    // ...mapState(commentStore, ['comments']),
   },
   mounted() {
     // console.log(useConcertsStore);
+    console.log(this.path);
+    // this.getConcerts(`${this.path.concerts}?page=1`);
     this.getConcerts();
-    console.log(this.concerts);
-    console.log(this.pagination);
-    // this.concert =
+    // console.log(this.concerts);
+    // console.log(this.pagination);
   },
 };
 </script>
