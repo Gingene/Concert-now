@@ -74,32 +74,34 @@
         </Card>
       </div>
     </div>
-    <div class="grid grid-flow-row xl:grid-flow-col xl:gap-4">
+    <div class="xl:grid grid-flow-row xl:grid-flow-col xl:gap-4">
       <div class="xl:col-span-1 mb-4 xl:mb-0">
         <Card>
           <CardHeader class="h-[94px]">
             <CardTitle class="text-xl my-auto">演唱會檢索</CardTitle>
           </CardHeader>
-          <CardContent class="pb-0">
+          <CardContent class="pb-2">
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead class="w-[100px]">檢視量</TableHead>
                   <TableHead class="text-nowrap">收藏量</TableHead>
                   <TableHead>演唱會</TableHead>
-                  <TableHead class="text-right">表演者</TableHead>
+                  <!-- <TableHead class="text-right">表演者</TableHead> -->
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow v-for="(item, index) in concerts" :key="item + index">
+                <TableRow v-for="(concert, index) in concerts.splice(0, 5)" :key="concert + index">
                   <TableCell class="font-medium">
-                    {{ Number.parseInt(800 / (index + 1)) }}
+                    {{ Number.parseInt(829 / (index + 1)) }}
                   </TableCell>
-                  <TableCell>{{ Number.parseInt(300 / (index + 1)) }}</TableCell>
-                  <TableCell
-                    ><a href="#">{{ item.title }}</a></TableCell
-                  >
-                  <TableCell class="text-right">{{ item.artist.name }}</TableCell>
+                  <TableCell>{{ Number.parseInt(168 / (index + 1)) }}</TableCell>
+                  <TableCell>
+                    <router-link :to="`/concerts/${concert.id}`">
+                      {{ concert.title }}
+                    </router-link>
+                  </TableCell>
+                  <!-- <TableCell class="text-right">{{ concert.artist?.name }}</TableCell> -->
                 </TableRow>
                 <!-- 保留的靜態資料 -->
                 <!-- <TableRow>
@@ -112,24 +114,7 @@
             </Table>
           </CardContent>
           <CardFooter class="flex justify-center pt-[auto]">
-            <Pagination v-slot="{ page }" :total="5" :sibling-count="1" show-edges :default-page="1">
-              <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-                <!-- <PaginationFirst /> -->
-                <PaginationPrev />
-
-                <template v-for="(item, index) in items">
-                  <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                    <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                      {{ item.value }}
-                    </Button>
-                  </PaginationListItem>
-                  <PaginationEllipsis v-else :key="item.type" :index="index" />
-                </template>
-
-                <PaginationNext />
-                <!-- <PaginationLast /> -->
-              </PaginationList>
-            </Pagination>
+            <!-- 保留換頁位置 -->
           </CardFooter>
         </Card>
       </div>
@@ -169,21 +154,6 @@ import {
 // Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-// Pagination
-import {
-  Pagination,
-  PaginationEllipsis,
-  // PaginationFirst,
-  // PaginationLast,
-  PaginationList,
-  PaginationListItem,
-  PaginationNext,
-  PaginationPrev,
-} from '@/components/ui/pagination';
-
-// Button
-import { Button } from '@/components/ui/button';
-
 // Table
 import {
   Table,
@@ -194,17 +164,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import axios from 'axios';
 </script>
 
 <script>
 import '@/assets/c3.css';
 import '@/helpers/c3';
 import '@/helpers/d3';
+
+import { mapActions, mapState } from 'pinia';
+import { useConcertsStore } from '@/stores/concerts';
+
 export default {
   data() {
     return {
-      concerts: [],
       januaryDateAry: [],
       totalData: [
         {
@@ -231,6 +203,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useConcertsStore, ['getConcerts']),
     // 用戶瀏覽/註冊人數 圖表
     timeSeriesChart(type, time = 'day') {
       let chartId = 1;
@@ -296,16 +269,11 @@ export default {
       });
     },
   },
+  computed: {
+    ...mapState(useConcertsStore, ['concerts']),
+  },
   mounted() {
-    axios
-      .get(`${import.meta.env.VITE_APP_SERVICE_API}/api/concerts`)
-      .then((res) => {
-        console.log(res);
-        this.concerts = res.data.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getConcerts();
 
     // 一月日期生成
     for (let i = 1; i <= 31; i++) {
