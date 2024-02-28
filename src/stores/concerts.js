@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
+import { http, path } from '@/api';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 
@@ -7,6 +8,7 @@ export const useConcertsStore = defineStore('concerts', {
   state: () => {
     return {
       concerts: [],
+      singleConcert: {},
       pagination: {},
       // 儲存篩選條件
       timeFactor: '',
@@ -25,6 +27,17 @@ export const useConcertsStore = defineStore('concerts', {
         this.concerts = data.data;
         this.pagination = data.pagination;
       });
+    },
+    getSingleConcert(id) {
+      http
+        .get(`${path.concerts}/${id}`)
+        .then((res) => {
+          console.log(res);
+          this.singleConcert = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 });
