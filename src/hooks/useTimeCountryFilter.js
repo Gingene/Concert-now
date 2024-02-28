@@ -14,7 +14,7 @@ export default () => {
     const topicPath = topic === 'concerts' ? path.concerts : path.artists;
     let lastPath = '';
 
-    const timePath=`&start=${startTime}&end=${endTime}`;
+    const timePath = `&start=${startTime}&end=${endTime}`;
     const countryPath = `&country=${countryFactor}`;
     const pagePath = `&page=${page}`;
 
@@ -24,7 +24,7 @@ export default () => {
       lastPath = topicPath + '?' + timePath + pagePath;
     } else if (countryFactor !== '' && timeFactor === '') {
       lastPath = topicPath + '?' + countryPath + pagePath;
-    }else{
+    } else {
       lastPath = topicPath + '?' + pagePath;
     }
 

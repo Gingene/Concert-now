@@ -7,15 +7,51 @@
     <main class="space-y-6 lg:space-y-14 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4" @click="getConcerts('time','all')"> 全部 </Button>
+          <Button
+            variant="tiffany-outline"
+            size="base"
+            class="me-4 active timeButton"
+            @click="
+              getConcerts('time', 'all');
+              buttonActive('time', $event);
+            ">
+            全部
+          </Button>
           <template v-for="time in timeRanges" :key="time">
-            <Button variant="tiffany-outline" size="base" @click="getConcerts('time',time)"> {{ time }} </Button>
+            <Button
+              variant="tiffany-outline"
+              size="base"
+              class="timeButton"
+              @click="
+                getConcerts('time', time);
+                buttonActive('time', $event);
+              ">
+              {{ time }}
+            </Button>
           </template>
         </div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="pink-outline" size="base" class="me-4" @click="getConcerts('country','all')"> 全部 </Button>
+          <Button
+            variant="pink-outline"
+            size="base"
+            class="me-4 active countryButton"
+            @click="
+              getConcerts('country', 'all');
+              buttonActive('country', $event);
+            ">
+            全部
+          </Button>
           <template v-for="country in countryRanges" :key="country">
-            <Button variant="pink-outline" size="base" @click="getConcerts('country',country)"> {{ country }} </Button>
+            <Button
+              variant="pink-outline"
+              size="base"
+              class="countryButton"
+              @click="
+                getConcerts('country', country);
+                buttonActive('country', $event);
+              ">
+              {{ country }}
+            </Button>
           </template>
         </div>
       </div>
@@ -40,7 +76,7 @@
                   </HoverCardTrigger>
                   <!-- 辨識登入狀態，未登入才顯示提示框 -->
                   <HoverCardContent class="mt-[-12rem]" v-if="!userLogged">
-                  <!-- <HoverCardContent class="mt-[-12rem]"> -->
+                    <!-- <HoverCardContent class="mt-[-12rem]"> -->
                     登入開啟收藏功能
                   </HoverCardContent>
                 </HoverCard>
@@ -106,6 +142,19 @@ export default {
   inject: ['http', 'path'],
   methods: {
     ...mapActions(useConcertsStore, ['getConcerts']),
+    buttonActive(topic, event) {
+      if (topic === 'time') {
+        document.querySelectorAll('.timeButton').forEach((item) => {
+          item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+      } else if (topic === 'country') {
+        document.querySelectorAll('.countryButton').forEach((item) => {
+          item.classList.remove('active');
+        });
+        event.target.classList.add('active');
+      }
+    },
   },
   computed: {
     ...mapState(useConcertsStore, ['concerts', 'pagination']),
@@ -115,6 +164,7 @@ export default {
     this.getConcerts();
     // 使用者是否已登入
     this.userLogged = !this.AccessToken === undefined;
+    // console.log(this.$refs);
   },
 };
 </script>
