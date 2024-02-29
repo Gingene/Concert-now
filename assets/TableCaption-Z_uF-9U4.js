@@ -1,0 +1,1 @@
+import{o as t,c as r,p as o,a0 as n,u as c,y as l}from"./index-gVOA7aRD.js";const u={__name:"TableCaption",props:{class:{type:String,required:!1}},setup(e){const s=e;return(a,p)=>(t(),r("caption",{class:n(c(l)("mt-4 text-sm text-muted-foreground",s.class))},[o(a.$slots,"default")],2))}};export{u as _};

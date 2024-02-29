@@ -1,0 +1,1 @@
+import{o as r,c as t,p as o,a0 as c,u as n,y as l}from"./index-gVOA7aRD.js";const m={__name:"CardFooter",props:{class:{type:String,default:""}},setup(s){const a=s;return(e,p)=>(r(),t("div",{class:c(n(l)("p-6 pt-0",a.class))},[o(e.$slots,"default")],2))}};export{m as _};

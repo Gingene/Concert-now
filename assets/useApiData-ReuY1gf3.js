@@ -1,0 +1,1 @@
+import{af as i,E as p,ag as u}from"./index-gVOA7aRD.js";const{setIsLoading:e}=i(),g=()=>{let a;const s=p(null);return{state:a,err:s,httpData:async(n,o,l)=>(e(l),new Promise((r,c)=>{u[n](o).then(t=>{a=t.data,r(a)}).catch(t=>{console.log(t),s.value=t,c(s)}).finally(()=>{e()})}))}};export{g as u};

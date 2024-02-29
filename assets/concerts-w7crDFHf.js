@@ -1,1 +1,0 @@
-import{aE as a,aF as o,aG as n}from"./index-5s7QOI7o.js";const c=a("concertStore",{state:()=>({concerts:[],pagination:{}}),actions:{getConcerts(){o.get(n.concerts).then(t=>{console.log(t),this.concerts=[...t.data.data],this.pagination=t.data.pagination}).catch(t=>{console.log(t)})}}});export{c as u};
