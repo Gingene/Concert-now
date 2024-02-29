@@ -1,10 +1,10 @@
 <template>
-  <HeaderNav v-if="!$route.meta.hideHF" />
+  <HeaderNav />
 
   <RouterView />
 
-  <FooterNav v-if="!$route.meta.hideHF" />
-  <FooterCopyRight v-if="!$route.meta.hideHF" />
+  <FooterNav v-if="$route.meta.showFooterNav" />
+  <FooterCopyRight />
 </template>
 <script>
 import HeaderNav from '@/components/layout/HeaderNav.vue';

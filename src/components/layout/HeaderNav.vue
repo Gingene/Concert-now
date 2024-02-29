@@ -1,11 +1,11 @@
 <template>
-  <header class="sticky top-0 bg-black-100 z-10">
+  <header>
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
     <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
       <div class="font-lato text-xl lg:col-span-3 xl:col-span-3 2xl:col-span-2">
         <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
       </div>
-      <div class="hidden lg:block lg:col-span-2 xl:col-span-3 2xl:col-span-5 relative">
+      <div class="hidden backdrop-blur-sm rounded-xl lg:block lg:col-span-2 xl:col-span-3 2xl:col-span-5 relative">
         <span class="absolute text-black-60 top-2 left-3">Search now</span>
         <Search class="absolute text-black-60 top-2 right-3" />
         <Dialog>
@@ -13,12 +13,11 @@
           <DialogContent class="max-w-[80vw] p-8 top-[20%]">
             <DialogHeader>
               <DialogTitle>
-                <Input placeholder="Search now" class="bg-black-00 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
+                <Input placeholder="Search now" class="bg-black-0 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
 
-            <div v-if="mockData.length"></div>
             <div>搜尋你的演唱會</div>
           </DialogContent>
           <DialogFooter class="hidden"> </DialogFooter>
@@ -33,22 +32,22 @@
           </li>
         </ul>
       </nav>
-      <div class="hidden lg:block lg:col-span-2 2xl:col-span-1">
+      <div class="hidden lg:flex lg:col-span-2 2xl:col-span-1 justify-center">
         <RouterLink to="/login" v-if="!user?.name">
           <Button variant="white-outline" class="border-black-80 py-[10px] px-6">Log in</Button>
         </RouterLink>
         <NavigationMenu v-else>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>{{ user.name }}</NavigationMenuTrigger>
-              <NavigationMenuContent>
+              <NavigationMenuTrigger>{{ user?.is_admin ? '管理員' : '使用者' }}</NavigationMenuTrigger>
+              <NavigationMenuContent class="right-12">
                 <ul class="w-[150px] border-0 space-y-2">
                   <li>
                     <NavigationMenuLink as-child>
                       <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
                     </NavigationMenuLink>
                   </li>
-                  <li v-if="user.is_admin">
+                  <li v-if="user?.is_admin">
                     <NavigationMenuLink>
                       <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
                     </NavigationMenuLink>
@@ -121,7 +120,7 @@
                 </li>
               </ul>
 
-              <SheetClose as-child v-if="!user.name">
+              <SheetClose as-child v-if="!user?.name">
                 <Button variant="white-outline" class="border-black-80 py-[10px] px-6 my-6">
                   <RouterLink to="/login" class="px-4"> Log in </RouterLink>
                 </Button>
@@ -137,7 +136,7 @@
                             <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
                           </NavigationMenuLink>
                         </li>
-                        <li v-if="user.is_admin">
+                        <li v-if="user?.is_admin">
                           <NavigationMenuLink>
                             <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
                           </NavigationMenuLink>
@@ -215,11 +214,6 @@ export default {
           href: '/venues',
         },
         {
-          title: '歌單',
-          enTitle: 'Songs',
-          href: '/songs',
-        },
-        {
           title: '聯絡我們',
           enTitle: 'About us',
           href: '/about',
@@ -238,7 +232,6 @@ export default {
           auth: false,
         },
       ],
-      mockData: [],
     };
   },
   methods: {

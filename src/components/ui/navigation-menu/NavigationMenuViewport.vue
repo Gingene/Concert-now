@@ -6,11 +6,12 @@ const props = defineProps({
   forceMount: { type: Boolean, required: false },
   asChild: { type: Boolean, required: false },
   as: { type: null, required: false },
+  class: { type: String, required: false },
 });
 </script>
 
 <template>
-  <div class="absolute left-0 top-full flex justify-center">
+  <div class="absolute right-0 top-full flex justify-center">
     <NavigationMenuViewport
       v-bind="props"
       :class="

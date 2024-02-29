@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Button variant="btn1" size="btn1" @click="setAnimation"> 5 秒</Button>
+    <Button variant="white-outline" size="btn1" @click="setAnimation"> 5 秒</Button>
   </div>
 </template>
 <script setup>

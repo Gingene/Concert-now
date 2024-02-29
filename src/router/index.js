@@ -4,19 +4,21 @@ import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
 
 const { toast } = useToast();
-
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPoistion) {
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',
       component: () => import('../views/front/FrontView.vue'),
-      meta: { hideHF: false },
       children: [
         {
           path: '',
           name: 'home',
           component: () => import('../views/front/HomeView.vue'),
+          meta: { showFooterNav: true },
         },
         {
           path: 'login',
@@ -47,6 +49,7 @@ const router = createRouter({
           path: 'venues/:id',
           name: 'venue',
           component: () => import('../views/front/VenueSingleView.vue'),
+          props: true,
         },
         {
           path: 'about',
@@ -62,6 +65,7 @@ const router = createRouter({
           path: '/loading',
           name: 'loading',
           component: () => import('../views/LoadingView.vue'),
+          meta: { showFooterNav: true },
         },
       ],
     },
@@ -142,8 +146,8 @@ router.beforeEach((to, from) => {
   getUser();
 });
 
-router.beforeResolve((to, from) => {
-  window.scroll(0, 0);
-});
+// router.beforeResolve((to, from) => {
+//   window.scroll(0, 0);
+// });
 
 export default router;
