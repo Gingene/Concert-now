@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { http, path } from '@/api';
 import { loadingStore } from '../stores/isLoading';
+import { useDebounceFn } from '@vueuse/core';
 const { setIsLoading } = loadingStore();
 
 export const useVenuesStore = defineStore('venues', {
@@ -19,6 +20,25 @@ export const useVenuesStore = defineStore('venues', {
           window.scroll(0, 0);
           this.venues = res.data.data;
           this.pagination = res.data.pagination;
+          console.log(this.venues);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getVenuesByCity(city) {
+      setIsLoading();
+      console.log(city);
+      http
+        .get(`${path.venues}?city=${city}&page=${1}`)
+        .then((res) => {
+          window.scroll(0, 0);
+          this.venues = res.data.data;
+          this.pagination = res.data.pagination;
+          console.log(this.venues);
         })
         .catch((err) => {
           console.error(err);
@@ -42,6 +62,18 @@ export const useVenuesStore = defineStore('venues', {
           setIsLoading();
         });
     },
+    searchVenues: useDebounceFn(function (searchText) {
+      http
+        .get(`${path.venues}/?q=${searchText}`)
+        .then((res) => {
+          this.venues = res.data.data;
+          this.pagination = res.data.pagination;
+          console.log(this.venues);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 300),
   },
   getters: {
     filterSeatComment() {
