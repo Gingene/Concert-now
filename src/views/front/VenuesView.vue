@@ -46,20 +46,20 @@
       </ul>
       <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1">
-          <PaginationFirst />
-          <PaginationPrev />
+          <PaginationFirst @click="getVenues(1)" />
+          <PaginationPrev @click="getVenues(pagination.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getVenues(item.value)">
                 {{ item.value }}
               </Button>
             </PaginationListItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
 
-          <PaginationNext />
-          <PaginationLast />
+          <PaginationNext @click="getVenues(pagination.current_page + 1)" />
+          <PaginationLast @click="getVenues(pagination.total_pages)" />
         </PaginationList>
       </Pagination>
     </main>
@@ -71,24 +71,27 @@
         <span class="text-stroke">VENUES</span>
       </h2>
     </div>
-    <div>
-      <div v-for="venue in venues" :key="venue.id" class="marquee-type">
-        <div class="grid grid-cols-4">
-          <RouterLink :to="`/venues/${venue.id}`">
-            <img :src="venue.picture.horizontal" :alt="venue.title" class="marquee-image aspect-video" />
-          </RouterLink>
-        </div>
-        <div class="flex text-[3.5rem] md:text-[4.5rem] font-display font-black tracking-widest whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10">
-          <p class="marquee">
-            <span>{{ venue.title }}</span>
-            <span class="text-stroke">{{ venue.title }}</span>
-          </p>
-          <p class="marquee">
-            <span>{{ venue.title }}</span>
-            <span class="text-stroke">{{ venue.title }}</span>
-          </p>
-        </div>
+
+    <div class="container">
+      <div v-for="venue in venues" :key="venue.id">
+        <Accordion type="single" collapsible>
+          <AccordionItem value="item-1" class="lg:relative">
+            <AccordionTrigger :hideIcon="true" class="accordionButton bg-black-100 hover:text-black-100 hover:bg-white">
+              <div class="flex space-x-10 font-black">
+                <ArrowDownRight class="size-10 lg:size-16" />
+                <span class="-mb-12 pt-2 lg:pt-12">{{ venue.title }}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent class="lg:flex lg:justify-end">
+              <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[200px] opacity-0" />
+              <router-link :to="`/venues/${venue.id}`">
+                <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[300px] lg:absolute lg:top-0 lg:right-0 object-cover" />
+              </router-link>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
+      <div class="bg-black-100 h-[50px] relative z-10"></div>
     </div>
   </section>
 </template>
@@ -97,11 +100,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
-import { ArrowRight } from 'lucide-vue-next';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { ArrowRight, ArrowDownRight } from 'lucide-vue-next';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
+import { useThrottleFn } from '@vueuse/core';
 export default {
   data() {
     return {
@@ -110,6 +115,20 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
+    debounceClick: useThrottleFn(function (event) {
+      event?.currentTarget.click();
+      // console.log(event.currentTarget);
+    }, 1000),
+    simulatorAccordionButtonHover(element, eventType) {
+      element.addEventListener(eventType, this.debounceClick);
+    },
+    installAccordionButtonHover() {
+      const accordionButtons = document.querySelectorAll('.accordionButton');
+      // console.log(accordionButtons);
+      accordionButtons.forEach((btn) => {
+        this.simulatorAccordionButtonHover(btn, 'mouseover');
+      });
+    },
     ...mapActions(useVenuesStore, ['getVenues', 'getVenue']),
   },
   computed: {
@@ -117,6 +136,9 @@ export default {
   },
   mounted() {
     this.getVenues();
+  },
+  updated() {
+    this.installAccordionButtonHover();
   },
 };
 </script>

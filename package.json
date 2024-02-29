@@ -21,7 +21,7 @@
     "@vee-validate/i18n": "^4.12.5",
     "@vee-validate/rules": "^4.12.5",
     "@vee-validate/zod": "^4.12.5",
-    "@vueuse/core": "^10.8.0",
+    "@vueuse/core": "^10.9.0",
     "@vueuse/integrations": "^10.8.0",
     "axios": "^1.6.6",
     "class-variance-authority": "^0.7.0",

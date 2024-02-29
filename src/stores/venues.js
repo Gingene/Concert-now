@@ -1,31 +1,34 @@
 import { defineStore } from 'pinia';
 import { http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
+const { setIsLoading } = loadingStore();
 
 export const useVenuesStore = defineStore('venues', {
   state: () => ({
     venues: [],
     venue: {},
     pagination: {},
+    seatArea: '',
   }),
   actions: {
-    getVenues() {
-      // httpData('get', thePath).then((data) => {
-      //   this.venues = data.data;
-      //   this.pagination = data.pagination;
-      // });
+    getVenues(page = 1) {
+      setIsLoading();
       http
-        .get(`${path.venues}?page=1`)
+        .get(`${path.venues}?page=${page}`)
         .then((res) => {
-          console.log(res);
+          window.scroll(0, 0);
           this.venues = res.data.data;
           this.pagination = res.data.pagination;
         })
         .catch((err) => {
           console.error(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsLoading();
+        });
     },
     getVenue(id) {
+      setIsLoading();
       http
         .get(`${path.venues}/${id}`)
         .then((res) => {
@@ -35,7 +38,18 @@ export const useVenuesStore = defineStore('venues', {
         .catch((err) => {
           console.error(err);
         })
-        .finally(() => {});
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+  },
+  getters: {
+    filterSeatComment() {
+      if (this.seatArea === 'all' || this.seatArea === '') {
+        return this.venue.comments;
+      } else {
+        return this.venue.comments.filter((item) => item.seat_area === this.seatArea);
+      }
     },
   },
 });
