@@ -123,9 +123,10 @@ export default {
 .bg-contactUs {
   font-weight: bold;
   font-size: 4.5rem;
-  letter-spacing: calc(calc(4.5rem + 1vw) * -0.04);
+  letter-spacing: calc(calc(4rem) * -0.04);
   overflow-x: hidden;
   text-wrap: nowrap;
+  font-weight: 900;
 }
 .color-tiffany {
   color: var(--tiffany);
