@@ -1,6 +1,4 @@
 <template>
-  <!-- <font-awesome-icon icon="fa-regular fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
-  <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-xl" style="color:var(--pink)" /> -->
   <div class="container space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem] pb-[140px] md:pb-[240px]">
     <section class="flex flex-col gap-10 md:pt-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
@@ -54,8 +52,9 @@
             {{ singleConcert.artist?.name }}
           </Button>
         </router-link>
-        <Button variant="white-outline" size="base" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
-          <font-awesome-icon icon="fa-solid fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
+        <Button variant="white-outline" size="base" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
+          <font-awesome-icon v-if="isSaved.some((item) => item.id === singleConcert.id)" icon="fa-solid fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
+          <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
           收藏到最愛
         </Button>
       </div>
@@ -68,7 +67,7 @@
       <div class="flex flex-col">
         <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20">
           <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.5rem] xl:mb-[-2.5rem]">0{{ index + 1 }}</div>
-          <a :href="item.url" class="flex justify-between items-center mt-6 xl:mt-10 w-[100%] hover:translate-y-[-0.25rem]">
+          <a :href="item.url" target="_blank" class="flex justify-between items-center mt-6 xl:mt-10 w-[100%] hover:translate-y-[-0.25rem]">
             <h2 class="text-lg md:text-xl lg:text-3xl">
               {{ item.name }}
             </h2>
@@ -151,21 +150,35 @@ import TitleComponent from '@/components/custom/TitleComponent.vue';
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
+import { useUserStore } from '@/stores/user';
 import moment from 'moment';
 
 export default {
   data() {
-    return {};
+    return {
+      // isSaved:false,
+    };
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getSingleConcert']),
+    ...mapActions(useConcertsStore, ['getSingleConcert', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
   },
   computed: {
     ...mapState(useConcertsStore, ['singleConcert', 'pagination']),
+    ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
+    // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
+    isSaved() {
+      return [...this.savedConcerts];
+    },
   },
   mounted() {
     this.getSingleConcert(this.$route.params.id);
+
+    // 確認使用者登入狀態
+    if (this.AccessToken !== undefined) {
+      this.getUserSavedAndFollowed();
+    }
   },
 };
 </script>

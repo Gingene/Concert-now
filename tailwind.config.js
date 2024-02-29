@@ -48,6 +48,7 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         'black-100': 'var(--black-100)',
+        'black-90': 'var(--black-90)',
         'black-80': 'var(--black-80)',
         'black-60': 'var(--black-60)',
         'black-40': 'var(--black-40)',
