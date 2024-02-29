@@ -10,21 +10,22 @@
           <Button
             variant="tiffany-outline"
             size="base"
-            class="me-4 active timeButton"
+            class="me-4"
+            :class="{ active: timeButtonIsActive === 'stateAll' }"
             @click="
               getConcerts('time', 'all');
-              buttonActive('time', $event);
+              timeButtonIsActive = 'stateAll';
             ">
             全部
           </Button>
-          <template v-for="time in timeRanges" :key="time">
+          <template v-for="(time, index) in timeRanges" :key="time">
             <Button
               variant="tiffany-outline"
               size="base"
-              class="timeButton"
+              :class="{ active: timeButtonIsActive === `state${index}` }"
               @click="
                 getConcerts('time', time);
-                buttonActive('time', $event);
+                timeButtonIsActive = `state${index}`;
               ">
               {{ time }}
             </Button>
@@ -34,21 +35,22 @@
           <Button
             variant="pink-outline"
             size="base"
-            class="me-4 active countryButton"
+            class="me-4"
+            :class="{ active: countryButtonIsActive === 'stateAll' }"
             @click="
               getConcerts('country', 'all');
-              buttonActive('country', $event);
+              countryButtonIsActive = 'stateAll';
             ">
             全部
           </Button>
-          <template v-for="country in countryRanges" :key="country">
+          <template v-for="(country, index) in countryRanges" :key="country">
             <Button
               variant="pink-outline"
               size="base"
-              class="countryButton"
+              :class="{ active: countryButtonIsActive === `state${index}` }"
               @click="
                 getConcerts('country', country);
-                buttonActive('country', $event);
+                countryButtonIsActive = `state${index}`;
               ">
               {{ country }}
             </Button>
@@ -59,32 +61,29 @@
         <li v-for="concert in concerts" :key="concert.id">
           <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
-              <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-2xl object-cover" />
+              <router-link :to="`/concerts/${concert.id}`">
+                <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-2xl object-cover min-w-full" />
+              </router-link>
               <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
                   <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
                   <router-link :to="`/concerts/${concert.id}`">
-                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[4rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
+                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[6.8rem] lg:h-[6.8rem]">{{ concert.title }}</CardTitle>
                   </router-link>
                 </div>
                 <HoverCard>
                   <HoverCardTrigger>
-                    <button class="mb-auto">
-                      <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-                      <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)]" /> -->
+                    <button class="mb-auto" @click="callSaveAction(concert.id)">
+                      <font-awesome-icon v-if="isSaved.some((item) => item.id === concert.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                      <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                     </button>
                   </HoverCardTrigger>
                   <!-- 辨識登入狀態，未登入才顯示提示框 -->
-                  <HoverCardContent class="mt-[-12rem]" v-if="!userLogged">
-                    <!-- <HoverCardContent class="mt-[-12rem]"> -->
-                    登入開啟收藏功能
-                  </HoverCardContent>
+                  <HoverCardContent class="mt-[-12rem]" v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
                 </HoverCard>
               </CardDescription>
             </CardHeader>
-            <router-link :to="`/venues/${concert.venue.id}`">
-              <CardContent class="border-x-2 pt-5 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
-            </router-link>
+            <CardContent class="border-x-2 pt-5 pb-4 border-black-60 text-tiny">{{ concert.venue?.title }}</CardContent>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
                 <Button variant="white-outline" size="base">
@@ -134,37 +133,34 @@ export default {
   data() {
     return {
       bannerInputPlaceholder: '請輸入演唱會名稱',
-      userLogged: false,
+      // userLogged: false,
       timeRanges: ['本日', '本週', '本月'],
       countryRanges: ['台灣', '日本', '韓國', '歐美', '其他'],
+      // 按鈕狀態 - 用於樣式切換
+      timeButtonIsActive: 'stateAll',
+      countryButtonIsActive: 'stateAll',
     };
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts']),
-    buttonActive(topic, event) {
-      if (topic === 'time') {
-        document.querySelectorAll('.timeButton').forEach((item) => {
-          item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-      } else if (topic === 'country') {
-        document.querySelectorAll('.countryButton').forEach((item) => {
-          item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-      }
-    },
+    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
   },
   computed: {
     ...mapState(useConcertsStore, ['concerts', 'pagination']),
-    ...mapState(useUserStore, ['AccessToken']),
+    ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
+
+    isSaved() {
+      return [...this.savedConcerts];
+    },
   },
   mounted() {
     this.getConcerts();
-    // 使用者是否已登入
-    this.userLogged = !this.AccessToken === undefined;
-    // console.log(this.$refs);
+
+    // 確認使用者登入狀態
+    if (this.AccessToken !== undefined) {
+      this.getUserSavedAndFollowed();
+    }
   },
 };
 </script>

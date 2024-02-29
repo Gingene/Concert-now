@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { http, path } from '@/api';
 
 const cookies = useCookies();
 const { toast } = useToast();
@@ -9,6 +10,9 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     AccessToken: '',
     user: {},
+    // 收藏與追蹤列表
+    savedConcerts: [],
+    followedArtists: [],
   }),
   actions: {
     getToken() {
@@ -16,6 +20,21 @@ export const useUserStore = defineStore('user', {
     },
     getUser() {
       this.user = JSON.parse(localStorage.getItem('user'));
+    },
+    // 備註: 使用者登入API不會回傳收藏saved_concerts與追蹤followed_artists欄位
+    // 取得收藏與追蹤列表
+    getUserSavedAndFollowed() {
+      http
+        .get(`${path.me}`)
+        .then((res) => {
+          this.savedConcerts = res.data.data.saved_concerts;
+          this.followedArtists = res.data.data.followed_artists;
+          // console.log(this.savedConcerts);
+          // console.log(this.followedArtists);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     logout() {
       cookies.remove('AccessToken');
@@ -26,6 +45,7 @@ export const useUserStore = defineStore('user', {
         title: '登出成功',
         description: '',
       });
+      location.reload();
     },
   },
 });

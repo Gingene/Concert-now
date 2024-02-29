@@ -1,8 +1,13 @@
 import { defineStore } from 'pinia';
 import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
+import useDarkAlert from '@/hooks/useDarkAlert';
 import { http, path } from '@/api';
 
+import { useUserStore } from '@/stores/user';
+const { getUserSavedAndFollowed } = useUserStore();
+
 const { timeCountryFilter } = useTimeCountryFilter();
+const { swalWithStylingButtons } = useDarkAlert();
 
 export const useConcertsStore = defineStore('concerts', {
   state: () => {
@@ -18,7 +23,6 @@ export const useConcertsStore = defineStore('concerts', {
   },
   actions: {
     getConcerts(filterFactor, rangeFactor, page = 1) {
-      // console.log(this.$refs.timeButtons);
       // 全部按鈕帶空字串，其他按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
@@ -33,12 +37,55 @@ export const useConcertsStore = defineStore('concerts', {
       http
         .get(`${path.concerts}/${id}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           this.singleConcert = res.data.data;
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+    saveUnSavedConcert(request, id) {
+      http[request](`${path.concerts}/${id}/${request === 'post' ? 'save' : 'unsave'}`)
+        .then((res) => {
+          console.log(res);
+        })
+        .then(() => {
+          // 重新取得收藏與追蹤結果
+          getUserSavedAndFollowed();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    callSaveAction(id) {
+      // 每次調用callSaveAction，重新取得savedConcerts資料
+      const { savedConcerts, AccessToken } = useUserStore();
+      // 未登入
+      if (AccessToken === undefined) {
+        // 自訂alert樣式
+        swalWithStylingButtons
+          .fire({
+            title: '登入後才能用收藏功能喔！',
+            showCancelButton: true,
+            confirmButtonText: '前往登入',
+            buttonsStyling: false,
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'login#/login';
+            }
+          });
+        return;
+      }
+
+      // 取消收藏
+      if ([...savedConcerts].some((item) => item.id === id)) {
+        this.saveUnSavedConcert('delete', id);
+      }
+      // 收藏
+      else {
+        this.saveUnSavedConcert('post', id);
+      }
     },
   },
 });
