@@ -1,20 +1,9 @@
 <template>
   <section class="container relative">
-    <div class="grid grid-flow-col">
-      <h2 class="test text-[3.5rem] font-display sm:text-display-3 font-black flex flex-col leading-none">
-        <span>DISCOVER</span>
-        <span class="text-stroke">VENUES</span>
-        <span>NOW</span>
-      </h2>
-      <div class="grid grid-cols-3">
-        <!-- <div class="row-span-9"></div> -->
-        <div class="row-start-9 sm:row-start-8 col-start-3 md:col-start-1 -ms-32 sm:-ms-64 lg:-ms-[400px] xl:-ms-[500px] 2xl:-ms-[600px]">
-          <Input
-            placeholder="輸入場地/縣市名稱"
-            class="bg-black-0 box-shadow-light1-hover focus:text-black-60 focus-visible:box-shadow-light1-hover focus-visible:outline-0 hover:box-shadow-light1-hover" />
-        </div>
-      </div>
-    </div>
+    <BannerComponent :prop-placeholder="bannerInputPlaceholder">
+      <template #mainTitle>VENUES</template>
+    </BannerComponent>
+
     <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
@@ -97,11 +86,12 @@
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+// import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowRight, ArrowDownRight } from 'lucide-vue-next';
+import BannerComponent from '@/components/custom/BannerComponent.vue';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
@@ -111,6 +101,7 @@ export default {
   data() {
     return {
       cities: ['台北市', '新北市', '台中市', '高雄市'],
+      bannerInputPlaceholder: '輸入場地/縣市名稱',
     };
   },
   inject: ['http', 'path'],
