@@ -10,21 +10,22 @@
           <Button
             variant="tiffany-outline"
             size="base"
-            class="me-4 active timeButton"
+            class="me-4"
+            :class="{ active: timeButtonIsActive === 'stateAll' }"
             @click="
               getConcerts('time', 'all');
-              buttonActive('time', $event);
+              buttonActive('stateAll', '');
             ">
             全部
           </Button>
-          <template v-for="time in timeRanges" :key="time">
+          <template v-for="(time, index) in timeRanges" :key="time">
             <Button
               variant="tiffany-outline"
               size="base"
-              class="timeButton"
+              :class="{ active: timeButtonIsActive === `state${index}` }"
               @click="
                 getConcerts('time', time);
-                buttonActive('time', $event);
+                buttonActive(`state${index}`, '');
               ">
               {{ time }}
             </Button>
@@ -34,21 +35,22 @@
           <Button
             variant="pink-outline"
             size="base"
-            class="me-4 active countryButton"
+            class="me-4"
+            :class="{ active: countryButtonIsActive === 'stateAll' }"
             @click="
               getConcerts('country', 'all');
-              buttonActive('country', $event);
+              buttonActive('', 'stateAll');
             ">
             全部
           </Button>
-          <template v-for="country in countryRanges" :key="country">
+          <template v-for="(country, index) in countryRanges" :key="country">
             <Button
               variant="pink-outline"
               size="base"
-              class="countryButton"
+              :class="{ active: countryButtonIsActive === `state${index}` }"
               @click="
                 getConcerts('country', country);
-                buttonActive('country', $event);
+                buttonActive('', `state${index}`);
               ">
               {{ country }}
             </Button>
@@ -64,7 +66,7 @@
                 <div>
                   <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
                   <router-link :to="`/concerts/${concert.id}`">
-                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[4rem] lg:h-[6rem]">{{ concert.title }}</CardTitle>
+                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[6.8rem] lg:h-[6.8rem]">{{ concert.title }}</CardTitle>
                   </router-link>
                 </div>
                 <HoverCard>
@@ -75,15 +77,12 @@
                     </button>
                   </HoverCardTrigger>
                   <!-- 辨識登入狀態，未登入才顯示提示框 -->
-                  <HoverCardContent class="mt-[-12rem]" v-if="!userLogged">
-                    <!-- <HoverCardContent class="mt-[-12rem]"> -->
-                    登入開啟收藏功能
-                  </HoverCardContent>
+                  <HoverCardContent class="mt-[-12rem]" v-if="!userLogged"> 登入開啟收藏功能 </HoverCardContent>
                 </HoverCard>
               </CardDescription>
             </CardHeader>
             <router-link :to="`/venues/${concert.venue.id}`">
-              <CardContent class="border-x-2 pt-5 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
+              <CardContent class="border-x-2 pt-5 pb-4 border-black-60 text-tiny">{{ concert.venue.title }}</CardContent>
             </router-link>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
@@ -137,23 +136,17 @@ export default {
       userLogged: false,
       timeRanges: ['本日', '本週', '本月'],
       countryRanges: ['台灣', '日本', '韓國', '歐美', '其他'],
+      // 按鈕狀態 - 用於樣式切換
+      timeButtonIsActive: 'stateAll',
+      countryButtonIsActive: 'stateAll',
     };
   },
   inject: ['http', 'path'],
   methods: {
     ...mapActions(useConcertsStore, ['getConcerts']),
-    buttonActive(topic, event) {
-      if (topic === 'time') {
-        document.querySelectorAll('.timeButton').forEach((item) => {
-          item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-      } else if (topic === 'country') {
-        document.querySelectorAll('.countryButton').forEach((item) => {
-          item.classList.remove('active');
-        });
-        event.target.classList.add('active');
-      }
+    buttonActive(timeState, countryState) {
+      if (timeState) this.timeButtonIsActive = timeState;
+      if (countryState) this.countryButtonIsActive = countryState;
     },
   },
   computed: {
@@ -163,8 +156,7 @@ export default {
   mounted() {
     this.getConcerts();
     // 使用者是否已登入
-    this.userLogged = !this.AccessToken === undefined;
-    // console.log(this.$refs);
+    // this.userLogged = !this.AccessToken === undefined;
   },
 };
 </script>
