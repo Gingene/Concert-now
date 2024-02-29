@@ -46,14 +46,14 @@
                     <font-awesome-icon icon="fa-solid fa-plus" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent class="p-12">
+                <DialogContent class="max-w-sm md:max-w-xl">
                   <DialogHeader class="mb-6">
                     <DialogTitle>留下評論</DialogTitle>
                     <DialogDescription></DialogDescription>
                   </DialogHeader>
                   <form @submit="onSubmit" class="space-y-6 lg:space-y-10">
                     <div class="flex items-center">
-                      <Label class="border-y border-l border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-10">座位區</Label>
+                      <Label class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-10">座位區</Label>
                       <Select v-model="commentSeatArea">
                         <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
                           <SelectValue placeholder="選取座位區" />
@@ -67,7 +67,7 @@
                       </Select>
                     </div>
                     <div class="flex items-center">
-                      <div class="border-y border-l border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">演唱會</div>
+                      <div class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">演唱會</div>
                       <Select v-model="concertId">
                         <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
                           <SelectValue placeholder="選取演唱會" />
@@ -82,12 +82,12 @@
                     </div>
                     <div>
                       <div class="flex items-center mb-4">
-                        <Label for="commentPicture" class="border-y border-l border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">評論圖片</Label>
+                        <Label for="commentPicture" class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">評論圖片</Label>
                         <Input
                           id="commentPicture"
                           multiple
                           placeholder="選擇檔案"
-                          class="border-0 bg-black-80 h-10 lg:h-12 rounded-btn1"
+                          class="border-0 bg-black-80 h-10 lg:h-12 w-auto rounded-btn1"
                           type="file"
                           accept="image/png, image/jpeg"
                           @change="readURL" />
@@ -95,7 +95,7 @@
                       <div class="space-y-4">
                         <span>圖片至多可傳三張</span>
                         <div class="flex space-x-4">
-                          <img id="commentImage1" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
+                          <img id="commentImage1" class="size-[120px]" src="http://placehold.it60" alt="your image" />
                           <img id="commentImage2" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
                           <img id="commentImage3" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
                         </div>
@@ -152,12 +152,16 @@
   </section>
   <div>
     <div class="marquee-type bg-tiffany">
-      <div class="flex text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-black text-black tracking-widest whitespace-nowrap overflow-x-auto marquee scrollbar-none mb-6 lg:mb-10 leading-[1]">
-        <p class="marquee space-x-8">
+      <div ref="marquee" class="flex text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-black text-black tracking-widest whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
+        <p class="marquee space-x-4">
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
           <span>{{ venue.title }}</span>
           <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
         </p>
-        <p class="marquee space-x-8">
+        <p class="marquee space-x-4">
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
           <span>{{ venue.title }}</span>
           <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
         </p>
@@ -180,14 +184,14 @@
               <AccordionTrigger :hideIcon="true">
                 <div class="flex space-x-10 font-black">
                   <ArrowDownRight class="size-10 lg:size-16" />
-                  <span class="-mb-8 pt-2 lg:pt-8">{{ method.type }}</span>
+                  <span class="-mb-8 pt-2 lg:pt-[30px] text-4xl">{{ method.type }}</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent class="lg:flex lg:justify-end">
                 <ul class="list-disc px-6 space-y-4 -mt-12 lg:w-3/4 lg:opacity-0">
                   <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
                 </ul>
-                <ul class="list-disc px-6 space-y-4 mt-2 lg:w-3/4 lg:absolute lg:top-0">
+                <ul class="list-disc text-base px-6 space-y-4 mt-2 lg:w-3/4 lg:absolute lg:top-0">
                   <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
                 </ul>
               </AccordionContent>
@@ -311,6 +315,18 @@ export default {
   mounted() {
     this.getVenue(this.id);
   },
+  updated() {
+    const marquee = this.$refs.marquee;
+
+    marquee.childNodes.forEach((item) => {
+      console.log(item.textContent.length);
+      if (item.textContent.length <= 90 && item.textContent.length > 60) {
+        item.style.animationDuration = '20s';
+      } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
+        item.style.animationDuration = '25s';
+      }
+    });
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -397,7 +413,7 @@ export default {
     //   @apply col-span-3;
     // }
     p.marquee {
-      animation: marquee-negative 10s infinite linear;
+      animation: marquee-negative 15s infinite linear;
     }
   }
   &:nth-child(even) {
@@ -408,7 +424,7 @@ export default {
     //   @apply w-full;
     // }
     p.marquee {
-      animation: marquee-positive 10s infinite linear;
+      animation: marquee-positive 15s infinite linear;
     }
   }
 }

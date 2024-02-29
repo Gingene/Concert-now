@@ -1,15 +1,15 @@
 <template>
   <section class="container relative">
-    <BannerComponent :prop-placeholder="bannerInputPlaceholder">
+    <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchVenues">
       <template #mainTitle>VENUES</template>
     </BannerComponent>
 
     <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4"> 全部 </Button>
+          <Button variant="tiffany-outline" size="base" class="me-4" @click="getVenues"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button variant="tiffany-outline" size="base"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="getVenuesByCity(city)"> {{ city }} </Button>
           </template>
         </div>
       </div>
@@ -62,24 +62,23 @@
     </div>
 
     <div class="container">
-      <div v-for="venue in venues" :key="venue.id">
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1" class="lg:relative">
-            <AccordionTrigger :hideIcon="true" class="accordionButton bg-black-100 hover:text-black-100 hover:bg-white">
-              <div class="flex space-x-10 font-black">
-                <ArrowDownRight class="size-10 lg:size-16" />
-                <span class="-mb-12 pt-2 lg:pt-12">{{ venue.title }}</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent class="lg:flex lg:justify-end">
-              <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[200px] opacity-0" />
-              <router-link :to="`/venues/${venue.id}`">
-                <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[300px] lg:absolute lg:top-0 lg:right-0 object-cover" />
-              </router-link>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-      </div>
+      <Accordion type="single" collapsible :default-value="defaultValue">
+        <AccordionItem class="lg:relative" v-for="(venue, index) in accordionItems" :key="venue.id" :value="venue.value">
+          <AccordionTrigger :hideIcon="true" class="accordionButton bg-black-100 hover:text-black-100 hover:bg-white" :value="venue.id">
+            <div class="flex space-x-10 font-black">
+              <ArrowDownRight class="size-10 lg:size-16" />
+              <span class="-mb-[48px] pt-2 lg:pt-[42px]">{{ venue.title }}</span>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent class="lg:flex lg:justify-end">
+            <!-- <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[200px] opacity-0" /> -->
+            <router-link :to="`/venues/${venue.id}`">
+              <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[300px] lg:absolute lg:-top-[200px] object-cover right-[20px]" :style="{ right: `${index * 20}px` }" />
+            </router-link>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+
       <div class="bg-black-100 h-[50px] relative z-10"></div>
     </div>
   </section>
@@ -97,11 +96,75 @@ import BannerComponent from '@/components/custom/BannerComponent.vue';
 import { mapActions, mapState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
 import { useThrottleFn } from '@vueuse/core';
+
 export default {
   data() {
     return {
       cities: ['台北市', '新北市', '台中市', '高雄市'],
       bannerInputPlaceholder: '輸入場地/縣市名稱',
+      accordionItems: [
+        {
+          value: 'item-1',
+          id: 1,
+          title: '台北國際會議中心TICC',
+          city: '台北市',
+          picture: {
+            horizontal: 'https://www.ticc.com.tw/wSite/xslgip/style1/images/sp13/section_14.jpg',
+            square: 'https://lh3.googleusercontent.com/p/AF1QipPsHmLZ2gTtSxCtqT4HGPFRNloBKRqX0q6rtpzy=w1080-h608-p-no-v0',
+          },
+        },
+        {
+          value: 'item-2',
+          id: 2,
+          title: 'Zepp New Taipei',
+          city: '新北市',
+          picture: {
+            horizontal: 'https://www.richhonour.com/images/project/commercial/c22/3.jpg',
+            square: 'https://www.heavenraven.com/wp-content/uploads/2020/10/Zepp-New-Taipei-director-%E6%9C%AC%E5%A4%9A%E7%9C%9F%E4%B8%80%E9%83%8E-interview-13.jpg',
+          },
+        },
+        {
+          value: 'item-3',
+          id: 3,
+          title: '台北流行音樂中心',
+          city: '台北市',
+          picture: {
+            horizontal: 'https://tmc.taipei/wp-content/uploads/2022/01/DSC05413.jpg',
+            square: 'https://www.travel.taipei/image/193182',
+          },
+        },
+        {
+          value: 'item-4',
+          id: 4,
+          title: '高雄流行音樂中心',
+          city: '高雄市',
+          picture: {
+            horizontal: 'https://www.musicmusic.com.tw/domain/www/upload/file/210420172132f2710.jpg',
+            square: 'https://www.habitech.com.tw/storage/2022/02/MAI_4137.jpg',
+          },
+        },
+        {
+          value: 'item-5',
+          id: 5,
+          title: 'Legacy Taichung',
+          city: '台中市',
+          picture: {
+            horizontal: 'https://res.klook.com/image/upload/x_0,y_5,w_1042,h_678,c_crop/events/hubpage/etskq5ygkmrgugmur71w.jpg',
+            square: 'https://live.staticflickr.com/4663/25588455987_993fd71bb0_b.jpg',
+          },
+        },
+        {
+          value: 'item-6',
+          id: 6,
+          title: '台北小巨蛋',
+          city: '台北市',
+          picture: {
+            horizontal: 'https://s3.beautimode.com/upload/media/9019eeb78c5c4a27f44317e3d804750b.jpg',
+            square: 'https://i.imgur.com/VTeXfKF.jpeg',
+          },
+        },
+      ],
+      defaultValue: 'item-1',
     };
   },
   inject: ['http', 'path'],
@@ -120,7 +183,8 @@ export default {
         this.simulatorAccordionButtonHover(btn, 'mouseover');
       });
     },
-    ...mapActions(useVenuesStore, ['getVenues', 'getVenue']),
+
+    ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues']),
   },
   computed: {
     ...mapState(useVenuesStore, ['venues', 'pagination']),
