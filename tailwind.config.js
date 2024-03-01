@@ -14,6 +14,7 @@ module.exports = {
       padding: '0.75rem',
     },
     screens: {
+      xs: '480px', // 自定義
       sm: '640px',
       md: '768px',
       lg: '1024px',
