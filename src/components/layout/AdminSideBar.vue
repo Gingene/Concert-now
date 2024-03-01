@@ -4,10 +4,10 @@
       <SheetTrigger class="lg:hidden">
         <span class="material-symbols-outlined p-5 lg:p-0"> menu </span>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
-          <div class="w-1/2 py-8 flex">
-            <img src="https://via.placeholder.com/200x50" alt="" />
+          <div class="w-[205px] font-semibold py-8 flex text-xl">
+            CNCERTS NOW!
           </div>
           <RouterLink to="/admin/concerts">
             <Button variant="side-bar" size="side-bar">
@@ -29,8 +29,8 @@
     </Sheet>
   </div>
   <nav class="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-1">
-    <div class="w-1/2 py-8 flex">
-      <img src="https://via.placeholder.com/200x50" alt="" />
+    <div class="w-[205px] font-semibold pl-5 py-8 flex text-xl">
+      CNCERTS NOW!
     </div>
     <RouterLink to="/admin/concerts">
       <Button variant="side-bar" size="side-bar">
