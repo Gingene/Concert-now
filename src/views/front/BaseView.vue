@@ -96,6 +96,14 @@
       </div>
     </div>
     <div>
+      <TitleComponent>
+        <template #subTitle>TITLE</template>
+        <template #mainTitle>標題</template>
+      </TitleComponent>
+      <TitleComponent class="flex justify-center">
+        <template #subTitle>TITLE</template>
+        <template #mainTitle>標題</template>
+      </TitleComponent>
       <div class="font-lato-display1">Title</div>
       <div class="font-lato-display2">Title</div>
       <div class="font-lato-display3">Title</div>
@@ -132,6 +140,8 @@
 import { Button } from '@/components/ui/button';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-vue-next';
 import FormTest from '@/components/FormTest.vue';
+import TitleComponent from '@/components/custom/TitleComponent.vue';
+// import {Title} from '@/components/ui/title';
 </script>
 
 <script>

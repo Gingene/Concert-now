@@ -1,124 +1,449 @@
 <template>
-  <section class="container py-20 lg:py-32 space-y-6 lg:space-y-10">
+  <div class="w-full h-[400px] md:h-[600px] lg:h-[850px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom" :style="`background-image: url(${venue.picture?.horizontal})`"></div>
+  <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[600px] lg:pt-[850px] space-y-6 lg:space-y-10">
     <div class="text-center">
-      <h2 class="text-2xl font-display md:text-5xl 2xl:text-display-3 font-black">{{ venue.title }}</h2>
-      <p class="text-lg md:text-3xl 2xl:text-5xl">{{ venue.address }}</p>
+      <h2 class="text-2xl font-display lg:text-3xl 2xl:text-5xl font-black">{{ venue.title }}</h2>
+      <!-- <p class="text-lg md:text-3xl 2xl:text-5xl">{{ venue.address }}</p> -->
     </div>
     <main class="space-y-6 lg:space-y-10">
-      <div>
-        <img :src="venue.picture?.horizontal" :alt="venue.title" class="w-full" />
+      <div class="py-6 lg:hidden text-center">
+        {{ venue.address }}
       </div>
-      <div class="text-center">
-        <h3 class="text-2xl font-display md:text-5xl 2xl:text-display-3 font-black">場地體驗</h3>
+      <div class="hidden lg:grid grid-cols-3 text-lg text-center" @mouseover="hoverTitle" @mouseleave="removeHoverTitle">
+        <div class="collapse-left py-6">{{ venue.seat_amount }} 席次</div>
+        <div class="col-start-2 py-6">{{ venue.eng_title }}</div>
+        <div class="collapse-right py-6">{{ venue.address }}</div>
       </div>
+      <TitleComponent class="flex justify-center">
+        <template #subTitle> VENUES </template>
+        <template #mainTitle> 場地體驗 </template>
+      </TitleComponent>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div class="lg:order-2">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:order-2 flex items-center">
           <img :src="venue.seat_picture" :alt="venue.title" class="w-full" />
         </div>
-        <div class="space-y-6 lg:space-y-10">
-          <div class="space-x-4 overflow-x-auto whitespace-nowrap">
-            <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-purple"> 全部 </Button>
-            <template v-for="seat in venue.seat_areas" :key="seat">
-              <Button class="bg-transparent border-2 rounded-btn2 p-6 btn1-purple">{{ seat }}</Button>
-            </template>
+        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2 col-span-2">
+          <div class="flex justify-between border-black-0 border-b-2 pb-6 lg:pb-10">
+            <Select v-model="seatArea">
+              <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+                <SelectValue placeholder="座位區" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>座位區</SelectLabel>
+                  <SelectItem value="all"> 全部座位區 </SelectItem>
+                  <SelectItem :value="seat" v-for="seat in venue.seat_areas" :key="seat"> {{ seat }} </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <div class="text-center">
+              <Dialog>
+                <DialogTrigger as-child>
+                  <Button variant="ghost" class="space-x-4 md:text-lg lg:text-xl">
+                    <span>留下評論</span>
+                    <!-- <span class="inline-block  bg-black-0 hover:bg-black"></span> -->
+                    <font-awesome-icon icon="fa-solid fa-plus" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent class="max-w-sm md:max-w-xl">
+                  <DialogHeader class="mb-6">
+                    <DialogTitle>留下評論</DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10">
+                    <div class="flex items-center">
+                      <Label class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-10">座位區</Label>
+                      <Select v-model="commentSeatArea">
+                        <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+                          <SelectValue placeholder="選取座位區" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>選取座位區</SelectLabel>
+                            <SelectItem :value="seat" v-for="seat in venue.seat_areas" :key="seat"> {{ seat }} </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div class="flex items-center">
+                      <div class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">演唱會</div>
+                      <Select v-model="concertId">
+                        <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+                          <SelectValue placeholder="選取演唱會" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            <SelectLabel>選取演唱會</SelectLabel>
+                            <SelectItem :value="concert.id.toString()" v-for="concert in venue.concerts" :key="concert.id"> {{ concert.title }} </SelectItem>
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <div class="flex items-center mb-4">
+                        <Label for="commentPicture" class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">評論圖片</Label>
+                        <Input
+                          id="commentPicture"
+                          multiple
+                          placeholder="選擇檔案"
+                          class="border-0 bg-black-80 h-10 lg:h-12 w-auto rounded-btn1"
+                          type="file"
+                          accept="image/png, image/jpeg"
+                          @change="readURL" />
+                      </div>
+                      <div class="space-y-4">
+                        <span>圖片至多可傳三張</span>
+                        <div class="flex space-x-4">
+                          <img id="commentImage1" class="size-[120px]" src="http://placehold.it60" alt="your image" />
+                          <img id="commentImage2" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
+                          <img id="commentImage3" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <Textarea v-model="commentContent" />
+                    </div>
+                    <DialogFooter class="justify-center sm:justify-center">
+                      <Button variant="tiffany-blur">送出評論</Button>
+                    </DialogFooter>
+                  </form>
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
-          <ScrollArea class="lg:h-[280px] xl:h-[350px] 2xl:h-[500px] p-4">
-            <Card v-for="comment in filterComments" :key="comment.id" class="border-2 border-black-60 mb-4 lg:mb-6">
-              <CardHeader>
-                <CardTitle>
-                  <span class="material-symbols-outlined"> account_circle </span>
-                  <span class="ms-4">小美</span>
-                </CardTitle>
-                <CardDescription>看台區</CardDescription>
-              </CardHeader>
-              <CardContent> {{ comment.comment }} </CardContent>
-              <CardFooter class="flex flex-col text-sm text-black-60 space-y-4">
-                <span>FTISLAND 演唱會2024台北站</span>
-                <span>2023/05/01</span>
-              </CardFooter>
-            </Card>
+          <ScrollArea class="lg:h-[280px] xl:h-[350px] 2xl:h-[500px]">
+            <div v-for="comment in filterSeatComment" :key="comment.id" class="grid grid-cols-12 gap-x-4 min-h-[150px] mt-6">
+              <div class="col-span-2 sm:col-span-1">
+                <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 2xl:size-12" />
+              </div>
+              <div class="col-span-8 sm:col-span-9 md:col-span-10 flex flex-col space-y-4">
+                <div class="space-x-3">
+                  <span>{{ comment.user.name }}</span>
+                  <span class="text-black-40">{{ comment.seat_area }}</span>
+                </div>
+                <div class="text-sm md:text-base flex flex-wrap md:justify-between">
+                  <p class="mb-4 md:mb-0">{{ comment.comment }}</p>
+                  <div class="flex space-x-3 w-full md:w-auto" v-if="comment.images.length">
+                    <template v-for="(image, index) in comment.images" :key="index">
+                      <img :src="image" alt="" />
+                    </template>
+                  </div>
+                </div>
+
+                <div class="text-tiny truncate">
+                  <span>{{ comment.concert.title }}</span>
+                </div>
+                <div class="text-tiny">
+                  <span>{{ comment.created_at }}</span>
+                </div>
+              </div>
+
+              <div class="col-span-2 md:col-span-1">
+                <Button variant="ghost" class="p-1">
+                  <MoreHorizontal />
+                </Button>
+              </div>
+            </div>
           </ScrollArea>
-          <div class="text-center mt-6 lg:mt-10">
-            <Button variant="btn1" class="px-10 py-6 space-x-2 md:text-lg lg:text-xl">
-              <span>留下評論</span>
-              <span class="inline-block w-10 h-[1px] lg:w-12 bg-black-0 hover:bg-black"></span>
-              <font-awesome-icon icon="fa-solid fa-plus" />
-            </Button>
-          </div>
         </div>
       </div>
     </main>
   </section>
+  <div>
+    <div class="marquee-type bg-tiffany">
+      <div ref="marquee" class="flex text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-black text-black tracking-widest whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
+        <p class="marquee space-x-4">
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
+        </p>
+        <p class="marquee space-x-4">
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
+          <span>{{ venue.title }}</span>
+          <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
+        </p>
+      </div>
+    </div>
+  </div>
   <section class="container">
-    <h3 class="text-2xl font-display md:text-5xl 2xl:text-display-3 font-black mb-6 lg:mb-10">交通方式</h3>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <div>
-        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px]"></iframe>
+    <TitleComponent class="overflow-x-hidden">
+      <template #subTitle> TRANSPORT </template>
+      <template #mainTitle> 交通方式 </template>
+    </TitleComponent>
+    <div class="mt-4 lg:mt-6">
+      <div class="mb-4 lg:mb-6">
+        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px] grayscale"></iframe>
       </div>
       <div class="space-y-6 lg:space-y-10">
-        <div v-for="method in venue.transportation" :key="method.type" class="box-shadow-light2 p-6 rounded-btn2">
-          <h4 class="mb-6">{{ method.type }}</h4>
-          <ul class="list-disc px-6 space-y-4">
-            <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
-          </ul>
-        </div>
+        <template v-for="method in venue.transportation" :key="method.type">
+          <Accordion type="single" collapsible>
+            <AccordionItem value="item-1" class="lg:relative">
+              <AccordionTrigger :hideIcon="true">
+                <div class="flex space-x-10 font-black">
+                  <ArrowDownRight class="size-10 lg:size-16" />
+                  <span class="-mb-8 pt-2 lg:pt-[30px] text-4xl">{{ method.type }}</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent class="lg:flex lg:justify-end">
+                <ul class="list-disc px-6 space-y-4 -mt-12 lg:w-3/4 lg:opacity-0">
+                  <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
+                </ul>
+                <ul class="list-disc text-base px-6 space-y-4 mt-2 lg:w-3/4 lg:absolute lg:top-0">
+                  <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </template>
       </div>
     </div>
   </section>
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import TitleComponent from '@/components/custom/TitleComponent.vue';
+import { MoreHorizontal, ArrowDownRight } from 'lucide-vue-next';
 </script>
 <script>
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
-import { commentStore } from '@/stores/comments';
+import { http } from '@/api';
+// import { get } from '@vueuse/core';
+// import { GhostIcon } from 'lucide-vue-next';
+import { loadingStore } from '@/stores/isLoading';
+const { setIsLoading } = loadingStore();
 
 export default {
   data() {
     return {
-      venue: {},
+      commentSeatArea: '',
+      concertId: '',
+      commentContent: '',
     };
   },
+  props: ['id'],
   inject: ['http', 'path'],
   methods: {
-    getVenue() {
-      const tempVenues = JSON.parse(localStorage.getItem('tempVenues'));
-      this.venue = tempVenues.find((v) => v.id === Number(this.$route.params.id));
-      console.log(this.venue);
+    hoverTitle(e) {
+      e.currentTarget.childNodes.forEach((element, index) => {
+        if (index !== 1) {
+          element.classList.remove(...['hidden', 'collapse-left', 'collapse-right']);
+        }
+        if (index === 0) {
+          element.classList.add(...['collapse-left', 'show']);
+        } else if (index === 2) {
+          element.classList.add(...['collapse-right', 'show']);
+        }
+      });
     },
+    removeHoverTitle(e) {
+      e.currentTarget.childNodes.forEach((element, index) => {
+        if (index !== 1) {
+          element.classList.remove(...['w-auto', 'collapse-left', 'collapse-right', 'show']);
+        }
+        if (index === 0) {
+          element.classList.add('collapse-left');
+        } else if (index === 2) {
+          element.classList.add('collapse-right');
+        }
+      });
+    },
+    readURL(input) {
+      console.log(input.target.files);
+      if (input.target.files && input.target.files[0]) {
+        const reader = new FileReader();
+        console.log(reader);
 
-    ...mapActions(useVenuesStore, ['getVenues']),
-    ...mapActions(commentStore, ['getComments']),
+        reader.onload = function (e) {
+          console.log(e);
+          document.querySelector('#commentImage1').setAttribute('src', e.target.result);
+          document.querySelector('#commentImage2').setAttribute('src', e.target.result);
+          document.querySelector('#commentImage3').setAttribute('src', e.target.result);
+        };
+
+        // reader.readAsDataURL(input.target.files[0]);
+        reader.readAsDataURL(...input.target.files);
+      }
+    },
+    onSubmit(e) {
+      e.preventDefault();
+      console.dir(e.target);
+      this.postComment();
+    },
+    postComment() {
+      const payload = {
+        concert_id: this.concertId,
+        seat_area: this.commentSeatArea,
+        comment: this.commentContent,
+      };
+
+      setIsLoading();
+      http
+        .post(`${this.path.venues}/${this.concertId}/comment`, payload)
+        .then((res) => {
+          console.log(res);
+          this.getVenue();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    ...mapActions(useVenuesStore, ['getVenue']),
   },
   computed: {
-    filterComments() {
-      return this.comments.filter((c) => c.venueId.title === this.venue.title);
+    ...mapState(useVenuesStore, ['venue', 'pagination', 'filterSeatComment']),
+    ...mapWritableState(useVenuesStore, ['seatArea']),
+  },
+  watch: {
+    id(newId) {
+      this.getVenue(newId);
     },
-    ...mapState(useVenuesStore, ['venues', 'pagination']),
-    ...mapState(commentStore, ['comments']),
   },
   mounted() {
-    this.getVenue();
+    this.getVenue(this.id);
+  },
+  updated() {
+    const marquee = this.$refs.marquee;
+
+    marquee.childNodes.forEach((item) => {
+      console.log(item.textContent.length);
+      if (item.textContent.length <= 90 && item.textContent.length > 60) {
+        item.style.animationDuration = '20s';
+      } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
+        item.style.animationDuration = '25s';
+      }
+    });
   },
 };
 </script>
 <style lang="scss" scoped>
-.btn1-purple {
-  color: #d595f1;
-  border: 2px solid #d595f1;
-  box-shadow:
-    0px 1px 40px 0px rgba(151, 26, 166, 0.5) inset,
-    0px 4px 16px 0px rgba(151, 26, 166, 0.2) inset;
-  &:hover {
-    background: #d595f1;
-    color: #fff;
-    box-shadow:
-      0 0 20px #d595f1,
-      0 0 8px #d595f1; /* 這邊陰影效果不正確 */
+// .bg-image {
+//   background-image: ;
+// }
+
+.text-stroke-black {
+  color: transparent;
+  -webkit-text-stroke: 1px #000;
+}
+
+.collapse-left.show {
+  animation: expand-left 0.5s ease;
+  opacity: 1;
+}
+
+.collapse-left {
+  animation: collapse-left 0.5s ease;
+  opacity: 0;
+}
+
+.collapse-right.show {
+  animation: expand-right 0.5s ease;
+  opacity: 1;
+}
+
+.collapse-right {
+  animation: collapse-right 0.5s ease;
+  opacity: 0;
+}
+
+@keyframes expand-left {
+  from {
+    transform: translateX(70%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes collapse-left {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(70%);
+    opacity: 0;
+  }
+}
+
+@keyframes expand-right {
+  from {
+    transform: translateX(-70%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes collapse-right {
+  from {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-70%);
+    opacity: 0;
+  }
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.marquee-type {
+  &:nth-child(odd) {
+    // a {
+    //   @apply col-span-3;
+    // }
+    p.marquee {
+      animation: marquee-negative 15s infinite linear;
+    }
+  }
+  &:nth-child(even) {
+    // a {
+    //   @apply col-start-2 col-span-3;
+    // }
+    // .marquee-image {
+    //   @apply w-full;
+    // }
+    p.marquee {
+      animation: marquee-positive 15s infinite linear;
+    }
+  }
+}
+
+@keyframes marquee-negative {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-positive {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX((0%));
   }
 }
 </style>

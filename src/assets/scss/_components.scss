@@ -1,7 +1,10 @@
 $font-display-base: 72px;
+$font-display-size5: 70px;
+$font-display-size4: 90px;
 $font-display-size3: 120px;
 $font-display-size2: $font-display-size3 * 2;
 $font-display-size1: calc($font-display-size3 / 3 * 8);
+$font-display-m: calc($font-display-size3);
 $font-display-lg: calc($font-display-size3 + 2.5vw);
 $font-display-xl: calc($font-display-size3 + 4.5vw);
 $font-display-2xl: calc($font-display-size3 + 5.5vw);
@@ -10,6 +13,16 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   // font font-display 在main.scss設定為Lato
   .font-lato {
     @apply font-display font-bold;
+  }
+  // 預設5級大標題font-weight-900 大小70px
+  .font-lato-display5 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size5;
+  }
+  // 預設4級大標題font-weight-900 大小90px
+  .font-lato-display4 {
+    @apply font-display font-black leading-display;
+    font-size: $font-display-size4;
   }
   // 預設3級大標題font-weight-900 大小120px
   .font-lato-display3 {
@@ -49,6 +62,32 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
     @screen 2xl {
       font-size: $font-display-2xl;
       letter-spacing: calc($font-display-2xl * -0.04);
+    }
+  }
+  // 關於我們頁面-背景透框字體隨螢幕縮放自適應，letter-spacing對應文字-4%
+  .display-title-back {
+    @apply font-display font-black leading-display;
+    font-size: calc(44px + 5vw);
+    letter-spacing: calc(calc($font-display-base + 1vw) * -0.04);
+    @screen sm {
+      font-size: calc($font-display-base + 1vw);
+      letter-spacing: calc(calc($font-display-base + 1vw) * -0.04);
+    }
+    @screen md {
+      font-size: calc($font-display-base + 2vw);
+      letter-spacing: calc(calc($font-display-base + 2vw) * -0.04);
+    }
+    @screen lg {
+      font-size: calc($font-display-m - 1vw);
+      letter-spacing: calc($font-display-m * -0.04);
+    }
+    @screen xl {
+      font-size: calc($font-display-m + 1vw);
+      letter-spacing: calc($font-display-m * -0.04);
+    }
+    @screen 2xl {
+      font-size: calc($font-display-m + 1.5vw);
+      letter-spacing: calc($font-display-m * -0.04);
     }
   }
   // button類 // 目前會被覆蓋不建議使用

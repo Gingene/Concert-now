@@ -1,20 +1,24 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-// import FrontView from '../views/front/FrontView.vue';
-// import HomeView from '../views/front/HomeView.vue';
 import NotFound from '../views/NotFound.vue';
+import { useUserStore } from '@/stores/user';
+import { useToast } from '@/components/ui/toast/use-toast';
 
+const { toast } = useToast();
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
+  scrollBehavior(to, from, savedPoistion) {
+    return { top: 0 };
+  },
   routes: [
     {
       path: '/',
       component: () => import('../views/front/FrontView.vue'),
-      meta: { hideHF: false },
       children: [
         {
           path: '',
           name: 'home',
           component: () => import('../views/front/HomeView.vue'),
+          meta: { showFooterNav: true },
         },
         {
           path: 'login',
@@ -36,6 +40,15 @@ const router = createRouter({
           name: 'artist',
           component: () => import('../views/front/ArtistSingleView.vue'),
         },
+          path: 'concerts',
+          name: 'concerts',
+          component: () => import('../views/front/ConcertsView.vue'),
+        },
+        {
+          path: 'concerts/:id',
+          name: 'concert',
+          component: () => import('../views/front/ConcertSingleView.vue'),
+        },
         {
           path: 'venues',
           name: 'venues',
@@ -45,11 +58,23 @@ const router = createRouter({
           path: 'venues/:id',
           name: 'venue',
           component: () => import('../views/front/VenueSingleView.vue'),
+          props: true,
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/front/AboutUsView.vue'),
+        },
+        {
+          path: 'member',
+          name: 'member',
+          component: () => import('../views/front/Members.vue'),
         },
         {
           path: '/loading',
           name: 'loading',
           component: () => import('../views/LoadingView.vue'),
+          meta: { showFooterNav: true },
         },
       ],
     },
@@ -61,6 +86,22 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/admin/AdminView.vue'),
       meta: { hideHF: true },
+      beforeEnter: (to, from) => {
+        const { AccessToken, user } = useUserStore();
+        if (AccessToken && user.is_admin) {
+          toast({
+            title: '歡迎回來',
+            description: '',
+          });
+          return true;
+        } else {
+          toast({
+            title: '對不起，你沒有權限進入',
+            description: '',
+          });
+          return false;
+        }
+      },
       children: [
         {
           path: 'concerts',
@@ -107,5 +148,15 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from) => {
+  const { getToken, getUser } = useUserStore();
+  getToken();
+  getUser();
+});
+
+// router.beforeResolve((to, from) => {
+//   window.scroll(0, 0);
+// });
 
 export default router;

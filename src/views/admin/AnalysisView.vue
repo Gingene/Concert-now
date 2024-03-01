@@ -1,85 +1,62 @@
 <template>
-  <div class="space-y-4 lg:space-y-8">
-    <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-5">
-      <Card class="flex-1 hover:bg-slate-50">
+  <div class="grid grid-flow-row gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <Card v-for="item in totalData" :key="item.title" class="flex-1 hover:bg-slate-50">
         <CardHeader class="h-[72px]">
-          <CardTitle class="text-base">總瀏覽人數</CardTitle>
+          <CardTitle class="text-base xl:text-lg">{{ item.title }}</CardTitle>
         </CardHeader>
-        <CardContent class="text-4xl font-bold text-center"> 2365 </CardContent>
-      </Card>
-      <Card class="flex-1 hover:bg-slate-50">
-        <CardHeader class="h-[72px]">
-          <CardTitle class="text-base">總會員數</CardTitle>
-        </CardHeader>
-        <CardContent class="text-4xl font-bold text-center"> 240 </CardContent>
-      </Card>
-      <Card class="flex-1 hover:bg-slate-50">
-        <CardHeader class="h-[72px]">
-          <CardTitle class="text-base">總演唱會量</CardTitle>
-        </CardHeader>
-        <CardContent class="text-4xl font-bold text-center"> 130 </CardContent>
-      </Card>
-      <Card class="flex-1 hover:bg-slate-50">
-        <CardHeader class="h-[72px]">
-          <CardTitle class="text-base">總歌單曲目量</CardTitle>
-        </CardHeader>
-        <CardContent class="text-4xl font-bold text-center"> 270 </CardContent>
-      </Card>
-      <Card class="flex-1 hover:bg-slate-50">
-        <CardHeader class="h-[72px]">
-          <CardTitle class="text-base">總會場評論量</CardTitle>
-        </CardHeader>
-        <CardContent class="text-4xl font-bold text-center"> 246 </CardContent>
+        <CardContent class="text-4xl font-bold text-center"> {{ item.count }} </CardContent>
       </Card>
     </div>
-
-    <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-5">
-      <Card class="flex-1">
-        <CardHeader class="flex flex-row items-center justify-between h-[94px]">
-          <CardTitle class="text-xl">用戶瀏覽人數</CardTitle>
-          <Select
-            ><!-- ! 無法覆蓋 margin-top:6px -->
-            <SelectTrigger class="justify-end w-auto">
-              <SelectValue placeholder="日" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>時間段</SelectLabel>
-                <SelectItem value="day" @click="timeSeriesChart('views', 'day')">日</SelectItem>
-                <SelectItem value="week" @click="timeSeriesChart('views', 'week')">周</SelectItem>
-                <SelectItem value="month" @click="timeSeriesChart('views', 'month')">月</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </CardHeader>
-        <CardContent>
-          <div id="chart1"></div>
-        </CardContent>
-      </Card>
-      <Card class="flex-1">
-        <CardHeader class="flex flex-row items-center justify-between h-[94px]">
-          <CardTitle class="text-xl">用戶註冊人數</CardTitle>
-          <Select
-            ><!-- ! 無法覆蓋 margin-top:6px -->
-            <SelectTrigger class="justify-end w-auto">
-              <SelectValue placeholder="日" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>時間段</SelectLabel>
-                <SelectItem value="day" @click="timeSeriesChart('registers', 'day')">日</SelectItem>
-                <SelectItem value="week" @click="timeSeriesChart('registers', 'week')">周</SelectItem>
-                <SelectItem value="month" @click="timeSeriesChart('registers', 'month')">月</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </CardHeader>
-        <CardContent>
-          <div id="chart2"></div>
-        </CardContent>
-      </Card>
-      <div class="flex flex-[1.2] space-x-4 lg:space-y-0 lg:space-x-5">
-        <Card class="flex-[.5]">
+    <div class="grid grid-flow-row xl:grid-flow-col gap-4">
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between h-[94px]">
+            <CardTitle class="text-xl">用戶瀏覽人數</CardTitle>
+            <Select
+              ><!-- ! 無法覆蓋 margin-top:6px -->
+              <SelectTrigger class="justify-end w-auto">
+                <SelectValue placeholder="日" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>時間段</SelectLabel>
+                  <SelectItem value="day" @click="timeSeriesChart('views', 'day')">日</SelectItem>
+                  <SelectItem value="week" @click="timeSeriesChart('views', 'week')">周</SelectItem>
+                  <SelectItem value="month" @click="timeSeriesChart('views', 'month')">月</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent>
+            <div id="chart1"></div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader class="flex flex-row items-center justify-between h-[94px]">
+            <CardTitle class="text-xl">用戶註冊人數</CardTitle>
+            <Select
+              ><!-- ! 無法覆蓋 margin-top:6px -->
+              <SelectTrigger class="justify-end w-auto">
+                <SelectValue placeholder="日" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>時間段</SelectLabel>
+                  <SelectItem value="day" @click="timeSeriesChart('registers', 'day')">日</SelectItem>
+                  <SelectItem value="week" @click="timeSeriesChart('registers', 'week')">周</SelectItem>
+                  <SelectItem value="month" @click="timeSeriesChart('registers', 'month')">月</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent>
+            <div id="chart2"></div>
+          </CardContent>
+        </Card>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card>
           <CardHeader class="h-[94px]">
             <CardTitle class="text-xl my-auto">用戶行為 - 流量來源</CardTitle>
           </CardHeader>
@@ -87,7 +64,7 @@
             <div id="chart3"></div>
           </CardContent>
         </Card>
-        <Card class="flex-[.5]">
+        <Card>
           <CardHeader class="h-[94px]">
             <CardTitle class="text-xl my-auto">用戶行為 - 檢舉與倒推</CardTitle>
           </CardHeader>
@@ -97,66 +74,52 @@
         </Card>
       </div>
     </div>
-
-    <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-5">
-      <Card class="flex-1">
-        <CardHeader class="h-[94px]">
-          <CardTitle class="text-xl my-auto">演唱會檢索</CardTitle>
-        </CardHeader>
-        <CardContent class="pb-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead class="w-[100px]">檢視量</TableHead>
-                <TableHead class="text-nowrap">收藏量</TableHead>
-                <TableHead>演唱會</TableHead>
-                <TableHead class="text-right">表演者</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow v-for="(item, index) in concerts" :key="item + index">
-                <TableCell class="font-medium">
-                  {{ Number.parseInt(800 / (index + 1)) }}
-                </TableCell>
-                <TableCell>{{ Number.parseInt(300 / (index + 1)) }}</TableCell>
-                <TableCell
-                  ><a href="#">{{ item.title }}</a></TableCell
-                >
-                <TableCell class="text-right">{{ item.artist.name }}</TableCell>
-              </TableRow>
-              <!-- 保留的靜態資料 -->
-              <!-- <TableRow>
-                <TableCell class="font-medium"> 1240 </TableCell>
-                <TableCell>352</TableCell>
-                <TableCell><a href="#">Tom Jones湯姆瓊斯演唱會2024台北站</a></TableCell>
-                <TableCell class="text-right">Tom Jones</TableCell>
-              </TableRow> -->
-            </TableBody>
-          </Table>
-        </CardContent>
-        <CardFooter class="flex justify-center pt-[auto]">
-          <Pagination v-slot="{ page }" :total="5" :sibling-count="1" show-edges :default-page="1">
-            <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-              <!-- <PaginationFirst /> -->
-              <PaginationPrev />
-
-              <template v-for="(item, index) in items">
-                <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-                  <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                    {{ item.value }}
-                  </Button>
-                </PaginationListItem>
-                <PaginationEllipsis v-else :key="item.type" :index="index" />
-              </template>
-
-              <PaginationNext />
-              <!-- <PaginationLast /> -->
-            </PaginationList>
-          </Pagination>
-        </CardFooter>
-      </Card>
-      <div class="flex flex-1 flex-col xl:flex-row space-y-4 xl:space-y-0 xl:space-x-5">
-        <Card class="flex-1">
+    <div class="xl:grid grid-flow-row xl:grid-flow-col xl:gap-4">
+      <div class="xl:col-span-1 mb-4 xl:mb-0">
+        <Card>
+          <CardHeader class="h-[94px]">
+            <CardTitle class="text-xl my-auto">演唱會檢索</CardTitle>
+          </CardHeader>
+          <CardContent class="pb-2">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead class="w-[100px]">檢視量</TableHead>
+                  <TableHead class="text-nowrap">收藏量</TableHead>
+                  <TableHead>演唱會</TableHead>
+                  <!-- <TableHead class="text-right">表演者</TableHead> -->
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow v-for="(concert, index) in concerts.splice(0, 5)" :key="concert + index">
+                  <TableCell class="font-medium">
+                    {{ Number.parseInt(829 / (index + 1)) }}
+                  </TableCell>
+                  <TableCell>{{ Number.parseInt(168 / (index + 1)) }}</TableCell>
+                  <TableCell>
+                    <router-link :to="`/concerts/${concert.id}`">
+                      {{ concert.title }}
+                    </router-link>
+                  </TableCell>
+                  <!-- <TableCell class="text-right">{{ concert.artist?.name }}</TableCell> -->
+                </TableRow>
+                <!-- 保留的靜態資料 -->
+                <!-- <TableRow>
+                  <TableCell class="font-medium"> 1240 </TableCell>
+                  <TableCell>352</TableCell>
+                  <TableCell><a href="#">Tom Jones湯姆瓊斯演唱會2024台北站</a></TableCell>
+                  <TableCell class="text-right">Tom Jones</TableCell>
+                </TableRow> -->
+              </TableBody>
+            </Table>
+          </CardContent>
+          <CardFooter class="flex justify-center pt-[auto]">
+            <!-- 保留換頁位置 -->
+          </CardFooter>
+        </Card>
+      </div>
+      <div class="col-span-3 grid grid-flow-row grid-cols-1 xl:grid-cols-2 gap-4">
+        <Card>
           <CardHeader class="h-[94px]">
             <CardTitle class="text-xl my-auto">熱門表演者檢索量</CardTitle>
           </CardHeader>
@@ -164,7 +127,7 @@
             <div id="chart5"></div>
           </CardContent>
         </Card>
-        <Card class="flex-1">
+        <Card>
           <CardHeader class="h-[94px]">
             <CardTitle class="text-xl my-auto">熱門會場瀏覽量</CardTitle>
           </CardHeader>
@@ -191,21 +154,6 @@ import {
 // Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 
-// Pagination
-import {
-  Pagination,
-  PaginationEllipsis,
-  // PaginationFirst,
-  // PaginationLast,
-  PaginationList,
-  PaginationListItem,
-  PaginationNext,
-  PaginationPrev,
-} from '@/components/ui/pagination';
-
-// Button
-import { Button } from '@/components/ui/button';
-
 // Table
 import {
   Table,
@@ -216,21 +164,46 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import axios from 'axios';
 </script>
 
 <script>
 import '@/assets/c3.css';
 import '@/helpers/c3';
 import '@/helpers/d3';
+
+import { mapActions, mapState } from 'pinia';
+import { useConcertsStore } from '@/stores/concerts';
+
 export default {
   data() {
     return {
-      concerts: [],
       januaryDateAry: [],
+      totalData: [
+        {
+          title: '總瀏覽人數',
+          count: 2365,
+        },
+        {
+          title: '總會員數',
+          count: 240,
+        },
+        {
+          title: '總演唱會量',
+          count: 130,
+        },
+        {
+          title: '總歌單曲目量',
+          count: 370,
+        },
+        {
+          title: '總會場評論量',
+          count: 246,
+        },
+      ],
     };
   },
   methods: {
+    ...mapActions(useConcertsStore, ['getConcerts']),
     // 用戶瀏覽/註冊人數 圖表
     timeSeriesChart(type, time = 'day') {
       let chartId = 1;
@@ -296,16 +269,11 @@ export default {
       });
     },
   },
+  computed: {
+    ...mapState(useConcertsStore, ['concerts']),
+  },
   mounted() {
-    axios
-      .get(`${import.meta.env.VITE_APP_SERVICE_API}/api/concerts`)
-      .then((res) => {
-        console.log(res);
-        this.concerts = res.data.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getConcerts();
 
     // 一月日期生成
     for (let i = 1; i <= 31; i++) {

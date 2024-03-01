@@ -7,15 +7,14 @@ export const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        'white-outline': 'bg-transparent border-2 hover:bg-primary-foreground hover:text-primary hover:box-shadow-light1-hover', // 設計稿按鈕樣式
-        'white-blur': 'bg-transparent border-2 box-shadow-light2 hover:bg-primary-foreground hover:text-primary hover:box-shadow-light2-hover', // 設計稿按鈕樣式
-        'tiffany-outline': 'border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover',
-        'tiffany-blur': 'border-2 border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover',
+        default: 'bg-primary text-primary-foreground hover:bg-primary/90 [&.active]:bg-primary/90',
+        'white-outline': 'bg-transparent border-[3px] hover:bg-primary-foreground hover:text-primary hover:box-shadow-light1-hover [&.active]:bg-primary-foreground [&.active]:text-primary [&.active]:box-shadow-light1-hover', // 設計稿按鈕樣式
+        'white-blur': 'bg-transparent border-[3px] box-shadow-light2 hover:bg-primary-foreground hover:text-primary hover:box-shadow-light2-hover [&.active]:bg-primary-foreground [&.active]:text-primary [&.active]:box-shadow-light2-hover', // 設計稿按鈕樣式
+        'tiffany-outline': 'border-[3px] border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover [&.active]:bg-tiffany [&.active]:text-primary [&.active]:box-shadow-tiffany-outline-hover',
+        'tiffany-blur': 'border-[3px] border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover [&.active]:bg-tiffany [&.active]:text-primary [&.active]:box-shadow-tiffany-blur-hover',
         'tiffany-fill': 'bg-tiffany text-primary',
-        'pink-outline': 'border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover',
-        'pink-blur': 'border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover',
-        'pink-fill': 'border-2 border-pink bg-pink text-primary box-shadow-pink-blur-hover',
+        'pink-outline': 'border-[3px] border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-outline-hover',
+        'pink-blur': 'border-[3px] border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-blur-hover',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
@@ -28,7 +27,8 @@ export const buttonVariants = cva(
       },
       size: {
         default: 'h-10 px-4 py-2',
-        base: 'h-10 p-2 md:p-4 lg:p-6 rounded-btn1',
+        // base: 'h-10 p-2 md:p-4 lg:p-6 rounded-btn1',
+        base: 'h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1',
         btn1: 'p-6 rounded-btn2', // 設計稿按鈕樣式大小
         btn2: 'p-6 rounded-btn2', // 設計稿按鈕樣式大小
         sm: 'h-9 rounded-md px-3',

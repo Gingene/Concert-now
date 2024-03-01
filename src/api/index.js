@@ -13,7 +13,7 @@ function alertMessage(icon, msg) {
 const http = axios.create({
   baseURL: `${VITE_APP_SERVICE_API}/api`,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
 });
 
