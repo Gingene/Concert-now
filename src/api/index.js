@@ -84,3 +84,19 @@ const adminPath = {
 };
 
 export { http, path, adminPath };
+
+
+// 一般會員
+// 取得表演者資料
+export const  getArtists = async () => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
+
+   try {
+    const res = await http.get(url);
+    return res
+
+   } catch (err) {
+     console.error('[GetArtists Failed]', err);
+     throw err
+   }
+}

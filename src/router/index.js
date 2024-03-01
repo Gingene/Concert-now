@@ -27,6 +27,16 @@ const router = createRouter({
           component: () => import('../views/front/BaseView.vue'),
         },
         {
+          path: 'artists',
+          name: 'artists',
+          component: () => import('../views/front/ArtistsView.vue'),
+        },
+        {
+          path: 'artists/:id',
+          name: 'artist',
+          component: () => import('../views/front/ArtistSingleView.vue'),
+        },
+        {
           path: 'venues',
           name: 'venues',
           component: () => import('../views/front/VenuesView.vue'),

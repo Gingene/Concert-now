@@ -15,6 +15,7 @@ export const buttonVariants = cva(
         'tiffany-fill': 'bg-tiffany text-primary',
         'pink-outline': 'border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover',
         'pink-blur': 'border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover',
+        'pink-fill': 'border-2 border-pink bg-pink text-primary box-shadow-pink-blur-hover',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
