@@ -9,7 +9,7 @@
       </div>
       <div class="w-[20%] lg:w-[250px] flex flex-col items-center lg:flex-row lg:justify-center lg:pt-5">
         <Select v-model="selectStatus">
-          <label for="status" class="pt-2 font-semibold lg:w-[50%]"> 會員狀態 </label>
+          <label for="status" class="pb-2 font-semibold lg:w-[50%]"> 會員狀態 </label>
           <SelectTrigger>
             <SelectValue placeholder="全部" />
           </SelectTrigger>
@@ -19,23 +19,6 @@
               <SelectItem value="全部"> 全部 </SelectItem>
               <SelectItem value="啟用中"> 啟用中</SelectItem>
               <SelectItem value="停權中">停權中</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div class="w-[33%] lg:w-[330px] flex flex-col items-center lg:flex-row lg:justify-center lg:pt-5">
-        <Select v-model="selectTime">
-          <label for="member-time" class="pt-2 font-semibold lg:w-[50%]">加入會員時間</label>
-          <SelectTrigger>
-            <SelectValue placeholder="全部" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>加入會員時間</SelectLabel>
-              <SelectItem value="全部"> 全部 </SelectItem>
-              <SelectItem v-for="jointime in jointimes" :key="jointime.id" :value="jointime.time">
-                {{ jointime.time }}
-              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

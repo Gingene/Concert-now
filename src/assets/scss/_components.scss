@@ -117,4 +117,34 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   // .btn-pink-blur {
   //   @apply border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover;
   // }
+
+  .basic {
+    @apply flex items-center 
+    rounded-btn1 h-10 p-2 md:p-4 lg:p-6;
+  }
+
+  // 粉色模糊
+  .pink-blur {
+    @apply border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover;
+  }
+
+  // 粉色 active
+  .pink-fill {
+    @apply border-2 border-pink bg-pink text-primary box-shadow-pink-blur-hover;
+  }
+
+  // 藍色模糊
+  .tiffany-blur {
+    @apply border-2 border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover;
+  }
+
+  // 藍色 active
+  .tiffany-blur-fill {
+    @apply border-2 border-tiffany bg-tiffany text-primary box-shadow-tiffany-blur-hover;
+  }
+
+  // 藍色乾淨
+  .tiffany-outline {
+    @apply border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover;
+  }
 }
