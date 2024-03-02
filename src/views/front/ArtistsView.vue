@@ -106,11 +106,11 @@ export default {
     },
     searchArtists: useDebounceFn(async function(searchText) {
       try {
-        const res = await getInputArtist(searchText);
-        this.artists = res.data.data;
+        const res = await getInputArtist(searchText)
+        this.artists = res.data.data
 
       } catch(error) {
-        console.log(error);
+        console.log(error)
       }
     } ,300) 
   },

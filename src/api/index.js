@@ -98,7 +98,7 @@ export const getArtists = async () => {
      console.error('[GetArtists Failed]', error);
      throw error;
    }
-};
+}
 
 // 取得『單一表演者頁面』資料 
 export const getSingleArtist = async (id) => {
@@ -111,7 +111,7 @@ export const getSingleArtist = async (id) => {
     console.error('[GetSingleArtist Failed]', error);
     throw error;
   }
-};
+}
 
 // 取得『input 篩選表演者頁面』資料 
 export const getInputArtist = async (searchText) => {
