@@ -97,6 +97,10 @@
                     <div>
                       <Textarea v-model="commentContent" />
                     </div>
+                    <div class="flex justify-end items-center">
+                      <input id="commentPolicy" type="checkbox" class="size-4 mr-2" v-model="checkPolicy" />
+                      <Label for="commentPolicy" class="text-sm text-black-60 text-right cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Label>
+                    </div>
                     <DialogFooter class="justify-center sm:justify-center">
                       <Button variant="tiffany-blur">送出評論</Button>
                     </DialogFooter>
@@ -225,6 +229,7 @@ export default {
       concertId: '',
       commentContent: '',
       images: [],
+      checkPolicy: false,
     };
   },
   props: ['id'],
@@ -299,6 +304,14 @@ export default {
         return;
       }
 
+      if (!this.checkPolicy) {
+        toast({
+          title: '請先勾選同意評論規範',
+          description: '',
+        });
+        return;
+      }
+
       const payload = {
         concert_id: this.concertId,
         seat_area: this.commentSeatArea,
@@ -329,6 +342,12 @@ export default {
         .finally(() => {
           setIsLoading();
         });
+    },
+    showCommentPolicy() {
+      toast({
+        title: '評論規範',
+        description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
+      });
     },
     ...mapActions(useVenuesStore, ['getVenue']),
   },
