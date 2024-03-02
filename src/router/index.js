@@ -40,6 +40,7 @@ const router = createRouter({
           name: 'artist',
           component: () => import('../views/front/ArtistSingleView.vue'),
         },
+        {
           path: 'concerts',
           name: 'concerts',
           component: () => import('../views/front/ConcertsView.vue'),

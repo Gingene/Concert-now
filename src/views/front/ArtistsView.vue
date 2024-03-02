@@ -36,19 +36,19 @@
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <!-- <li class="flex flex-row justify-between items-center p-2.5 md:border-[1px] rounded-2xl" v-for="artist in artists" :key="artist.id"> -->
 
-          <RouterLink :to="`/artists/${artist.id}`" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] rounded-2xl" v-for="artist in artists" :key="artist.id">
-            <div class="w-[81%] flex items-center">
-              <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
-              <div class="ml-4">
-                <div class="pr-3">
-                  <p class="text-lg md:text-xl">{{ artist.name }}</p>
-                  <p class="text-[13px] text-slate-500">{{ artist.follower_count }} fans</p>
-                </div>
-                <p class="text-[13px">{{ artist.concert_count }} concerts</p>
+        <RouterLink :to="`/artists/${artist.id}`" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] rounded-2xl" v-for="artist in artists" :key="artist.id">
+          <div class="w-[81%] flex items-center">
+            <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
+            <div class="ml-4">
+              <div class="pr-3">
+                <p class="text-lg md:text-xl">{{ artist.name }}</p>
+                <p class="text-[13px] text-slate-500">{{ artist.follower_count }} fans</p>
               </div>
+              <p class="text-[13px">{{ artist.concert_count }} concerts</p>
             </div>
-            <button class="basic tiffany-outline" :key="artist.id">follow</button>
-          </RouterLink>
+          </div>
+          <button class="basic tiffany-outline" :key="artist.id">follow</button>
+        </RouterLink>
         <!-- </li> -->
       </ul>
     </div>
