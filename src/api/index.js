@@ -85,10 +85,10 @@ const adminPath = {
 
 export { http, path, adminPath };
 
-
 // 一般會員
+
 // 取得『表演者總覽頁面』資料
-export const  getArtists = async () => {
+export const getArtists = async () => {
   const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
 
    try {
