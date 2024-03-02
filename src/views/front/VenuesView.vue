@@ -9,20 +9,20 @@
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
           <Button variant="tiffany-outline" size="base" class="me-4" @click="getVenues"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button variant="tiffany-outline" size="base" @click="getVenuesByCity(city)"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="getVenuesByCity(city, $event)" class="city-button"> {{ city }} </Button>
           </template>
         </div>
       </div>
-      <ul class="grid grid-cols-2 2xl:grid-cols-4 gap-6">
+      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="venue in venues" :key="venue.id">
           <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
-              <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-t-2xl" />
-              <CardTitle class="border-x-4 p-6 border-black-60 text-sm lg:text-lg">{{ venue.title }}</CardTitle>
+              <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-2xl object-cover min-w-full" />
+              <CardTitle class="border-x-2 pt-6 px-6 border-black-60 text-sm lg:text-lg">{{ venue.title }}</CardTitle>
               <CardDescription class="hidden"></CardDescription>
             </CardHeader>
-            <CardContent class="border-x-4 border-black-60 text-tiny"> {{ venue.city }} </CardContent>
-            <CardFooter class="text-end border-x-4 border-b-4 border-black-60 rounded-b-2xl">
+            <CardContent class="border-x-2 border-black-60 text-tiny text-black-60 pt-2"> {{ venue.city }} </CardContent>
+            <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/venues/${venue.id}`">
                 <Button variant="white-outline" size="base" @click="getVenue(venue.id)">
                   <span class="text-sm lg:text-base">查看評論</span>
@@ -188,7 +188,6 @@ export default {
         this.simulatorAccordionButtonHover(btn, 'mouseover');
       });
     },
-
     ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues']),
   },
   computed: {

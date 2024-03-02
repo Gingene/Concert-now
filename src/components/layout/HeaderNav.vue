@@ -10,7 +10,7 @@
         <Search class="absolute text-black-60 top-2 right-3" />
         <Dialog>
           <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25"> </DialogTrigger>
-          <DialogContent class="max-w-[90%] h-[100%] p-8">
+          <DialogContent class="max-w-[90%] p-8" :class="{ 'h-full': concerts.length || artists.length || venues.length }">
             <DialogHeader>
               <DialogTitle>
                 <Input placeholder="Search now" v-model="searchText" @keyup="searchAll" class="bg-black-0 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />

@@ -52,10 +52,10 @@
                     <DialogDescription></DialogDescription>
                   </DialogHeader>
                   <form @submit="onSubmit" class="space-y-6 lg:space-y-10">
-                    <div class="flex items-center">
-                      <Label class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-10">座位區</Label>
-                      <Select v-model="commentSeatArea">
-                        <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+                    <div class="relative flex items-center">
+                      <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
+                      <Select v-model="commentSeatArea" id="seat-select">
+                        <SelectTrigger class="ml-[7rem] border-white">
                           <SelectValue placeholder="選取座位區" />
                         </SelectTrigger>
                         <SelectContent>
@@ -67,9 +67,9 @@
                       </Select>
                     </div>
                     <div class="flex items-center">
-                      <div class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">演唱會</div>
-                      <Select v-model="concertId">
-                        <SelectTrigger class="border-0 bg-black-80 focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+                      <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
+                      <Select id="concert-select" v-model="concertId">
+                        <SelectTrigger class="ml-[7rem] border-white">
                           <SelectValue placeholder="選取演唱會" />
                         </SelectTrigger>
                         <SelectContent>
@@ -81,23 +81,16 @@
                       </Select>
                     </div>
                     <div>
-                      <div class="flex items-center mb-4">
-                        <Label for="commentPicture" class="border border-white whitespace-nowrap py-2 px-10 lg:py-3 rounded-btn1 -mr-8">評論圖片</Label>
-                        <Input
-                          id="commentPicture"
-                          multiple
-                          placeholder="選擇檔案"
-                          class="border-0 bg-black-80 h-10 lg:h-12 w-auto rounded-btn1"
-                          type="file"
-                          accept="image/png, image/jpeg"
-                          @change="readURL" />
+                      <div class="relative flex items-center mb-4">
+                        <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
+                        <Input id="commentPictures" ref="commentPictures" multiple placeholder="選擇檔案" class="ml-[7rem] border-white" type="file" accept="image/png, image/jpeg" @change="readURL" />
                       </div>
                       <div class="space-y-4">
                         <span>圖片至多可傳三張</span>
                         <div class="flex space-x-4">
-                          <img id="commentImage1" class="size-[120px]" src="http://placehold.it60" alt="your image" />
-                          <img id="commentImage2" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
-                          <img id="commentImage3" class="size-[120px]" src="http://placehold.it/120" alt="your image" />
+                          <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
+                          <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
+                          <img id="commentImage3" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
                         </div>
                       </div>
                     </div>
@@ -126,7 +119,7 @@
                   <p class="mb-4 md:mb-0">{{ comment.comment }}</p>
                   <div class="flex space-x-3 w-full md:w-auto" v-if="comment.images.length">
                     <template v-for="(image, index) in comment.images" :key="index">
-                      <img :src="image" alt="" />
+                      <img :src="image" alt="" class="size-20 object-cover rounded-xl" />
                     </template>
                   </div>
                 </div>
@@ -221,7 +214,9 @@ import { http } from '@/api';
 // import { get } from '@vueuse/core';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
+import { useToast } from '@/components/ui/toast/use-toast';
 const { setIsLoading } = loadingStore();
+const { toast } = useToast();
 
 export default {
   data() {
@@ -229,6 +224,7 @@ export default {
       commentSeatArea: '',
       concertId: '',
       commentContent: '',
+      images: [],
     };
   },
   props: ['id'],
@@ -273,26 +269,59 @@ export default {
 
         // reader.readAsDataURL(input.target.files[0]);
         reader.readAsDataURL(...input.target.files);
+        this.images = [...input.target.files];
       }
     },
     onSubmit(e) {
       e.preventDefault();
-      console.dir(e.target);
       this.postComment();
     },
     postComment() {
+      if (this.concertId === '') {
+        toast({
+          title: '請選擇演唱會',
+          description: '',
+        });
+        return;
+      }
+      if (this.commentSeatArea === '') {
+        toast({
+          title: '請選擇座位區',
+          description: '',
+        });
+        return;
+      }
+      if (this.commentContent === '') {
+        toast({
+          title: '請輸入評論',
+          description: '',
+        });
+        return;
+      }
+
       const payload = {
         concert_id: this.concertId,
         seat_area: this.commentSeatArea,
         comment: this.commentContent,
+        images: this.images,
       };
+      if (this.images.length === 0) {
+        delete payload.images;
+      }
 
       setIsLoading();
       http
-        .post(`${this.path.venues}/${this.concertId}/comment`, payload)
+        .post(`${this.path.venues}/${this.$route.params.id}/comment`, payload)
         .then((res) => {
-          console.log(res);
-          this.getVenue();
+          this.concertId = '';
+          this.commentSeatArea = '';
+          this.commentContent = '';
+          this.images = [];
+          toast({
+            title: '已新增評論',
+            description: '',
+          });
+          this.getVenue(this.$route.params.id);
         })
         .catch((err) => {
           console.log(err);
@@ -319,7 +348,6 @@ export default {
     const marquee = this.$refs.marquee;
 
     marquee.childNodes.forEach((item) => {
-      console.log(item.textContent.length);
       if (item.textContent.length <= 90 && item.textContent.length > 60) {
         item.style.animationDuration = '20s';
       } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
