@@ -29,9 +29,9 @@ export const useVenuesStore = defineStore('venues', {
           setIsLoading();
         });
     },
-    getVenuesByCity(city) {
+    getVenuesByCity(city, e) {
       setIsLoading();
-      console.log(city);
+      this.activeButton(e);
       http
         .get(`${path.venues}?city=${city}&page=${1}`)
         .then((res) => {
@@ -46,6 +46,11 @@ export const useVenuesStore = defineStore('venues', {
         .finally(() => {
           setIsLoading();
         });
+    },
+    activeButton(e) {
+      const cityButtons = document.querySelectorAll('.city-button');
+      cityButtons.forEach((button) => button.classList.remove('active'));
+      e.target.classList.add('active');
     },
     getVenue(id) {
       setIsLoading();
