@@ -1,40 +1,45 @@
 <template>
   <!-- Header -->
-  <div class="bg-cover bg-center py-20 mb-20 overflow-hidden" style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
-    <div class="container">
-      <div class="mb-8">
-        施工暫存導覽區
-        <nav>
-          <RouterLink to="/base" class="px-4">
-            <Button variant="btn1"> 設計稿基礎設定頁 </Button>
-          </RouterLink>
-          <RouterLink to="/loading" class="px-4">
-            <Button variant="btn1"> loading動畫 </Button>
-          </RouterLink>
-        </nav>
-      </div>
-      <p class="text-gray-300 pt-20">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
-    </div>
-    <div class="sm:text-center px-3 sm:px-0">
-      <div class="font-lato-display display-title drop-shadow-light py-6">CONCERT NOW</div>
-    </div>
-    <div class="relative container pb-40">
-      <Button variant="white-outline" class="p-7 font-semibold basis-1/2 rounded-[40px]">
-        <span class="pr-5">SEARCH NOW</span>
-        <div class="relative w-[400px] h-0 border-[1px]">
-          <ChevronRight class="absolute -bottom-3 -right-3" />
-        </div>
-      </Button>
-    </div>
-    <div class="absolute right-40 bottom-0 flex flex-col justify-center items-center">
-      <p class="font-light pb-3">SCROLL</p>
-      <div class="relative h-12 border-[1px] border-white w-0">
-        <ChevronDown class="absolute -bottom-3 -left-3" />
+  <section>
+    <!-- Background -->
+    <div class="shadow-[inset_0px_70px_150px_rgba(0,0,0,.7)] w-full h-[812px] md:h-[800px] lg:h-[750px] xl:h-[920px] bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom" style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
+      <!-- Scroll icon -->
+      <div class="w-[100px] opacity-75 absolute bottom-10 right-1/2 translate-x-1/2 md:right-[8%] xl:right-[12%] md:translate-x-0 flex flex-col items-center">
+        <p class="font-light pb-3">SCROLL</p>
+        <svg width="8" height="49" viewBox="0 0 8 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.64644 48.3536C3.84171 48.5488 4.15829 48.5488 4.35355 48.3536L7.53553 45.1716C7.73079 44.9763 7.73079 44.6597 7.53553 44.4645C7.34027 44.2692 7.02369 44.2692 6.82843 44.4645L4 47.2929L1.17157 44.4645C0.976309 44.2692 0.659726 44.2692 0.464464 44.4645C0.269202 44.6597 0.269202 44.9763 0.464464 45.1716L3.64644 48.3536ZM3.5 -2.18557e-08L3.5 48L4.5 48L4.5 2.18557e-08L3.5 -2.18557e-08Z" fill="white"/>
+        </svg>
       </div>
     </div>
-  </div>
+    <div class="container pt-32 pb-[480px]">
+      <!-- 暫存區 -->
+      <div class="mb-8 absolute right-32 top-20">
+        <RouterLink to="/base" class="px-4">
+          <Button variant="btn1"> 設計稿基礎設定頁 </Button>
+        </RouterLink>
+        <RouterLink to="/loading" class="px-4">
+          <Button variant="btn1"> loading動畫 </Button>
+        </RouterLink>
+      </div>
+      <!-- 小標題 -->
+      <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
+      <!-- Concert Now -->
+      <h1 class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">CONCERT NOW</h1>
+      <!-- Search Now Button -->
+      <div class="w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%]">
+        <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full p-7 md:p-7 lg:p-7 hover:border-transparent">
+          <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
+          <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+              fill="white" />
+          </svg>
+        </Button>
+      </div>
+    </div>
+  </section>
   <!-- Concerts -->
-  <div class="relative container py-32 text-center overflow-hidden">
+  <section class="relative container pb-48 text-center overflow-hidden">
     <p class="text-stroke text-[180px] font-lato opacity-50 mb-[350px]">CONCERTS</p>
     <div class="grid grid-cols-2 gap-4 pb-20">
       <div></div>
@@ -70,9 +75,9 @@
       <img class="concert-photo-6" src="https://i.imgur.com/bXpm5PG.jpeg" alt="poster6" />
       <img class="concert-photo-1" src="https://i.imgur.com/nxrHaiC.jpeg" alt="poster1" />
     </div>
-  </div>
+  </section>
   <!-- Artist -->
-  <div class="container py-32 text-center overflow-hidden">
+  <section class="container pb-48 text-center overflow-hidden">
     <p class="text-stroke text-[180px] font-lato opacity-50">ARTISTS</p>
     <div class="grid grid-cols-6 grid-flow-col gap-4 h-[600px]">
       <div
@@ -81,9 +86,9 @@
         class="col-span-1 grayscale brightness-50 bg-center bg-cover hover:grayscale-0 hover:col-span-4 hover:brightness-100"
         :style="{ backgroundImage: `url(${artist.image})` }"></div>
     </div>
-  </div>
+  </section>
   <!-- Venue -->
-  <div class="container py-32 text-center">
+  <section class="container pb-48 text-center">
     <TitleComponent class="flex justify-center mb-8">
       <template #subTitle>VENUES</template>
       <template #mainTitle>場地體驗</template>
@@ -168,10 +173,10 @@
         </swiper-slide>
       </swiper>
     </div>
-  </div>
+  </section>
   <!-- Songs -->
   <!-- 首頁歌單區塊 -->
-  <div class="container pb-36">
+  <section class="container pb-48">
     <section class="pt-[10rem] relative flex">
       <!-- 2xl以上-標題 -->
       <span class="hidden 2xl:block font-lato-display3 xl:font-lato-display2 text-stroke-title z-[-1] xl:top-[-1rem] xl:right-[-0rem]"> SONGS </span>
@@ -264,13 +269,13 @@
         </svg>
       </div>
     </section>
-  </div>
+  </section>
 </template>
 
 <script setup>
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChevronDown, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+import { ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -324,7 +329,6 @@ export default {
         .get(`${VITE_APP_SERVICE_API}/api/venues?comments=1`)
         .then((res) => {
           this.venueInfo = res.data.data;
-          console.log(this.venueInfo);
         })
         .catch((err) => {
           console.log(err);
