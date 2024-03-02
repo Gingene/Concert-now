@@ -1,21 +1,92 @@
 import { defineStore } from 'pinia';
-import useApiData from '@/hooks/useApiData';
-
-const { httpData } = useApiData();
+import { http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
+import { useDebounceFn } from '@vueuse/core';
+const { setIsLoading } = loadingStore();
 
 export const useVenuesStore = defineStore('venues', {
   state: () => ({
     venues: [],
+    venue: {},
     pagination: {},
+    seatArea: '',
   }),
   actions: {
-    getVenues(thePath) {
-      httpData('get', thePath).then((data) => {
-        console.log(data);
-        this.venues = data.data;
-        this.pagination = data.pagination;
-        localStorage.setItem('tempVenues', JSON.stringify(data.data));
-      });
+    getVenues(page = 1) {
+      setIsLoading();
+      http
+        .get(`${path.venues}?page=${page}`)
+        .then((res) => {
+          window.scroll(0, 0);
+          this.venues = res.data.data;
+          this.pagination = res.data.pagination;
+          console.log(this.venues);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getVenuesByCity(city, e) {
+      setIsLoading();
+      this.activeButton(e);
+      http
+        .get(`${path.venues}?city=${city}&page=${1}`)
+        .then((res) => {
+          window.scroll(0, 0);
+          this.venues = res.data.data;
+          this.pagination = res.data.pagination;
+          console.log(this.venues);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    activeButton(e) {
+      const cityButtons = document.querySelectorAll('.city-button');
+      cityButtons.forEach((button) => button.classList.remove('active'));
+      e.target.classList.add('active');
+    },
+    getVenue(id) {
+      setIsLoading();
+      http
+        .get(`${path.venues}/${id}`)
+        .then((res) => {
+          this.venue = res.data.data;
+          console.log(this.venue);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    searchVenues: useDebounceFn(function (searchText) {
+      http
+        .get(`${path.venues}/?q=${searchText}`)
+        .then((res) => {
+          this.venues = res.data.data;
+          this.pagination = res.data.pagination;
+          console.log(this.venues);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 300),
+  },
+  getters: {
+    filterSeatComment() {
+      if (this.seatArea === 'all' || this.seatArea === '') {
+        return this.venue.comments;
+      } else {
+        return this.venue.comments.filter((item) => item.seat_area === this.seatArea);
+      }
     },
   },
 });

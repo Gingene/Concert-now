@@ -13,7 +13,7 @@ function alertMessage(icon, msg) {
 const http = axios.create({
   baseURL: `${VITE_APP_SERVICE_API}/api`,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
   },
 });
 
@@ -84,3 +84,44 @@ const adminPath = {
 };
 
 export { http, path, adminPath };
+
+// 一般會員
+
+// 取得『表演者總覽頁面』資料
+export const getArtists = async () => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
+
+   try {
+     const res = await http.get(url);
+     return res;
+   } catch (error) {
+     console.error('[GetArtists Failed]', error);
+     throw error;
+   }
+}
+
+// 取得『單一表演者頁面』資料 
+export const getSingleArtist = async (id) => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists/${id}`;
+
+  try {
+    const res = await http.get(url);
+    return res;
+  } catch (error) {
+    console.error('[GetSingleArtist Failed]', error);
+    throw error;
+  }
+}
+
+// 取得『input 篩選表演者頁面』資料 
+export const getInputArtist = async (searchText) => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists?q=${searchText}`;
+
+  try {
+    const res = await http.get(url);
+    return res;
+  } catch (error) {
+    console.error('[GetInputArtist Failed]', error);
+    throw error;
+  }
+};

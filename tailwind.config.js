@@ -1,6 +1,5 @@
 const animate = require('tailwindcss-animate');
 const plugin = require('tailwindcss/plugin');
-const { btn, card } = require('./src/assets/tailwind');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -15,6 +14,7 @@ module.exports = {
       padding: '0.75rem',
     },
     screens: {
+      xs: '480px', // 自定義
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -49,6 +49,8 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         'black-100': 'var(--black-100)',
+        'black-90': 'var(--black-90)',
+        'black-85': 'var(--black-85)',
         'black-80': 'var(--black-80)',
         'black-60': 'var(--black-60)',
         'black-40': 'var(--black-40)',
@@ -123,13 +125,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    animate,
-    plugin(function ({ addBase, theme, addComponents, addUtilities }) {
-      addComponents({
-        ...btn,
-        ...card,
-      });
-    }),
-  ],
+  plugins: [animate, plugin(function ({ addBase, theme, addComponents, addUtilities }) {})],
 };
