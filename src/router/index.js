@@ -76,21 +76,27 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/admin/AdminView.vue'),
-      meta: { hideHF: true },
       beforeEnter: (to, from) => {
         const { AccessToken, user } = useUserStore();
-        if (AccessToken && user.is_admin) {
+        if (!AccessToken) {
           toast({
-            title: '歡迎回來',
+            title: '請重新登入',
             description: '',
           });
-          return true;
-        } else {
+          return false;
+        }
+        if (!user.is_admin) {
           toast({
             title: '對不起，你沒有權限進入',
             description: '',
           });
           return false;
+        } else {
+          toast({
+            title: '歡迎回來',
+            description: '',
+          });
+          return true;
         }
       },
       children: [

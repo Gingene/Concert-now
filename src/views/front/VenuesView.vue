@@ -55,14 +55,18 @@
   </section>
   <section class="py-20">
     <div>
-      <h2 class="flex flex-col justify-center items-center text-[3.5rem] font-display sm:text-display-3 font-black pb-6">
+      <!-- <h2 class="flex flex-col justify-center items-center text-[3.5rem] font-display sm:text-display-3 font-black pb-6">
         <span>POPULAR</span>
         <span class="text-stroke">VENUES</span>
-      </h2>
+      </h2> -->
+      <TitleComponent class="flex justify-center">
+        <template #subTitle> POPULAR </template>
+        <template #mainTitle> VENUES </template>
+      </TitleComponent>
     </div>
 
     <div class="container">
-      <Accordion type="single" collapsible :default-value="defaultValue">
+      <Accordion type="single" collapsible>
         <AccordionItem class="lg:relative" v-for="(venue, index) in accordionItems" :key="venue.id" :value="venue.value">
           <AccordionTrigger :hideIcon="true" class="accordionButton bg-black-100 hover:text-black-100 hover:bg-white" :value="venue.id">
             <div class="flex space-x-10 font-black">
@@ -91,6 +95,7 @@ import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, Pagina
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowRight, ArrowDownRight } from 'lucide-vue-next';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
+import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
