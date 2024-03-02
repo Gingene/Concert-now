@@ -64,12 +64,13 @@
               <router-link :to="`/concerts/${concert.id}`">
                 <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-2xl object-cover min-w-full" />
               </router-link>
-              <CardDescription class="border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
+              <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] xl:h-[13rem] border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
                   <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
                   <router-link :to="`/concerts/${concert.id}`">
-                    <CardTitle class="pt-1 text-base lg:text-lg text-white h-[2.4rem] sm:h-[6.8rem] lg:h-[6.8rem]">{{ concert.title }}</CardTitle>
+                    <CardTitle class="pt-1 text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
                   </router-link>
+                  <p class="absolute pt-2 pb-4 text-black-60 text-tiny">{{ concert.venue?.title }}</p>
                 </div>
                 <HoverCard>
                   <HoverCardTrigger>
@@ -79,15 +80,14 @@
                     </button>
                   </HoverCardTrigger>
                   <!-- 辨識登入狀態，未登入才顯示提示框 -->
-                  <HoverCardContent class="mt-[-12rem]" v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
+                  <HoverCardContent class="mt-[-15rem] sm:mt-[-15rem]" v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
                 </HoverCard>
               </CardDescription>
             </CardHeader>
-            <CardContent class="border-x-2 pt-5 pb-4 border-black-60 text-tiny">{{ concert.venue?.title }}</CardContent>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
-                <Button variant="white-outline" size="base">
-                  <span class="text-sm lg:text-base">查看評論</span>
+                <Button variant="white-outline" size="default">
+                  <span class="text-sm">查看更多</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
               </RouterLink>
@@ -118,7 +118,7 @@
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ArrowRight } from 'lucide-vue-next';

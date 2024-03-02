@@ -1,12 +1,11 @@
 import { defineStore } from 'pinia';
 import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
-import useDarkAlert from '@/hooks/useDarkAlert';
 import { http, path } from '@/api';
-
 import { useUserStore } from '@/stores/user';
-const { getUserSavedAndFollowed } = useUserStore();
+import useDarkAlert from '@/hooks/useDarkAlert';
 
 const { timeCountryFilter } = useTimeCountryFilter();
+const { getUserSavedAndFollowed } = useUserStore();
 const { swalWithStylingButtons } = useDarkAlert();
 
 export const useConcertsStore = defineStore('concerts', {
@@ -68,7 +67,6 @@ export const useConcertsStore = defineStore('concerts', {
             title: '登入後才能用收藏功能喔！',
             showCancelButton: true,
             confirmButtonText: '前往登入',
-            buttonsStyling: false,
           })
           .then((result) => {
             if (result.isConfirmed) {
