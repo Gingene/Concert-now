@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-[150px] relative">
+  <div class="pt-[128px] lg:pt-[150px] relative">
     <span class="font-lato-display5 sm:font-lato-display4 md:font-lato-display3 text-stroke-title z-[-1]">
       <slot name="subTitle">CONCERT</slot>
     </span>

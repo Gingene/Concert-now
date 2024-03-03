@@ -26,9 +26,11 @@ export const buttonVariants = cva(
         page: 'hidden sm:block border border-input bg-background hover:bg-accent hover:text-accent-foreground',
       },
       size: {
-        default: 'h-10 px-4 py-2 rounded-btn1',
+        default: 'h-10 px-4 py-2',
         // base: 'h-10 p-2 md:p-4 lg:p-6 rounded-btn1',
         base: 'h-10 p-4 md:py-4 md:px-6 lg:py-5 lg:px-8 rounded-btn1',
+        base2: 'h-10 px-4 py-2 rounded-btn1',
+        base3: 'px-8 py-3 rounded-btn1',
         btn1: 'p-6 rounded-btn2', // 設計稿按鈕樣式大小
         btn2: 'p-6 rounded-btn2', // 設計稿按鈕樣式大小
         sm: 'h-9 rounded-md px-3',

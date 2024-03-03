@@ -70,7 +70,7 @@ export const useConcertsStore = defineStore('concerts', {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              window.location.href = 'login#/login';
+              window.location.href = 'https://gingene.github.io/Concert-now/#/login';
             }
           });
         return;
