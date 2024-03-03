@@ -77,15 +77,87 @@
     </div>
   </section>
   <!-- Artist -->
-  <section class="container pb-48 text-center overflow-hidden">
-    <p class="text-stroke text-[180px] font-lato opacity-50">ARTISTS</p>
-    <div class="grid grid-cols-6 grid-flow-col gap-4 h-[600px]">
-      <div
-        v-for="artist in artists"
-        :key="artist.id"
-        class="col-span-1 grayscale brightness-50 bg-center bg-cover hover:grayscale-0 hover:col-span-4 hover:brightness-100"
-        :style="{ backgroundImage: `url(${artist.image})` }"></div>
+  <section class="container pb-48 text-center relative">
+    <!-- Title -->
+    <p class="text-[80px] xs:text-[100px] sm:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-50 xl:mr-[160px]">ARTISTS</p>
+    <!-- Artist List -->
+    <div class="xl:hidden">
+      <swiper
+        :effect="'coverflow'"
+        :grabCursor="true"
+        :centeredSlides="true"
+        :slidesPerView="'1'"
+        :coverflowEffect="{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }"
+        :breakpoints="{
+          '640': {
+            slidesPerView: 2,
+          },
+          '768': {
+            slidesPerView: 3,
+          }
+        }"
+        :pagination="true"
+        :modules="modules"
+        class="mySwiper py-10">
+        <swiper-slide v-for="artist in artists" :key="artist.id" >
+          <router-link 
+            :to="`/artists/${artist.id}`" 
+            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]" 
+            :style="{ backgroundImage: `url(${artist.image})` }" >
+            <div class="absolute left-10 bottom-10 flex items-center opacity-75">
+              <p class="text-white font-black text-xl pr-3">{{ artist.name }}</p>
+              <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+            </div>
+          </router-link>
+        </swiper-slide>
+      </swiper>
     </div>
+    <!-- PC(xl:1280): Artist List -->
+    <div class="hidden xl:grid xl:grid-flow-col-dense xl:gap-4 container w-[90%]">
+      <router-link
+        v-for="artist in artists"
+        :to="`/artists/${artist.id}`"
+        :key="artist.id"
+        class="h-[580px] hover:col-span-4 relative opacity-50 hover:opacity-100 brightness-50 hover:brightness-90 grayscale hover:grayscale-0 transition ease-in-out delay-150 duration-300 bg-center bg-cover rounded-[40px] shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
+        :style="{ backgroundImage: `url(${artist.image})` }">
+        <div class="absolute bottom-5 left-5 text-start">
+          <p class="text-white font-black text-lg">{{ artist.name }}</p>
+          <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+        </div>
+      </router-link>
+    </div>
+    <!-- 所有表演者總覽頁 Button -->
+    <router-link 
+      :to="`/artists`" 
+      class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
+      <Button variant="white-outline" size="base" class="p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-base xs:text-lg">探索更多</span>
+        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
+    </router-link>
+    <!-- PC(xl:1280): 所有表演者總覽頁 Button -->
+    <router-link 
+      :to="`/artists`" 
+      class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
+      <Button data-aos="fade-right" variant="white-outline" size="base" class="ml-[250px] xl:p-9 w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-lg">探索更多</span>
+        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
+    </router-link>
   </section>
   <!-- Venue -->
   <section class="container pb-48 text-center">
@@ -96,7 +168,7 @@
     <!-- Venue Info -->
     <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-12 sm:py-10 mb-10 rounded-[40px] bg-shadow-trans-text">
       <!-- Swiper -->
-      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper">
+      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper w-full h-full relative venue-section">
         <!-- Slide 1 -->
         <swiper-slide v-for="venue in venueInfo" :key="venue.id">
           <!-- Venue Title -->
@@ -175,7 +247,6 @@
     </div>
   </section>
   <!-- Songs -->
-  <!-- 首頁歌單區塊 -->
   <section class="container pb-48">
     <section class="pt-[10rem] relative flex">
       <!-- 2xl以上-標題 -->
@@ -275,17 +346,21 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+import { Heart, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import 'swiper/css/effect-coverflow';
+import { Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 </script>
 
 <script>
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import axios from 'axios';
 const { VITE_APP_SERVICE_API } = import.meta.env;
 
@@ -293,32 +368,44 @@ export default {
   data() {
     return {
       venueInfo: [],
-      modules: [Navigation, Pagination, Mousewheel, Keyboard],
+      modules: [Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow],
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       artists: [
         {
-          id: 1,
-          image: 'https://i.imgur.com/FiPSnpf.jpeg',
-        },
-        {
-          id: 2,
-          image: 'https://i.imgur.com/C9JRMQV.jpeg',
-        },
-        {
-          id: 3,
-          image: 'https://i.imgur.com/voSOqDm.jpeg',
-        },
-        {
-          id: 4,
-          image: 'https://i.imgur.com/WacP5Hd.jpeg',
+          id: 11,
+          name: 'Itzy',
+          image: 'https://i.imgur.com/yxpSEBX.jpeg',
+          followers: 40192,
         },
         {
           id: 5,
-          image: 'https://i.imgur.com/v9c5Pkj.jpeg',
+          name: '溫蒂漫步',
+          image: 'https://i.imgur.com/1w27w5u.jpeg',
+          followers: 3927,
         },
         {
-          id: 6,
-          image: 'https://i.imgur.com/rjk9Yki.jpeg',
+          id: 2,
+          name: 'Apink',
+          image: 'https://i.imgur.com/BxG8f6P.jpeg',
+          followers: 49270,
+        },
+        {
+          id: 7,
+          name: 'YOASOBI',
+          image: 'https://i.imgur.com/miVeAVr.jpeg',
+          followers: 52380,
+        },
+        {
+          id: 12,
+          name: '理想混蛋',
+          image: 'https://i.imgur.com/dKHPtCY.jpeg',
+          followers: 14702,
+        },
+        {
+          id: 9,
+          name: 'HYBS',
+          image: 'https://i.imgur.com/UGVUsOq.jpg',
+          followers: 21092,
         },
       ],
     };
@@ -337,6 +424,7 @@ export default {
   },
   mounted() {
     this.getVenueInfo();
+    AOS.init();
   },
   // inject: ['http', 'path'],
   // methods: {
@@ -391,6 +479,10 @@ export default {
 .concert-photo-8 {
   @include concert-photo(250px, 60%, 0%, 36deg, 1, 50%);
 }
+// Grid Transition
+.grid-transition{
+  grid-template-columns: 1fr 4fr;
+}
 
 // Gradient Border
 .gradient-border {
@@ -416,13 +508,13 @@ export default {
 }
 
 // Swiper
-.swiper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-:deep(.swiper-button-prev),
-:deep(.swiper-button-next) {
+// .swiper {
+//   width: 100%;
+//   height: 100%;
+//   position: relative;
+// }
+:deep(.venue-section > .swiper-button-prev),
+:deep(.venue-section > .swiper-button-next) {
   height: 0px;
   &::after {
     display: flex;
@@ -436,13 +528,13 @@ export default {
     border-radius: 100%;
   }
 }
-:deep(.swiper-button-prev::after) {
+:deep(.venue-section > .swiper-button-prev::after) {
   left: -25px;
   color: #42dfc8;
   // border: solid 2px #42dfc8;
   // box-shadow: inset 0 0 10px #42dfc8;
 }
-:deep(.swiper-button-next::after) {
+:deep(.venue-section > .swiper-button-next::after) {
   right: -25px;
   color: #d595f1;
   // border: solid 2px #d595f1;
@@ -454,6 +546,10 @@ export default {
 :deep(.swiper-pagination-bullet-active) {
   background: #fff;
 }
+
+// Artist Swiper
+// :deep(.swiper-slide-prev){
+// }
 
 // Songs
 .marquee-container {
