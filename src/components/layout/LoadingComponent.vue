@@ -1,49 +1,22 @@
 <template>
   <div class="loading" ref="loadingDom" v-show="isLoading">
-    <div class="loading-window flex flex-col justify-center">
-      <div class="h-[300px]"></div>
-      <p class="text-white drop-shadow-light">{{ message }}</p>
+    <div class="loading-window flex flex-col justify-center items-center">
+      <img :src="white" alt="white" class="size-32" />
     </div>
   </div>
 </template>
+<script setup>
+import white from '@/assets/loading/tube-spinner-w.svg';
+</script>
+
 <script>
 import { mapState } from 'pinia';
 import { loadingStore } from '@/stores/isLoading';
-// import lottie from 'lottie-web';
-// import animation from '@/assets/lottie/Animation1.json?url';
 
 export default {
-  methods: {
-    loadingMsg(msg) {
-      this.$refs.loadingDom.childNodes[0].childNodes[1].textContent = msg;
-    },
-    // loadingAnimation() {
-    //   lottie.loadAnimation({
-    //     container: this.$refs.loadingDom.childNodes[0].childNodes[0], // the dom element that will contain the animation
-    //     renderer: 'svg',
-    //     autoplay: true,
-    //     path: animation, // the path to the animation json
-    //     // animationData: animation, // the animation json
-    //   });
-    // },
-  },
   computed: {
     ...mapState(loadingStore, ['isLoading', 'message']),
   },
-  watch: {
-    isLoading(newVal) {
-      if (newVal) {
-        // lottie.play();
-        this.loadingMsg(this.message ?? '別走開，豐富的演唱會即出現在這');
-      } else {
-        // lottie.stop();
-      }
-    },
-  },
-  // mounted() {
-  //   this.loadingAnimation();
-  //   lottie.stop();
-  // },
 };
 </script>
 <style scoped>
