@@ -3,12 +3,12 @@ import { defineStore } from 'pinia';
 export const loadingStore = defineStore('loadingStore', {
   state: () => ({
     isLoading: false,
-    message: '',
+    image: '',
   }),
   actions: {
-    setIsLoading(message = '別走開，豐富的演唱會即出現在這') {
+    setIsLoading(image) {
       this.isLoading = !this.isLoading;
-      this.message = message;
+      this.image = image;
     },
   },
 });

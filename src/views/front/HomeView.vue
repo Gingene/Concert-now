@@ -1,40 +1,45 @@
 <template>
   <!-- Header -->
-  <div class="bg-cover bg-center py-20 mb-20 overflow-hidden" style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
-    <div class="container">
-      <div class="mb-8">
-        施工暫存導覽區
-        <nav>
-          <RouterLink to="/base" class="px-4">
-            <Button variant="btn1"> 設計稿基礎設定頁 </Button>
-          </RouterLink>
-          <RouterLink to="/loading" class="px-4">
-            <Button variant="btn1"> loading動畫 </Button>
-          </RouterLink>
-        </nav>
-      </div>
-      <p class="text-gray-300 pt-20">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
-    </div>
-    <div class="sm:text-center px-3 sm:px-0">
-      <div class="font-lato-display display-title drop-shadow-light py-6">CONCERT NOW</div>
-    </div>
-    <div class="relative container pb-40">
-      <Button variant="white-outline" class="p-7 font-semibold basis-1/2 rounded-[40px]">
-        <span class="pr-5">SEARCH NOW</span>
-        <div class="relative w-[400px] h-0 border-[1px]">
-          <ChevronRight class="absolute -bottom-3 -right-3" />
-        </div>
-      </Button>
-    </div>
-    <div class="absolute right-40 bottom-0 flex flex-col justify-center items-center">
-      <p class="font-light pb-3">SCROLL</p>
-      <div class="relative h-12 border-[1px] border-white w-0">
-        <ChevronDown class="absolute -bottom-3 -left-3" />
+  <section>
+    <!-- Background -->
+    <div class="shadow-[inset_0px_70px_150px_rgba(0,0,0,.7)] w-full h-[812px] md:h-[800px] lg:h-[750px] xl:h-[920px] bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom" style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
+      <!-- Scroll icon -->
+      <div class="w-[100px] opacity-75 absolute bottom-10 right-1/2 translate-x-1/2 md:right-[8%] xl:right-[12%] md:translate-x-0 flex flex-col items-center">
+        <p class="font-light pb-3">SCROLL</p>
+        <svg width="8" height="49" viewBox="0 0 8 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.64644 48.3536C3.84171 48.5488 4.15829 48.5488 4.35355 48.3536L7.53553 45.1716C7.73079 44.9763 7.73079 44.6597 7.53553 44.4645C7.34027 44.2692 7.02369 44.2692 6.82843 44.4645L4 47.2929L1.17157 44.4645C0.976309 44.2692 0.659726 44.2692 0.464464 44.4645C0.269202 44.6597 0.269202 44.9763 0.464464 45.1716L3.64644 48.3536ZM3.5 -2.18557e-08L3.5 48L4.5 48L4.5 2.18557e-08L3.5 -2.18557e-08Z" fill="white"/>
+        </svg>
       </div>
     </div>
-  </div>
+    <div class="container pt-32 pb-[480px]">
+      <!-- 暫存區 -->
+      <div class="mb-8 absolute right-32 top-20">
+        <RouterLink to="/base" class="px-4">
+          <Button variant="btn1"> 設計稿基礎設定頁 </Button>
+        </RouterLink>
+        <RouterLink to="/loading" class="px-4">
+          <Button variant="btn1"> loading動畫 </Button>
+        </RouterLink>
+      </div>
+      <!-- 小標題 -->
+      <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
+      <!-- Concert Now -->
+      <h1 class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">CONCERT NOW</h1>
+      <!-- Search Now Button -->
+      <div class="w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%]">
+        <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full p-7 md:p-7 lg:p-7 hover:border-transparent">
+          <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
+          <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+              fill="white" />
+          </svg>
+        </Button>
+      </div>
+    </div>
+  </section>
   <!-- Concerts -->
-  <div class="relative container py-32 text-center overflow-hidden">
+  <section class="relative container pb-48 text-center overflow-hidden">
     <p class="text-stroke text-[180px] font-lato opacity-50 mb-[350px]">CONCERTS</p>
     <div class="grid grid-cols-2 gap-4 pb-20">
       <div></div>
@@ -70,20 +75,92 @@
       <img class="concert-photo-6" src="https://i.imgur.com/bXpm5PG.jpeg" alt="poster6" />
       <img class="concert-photo-1" src="https://i.imgur.com/nxrHaiC.jpeg" alt="poster1" />
     </div>
-  </div>
+  </section>
   <!-- Artist -->
-  <div class="container py-32 text-center overflow-hidden">
-    <p class="text-stroke text-[180px] font-lato opacity-50">ARTISTS</p>
-    <div class="grid grid-cols-6 grid-flow-col gap-4 h-[600px]">
-      <div
-        v-for="artist in artists"
-        :key="artist.id"
-        class="col-span-1 grayscale brightness-50 bg-center bg-cover hover:grayscale-0 hover:col-span-4 hover:brightness-100"
-        :style="{ backgroundImage: `url(${artist.image})` }"></div>
+  <section class="container pb-48 text-center relative">
+    <!-- Title -->
+    <p class="text-[80px] xs:text-[100px] sm:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-50 xl:mr-[160px]">ARTISTS</p>
+    <!-- Artist List -->
+    <div class="xl:hidden">
+      <swiper
+        :effect="'coverflow'"
+        :grabCursor="true"
+        :centeredSlides="true"
+        :slidesPerView="'1'"
+        :coverflowEffect="{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }"
+        :breakpoints="{
+          '640': {
+            slidesPerView: 2,
+          },
+          '768': {
+            slidesPerView: 3,
+          }
+        }"
+        :pagination="true"
+        :modules="modules"
+        class="mySwiper py-10">
+        <swiper-slide v-for="artist in artists" :key="artist.id" >
+          <router-link 
+            :to="`/artists/${artist.id}`" 
+            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]" 
+            :style="{ backgroundImage: `url(${artist.image})` }" >
+            <div class="absolute left-10 bottom-10 flex items-center opacity-75">
+              <p class="text-white font-black text-xl pr-3">{{ artist.name }}</p>
+              <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+            </div>
+          </router-link>
+        </swiper-slide>
+      </swiper>
     </div>
-  </div>
+    <!-- PC(xl:1280): Artist List -->
+    <div class="hidden xl:grid xl:grid-flow-col-dense xl:gap-4 container w-[90%]">
+      <router-link
+        v-for="artist in artists"
+        :to="`/artists/${artist.id}`"
+        :key="artist.id"
+        class="h-[580px] hover:col-span-4 relative opacity-50 hover:opacity-100 brightness-50 hover:brightness-90 grayscale hover:grayscale-0 transition ease-in-out delay-150 duration-300 bg-center bg-cover rounded-[40px] shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
+        :style="{ backgroundImage: `url(${artist.image})` }">
+        <div class="absolute bottom-5 left-5 text-start">
+          <p class="text-white font-black text-lg">{{ artist.name }}</p>
+          <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+        </div>
+      </router-link>
+    </div>
+    <!-- 所有表演者總覽頁 Button -->
+    <router-link 
+      :to="`/artists`" 
+      class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
+      <Button variant="white-outline" size="base" class="p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-base xs:text-lg">探索更多</span>
+        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
+    </router-link>
+    <!-- PC(xl:1280): 所有表演者總覽頁 Button -->
+    <router-link 
+      :to="`/artists`" 
+      class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
+      <Button data-aos="fade-right" variant="white-outline" size="base" class="ml-[250px] xl:p-9 w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-lg">探索更多</span>
+        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
+    </router-link>
+  </section>
   <!-- Venue -->
-  <div class="container py-32 text-center">
+  <section class="container pb-48 text-center">
     <TitleComponent class="flex justify-center mb-8">
       <template #subTitle>VENUES</template>
       <template #mainTitle>場地體驗</template>
@@ -91,7 +168,7 @@
     <!-- Venue Info -->
     <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-12 sm:py-10 mb-10 rounded-[40px] bg-shadow-trans-text">
       <!-- Swiper -->
-      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper">
+      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper w-full h-full relative venue-section">
         <!-- Slide 1 -->
         <swiper-slide v-for="venue in venueInfo" :key="venue.id">
           <!-- Venue Title -->
@@ -168,10 +245,9 @@
         </swiper-slide>
       </swiper>
     </div>
-  </div>
+  </section>
   <!-- Songs -->
-  <!-- 首頁歌單區塊 -->
-  <div class="container pb-36">
+  <section class="container pb-48">
     <section class="pt-[10rem] relative flex">
       <!-- 2xl以上-標題 -->
       <span class="hidden 2xl:block font-lato-display3 xl:font-lato-display2 text-stroke-title z-[-1] xl:top-[-1rem] xl:right-[-0rem]"> SONGS </span>
@@ -264,23 +340,27 @@
         </svg>
       </div>
     </section>
-  </div>
+  </section>
 </template>
 
 <script setup>
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ChevronDown, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+import { Heart, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import 'swiper/css/effect-coverflow';
+import { Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
 </script>
 
 <script>
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 import axios from 'axios';
 const { VITE_APP_SERVICE_API } = import.meta.env;
 
@@ -288,32 +368,44 @@ export default {
   data() {
     return {
       venueInfo: [],
-      modules: [Navigation, Pagination, Mousewheel, Keyboard],
+      modules: [Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow],
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       artists: [
         {
-          id: 1,
-          image: 'https://i.imgur.com/FiPSnpf.jpeg',
-        },
-        {
-          id: 2,
-          image: 'https://i.imgur.com/C9JRMQV.jpeg',
-        },
-        {
-          id: 3,
-          image: 'https://i.imgur.com/voSOqDm.jpeg',
-        },
-        {
-          id: 4,
-          image: 'https://i.imgur.com/WacP5Hd.jpeg',
+          id: 11,
+          name: 'Itzy',
+          image: 'https://i.imgur.com/yxpSEBX.jpeg',
+          followers: 40192,
         },
         {
           id: 5,
-          image: 'https://i.imgur.com/v9c5Pkj.jpeg',
+          name: '溫蒂漫步',
+          image: 'https://i.imgur.com/1w27w5u.jpeg',
+          followers: 3927,
         },
         {
-          id: 6,
-          image: 'https://i.imgur.com/rjk9Yki.jpeg',
+          id: 2,
+          name: 'Apink',
+          image: 'https://i.imgur.com/BxG8f6P.jpeg',
+          followers: 49270,
+        },
+        {
+          id: 7,
+          name: 'YOASOBI',
+          image: 'https://i.imgur.com/miVeAVr.jpeg',
+          followers: 52380,
+        },
+        {
+          id: 12,
+          name: '理想混蛋',
+          image: 'https://i.imgur.com/dKHPtCY.jpeg',
+          followers: 14702,
+        },
+        {
+          id: 9,
+          name: 'HYBS',
+          image: 'https://i.imgur.com/UGVUsOq.jpg',
+          followers: 21092,
         },
       ],
     };
@@ -324,7 +416,6 @@ export default {
         .get(`${VITE_APP_SERVICE_API}/api/venues?comments=1`)
         .then((res) => {
           this.venueInfo = res.data.data;
-          console.log(this.venueInfo);
         })
         .catch((err) => {
           console.log(err);
@@ -333,6 +424,7 @@ export default {
   },
   mounted() {
     this.getVenueInfo();
+    AOS.init();
   },
   // inject: ['http', 'path'],
   // methods: {
@@ -387,6 +479,10 @@ export default {
 .concert-photo-8 {
   @include concert-photo(250px, 60%, 0%, 36deg, 1, 50%);
 }
+// Grid Transition
+.grid-transition{
+  grid-template-columns: 1fr 4fr;
+}
 
 // Gradient Border
 .gradient-border {
@@ -412,13 +508,13 @@ export default {
 }
 
 // Swiper
-.swiper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-:deep(.swiper-button-prev),
-:deep(.swiper-button-next) {
+// .swiper {
+//   width: 100%;
+//   height: 100%;
+//   position: relative;
+// }
+:deep(.venue-section > .swiper-button-prev),
+:deep(.venue-section > .swiper-button-next) {
   height: 0px;
   &::after {
     display: flex;
@@ -432,13 +528,13 @@ export default {
     border-radius: 100%;
   }
 }
-:deep(.swiper-button-prev::after) {
+:deep(.venue-section > .swiper-button-prev::after) {
   left: -25px;
   color: #42dfc8;
   // border: solid 2px #42dfc8;
   // box-shadow: inset 0 0 10px #42dfc8;
 }
-:deep(.swiper-button-next::after) {
+:deep(.venue-section > .swiper-button-next::after) {
   right: -25px;
   color: #d595f1;
   // border: solid 2px #d595f1;
@@ -450,6 +546,10 @@ export default {
 :deep(.swiper-pagination-bullet-active) {
   background: #fff;
 }
+
+// Artist Swiper
+// :deep(.swiper-slide-prev){
+// }
 
 // Songs
 .marquee-container {

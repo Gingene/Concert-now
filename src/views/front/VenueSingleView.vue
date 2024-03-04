@@ -1,9 +1,10 @@
 <template>
-  <div class="w-full h-[400px] md:h-[600px] lg:h-[850px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom" :style="`background-image: url(${venue.picture?.horizontal})`"></div>
+  <div
+    class="w-full h-[400px] md:h-[600px] lg:h-[850px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom shadow"
+    :style="`background-image: url(${venue.picture?.horizontal})`"></div>
   <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[600px] lg:pt-[850px] space-y-6 lg:space-y-10">
     <div class="text-center">
       <h2 class="text-2xl font-display lg:text-3xl 2xl:text-5xl font-black">{{ venue.title }}</h2>
-      <!-- <p class="text-lg md:text-3xl 2xl:text-5xl">{{ venue.address }}</p> -->
     </div>
     <main class="space-y-6 lg:space-y-10">
       <div class="py-6 lg:hidden text-center">
@@ -172,7 +173,7 @@
     </TitleComponent>
     <div class="mt-4 lg:mt-6">
       <div class="mb-4 lg:mb-6">
-        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px] grayscale"></iframe>
+        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px]"></iframe>
       </div>
       <div class="space-y-6 lg:space-y-10">
         <template v-for="method in venue.transportation" :key="method.type">
@@ -271,6 +272,9 @@ export default {
           document.querySelector('#commentImage2').setAttribute('src', e.target.result);
           document.querySelector('#commentImage3').setAttribute('src', e.target.result);
         };
+        for (const i of input.target.files) {
+          console.log(i);
+        }
 
         // reader.readAsDataURL(input.target.files[0]);
         reader.readAsDataURL(...input.target.files);
@@ -377,9 +381,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// .bg-image {
-//   background-image: ;
-// }
+.shadow {
+  box-shadow: inset 0px 40px 150px rgba(0, 0, 0, 0.7);
+}
 
 .text-stroke-black {
   color: transparent;
