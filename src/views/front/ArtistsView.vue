@@ -5,10 +5,7 @@
   <section class="container relative">
     <!-- 區塊二 start-->
     <div class="grid grid-flow-col">
-      <BannerComponent 
-        :prop-placeholder="bannerInputPlaceholder"
-        @searchMethod="searchArtists"
-      >
+      <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchArtists">
         <template #mainTitle>ARTISTS</template>
       </BannerComponent>
     </div>
@@ -17,12 +14,7 @@
     <!-- 區塊三(篩選按鈕) start-->
     <div>
       <div class="w-full flex gap-4 mb-3.5">
-        <button 
-          v-for="country in countries" class="basic" 
-          :class="[activeBtnOneIndex === country.id ? 'tiffany-blur-fill' : 'tiffany-blur']"  
-          @click="toggleBtnOne(country.id)"
-          :key="country.id"
-        >
+        <button v-for="country in countries" class="basic" :class="[activeBtnOneIndex === country.id ? 'tiffany-blur-fill' : 'tiffany-blur']" @click="toggleBtnOne(country.id)" :key="country.id">
           {{ country.location }}
         </button>
       </div>
@@ -31,7 +23,6 @@
 
     <!-- 區塊四(表演者總覽 &follow) start -->
     <div class="py-5">
-
       <!--  grid  -->
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <RouterLink :to="`/artists/${artist.id}`" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] rounded-2xl" v-for="artist in artists" :key="artist.id">
@@ -99,20 +90,18 @@ export default {
       try {
         const res = await getArtists();
         this.artists = res.data.data;
-
       } catch (error) {
         console.log(error);
       }
     },
-    searchArtists: useDebounceFn(async function(searchText) {
+    searchArtists: useDebounceFn(async function (searchText) {
       try {
-        const res = await getInputArtist(searchText)
-        this.artists = res.data.data
-
-      } catch(error) {
-        console.log(error)
+        const res = await getInputArtist(searchText);
+        this.artists = res.data.data;
+      } catch (error) {
+        console.log(error);
       }
-    } ,300) 
+    }, 300),
   },
   mounted() {
     this.getArtistsData();

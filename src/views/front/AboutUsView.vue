@@ -23,7 +23,7 @@
         class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-10 lg:px-20 py-6 flex flex-col sm:flex-row justify-between space-y-10 sm:space-y-0 mx-auto w-[60%] sm:w-[600px] lg:w-[800px]">
         <ul v-for="person in teamFrontend" :key="person">
           <li class="flex flex-col items-center space-y-2">
-            <img src="/favicon.ico" alt="圖片" class="w-[3rem]" />
+            <img :src="person.avatar" alt="圖片" class="w-[5rem] h-[5rem]" />
             <p class="text-lg">{{ person.name }}</p>
             <ul class="flex">
               <li v-for="(link, index) in person.link" :key="index">
@@ -44,7 +44,7 @@
       <div class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-10 py-6 flex flex-col sm:flex-row justify-center space-y-10 sm:space-y-0 mx-auto w-[60%] sm:w-[200px] lg:w-[250px]">
         <ul v-for="person in teamBackend" :key="person">
           <li class="flex flex-col items-center space-y-2">
-            <img src="/favicon.ico" alt="圖片" class="w-[3rem]" />
+            <img :src="person.avatar" alt="圖片" class="w-[5rem] h-[5rem]" />
             <p class="text-lg">{{ person.name }}</p>
             <ul class="flex">
               <li v-for="(link, index) in person.link" :key="index">
@@ -78,25 +78,30 @@ export default {
       teamFrontend: [
         {
           name: '豪豪',
-          link: ['https://github.com/andrewye0128', ''],
+          link: ['https://github.com/andrewye0128', 'https://www.linkedin.com/in/andrew-ye-profile1/'],
+          avatar: 'https://blush.design/api/download?shareUri=aMylVqvsAIdbUCWF&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           name: '銀光菇',
           link: ['https://github.com/Gingene', 'https://www.linkedin.com/in/silverfungi147'],
+          avatar: 'https://blush.design/api/download?shareUri=Ot4kL7W8vXaZuIln&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
         {
           name: 'Celine 510',
-          link: ['https://github.com/Celine510', 'https://www.linkedin.com/in/celine-wu-510ft/'],
+          link: ['https://github.com/Celine510', 'https://www.linkedin.com/in/celine510'],
+          avatar: 'https://blush.design/api/download?shareUri=SrcR-6gR3qxMRiBp&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           name: 'Celine',
-          link: ['https://github.com/Celine-Lin', ''],
+          link: ['https://github.com/Celine-Lin', 'https://www.linkedin.com/in/celinelin-hsianglinglin/'],
+          avatar: 'https://blush.design/api/download?shareUri=r7SbaqZLzqnnhy1b&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
       ],
       teamBackend: [
         {
           name: '人平',
-          link: ['', 'https://www.linkedin.com/in/chenjenping/'],
+          link: ['https://github.com/chenjenping', 'https://www.linkedin.com/in/chenjenping/'],
+          avatar: 'https://blush.design/api/download?shareUri=ZK0hThocjZ27JP1R&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
       ],
     };

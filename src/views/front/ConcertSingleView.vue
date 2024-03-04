@@ -116,7 +116,7 @@
             <DialogContent class="rounded-md">
               <DialogHeader>
                 <DialogTitle class="mb-6">新增歌曲</DialogTitle>
-                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 演唱會的歌單</p>
+                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 有演唱的曲目</p>
                 <p class="text-sm text-black-60 pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
                 <DialogDescription class="space-y-8">
                   <div class="space-y-2">
@@ -302,7 +302,7 @@ export default {
       open: false,
       openTwo: false,
       // 歌單
-      songList:[],
+      songList: [],
     };
   },
   inject: ['http', 'path'],
@@ -311,19 +311,17 @@ export default {
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
 
     changeYTplayer(url) {
-      if(url.includes('iframe')){
-        const num = url.indexOf('embed/')+6;
-        this.ytId = url.slice(num, num+11);
-      }
-      else if(url.includes('youtu.be/')){
-        const num = url.indexOf('youtu.be')+9;
-        this.ytId = url.slice(num, num+11);
-      }
-      else if(url.includes('youtube')){
+      if (url.includes('iframe')) {
+        const num = url.indexOf('embed/') + 6;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtu.be/')) {
+        const num = url.indexOf('youtu.be') + 9;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtube')) {
         let num = 0;
-        if(url.includes('live')) num = url.indexOf('live/')+5;
-        if(url.includes('watch')) num = url.indexOf('watch?v=')+8;
-        this.ytId = url.slice(num, num+11);
+        if (url.includes('live')) num = url.indexOf('live/') + 5;
+        if (url.includes('watch')) num = url.indexOf('watch?v=') + 8;
+        this.ytId = url.slice(num, num + 11);
       }
     },
     checkLogin() {
@@ -413,7 +411,7 @@ export default {
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
-      this.songList = this.singleConcert.songs.sort((a,b)=>b.up_votes - a.up_votes);
+      this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
       console.log(this.songList);
 
       this.changeYTplayer(this.songList[0]?.youtube_url);

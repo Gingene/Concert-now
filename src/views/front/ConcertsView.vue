@@ -1,6 +1,6 @@
 <template>
   <section class="container relative pb-[128px] lg:pb-[192px]">
-    <BannerComponent :prop-placeholder="bannerInputPlaceholder">
+    <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchConcerts">
       <template #mainTitle>CONCERTS</template>
     </BannerComponent>
     <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-60">
@@ -142,7 +142,7 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction', 'searchConcerts']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
   },
   computed: {
