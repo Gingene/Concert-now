@@ -1,6 +1,6 @@
 <template>
   <Toaster />
-  <div class="container space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem] pb-[140px] md:pb-[240px]">
+  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
     <section class="flex flex-col gap-10 md:pt-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
         <div class="space-y-6 lg:flex lg:flex-col lg:justify-between lg:w-[100%]">
@@ -40,14 +40,14 @@
           </p>
         </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
-          <Button variant="white-outline" size="base" class="border-[1px] border-black-60">
+          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60">
             {{ singleConcert.artist?.name }}
           </Button>
         </router-link>
-        <Button variant="white-outline" size="base" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
+        <Button variant="white-outline" size="base3" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
           <font-awesome-icon v-if="isSaved.some((item) => item.id === singleConcert.id)" icon="fa-solid fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
           <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
-          收藏到最愛
+          收藏
         </Button>
       </div>
     </section>
@@ -57,13 +57,13 @@
         <template #mainTitle>購票傳送門</template>
       </TitleComponent>
       <div class="flex flex-col">
-        <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20">
-          <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.5rem] xl:mb-[-2.5rem]">0{{ index + 1 }}</div>
-          <a :href="item.url" target="_blank" class="flex justify-between items-center mt-6 xl:mt-10 w-[100%] hover:translate-y-[-0.25rem]">
-            <h2 class="text-lg md:text-xl lg:text-3xl">
+        <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20 relative">
+          <a :href="item.url" target="_blank" class="flex justify-between items-center mt-2 xl:mt-4 w-[100%] hover:translate-y-[-0.2rem] hover:lg:translate-y-[-0.4rem]">
+            <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.7rem] lg:mb-[-2rem] xl:mb-[-2.6rem]">0{{ index + 1 }}</div>
+            <h2 class="text-lg md:text-xl lg:text-3xl -ml-[0rem] md:-ml-[8rem] xl:-ml-[20rem] mt-6 md:mt-7 lg:mt-11">
               {{ item.name }}
             </h2>
-            <button class="py-4">
+            <button class="py-4 mt-6 md:mt-7 lg:mt-11">
               <svg class="w-[120px] sm:w-[230px] sm:h-[20px] xl:w-[299px] xl:h-[26px]" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
@@ -71,8 +71,9 @@
               </svg>
             </button>
           </a>
+          <div class="border-b-8 h-2 w-[100%] absolute -bottom-2"></div>
         </div>
-        <div class="border-b-8 h-2 w-[100%]"></div>
+        <!-- <div class="border-b-8 h-2 w-[100%]"></div> -->
       </div>
     </section>
     <section>
@@ -115,7 +116,7 @@
             <DialogContent class="rounded-md">
               <DialogHeader>
                 <DialogTitle class="mb-6">新增歌曲</DialogTitle>
-                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 演唱會的歌單</p>
+                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 有演唱的曲目</p>
                 <p class="text-sm text-black-60 pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
                 <DialogDescription class="space-y-8">
                   <div class="space-y-2">
@@ -151,10 +152,10 @@
                       <Input type="text" name="song3Url" v-model="songs[2].youtube_url" class="ml-[7rem] border-white" />
                     </div>
                   </div>
-                  <p class="text-sm text-black-60 text-right cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</p>
+                  <p class="text-sm text-black-60 text-center cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</p>
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter>
+              <DialogFooter class="justify-center sm:justify-center">
                 <DialogClose as-child>
                   <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
                 </DialogClose>
@@ -164,21 +165,29 @@
           </Dialog>
         </div>
         <ScrollArea class="h-[19rem] w-full mt-2" v-if="hadSong">
-          <div v-for="(song, index) in singleConcert.songs" :key="song + index">
+          <div v-for="(song, index) in songList" :key="song + index">
             <div class="text-base flex justify-between items-center bg-trans">
               <div>{{ index + 1 }}</div>
               <!-- 點擊更換YT iframe影片 -->
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
-              <div class="flex pr-4 gap-2 sm:gap-6 h-14">
-                <!-- (待完成)推與倒推按鈕 -->
-                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
+              <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
+                <!-- 推與倒推按鈕 -->
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
                   <p>{{ song.up_votes }}</p>
                 </button>
-                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-7px] hover:font-bold">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
                   <p>{{ song.down_votes }}</p>
                 </button>
+                <!-- <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
+                  <font-awesome-icon icon="fa-solid fa-chevron-up" />
+                  <p>{{ song.up_votes }}</p>
+                </button>
+                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-3.5px] hover:font-bold">
+                  <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                  <p>{{ song.down_votes }}</p>
+                </button> -->
               </div>
             </div>
             <div class="w-full h-[1px] bg-[var(--black-60)]"></div>
@@ -292,6 +301,8 @@ export default {
       // 操控 Dialog
       open: false,
       openTwo: false,
+      // 歌單
+      songList: [],
     };
   },
   inject: ['http', 'path'],
@@ -299,8 +310,19 @@ export default {
     ...mapActions(useConcertsStore, ['getSingleConcert', 'saveUnSavedConcert', 'callSaveAction']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
 
-    changeYTplayer(id) {
-      this.ytId = id.slice(32, 43);
+    changeYTplayer(url) {
+      if (url.includes('iframe')) {
+        const num = url.indexOf('embed/') + 6;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtu.be/')) {
+        const num = url.indexOf('youtu.be') + 9;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtube')) {
+        let num = 0;
+        if (url.includes('live')) num = url.indexOf('live/') + 5;
+        if (url.includes('watch')) num = url.indexOf('watch?v=') + 8;
+        this.ytId = url.slice(num, num + 11);
+      }
     },
     checkLogin() {
       this.openTwo = this.isLogin;
@@ -389,7 +411,10 @@ export default {
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
-      this.changeYTplayer(this.singleConcert.songs[0]?.youtube_url);
+      this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+      console.log(this.songList);
+
+      this.changeYTplayer(this.songList[0]?.youtube_url);
     }
   },
 };

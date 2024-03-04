@@ -91,16 +91,16 @@ export { http, path, adminPath };
 export const getArtists = async () => {
   const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
 
-   try {
-     const res = await http.get(url);
-     return res;
-   } catch (error) {
-     console.error('[GetArtists Failed]', error);
-     throw error;
-   }
+  try {
+    const res = await http.get(url);
+    return res;
+  } catch (error) {
+    console.error('[GetArtists Failed]', error);
+    throw error;
+  }
 };
 
-// 取得『單一表演者頁面』資料 
+// 取得『單一表演者頁面』資料
 export const getSingleArtist = async (id) => {
   const url = `${VITE_APP_SERVICE_API}/api/artists/${id}`;
 
@@ -113,7 +113,7 @@ export const getSingleArtist = async (id) => {
   }
 };
 
-// 取得『input 篩選表演者頁面』資料 
+// 取得『input 篩選表演者頁面』資料
 export const getInputArtist = async (searchText) => {
   const url = `${VITE_APP_SERVICE_API}/api/artists?q=${searchText}`;
 
