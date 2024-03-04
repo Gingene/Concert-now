@@ -25,7 +25,7 @@
           <img :src="venue.seat_picture" :alt="venue.title" class="w-full" />
         </div>
         <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2 col-span-2">
-          <div class="flex justify-between border-black-0 border-b-2 pb-6 lg:pb-10">
+          <div class="flex justify-between pb-6 lg:pb-10">
             <Select v-model="seatArea">
               <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
                 <SelectValue placeholder="座位區" />
@@ -39,7 +39,7 @@
               </SelectContent>
             </Select>
             <div class="text-center">
-              <Dialog>
+              <Dialog :open="openCommentModal" @update:open="openModal">
                 <DialogTrigger as-child>
                   <Button variant="ghost" class="space-x-4 md:text-lg lg:text-xl">
                     <span>留下評論</span>
@@ -56,7 +56,7 @@
                     <div class="relative flex items-center">
                       <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
                       <Select v-model="commentSeatArea" id="seat-select">
-                        <SelectTrigger class="ml-[7rem] border-white">
+                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
                           <SelectValue placeholder="選取座位區" />
                         </SelectTrigger>
                         <SelectContent>
@@ -70,7 +70,7 @@
                     <div class="flex items-center">
                       <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
                       <Select id="concert-select" v-model="concertId">
-                        <SelectTrigger class="ml-[7rem] border-white">
+                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
                           <SelectValue placeholder="選取演唱會" />
                         </SelectTrigger>
                         <SelectContent>
@@ -84,34 +84,48 @@
                     <div>
                       <div class="relative flex items-center mb-4">
                         <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
-                        <Input id="commentPictures" ref="commentPictures" multiple placeholder="選擇檔案" class="ml-[7rem] border-white" type="file" accept="image/png, image/jpeg" @change="readURL" />
+                        <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
+                        <Button
+                          type="button"
+                          class="ml-[7rem] border-white border w-full rounded-md justify-start text-sm"
+                          :class="{ 'w-3/5': concertId, 'md:w-full': concertId }"
+                          @click="handleFileButton">
+                          <span v-if="!images.length">未選擇任何檔案</span>
+                          <span v-else>已選擇{{ images.length }}個檔案</span>
+                        </Button>
                       </div>
                       <div class="space-y-4">
-                        <span>圖片至多可傳三張</span>
-                        <div class="flex space-x-4">
-                          <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
-                          <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
-                          <img id="commentImage3" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" />
+                        <span class="text-sm text-black-60">圖片至多可傳三張</span>
+                        <div class="flex justify-center space-x-4">
+                          <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[0]" />
+                          <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[1]" />
+                          <img id="commentImage3" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[2]" />
                         </div>
                       </div>
                     </div>
                     <div>
-                      <Textarea v-model="commentContent" />
+                      <Textarea v-model="commentContent" placeholder="留下你的評論..." />
                     </div>
-                    <div class="flex justify-end items-center">
-                      <input id="commentPolicy" type="checkbox" class="size-4 mr-2" v-model="checkPolicy" />
-                      <Label for="commentPolicy" class="text-sm text-black-60 text-right cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Label>
+                    <div class="flex justify-center items-center">
+                      <Button for="commentPolicy" type="button" class="text-sm text-black-60 text-right cursor-pointer px-0" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Button>
                     </div>
                     <DialogFooter class="justify-center sm:justify-center">
-                      <Button variant="tiffany-blur">送出評論</Button>
+                      <DialogClose as-child>
+                        <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
+                      </DialogClose>
+                      <Button variant="tiffany-fill" size="base" type="submit" class="px-14 md:px-14 lg:px-14">送出評論</Button>
                     </DialogFooter>
                   </form>
                 </DialogContent>
               </Dialog>
             </div>
           </div>
-          <ScrollArea class="lg:h-[280px] xl:h-[350px] 2xl:h-[500px]">
-            <div v-for="comment in filterSeatComment" :key="comment.id" class="grid grid-cols-12 gap-x-4 min-h-[150px] mt-6">
+          <ScrollArea class="lg:h-[280px] xl:h-[350px]">
+            <div
+              v-for="(comment, index) in filterSeatComment"
+              :key="comment.id"
+              class="grid grid-cols-12 gap-x-4 border-b border-black-60 py-10 min-h-[150px] mt-6"
+              :class="{ 'border-t': index === 0 }">
               <div class="col-span-2 sm:col-span-1">
                 <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 2xl:size-12" />
               </div>
@@ -120,27 +134,32 @@
                   <span>{{ comment.user.name }}</span>
                   <span class="text-black-40">{{ comment.seat_area }}</span>
                 </div>
-                <div class="text-sm md:text-base flex flex-wrap md:justify-between">
-                  <p class="mb-4 md:mb-0">{{ comment.comment }}</p>
-                  <div class="flex space-x-3 w-full md:w-auto" v-if="comment.images.length">
+                <div class="text-sm md:text-base lg:flex lg:flex-wrap lg:justify-between">
+                  <p class="mb-4 lg:mb-0">{{ comment.comment }}</p>
+                  <div class="flex space-x-3 w-full lg:w-auto" v-if="comment.images.length">
                     <template v-for="(image, index) in comment.images" :key="index">
                       <img :src="image" alt="" class="size-20 object-cover rounded-xl" />
                     </template>
                   </div>
                 </div>
 
-                <div class="text-tiny truncate">
-                  <span>{{ comment.concert.title }}</span>
-                </div>
-                <div class="text-tiny">
-                  <span>{{ comment.created_at }}</span>
+                <div class="text-tiny text-black-60">
+                  <p class="truncate mb-2">{{ comment.concert.title }}</p>
+                  <time>{{ comment.created_at }}</time>
                 </div>
               </div>
 
               <div class="col-span-2 md:col-span-1">
-                <Button variant="ghost" class="p-1">
-                  <MoreHorizontal />
-                </Button>
+                <HoverCard :openDelay="0">
+                  <HoverCardTrigger as-child>
+                    <Button variant="ghost" class="p-1">
+                      <MoreHorizontal />
+                    </Button>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    <Button @click="reportUser(comment.user.name)">檢舉該名使用者</Button>
+                  </HoverCardContent>
+                </HoverCard>
               </div>
             </div>
           </ScrollArea>
@@ -176,7 +195,7 @@
         <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px]"></iframe>
       </div>
       <div class="space-y-6 lg:space-y-10">
-        <template v-for="method in venue.transportation" :key="method.type">
+        <!-- <template v-for="method in venue.transportation" :key="method.type">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1" class="lg:relative">
               <AccordionTrigger :hideIcon="true">
@@ -186,29 +205,48 @@
                 </div>
               </AccordionTrigger>
               <AccordionContent class="lg:flex lg:justify-end">
-                <ul class="list-disc px-6 space-y-4 -mt-12 lg:w-3/4 lg:opacity-0">
+                <ul class="list-disc text-base px-6 space-y-4 lg:-mt-16 lg:w-3/4 hidden lg:block lg:opacity-0">
                   <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
                 </ul>
-                <ul class="list-disc text-base px-6 space-y-4 mt-2 lg:w-3/4 lg:absolute lg:top-0">
+                <ul class="list-disc text-base px-6 lg:px-0 space-y-4 mt-6 lg:mt-0 lg:w-2/3 lg:absolute lg:top-0">
                   <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
                 </ul>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-        </template>
+        </template> -->
+        <Accordion type="single" collapsible>
+          <AccordionItem class="lg:relative" v-for="method in transportation" :key="method.type" :value="method.value">
+            <AccordionTrigger :hideIcon="true" :value="method.value" class="accordion-button">
+              <div class="flex space-x-10 font-black">
+                <ArrowDownRight class="size-10 lg:size-16" />
+                <span class="-mb-8 pt-2 lg:pt-[30px] text-4xl">{{ method.type }}</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent class="lg:flex lg:justify-end">
+              <ul class="list-disc text-base px-6 space-y-4 lg:-mt-16 lg:w-3/4 hidden lg:block lg:opacity-0">
+                <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
+              </ul>
+              <ul class="list-disc text-base px-6 lg:px-0 space-y-4 mt-6 lg:mt-4 lg:w-2/3 lg:absolute lg:top-0">
+                <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
+              </ul>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   </section>
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+// import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { MoreHorizontal, ArrowDownRight } from 'lucide-vue-next';
 </script>
@@ -230,7 +268,9 @@ export default {
       concertId: '',
       commentContent: '',
       images: [],
-      checkPolicy: false,
+      checkPolicy: true,
+      openCommentModal: false,
+      accordionItems: [],
     };
   },
   props: ['id'],
@@ -263,23 +303,30 @@ export default {
     readURL(input) {
       console.log(input.target.files);
       if (input.target.files && input.target.files[0]) {
-        const reader = new FileReader();
-        console.log(reader);
+        if (input.target.files.length > 3) {
+          toast({
+            title: '圖片最多3張',
+            description: '',
+          });
+          return;
+        }
+        for (let i = 0; i < input.target.files.length; i++) {
+          const reader = new FileReader();
+          // console.log(reader);
 
-        reader.onload = function (e) {
-          console.log(e);
-          document.querySelector('#commentImage1').setAttribute('src', e.target.result);
-          document.querySelector('#commentImage2').setAttribute('src', e.target.result);
-          document.querySelector('#commentImage3').setAttribute('src', e.target.result);
-        };
-        for (const i of input.target.files) {
-          console.log(i);
+          reader.onload = function (e) {
+            // console.log(e);
+            document.querySelector('#commentImage' + (i + 1)).setAttribute('src', e.target.result);
+          };
+
+          reader.readAsDataURL(input.target.files[i]);
         }
 
-        // reader.readAsDataURL(input.target.files[0]);
-        reader.readAsDataURL(...input.target.files);
         this.images = [...input.target.files];
       }
+    },
+    handleFileButton() {
+      document.querySelector('#commentPictures').click();
     },
     onSubmit(e) {
       e.preventDefault();
@@ -339,6 +386,7 @@ export default {
             description: '',
           });
           this.getVenue(this.$route.params.id);
+          this.openCommentModal = false;
         })
         .catch((err) => {
           console.log(err);
@@ -353,10 +401,13 @@ export default {
         description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
       });
     },
-    ...mapActions(useVenuesStore, ['getVenue']),
+    openModal(val) {
+      this.openCommentModal = val;
+    },
+    ...mapActions(useVenuesStore, ['getVenue', 'reportUser']),
   },
   computed: {
-    ...mapState(useVenuesStore, ['venue', 'pagination', 'filterSeatComment']),
+    ...mapState(useVenuesStore, ['venue', 'pagination', 'filterSeatComment', 'transportation']),
     ...mapWritableState(useVenuesStore, ['seatArea']),
   },
   watch: {
@@ -369,12 +420,18 @@ export default {
   },
   updated() {
     const marquee = this.$refs.marquee;
+    const accordionButtons = document.querySelectorAll('.accordion-button');
 
     marquee.childNodes.forEach((item) => {
       if (item.textContent.length <= 90 && item.textContent.length > 60) {
         item.style.animationDuration = '20s';
       } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
         item.style.animationDuration = '25s';
+      }
+    });
+    accordionButtons.forEach((item) => {
+      if (item?.dataset?.state === 'open') {
+        item?.click();
       }
     });
   },

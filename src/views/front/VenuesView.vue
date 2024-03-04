@@ -4,10 +4,10 @@
       <template #mainTitle>VENUES</template>
     </BannerComponent>
 
-    <main class="space-y-6 lg:space-y-10 pb-20 lg:pb-32 border-b-2 border-black-60">
+    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-60”">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4" @click="getVenues"> 全部 </Button>
+          <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="getVenuesByCity('', $event)"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
             <Button variant="tiffany-outline" size="base" @click="getVenuesByCity(city, $event)" class="city-button"> {{ city }} </Button>
           </template>
@@ -17,11 +17,21 @@
         <li v-for="venue in venues" :key="venue.id">
           <Card class="border-black-60">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
-              <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-2xl object-cover min-w-full" />
-              <CardTitle class="border-x-2 pt-6 px-6 border-black-60 text-sm lg:text-lg">{{ venue.title }}</CardTitle>
+              <RouterLink :to="`/venues/${venue.id}`">
+                <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-2xl object-cover min-w-full" />
+              </RouterLink>
+              <CardTitle class="border-x-2 pt-6 px-6 border-black-60 text-base lg:text-lg">
+                <RouterLink :to="`/venues/${venue.id}`">
+                  {{ venue.title }}
+                </RouterLink>
+              </CardTitle>
               <CardDescription class="hidden"></CardDescription>
             </CardHeader>
-            <CardContent class="border-x-2 border-black-60 text-tiny text-black-60 pt-2"> {{ venue.city }} </CardContent>
+            <CardContent class="border-x-2 border-black-60 text-black-60 pt-2">
+              <div class="text-tiny">
+                {{ venue.city }}
+              </div>
+            </CardContent>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/venues/${venue.id}`">
                 <Button variant="white-outline" size="base" @click="getVenue(venue.id)">
@@ -33,27 +43,27 @@
           </Card>
         </li>
       </ul>
-      <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1">
-          <PaginationFirst @click="getVenues(1)" />
-          <PaginationPrev @click="getVenues(pagination.current_page - 1)" />
+          <PaginationFirst @click="getVenuesByPage(1)" />
+          <PaginationPrev @click="getVenuesByPage(pagination.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getVenues(item.value)">
+              <Button class="w-10 h-10 p-0" :variant="searchPage === item.value ? 'default' : 'outline'" @click="getVenuesByPage(item.value)">
                 {{ item.value }}
               </Button>
             </PaginationListItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
 
-          <PaginationNext @click="getVenues(pagination.current_page + 1)" />
-          <PaginationLast @click="getVenues(pagination.total_pages)" />
+          <PaginationNext @click="getVenuesByPage(pagination.current_page + 1)" />
+          <PaginationLast @click="getVenuesByPage(pagination.total_pages)" />
         </PaginationList>
       </Pagination>
     </main>
   </section>
-  <section class="py-20">
+  <section class="pt-[20px] md:pt-[58px] lg:pt-[117px] pb-[128px] lg:pb-[192px]">
     <div>
       <!-- <h2 class="flex flex-col justify-center items-center text-[3.5rem] font-display sm:text-display-3 font-black pb-6">
         <span>POPULAR</span>
@@ -76,9 +86,9 @@
           </AccordionTrigger>
           <AccordionContent class="lg:flex lg:justify-end">
             <!-- <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[200px] opacity-0" /> -->
-            <router-link :to="`/venues/${venue.id}`">
+            <RouterLink :to="`/venues/${venue.id}`">
               <img :src="venue.picture.horizontal" :alt="venue.title" class="h-[300px] lg:absolute lg:-top-[200px] object-cover right-[20px]" :style="{ right: `${index * 20}px` }" />
-            </router-link>
+            </RouterLink>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -188,16 +198,19 @@ export default {
         this.simulatorAccordionButtonHover(btn, 'mouseover');
       });
     },
-    ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues']),
+    ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues', 'getVenuesByPage', 'resetState']),
   },
   computed: {
-    ...mapState(useVenuesStore, ['venues', 'pagination']),
+    ...mapState(useVenuesStore, ['venues', 'pagination', 'searchPage']),
   },
   mounted() {
     this.getVenues();
   },
   updated() {
     this.installAccordionButtonHover();
+  },
+  unmounted() {
+    this.resetState();
   },
 };
 </script>
