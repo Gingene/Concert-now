@@ -108,7 +108,7 @@
       <nav class="hidden lg:block lg:col-span-5 xl:col-span-4">
         <ul class="flex justify-between items-center">
           <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" ref="linkItems" @mouseover="addBlurEffect(index, $event)" @mouseleave="removeBlurEffect">
-            <RouterLink :to="item.href" class="py-5 px-4 xl:px-5 2xl:px-6 inline-block"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
+            <RouterLink :to="item.href" class="py-5 lg:px-2 2xl:px-5 inline-block whitespace-nowrap"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
           </li>
         </ul>
       </nav>
@@ -274,7 +274,9 @@
                         <ul class="w-[150px] border-0 space-y-2">
                           <li>
                             <NavigationMenuLink as-child>
-                              <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                              <SheetClose as-child>
+                                <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                              </SheetClose>
                             </NavigationMenuLink>
                           </li>
                           <li v-if="user?.is_admin">
@@ -365,7 +367,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-import { useDebounceFn, useThrottleFn } from '@vueuse/core';
+import { useDebounceFn } from '@vueuse/core';
 
 export default {
   inject: ['http', 'path'],
@@ -419,13 +421,15 @@ export default {
         item.classList.add('blur');
       });
       e.currentTarget.classList.remove('blur');
+      console.log('hover');
     },
-    removeBlurEffect: useThrottleFn(function () {
+    removeBlurEffect: useDebounceFn(function () {
       this.hoveredIndex = -1;
       this.$refs.linkItems.forEach((item) => {
         item.classList.remove('blur');
       });
-    }, 50),
+      console.log('remove');
+    }, 650),
     searchConcenrts() {
       this.http
         .get(`${this.path.concerts}?q=${this.searchText}&page=1`)
