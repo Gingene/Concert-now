@@ -1,10 +1,9 @@
 <template>
-  <section class="container relative pt-10">
-    <!-- banner 元件，請在 data 建立變數 bannerInputPlaceholder 並輸入 placeholder 內文字串 -->
-    <BannerComponent :prop-placeholder="bannerInputPlaceholder">
+  <section class="container relative pb-[128px] lg:pb-[192px]">
+    <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchConcerts">
       <template #mainTitle>CONCERTS</template>
     </BannerComponent>
-    <main class="space-y-6 lg:space-y-14 pb-20 lg:pb-32 border-b-2 border-black-60">
+    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-60">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
           <Button
@@ -86,7 +85,7 @@
             </CardHeader>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
-                <Button variant="white-outline" size="default">
+                <Button variant="white-outline" size="base2">
                   <span class="text-sm">查看更多</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
@@ -135,7 +134,7 @@ export default {
       bannerInputPlaceholder: '請輸入演唱會名稱',
       // userLogged: false,
       timeRanges: ['本日', '本週', '本月'],
-      countryRanges: ['台灣', '日本', '韓國', '歐美', '其他'],
+      countryRanges: ['台灣', '日本', '韓國', '歐美', '其它'],
       // 按鈕狀態 - 用於樣式切換
       timeButtonIsActive: 'stateAll',
       countryButtonIsActive: 'stateAll',
@@ -143,7 +142,7 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction', 'searchConcerts']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
   },
   computed: {
@@ -155,7 +154,8 @@ export default {
     },
   },
   mounted() {
-    this.getConcerts();
+    this.getConcerts('country', 'all');
+    this.getConcerts('time', 'all');
 
     // 確認使用者登入狀態
     if (this.AccessToken !== undefined) {

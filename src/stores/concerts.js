@@ -3,6 +3,7 @@ import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
 import { http, path } from '@/api';
 import { useUserStore } from '@/stores/user';
 import useDarkAlert from '@/hooks/useDarkAlert';
+import { useDebounceFn } from '@vueuse/core';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 const { getUserSavedAndFollowed } = useUserStore();
@@ -17,17 +18,35 @@ export const useConcertsStore = defineStore('concerts', {
       // 儲存篩選條件
       timeFactor: '',
       countryFactor: '',
+      textFactor: '',
       pageFactor: '',
     };
   },
   actions: {
+    searchConcerts: useDebounceFn(function (searchText) {
+      this.textFactor = searchText;
+      this.getConcerts();
+      // http
+      //   .get(`${path.concerts}/?q=${searchText}`)
+      //   .then((res) => {
+      //     console.log(res);
+      //     this.concerts = res.data.data;
+      //     this.pagination = res.data.pagination;
+      //     console.log(this.concerts);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
+    }, 300),
     getConcerts(filterFactor, rangeFactor, page = 1) {
       // 全部按鈕帶空字串，其他按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
+
       this.pageFactor = page;
 
-      timeCountryFilter('concerts', this.timeFactor, this.countryFactor, this.pageFactor).then((data) => {
+      timeCountryFilter('concerts', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
+        console.log('concerts', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor);
         this.concerts = data.data;
         this.pagination = data.pagination;
       });
@@ -70,7 +89,7 @@ export const useConcertsStore = defineStore('concerts', {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              window.location.href = 'login#/login';
+              window.location.href = 'https://gingene.github.io/Concert-now/#/login';
             }
           });
         return;
