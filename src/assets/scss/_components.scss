@@ -42,6 +42,7 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   .font-TC-display {
     @apply text-7xl font-black drop-shadow-dark;
   }
+  
   // 首頁標題字體隨螢幕縮放自適應，letter-spacing對應文字-4%
   .display-title {
     @apply font-display font-black leading-display;
@@ -118,14 +119,24 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   //   @apply border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover;
   // }
 
+  // 字體大小
+  .default {
+    @apply h-10 px-4 py-2 rounded-btn1
+  }
+
   .basic {
     @apply flex items-center 
-    rounded-btn1 h-10 p-2 md:p-4 lg:p-6;
+    text-base h-10 px-4 py-2 rounded-btn1;
   }
 
   // 粉色模糊
   .pink-blur {
     @apply border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover;
+  }
+
+  // 粉色乾淨
+  .pink-outline {
+    @apply border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover;
   }
 
   // 粉色 active
@@ -138,13 +149,19 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
     @apply border-2 border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover;
   }
 
-  // 藍色 active
+  // 藍色模糊 active
   .tiffany-blur-fill {
     @apply border-2 border-tiffany bg-tiffany text-primary box-shadow-tiffany-blur-hover;
   }
 
   // 藍色乾淨
   .tiffany-outline {
-    @apply border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover;
+    @apply border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary;
   }
+  
+   // 藍色 active
+  .tiffany-follow {
+    @apply border-2 border-tiffany bg-tiffany text-primary
+  }
+
 }

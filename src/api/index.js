@@ -86,7 +86,6 @@ const adminPath = {
 export { http, path, adminPath };
 
 // 一般會員
-
 // 取得『表演者總覽頁面』資料
 export const getArtists = async () => {
   const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
@@ -125,3 +124,68 @@ export const getInputArtist = async (searchText) => {
     throw error;
   }
 };
+
+// 網站會員
+// post - 『新增』表演者『追蹤演唱會』資料
+export const postFollowConcets = async (id) => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists/${id}/follow`;
+
+  try {
+    const res = await http.post(url);
+    return res;
+
+  } catch (error) {
+    console.log('[PostFollowConcets Failed]', error);
+  }
+};
+
+// delete - 『刪除』表演者『追蹤演唱會』資料
+export const deleteFollowConcets = async (id) => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists/${id}/unfollow`;
+
+  try {
+    const res = await http.delete(url);
+    return res;
+  } catch (error) {
+    console.log('[DeleteFollowConcets Failed]', error);
+  }
+};
+
+// 取得單一表演者之『收藏演唱會』資料
+export const getSavedConcerts = async () => {
+  const url = `${VITE_APP_SERVICE_API}/api/me`;
+
+  try {
+    const res = await http.get(url)
+    return res;
+  } catch (error) {
+    console.error('[GetSavedConcerts Failed]', error);
+    throw error;
+  }
+};
+
+// post - 『新增』單一表演者之『收藏演唱會』資料
+export const postSaveConcerts = async (id) => {
+  const url = `${VITE_APP_SERVICE_API}/api/concerts/${id}/save`;
+  try {
+    const res = await http.post(url)
+    return res;
+
+  } catch (error) {
+    console.error('[PostSaveConcerts Failed]', error);
+    throw error;
+  }
+}
+
+// delete - 『刪除』單一表演者之『收藏演唱會』資料
+export const deleteSaveConcerts = async (id) => {
+  const url = `${VITE_APP_SERVICE_API}/api/concerts/${id}/unsave`;
+  try {
+    const res = await http.delete(url);
+    return res;
+  } catch (error) {
+    console.error('[DeleteSaveConcerts Failed]', error);
+    throw error;
+  }
+};
+
