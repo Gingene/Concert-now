@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia';
 import Swal from 'sweetalert2';
-import useApiData from '@/hooks/useApiData';
+// import useApiData from '@/hooks/useApiData';
 import { useDebounceFn } from '@vueuse/core';
+import { adminPath, http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
 
-const { httpData } = useApiData();
+const { setIsLoading } = loadingStore();
+// const { httpData } = useApiData();
 
 export const songsStore = defineStore('songsStore', {
   state: () => ({
@@ -12,22 +15,45 @@ export const songsStore = defineStore('songsStore', {
     controlCheckAll: true,
     songCheckList: [],
     songs: [],
+    concertSongs: [],
     backupDatas: [],
     mapSongs: {},
     pagination: {},
+    searchText: '',
+    searchPage: 1,
   }),
   actions: {
-    getSongs(thePath) {
-      httpData('get', thePath).then((res) => {
-        for (const i of res.data) {
-          i.id = i.id.toString();
-        }
-        this.songs = [...res.data];
-        this.pagination = { ...res.pagination };
-        console.log(this.pagination);
-        this.backupDatas = [...res.data];
-        this.mapSongs = Object.groupBy([...res.data], ({ concert }) => concert.title);
-      });
+    getSongs(page = 1) {
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?page=${page}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          this.backupDatas = [...res.data.data];
+          // this.mapSongs = Object.groupBy([...res.data.data], ({ concert }) => concert.title);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getSongsByConcert(concertId) {
+      setIsLoading();
+      http
+        .get(`${path.concerts}/${concertId}`)
+        .then((res) => {
+          this.concertSongs = [...res.data.data.songs];
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
     },
     checkReview(id) {
       const song = this.songs.find((song) => song.id === id);
@@ -91,19 +117,61 @@ export const songsStore = defineStore('songsStore', {
       }
     },
     searchSong: useDebounceFn(
-      function (e) {
-        this.songs = [...this.backupDatas];
-        if (e.target.value === '') return;
-        // const songContents = this.songs.filter((item) => item.name.match(e.target.value));
-        // const songUser = this.songs.filter(() => this.userId1.email.match(e.target.value));
-        const regex = new RegExp(e.target.value, 'i');
-        const songContents = this.songs.filter((item) => regex.test(item.name));
-        const songUser = this.songs.filter(() => regex.test(this.userId1.email));
-        this.songs = [...songContents, ...songUser];
+      function (e, page = 1) {
+        this.searchText = e.target.value;
+        this.searchPage = page;
+        // setIsLoading();
+        // http
+        //   .get(`${adminPath.songs}/?q=${this.searchText}&?page=${page}`)
+        //   .then((res) => {
+        //     this.songs = [...res.data.data];
+        //     this.pagination = { ...res.data.pagination };
+        //     console.log(res);
+        //   })
+        //   .catch((err) => {
+        //     console.error(err);
+        //   })
+        //   .finally(() => {
+        //     setIsLoading();
+        //   });
+        this.songs = [];
+        if (e.target.value === '') {
+          this.songs = [...this.backupDatas];
+          return;
+        }
+        this.searchAllSongs();
+
+        // const regex = new RegExp(this.searchText, 'i');
+        // const songContents = this.songs.filter((item) => regex.test(item.concert.title));
+        // const songUser = this.songs.filter((item) => regex.test(item.user.email));
+        // if (songContents == songUser) {
+        //   this.songs = [...songContents];
+        // } else {
+        //   this.songs = [...songContents, ...songUser];
+        // }
       },
       500,
       { maxWait: 2000 },
     ),
+    searchAllSongs() {
+      for (let i = 1; i <= this.pagination.total_pages; i++) {
+        setIsLoading();
+        http
+          .get(`${adminPath.songs}/?page=${i}`)
+          .then((res) => {
+            console.log(res);
+            const regex = new RegExp(this.searchText, 'i');
+            const songContents = res.data.data.filter((item) => regex.test(item.concert.title));
+            this.songs = [...this.songs, ...songContents];
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            setIsLoading();
+          });
+      }
+    },
     // comment 操作
     deleteSong(id) {
       console.log(id);

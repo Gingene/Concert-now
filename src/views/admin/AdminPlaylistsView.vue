@@ -17,14 +17,14 @@
       </Select>
     </div>
     <div class="flex col-span-2">
-      <Input type="text" placeholder="輸入會場、用戶名稱查詢..." @input="searchSong" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
+      <Input type="text" placeholder="輸入演唱會、用戶名稱查詢..." @input="searchSong" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
       <Button class="rounded-l-none">
         <span class="material-symbols-outlined absolute"> search </span>
       </Button>
     </div>
 
     <div class="flex flex-wrap space-y-4 sm:space-y-0 col-span-2 items-center justify-between">
-      <p>列表數量: {{ filterDatas.length }}</p>
+      <p>歌曲數量: {{ pagination.total }}</p>
       <div>
         <Button class="bg-lime-500 hover:bg-lime-700" :disabled="!songCheckList.length" @click="checkSelectReview">已審閱</Button>
         <AlertDialog>
@@ -82,17 +82,17 @@
     <TableBody class="text-gray-600">
       <Suspense>
         <template #default>
-          <TableRow class="py-8" v-for="song in filterDatas" :key="song.id">
+          <TableRow class="py-8" v-for="song in filterDatas" :key="song.id.toString()">
             <TableCell class="text-purple-primary">
-              <Checkbox :id="song.id" @click="chagneCheckList(song.id)" class="checkboxList" />
-              <label :for="song.id" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
+              <Checkbox :id="song.id.toString()" @click="chagneCheckList(song.id)" class="checkboxList" />
+              <Label :for="song.id.toString()" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </Label>
             </TableCell>
             <TableCell class="text-purple-primary text-center">{{ song.down_votes }}</TableCell>
             <TableCell>{{ song.name }}</TableCell>
             <TableCell>
               <Dialog>
                 <DialogTrigger>
-                  <Button> 檢視 </Button>
+                  <Button @click="getSongsByConcert(song.concert.id)"> 檢視 </Button>
                 </DialogTrigger>
 
                 <DialogContent class="p-12">
@@ -101,7 +101,7 @@
                     <DialogDescription> 歌單列表 </DialogDescription>
                   </DialogHeader>
                   <ScrollArea class="h-[300px] rounded-md border p-4">
-                    <SongList :mapSongs="mapSongs" :concertTitle="song.concert.title" />
+                    <SongList :concertSongs="concertSongs" />
                   </ScrollArea>
                 </DialogContent>
               </Dialog>
@@ -174,22 +174,22 @@
   </div>
   <!-- Pagination -->
   <div class="flex justify-center">
-    <Pagination v-slot="{ page }" :total="pagination.total * 10" :sibling-count="1" show-edges :default-page="1">
+    <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
       <PaginationList v-slot="{ items }" class="flex items-center md:gap-1">
-        <PaginationFirst />
-        <PaginationPrev />
+        <PaginationFirst @click="getSongs(1)" />
+        <PaginationPrev @click="getSongs(pagination.current_page - 1)" />
 
         <template v-for="(item, index) in items">
           <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'">
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'" @click="getSongs(item.value)">
               {{ item.value }}
             </Button>
           </PaginationListItem>
           <PaginationEllipsis v-else :key="item.type" :index="index" class="hidden sm:flex" />
         </template>
 
-        <PaginationNext />
-        <PaginationLast />
+        <PaginationNext @click="getSongs(pagination.current_page + 1)" />
+        <PaginationLast @click="getSongs(pagination.total_pages)" />
       </PaginationList>
     </Pagination>
   </div>
@@ -199,6 +199,7 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ScrollArea } from '@/components/ui/scroll-area';
 // pagination
@@ -235,6 +236,7 @@ export default {
   methods: {
     ...mapActions(songsStore, [
       'getSongs',
+      'getSongsByConcert',
       'checkReview',
       'checkSelectReview',
       'chagneCheckList',
@@ -248,7 +250,7 @@ export default {
     ]),
   },
   computed: {
-    ...mapState(songsStore, ['songs', 'mapSongs', 'songCheckList', 'sortInitial', 'filterDatas', 'pagination']),
+    ...mapState(songsStore, ['songs', 'mapSongs', 'concertSongs', 'songCheckList', 'sortInitial', 'filterDatas', 'pagination']),
     ...mapWritableState(songsStore, ['selectReview']),
   },
   mounted() {

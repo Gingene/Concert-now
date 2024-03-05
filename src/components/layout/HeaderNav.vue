@@ -421,14 +421,14 @@ export default {
         item.classList.add('blur');
       });
       e.currentTarget.classList.remove('blur');
-      console.log('hover');
+      // console.log('hover');
     },
     removeBlurEffect: useDebounceFn(function () {
       this.hoveredIndex = -1;
       this.$refs.linkItems.forEach((item) => {
         item.classList.remove('blur');
       });
-      console.log('remove');
+      // console.log('remove');
     }, 650),
     searchConcenrts() {
       this.http
