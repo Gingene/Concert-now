@@ -51,8 +51,7 @@
         </Button>
       </div>
     </section>
-    <section class="relative">
-      <!-- <div class="w-full h-[500px] absolute -z[10] opacity-[10%] invert" style="background-image: url('https://img.ixintu.com/download/jpg/201912/28a032b30a859c16618cadc791f315ec.jpg!ys');"></div> -->
+    <section>
       <TitleComponent class="mb-4">
         <template #subTitle>TICKETS</template>
         <template #mainTitle>購票傳送門</template>
@@ -201,7 +200,7 @@
         <template #mainTitle>場地體驗</template>
       </TitleComponent>
       <!-- Venue Info -->
-      <div class="shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)] container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-9 sm:py-7 mb-10 rounded-[40px] bg-shadow-trans-text">
+      <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-9 sm:py-7 mb-10 rounded-[40px] bg-shadow-trans-text">
         <!-- Venue Title -->
         <a href="#" class="font-bold text-3xl sm:text-5xl">Legacy Taipei</a>
         <!-- Venue Seats -->
