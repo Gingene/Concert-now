@@ -7,6 +7,7 @@ const { setIsLoading } = loadingStore();
 
 export const useVenuesStore = defineStore('venues', {
   state: () => ({
+    venueInfo: [],
     venues: [],
     venue: {},
     pagination: {},
@@ -16,6 +17,16 @@ export const useVenuesStore = defineStore('venues', {
     searchPage: 1,
   }),
   actions: {
+    getVenueInfo() {
+      http
+        .get(`${path.venues}?comments=1`)
+        .then((res) => {
+          this.venueInfo = res.data.data;
+        })
+        .catch((err) => {
+          console.err(err);
+        });
+    },
     getVenues(page = 1) {
       setIsLoading();
       http

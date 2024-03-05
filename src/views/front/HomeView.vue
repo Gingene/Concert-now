@@ -37,7 +37,7 @@
     </div>
   </section>
   <!-- Concerts -->
-  <section class="relative pb-64 text-center concert-section overflow-hidden w-full">
+  <section class="relative pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[400px] text-center concert-section overflow-hidden w-full">
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">CONCERTS</h2>
     <!-- Concert Swiper -->
     <swiper
@@ -45,7 +45,7 @@
       :grabCursor="false"
       :freeMode="true"
       :loop="true" 
-      :initialSlide="'4'"
+      :initialSlide="'1'"
       :navigation="true"
       :cardsEffect="{
         perSlideOffset:16,
@@ -53,12 +53,12 @@
         slideShadows: false,
       }"
       :modules="modules"
-      class="mySwiper concert-section xs:w-[90%] xl:w-[80%] -mt-8"
+      class="mySwiper concert-section xs:w-[90%] xl:w-[80%]"
       >
       <swiper-slide 
       v-slot="{ isActive }" v-for="(concert) in concerts" 
       :key="concert.id +123" 
-      class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 sm:my-5 md:my-8" 
+      class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 -my-10 sm:-my-5" 
       style="z-index:-1;"
       :style="`height: 700px;`">
         <img 
@@ -68,11 +68,11 @@
         <div class="hidden">{{ isActive ? (concertActive = concert) : '' }}</div>
       </swiper-slide>
       <!-- Single Concert Card -->
-      <div class="z-10 -mt-20 xs:mt-0 md:mt-7 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[600px] xl:absolute xl:-bottom-20 xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
+      <div class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
         <p class="py-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
         <h3 class="text-lg xs:text-[24px] lg:text-[30px] lg:py-4 pb-2">{{ concertActive.name }}</h3>
-        <router-link :to="`/concerts/${concertActive.id}`" class="w-full xl:w-[60%] block" >
-          <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full lg:w-[70%] hover:border-transparent btn-explore-icon-color">
+        <router-link :to="`/concerts/${concertActive.id}`" class="w-full sm:w-[80%] xl:w-full 2xl:w-[80%] block" >
+          <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
             <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
             <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -85,7 +85,7 @@
     </swiper>
   </section>
   <!-- Artist -->
-  <section class="container pb-48 text-center relative">
+  <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px] text-center relative">
     <!-- Title -->
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-[0.3] xl:mr-[160px]">ARTISTS</h2>
     <!-- Artist List -->
@@ -169,91 +169,66 @@
     </router-link>
   </section>
   <!-- Venue -->
-  <section class="container pb-48 text-center">
+  <section class="container px-[8%] xs:px-[38px] md:px-[64px] lg:w-[800px] xl:w-[1000px] pb-[180px] sm:pb-[230px] md:pb-[200px] lg:pb-[250px] xl:pb-[280px] text-center">
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">VENUES</h2>
-    <!-- Venue Info -->
-    <!-- <article class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-12 sm:py-10 mb-10 rounded-[40px] bg-shadow-trans-text"> -->
-      <!-- Swiper -->
-      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper xs:w-[85%] sm:w-[80%] lg:w-[60%] px-10 rounded-[40px] bg-shadow-trans-text relative venue-section">
-        <!-- Slide 1 -->
-        <swiper-slide v-for="venue in venueInfo" :key="venue.id" class="p-10">
-          <!-- Venue Title -->
-          <a href="#" class="font-bold text-3xl sm:text-5xl">{{ venue.title }}</a>
-          <!-- Venue Seats -->
-          <div class="text-sm sm:text-base grid gap-2 md:gap-4 mx-auto w-[60%] xl:w-[70%] sm:pb-4 my-5">
-            <p class="text-gray-500 text-base sm:text-xl font-lato text-center">_____ STAGE _____</p>
-            <div class="py-8 sm:py-12 xl:py-16 gradient-border">1F 站區</div>
-            <div class="py-8 sm:py-12 xl:py-16 gradient-border">2F 站區</div>
+    <!-- Venue Swiper -->
+    <swiper 
+    :cssMode="true" 
+    :navigation="true" 
+    :pagination="true" 
+    :mousewheel="true" 
+    :keyboard="true" 
+    :modules="modules" 
+    :slidesPerView="1" 
+    :loop="true" 
+    class="mySwiper rounded-[40px] bg-shadow-trans-text venue-section">
+      <swiper-slide 
+      v-for="venue in venueInfo" 
+      class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14"
+      :key="venue.id">
+        <!-- Venue Title -->
+        <h2 href="#" class="font-bold text-xl xs:text-[36px] sm:text-5xl lg:text-6xl pb-2">{{ venue.title }}</h2>
+        <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
+        <!-- Venue Seats -->
+        <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
+          <div 
+            v-for="(area,index) in venue.seat_areas" 
+            :key="`${index+123}`"
+            class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center"
+            >
+            {{ area }}
           </div>
+        </div>
+        <div class="xl:flex xl:gap-6 xl:items-end xl:px-10">
           <!-- Venue Comments -->
-          <div class="truncate text-[12px] md:text-[14px] xl:text-[16px] flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 mb-2 sm:mb-12 p-3">
-            <div class="text-left lg:w-[60%]">
-              <div class="grid grid-cols-9" v-for="(comment, index) in venue.comments" :key="index + 123">
-                <span>{{ index + 1 }}</span>
-                <span class="col-span-2">{{ comment.seat_area }}</span>
-                <span class="col-span-6">{{ comment.comment }}</span>
-              </div>
+          <article class="w-full truncate text-[12px] xs:text-[14px] sm:text-[16px] lg:text-[18px] gap-2 md:px-5 py-3 sm:py-5 md:py-8">
+            <div 
+            v-for="(comment, index) in venue.comments"
+            :key="index + 123"
+            class="grid grid-cols-9 text-left" 
+            >
+              <span>{{ index + 1 }}</span>
+              <span class="col-span-2">{{ comment.seat_area }}</span>
+              <span class="col-span-6">{{ comment.comment }}</span>
             </div>
-            <div class="w-[100%] lg:w-[40%] flex justify-center lg:justify-end mb-7 sm:mb-0">
-              <Button variant="white-outline" class="btn-explore-icon-color w-[80%] sm:w-[60%] rounded-[40px] my-2 lg:my-0">
-                <span class="text-[12px] sm:text-[16px] text-center">EXPLORE</span>
-                <svg class="block lg:hidden xl:block pl-1" width="270" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-                    fill="white" />
-                </svg>
-              </Button>
-            </div>
-          </div>
-        </swiper-slide>
-        <!-- Slide 2 -->
-        <swiper-slide>
-          <!-- Venue Title -->
-          <a href="#" class="font-bold text-3xl sm:text-5xl">台北小巨蛋</a>
-          <!-- Venue Seats -->
-          <div class="text-sm sm:text-base grid gap-2 md:gap-4 mx-auto w-[60%] xl:w-[70%] sm:pb-4 my-5">
-            <p class="text-gray-500 text-base sm:text-xl font-lato text-center">_____ STAGE _____</p>
-            <div class="py-3 sm:py-4 xl:py-6 gradient-border w-1/2 mx-auto">VIP</div>
-            <div class="py-3 sm:py-4 xl:py-6 gradient-border w-3/4 mx-auto">特區</div>
-            <div class="py-3 sm:py-4 xl:py-6 gradient-border">2F座位區</div>
-            <div class="py-3 sm:py-4 xl:py-6 gradient-border w-3/4 mx-auto">3F座位區</div>
-          </div>
-          <!-- Venue Comments -->
-          <div class="truncate text-[12px] md:text-[14px] xl:text-[16px] flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 p-1">
-            <div class="text-left lg:w-[60%]">
-              <div class="grid grid-cols-9">
-                <span>1</span>
-                <span class="col-span-2">VIP</span>
-                <span class="col-span-6">位置算寬敞，而且是可以握到手的距離！</span>
-              </div>
-              <div class="grid grid-cols-9">
-                <span>2</span>
-                <span class="col-span-2">特區</span>
-                <span class="col-span-6">前面好擠，離很近，但是都被前面的人擋住</span>
-              </div>
-              <div class="grid grid-cols-9">
-                <span>3</span>
-                <span class="col-span-2">2F座位區</span>
-                <span class="col-span-6">蠻遠的，但視野清楚！</span>
-              </div>
-            </div>
-            <div class="w-[100%] lg:w-[40%] flex justify-center lg:justify-end mb-7 sm:mb-0">
-              <Button variant="white-outline" class="btn-explore-icon-color w-[80%] sm:w-[60%] rounded-[40px] my-2 lg:my-0">
-                <span class="text-[12px] sm:text-[16px] text-center">EXPLORE</span>
-                <svg class="block lg:hidden xl:block pl-1" width="270" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-                    fill="white" />
-                </svg>
-              </Button>
-            </div>
-          </div>
-        </swiper-slide>
-      </swiper>
-    <!-- </article> -->
+          </article>
+          <!-- 所有場地總覽頁 Button -->
+          <router-link :to="`/venues/${venue.id}`" class="block w-full mx-auto sm:w-[80%] xl:w-[40%]" >
+            <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
+              <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
+              <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+                  fill="white" />
+              </svg>
+            </Button>
+          </router-link>
+        </div>
+      </swiper-slide>
+    </swiper>
   </section>
   <!-- Songs -->
-  <section class="container pb-48">
+  <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px]">
     <section class="pt-[10rem] relative flex">
       <!-- 2xl以上-標題 -->
       <span class="hidden 2xl:block font-lato-display3 xl:font-lato-display2 text-stroke-title z-[-1] xl:top-[-1rem] xl:right-[-0rem]"> SONGS </span>
@@ -352,8 +327,8 @@
 <script setup>
   import { Button } from '@/components/ui/button';
   import { ScrollArea } from '@/components/ui/scroll-area';
-  import { Heart, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
-  import TitleComponent from '@/components/custom/TitleComponent.vue';
+  import { Heart} from 'lucide-vue-next';
+  // import TitleComponent from '@/components/custom/TitleComponent.vue';
   // Swiper
   import { Swiper, SwiperSlide } from 'swiper/vue';
   import 'swiper/css';
@@ -368,34 +343,32 @@
 <script>
   import AOS from 'aos';
   import 'aos/dist/aos.css';
-
-  import axios from 'axios';
-  const { VITE_APP_SERVICE_API } = import.meta.env;
+  import { mapActions, mapState } from 'pinia';
+  import { useVenuesStore } from '@/stores/venues';
 
   export default {
     data() {
       return {
-        venueInfo: [],
         modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
         songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
         concertActive: {},
         concerts:[
           {
-            id: 1,
+            id: 10,
             show: 'false',
             name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
             date: '2024-04-06 (六) 19:00',
             image: 'https://i.imgur.com/ZbzHz0X.jpg'
           },
           {
-            id: 2,
+            id: 7,
             show: 'false',
             name: '原子邦妮「明明早點放棄就沒事了」',
             date: '2024-04-20 (六) 19:30',
             image: 'https://i.imgur.com/CDtPlHG.png'
           },
           {
-            id: 3,
+            id: 4,
             show: 'true',
             name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
             date: '2024-01-27 (六) 19:00',
@@ -403,7 +376,7 @@
           },
 
           {
-            id: 4,
+            id: 5,
             show: 'false',
             name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
             date: '2024-01-27 (六) 19:00',
@@ -411,21 +384,21 @@
           },
 
           {
-            id: 5,
+            id: 6,
             show: 'false',
             name: 'YOASOBI演唱會2024台北站',
             date: '2024-01-21 (日) 19:00',
             image: 'https://i.imgur.com/E6JbF0S.jpg'
           },
           {
-            id: 6,
+            id: 3,
             show: 'false',
             name: 'FTISLAND演唱會2024台北站',
             date: '2024-02-18 (六) 17:00',
             image: 'https://i.imgur.com/2VtzkiT.png'
           },
           {
-            id: 7,
+            id: 12,
             show: 'false',
             name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
             date: '2024-07-20 (六) 18:00',
@@ -433,7 +406,7 @@
           },
 
           {
-            id: 8,
+            id: 11,
             show: 'false',
             name: '宇宙人《α：回到未來》20週年演唱會',
             date: '2024-04-27 (六) 19:30',
@@ -481,33 +454,17 @@
         ],
       };
     },
+    inject: ['http', 'path'],
     methods: {
-      getVenueInfo() {
-        axios
-          .get(`${VITE_APP_SERVICE_API}/api/venues?comments=1`)
-          .then((res) => {
-            this.venueInfo = res.data.data;
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      },
+      ...mapActions(useVenuesStore, ['getVenueInfo']),
+    },
+    computed: {
+      ...mapState(useVenuesStore, ['venueInfo']),
     },
     mounted() {
-      // this.getVenueInfo();
+      this.getVenueInfo();
       AOS.init();
     },
-    // inject: ['http', 'path'],
-    // methods: {
-    //   ...mapActions(useConcertsStore, ['getConcerts']),
-    // },
-    // computed: {
-    //   ...mapState(useConcertsStore, ['concerts', 'pagination']),
-    //   ...mapState(useUserStore, ['AccessToken']),
-    // },
-    // mounted() {
-    //   this.getConcerts();
-    // },
     components: {
       Swiper,
       SwiperSlide,
@@ -516,13 +473,19 @@
 </script>
 
 <style lang="scss" scoped>
+// -------------------------------------- General
+:deep(.swiper-pagination-bullet) {
+  border: solid 2px #fff;
+}
+:deep(.swiper-pagination-bullet-active) {
+  background: #fff;
+}
 // -------------------------------------- Concert
 .concert-photo-show{
   position: absolute;
   border-radius: 40px;
   filter: grayscale(0) brightness(90%);
 };
-
 :deep(.concert-section>.swiper-button-prev),
 :deep(.concert-section>.swiper-button-next) {
   height: 0px;
@@ -538,19 +501,10 @@
     border-radius: 40%;
     box-shadow: inset 0 0 20px #fff;
     color: #fff;
-    // filter: blur(12px);
+    top: -150px;
   }
 }
-// :deep(.concert-section > .swiper-button-prev::after),
-// :deep(.concert-section > .swiper-button-next::after) {
-//   color: #fff;
-//   border: solid 2px #fff;
-//   box-shadow: inset 0 0 20px #fff;
-// };
-
-
 // -------------------------------------- Venue
-// Venue Swiper
 :deep(.swiper-button-prev),
 :deep(.swiper-button-next) {
   height: 0px;
@@ -567,22 +521,12 @@
   }
 }
 :deep(.venue-section > .swiper-button-prev::after) {
-  left: -25px;
+  left: 5px;
   color: #42dfc8;
-  // border: solid 2px #42dfc8;
-  // box-shadow: inset 0 0 10px #42dfc8;
 }
 :deep(.venue-section > .swiper-button-next::after) {
-  right: -25px;
+  right: 5px;
   color: #d595f1;
-  // border: solid 2px #d595f1;
-  // box-shadow: inset 0 0 10px #d595f1;
-}
-:deep(.swiper-pagination-bullet) {
-  border: solid 2px #fff;
-}
-:deep(.swiper-pagination-bullet-active) {
-  background: #fff;
 }
 // Venue Gradient Border
 .gradient-border {
