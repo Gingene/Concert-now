@@ -13,6 +13,7 @@ export const buttonVariants = cva(
         'tiffany-outline': 'border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-outline-hover [&.active]:bg-tiffany [&.active]:text-primary [&.active]:box-shadow-tiffany-outline-hover',
         'tiffany-blur': 'border-2 border-tiffany text-tiffany box-shadow-light2 hover:bg-tiffany hover:text-primary hover:box-shadow-tiffany-blur-hover [&.active]:bg-tiffany [&.active]:text-primary [&.active]:box-shadow-tiffany-blur-hover',
         'tiffany-fill': 'bg-tiffany text-primary',
+        'tiffany-follow': 'border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary [&.active]:bg-tiffany [&.active]:text-primary',
         'pink-outline': 'border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-outline-hover',
         'pink-blur': 'border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-blur-hover',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',

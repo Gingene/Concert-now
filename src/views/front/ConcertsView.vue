@@ -161,6 +161,9 @@ export default {
     if (this.AccessToken !== undefined) {
       this.getUserSavedAndFollowed();
     }
+
+    console.log(this.AccessToken)
+    console.log(this.savedConcerts)
   },
 };
 </script>
