@@ -273,7 +273,7 @@
                         </Button>
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul class="w-[150px] border-0 space-y-2">
+                        <ul class="w-[150px] border-0 space-y-2 text-lg">
                           <li>
                             <NavigationMenuLink as-child>
                               <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
@@ -295,8 +295,8 @@
                                   <AlertDialogDescription> </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
-                                  <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                                  <AlertDialogCancel> 取消 </AlertDialogCancel>
+                                  <AlertDialogAction @click="logout">確定</AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>
