@@ -7,7 +7,7 @@
     <Button class="mb-8 ml-auto bg-slate-50 text-black hover:text-slate-50"> <span class="material-symbols-outlined"> logout </span>登出 </Button>
     <Button class="mb-8 ml-auto bg-slate-50 text-black hover:text-slate-50">
       <span class="material-symbols-outlined"> logout </span>
-      <RouterLink to="/"> 回前台(暫時) </RouterLink>
+      <RouterLink to="/"> 回前台 </RouterLink>
     </Button>
   </div>
 </template>

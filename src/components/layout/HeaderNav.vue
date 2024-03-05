@@ -1,7 +1,7 @@
 <template>
   <header>
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
-    <div class="container flex justify-between items-center lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
+    <div class="container flex justify-between items-center md:absolute lg:grid lg:grid-cols-12 gap-6 py-3 lg:py-0">
       <div class="font-lato text-xl lg:col-span-3 xl:col-span-3 2xl:col-span-2">
         <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
       </div>
@@ -118,7 +118,7 @@
                   </li>
                   <li v-if="user?.is_admin">
                     <NavigationMenuLink>
-                      <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                      <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
                     </NavigationMenuLink>
                   </li>
                   <li class="py-2">
@@ -291,7 +291,7 @@
                         </li>
                         <li v-if="user?.is_admin">
                           <NavigationMenuLink>
-                            <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                            <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
                           </NavigationMenuLink>
                         </li>
                         <li class="py-2">
