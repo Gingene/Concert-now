@@ -1,7 +1,7 @@
 <template>
   <Toaster />
-  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
-    <section class="flex flex-col gap-10 md:pt-8">
+  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px] pt-[60px] md:pt-[80px]">
+    <section class="flex flex-col gap-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
         <div class="space-y-6 lg:flex lg:flex-col lg:justify-between lg:w-[100%]">
           <div class="flex space-x-4">
@@ -31,13 +31,17 @@
         <img :src="singleConcert.cover_urls?.horizontal" alt="" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
-        <div class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
+        <div
+          v-if="moment.duration(moment(singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() >= 0"
+          class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
           <p class="text-2xl font-bold relative">
             <span class="text-base pr-2 absolute bottom-0 left-[-30%]">D-day</span>
-            <!-- !倒計時器尚未處理 -->
-            <!-- {{moment(singleConcert.holding_time, "YYYY-MM-DD hh:mm:ss").endOf('day').fromNow(true).split(' ')[0]}} -->
-            00 : 00 : 00 : 00
+            {{ countdownTimer.days }} : {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
+            {{ countdownTimer.seconds }}
           </p>
+        </div>
+        <div v-else class="w-[50%] lg:w-[30%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-3 lg:py-0 relative">
+          <p class="text-lg font-bold relative px-4">已舉辦</p>
         </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
           <Button variant="white-outline" size="base3" class="border-[1px] border-black-60">
@@ -73,7 +77,6 @@
           </a>
           <div class="border-b-8 h-2 w-[100%] absolute -bottom-2"></div>
         </div>
-        <!-- <div class="border-b-8 h-2 w-[100%]"></div> -->
       </div>
     </section>
     <section>
@@ -95,7 +98,6 @@
           @onload="onYouTubeIframeAPIReady()"
           v-if="ytId"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
-          <!-- ! 改成artist 方形圖 -->
           <img :src="singleConcert.cover_urls?.square" alt="" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
         </div>
         <div class="text-xl lg:text-2xl font-bold marquee-container w-[284px] sm:w-[336px]">
@@ -180,14 +182,6 @@
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
                   <p>{{ song.down_votes }}</p>
                 </button>
-                <!-- <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
-                  <font-awesome-icon icon="fa-solid fa-chevron-up" />
-                  <p>{{ song.up_votes }}</p>
-                </button>
-                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-3.5px] hover:font-bold">
-                  <font-awesome-icon icon="fa-solid fa-chevron-down" />
-                  <p>{{ song.down_votes }}</p>
-                </button> -->
               </div>
             </div>
             <div class="w-full h-[1px] bg-[var(--black-60)]"></div>
@@ -303,6 +297,8 @@ export default {
       openTwo: false,
       // 歌單
       songList: [],
+      // countdown
+      countdownTimer: {},
     };
   },
   inject: ['http', 'path'],
@@ -412,10 +408,16 @@ export default {
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
       this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
-      console.log(this.songList);
-
       this.changeYTplayer(this.songList[0]?.youtube_url);
     }
+
+    // 倒數計時器
+    const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
+
+    this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
+    this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
+    this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
+    this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
   },
 };
 </script>
