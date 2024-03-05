@@ -9,85 +9,96 @@
         <span class="absolute text-black-60 top-2 left-3">Search now</span>
         <Search class="absolute text-black-60 top-2 right-3" />
         <Dialog>
-          <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25"> </DialogTrigger>
+          <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25" @click="searchAll('')"> </DialogTrigger>
           <DialogContent class="max-w-[90%] p-8" :class="{ 'h-full': concerts.length || artists.length || venues.length }">
             <DialogHeader>
               <DialogTitle>
-                <Input placeholder="Search now" v-model="searchText" @keyup="searchAll" class="bg-black-0 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
-                <div v-if="!concerts.length" class="mt-4">搜尋你的演唱會</div>
+                <Input
+                  placeholder="Search now"
+                  v-model="searchText"
+                  @keyup="searchAll"
+                  class="bg-black-0 text-black-80 box-shadow-light1-hover focus-visible:outline-0 px-6 py-5 focus:opacity-100 searchButton focus-visible:ring-offset-0 focus-visible:ring-ring-transparent" />
+                <div v-if="!concerts.length && !artists.length && !venues.length" class="mt-4">沒有搜尋到任何資料</div>
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
 
-            <div v-if="!concerts.length" class="hidden">搜尋你的演唱會</div>
-            <div v-else>
-              <ScrollArea class="h-[80%] w-[75%] xl:w-full rounded-md border p-4">
-                <div class="flex justify-center relative mt-6 w-[70%] xl:w-full">
-                  <h3 class="absolute top-0 left-0">表演者</h3>
-                  <RouterLink to="/artists" class="absolute top-0 right-0">
+            <div v-if="!concerts.length && !artists.length && !venues.length" class="mt-4"></div>
+
+            <ScrollArea class="border-0">
+              <div v-if="artists.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 w-[72%] xl:w-[95%]">
+                <h3 class="absolute top-2 left-0 text-2xl text-black-20 drop-shadow-light">表演者</h3>
+                <RouterLink to="/artists" class="absolute top-2 right-0">
+                  <DialogClose as-child>
                     <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
-                  </RouterLink>
-                  <Carousel class="w-[90%] mt-16">
-                    <CarouselContent>
-                      <CarouselItem v-for="artist in artists" :key="artist.id" class="basis-1/3 xl:basis-1/5">
-                        <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col items-center">
-                          <img :src="artist.cover_urls.square" :alt="artist.name" class="size-[150px] rounded-full" />
-                          <div class="mt-2">{{ artist.name }}</div>
-                        </RouterLink>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                </div>
-                <div class="flex justify-center relative mt-6 w-[70%] xl:w-full">
-                  <h3 class="absolute top-0 left-0">演唱會</h3>
-                  <RouterLink to="/concerts" class="absolute top-0 right-0">
-                    <DialogClose as-child>
-                      <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
-                    </DialogClose>
-                  </RouterLink>
-                  <Carousel class="w-[90%] mt-16">
-                    <CarouselContent>
-                      <CarouselItem v-for="concert in concerts" :key="concert.id" class="basis-1/3">
-                        <RouterLink :to="`/concerts/${concert.id}`" class="flex flex-col items-center">
-                          <img :src="concert.cover_urls.square" :alt="concert.title" class="lg:size-[200px]" />
-                          <div class="mt-2 flex flex-col items-center">
-                            <time datetime="">{{ concert.holding_time }}</time>
-                            <span class="text-center">{{ concert.title }}</span>
+                  </DialogClose>
+                </RouterLink>
+                <Carousel class="w-[90%] mt-16">
+                  <CarouselContent>
+                    <CarouselItem v-for="artist in artists" :key="artist.id" class="lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
+                      <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col items-center">
+                        <DialogDescription>
+                          <img :src="artist.cover_urls.square" :alt="artist.name" class="w-[150px] h-[150px] rounded-full object-cover" />
+                          <div class="text-base mt-2 text-center text-white">{{ artist.name }}</div>
+                        </DialogDescription>
+                      </RouterLink>
+                    </CarouselItem>
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </div>
+              <div v-if="concerts.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 w-[72%] xl:w-[95%]">
+                <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">演唱會</h3>
+                <RouterLink to="/concerts" class="absolute top-4 right-0">
+                  <DialogClose as-child>
+                    <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
+                  </DialogClose>
+                </RouterLink>
+                <Carousel class="w-[90%] pt-16">
+                  <CarouselContent>
+                    <CarouselItem v-for="concert in concerts" :key="concert.id" class="lg:basis-1/4">
+                      <RouterLink :to="`/concerts/${concert.id}`">
+                        <DialogDescription class="mt-2 flex flex-col items-center">
+                          <img :src="concert.cover_urls.square" :alt="concert.title" class="lg:w-[250px] lg:h-[250px] xl:w-[300px] xl:h-[300px] object-cover rounded-2xl" />
+                          <div class="flex flex-col mt-2">
+                            <span class="text-base text-center text-white">{{ concert.title }}</span>
+                            <span class="text-base text-center text-border-60">{{ concert.holding_time }}</span>
                           </div>
-                        </RouterLink>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                </div>
-                <div class="flex justify-center relative mt-6 w-[70%] xl:w-full">
-                  <h3 class="absolute top-0 left-0">場地</h3>
-                  <RouterLink to="/venues" class="absolute top-0 right-0">
-                    <DialogClose as-child>
-                      <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
-                    </DialogClose>
-                  </RouterLink>
-                  <Carousel class="w-[90%] mt-16">
-                    <CarouselContent>
-                      <CarouselItem v-for="venue in venues" :key="venue.id" class="basis-1/3">
-                        <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col items-center">
-                          <img :src="venue.picture.square" :alt="venue.title" class="lg:size-[200px]" />
-                          <div class="mt-2 flex flex-col items-center">
-                            <span class="text-center">{{ venue.title }}</span>
-                            <span>{{ venue.city }}</span>
+                        </DialogDescription>
+                      </RouterLink>
+                    </CarouselItem>
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </div>
+              <div v-if="venues.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 w-[72%] xl:w-[95%]">
+                <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">場地</h3>
+                <RouterLink to="/venues" class="absolute top-4 right-0">
+                  <DialogClose as-child>
+                    <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
+                  </DialogClose>
+                </RouterLink>
+                <Carousel class="w-[90%] pt-[72px]">
+                  <CarouselContent>
+                    <CarouselItem v-for="venue in venues" :key="venue.id" class="lg:basis-1/3 2xl:basis-1/4">
+                      <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col items-center">
+                        <DialogDescription>
+                          <img :src="venue.picture.square" :alt="venue.title" class="lg:w-[300px] lg:h-[300px] object-cover rounded-2xl" />
+                          <div class="mt-2 flex flex-col">
+                            <span class="text-base text-center text-white">{{ venue.title }}</span>
+                            <span class="text-base text-center text-border-60">{{ venue.city }}</span>
                           </div>
-                        </RouterLink>
-                      </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious />
-                    <CarouselNext />
-                  </Carousel>
-                </div>
-              </ScrollArea>
-            </div>
+                        </DialogDescription>
+                      </RouterLink>
+                    </CarouselItem>
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </div>
+            </ScrollArea>
           </DialogContent>
           <DialogFooter class="hidden"> </DialogFooter>
         </Dialog>
@@ -97,7 +108,7 @@
       <nav class="hidden lg:block lg:col-span-5 xl:col-span-4">
         <ul class="flex justify-between items-center">
           <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" ref="linkItems" @mouseover="addBlurEffect(index, $event)" @mouseleave="removeBlurEffect">
-            <RouterLink :to="item.href" class="py-5 px-2 2xl:px-4 inline-block"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
+            <RouterLink :to="item.href" class="py-5 lg:px-2 2xl:px-5 inline-block whitespace-nowrap"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
           </li>
         </ul>
       </nav>
@@ -132,8 +143,10 @@
                           <AlertDialogDescription> </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
-                          <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
+                          <AlertDialogCancel>取消</AlertDialogCancel>
+                          <AlertDialogAction @click="logout">確定</AlertDialogAction>
+                          <!-- <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
+                          <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction> -->
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -153,19 +166,23 @@
               <Search />
             </Button>
           </DialogTrigger>
-          <DialogContent class="max-w-[90%] h-[100%] p-8">
+          <DialogContent class="max-w-[90%] p-8" :class="{ 'h-full': concerts.length || artists.length || venues.length }">
             <DialogHeader>
               <DialogTitle>
-                <Input placeholder="Search now" v-model="searchText" @keyup="searchAll" class="bg-black-0 text-black-60 opacity-10 px-6 py-5 focus:opacity-80" />
-                <div v-if="!concerts.length" class="mt-4">搜尋你的演唱會</div>
+                <Input
+                  placeholder="Search now"
+                  v-model="searchText"
+                  @keyup="searchAll"
+                  class="bg-black-0 text-black-60 box-shadow-light1-hover focus-visible:outline-0 px-6 py-5 searchMobileButton focus:opacity-80 focus-visible:ring-offset-0 focus-visible:ring-ring-transparent" />
+                <div v-if="!concerts.length && !artists.length && !venues.length" class="mt-4">沒有搜尋到任何資料</div>
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
 
-            <div v-if="!concerts.length" class="hidden">搜尋你的演唱會</div>
+            <div v-if="!concerts.length && !artists.length && !venues.length"></div>
             <div v-else>
-              <ScrollArea class="h-[450px] md:h[650px] rounded-md border p-4">
-                <div class="flex justify-center relative mt-6">
+              <ScrollArea class="rounded-md border-0 p-4">
+                <div class="flex justify-center relative mt-6" v-if="artists.length">
                   <h3 class="absolute top-0 left-0 text-base">表演者</h3>
                   <RouterLink to="/artists" class="absolute top-0 right-0">
                     <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
@@ -174,7 +191,7 @@
                     <CarouselContent>
                       <CarouselItem v-for="artist in artists" :key="artist.id" class="md:basis-1/2">
                         <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col justify-center items-center">
-                          <img :src="artist.cover_urls.square" :alt="artist.name" class="size-[100px] md:size-[150px] rounded-full" />
+                          <img :src="artist.cover_urls.square" :alt="artist.name" class="size-[100px] md:size-[150px] rounded-full object-cover" />
                           <div class="mt-2">{{ artist.name }}</div>
                         </RouterLink>
                       </CarouselItem>
@@ -183,7 +200,7 @@
                     <CarouselNext />
                   </Carousel>
                 </div>
-                <div class="flex justify-center relative mt-6">
+                <div class="flex justify-center relative mt-6" v-if="concerts.length">
                   <h3 class="absolute top-0 left-0 text-base">演唱會</h3>
                   <RouterLink to="/concerts" class="absolute top-0 right-0">
                     <DialogClose as-child>
@@ -194,7 +211,7 @@
                     <CarouselContent>
                       <CarouselItem v-for="concert in concerts" :key="concert.id" class="md:basis-1/2">
                         <RouterLink :to="`/concerts/${concert.id}`" class="flex flex-col justify-center items-center">
-                          <img :src="concert.cover_urls.square" :alt="concert.title" class="size-[100px] md:size-[200px]" />
+                          <img :src="concert.cover_urls.square" :alt="concert.title" class="size-[100px] md:size-[200px] object-cover" />
                           <div class="mt-2 flex flex-col items-center">
                             <time datetime="">{{ concert.holding_time }}</time>
                             <span class="text-center">{{ concert.title }}</span>
@@ -206,7 +223,7 @@
                     <CarouselNext />
                   </Carousel>
                 </div>
-                <div class="flex justify-center relative mt-6">
+                <div class="flex justify-center relative mt-6" v-if="venues.length">
                   <h3 class="absolute top-0 left-0 text-base">場地</h3>
                   <RouterLink to="/venues" class="absolute top-0 right-0">
                     <DialogClose as-child>
@@ -217,7 +234,7 @@
                     <CarouselContent>
                       <CarouselItem v-for="venue in venues" :key="venue.id" class="md:basis-1/2">
                         <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col items-center">
-                          <img :src="venue.picture.square" :alt="venue.title" class="size-[100px] md:size-[200px]" />
+                          <img :src="venue.picture.square" :alt="venue.title" class="size-[100px] md:size-[200px] object-cover" />
                           <div class="mt-2 flex flex-col items-center">
                             <span class="text-center">{{ venue.title }}</span>
                             <span>{{ venue.city }}</span>
@@ -246,10 +263,51 @@
             <div class="flex justify-between items-center font-lato text-xl">
               <RouterLink to="/" class="font-black leading-display"> CONCERTS NOW. </RouterLink>
 
-              <div>
-                <Button class="p-2 me-2">
-                  <Search />
-                </Button>
+              <div class="flex">
+                <NavigationMenu v-if="user?.name" class="w-full">
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger>
+                        <Button class="p-0">
+                          <UsersRound />
+                        </Button>
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul class="w-[150px] border-0 space-y-2 text-lg">
+                          <li>
+                            <NavigationMenuLink as-child>
+                              <SheetClose as-child>
+                                <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
+                              </SheetClose>
+                            </NavigationMenuLink>
+                          </li>
+                          <li v-if="user?.is_admin">
+                            <NavigationMenuLink>
+                              <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                            </NavigationMenuLink>
+                          </li>
+                          <li class="py-2">
+                            <AlertDialog>
+                              <AlertDialogTrigger as-child>
+                                <Button variant="ghost" class="w-full"> 登出 </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
+                                  <AlertDialogDescription> </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel> 取消 </AlertDialogCancel>
+                                  <AlertDialogAction @click="logout">確定</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </li>
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
                 <SheetClose as-child class="p-2">
                   <Button class="p-2">
                     <font-awesome-icon icon="fa-solid fa-x" class="text-xl" />
@@ -325,7 +383,7 @@
 </template>
 <script setup>
 import { VisuallyHidden } from 'radix-vue';
-import { ArrowDownRight, AlignJustify, Search } from 'lucide-vue-next';
+import { ArrowDownRight, AlignJustify, Search, UsersRound } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -350,6 +408,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core';
+
 export default {
   inject: ['http', 'path'],
   data() {
@@ -357,7 +416,7 @@ export default {
       navList: [
         {
           title: '演唱會',
-          enTitle: 'Concert',
+          enTitle: 'Concerts',
           href: '/concerts',
         },
         {
@@ -367,7 +426,7 @@ export default {
         },
         {
           title: '場地',
-          enTitle: 'Venue',
+          enTitle: 'Venues',
           href: '/venues',
         },
         {
@@ -402,13 +461,15 @@ export default {
         item.classList.add('blur');
       });
       e.currentTarget.classList.remove('blur');
+      // console.log('hover');
     },
-    removeBlurEffect() {
+    removeBlurEffect: useDebounceFn(function () {
       this.hoveredIndex = -1;
       this.$refs.linkItems.forEach((item) => {
         item.classList.remove('blur');
       });
-    },
+      // console.log('remove');
+    }, 650),
     searchConcenrts() {
       this.http
         .get(`${this.path.concerts}?q=${this.searchText}&page=1`)
@@ -454,9 +515,10 @@ export default {
   },
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .transition-blur {
   transition: all 0.3s ease;
 }
 // cubic-bezier(0.4, 0, 0.2, 1);
+// DialogDescription{
 </style>

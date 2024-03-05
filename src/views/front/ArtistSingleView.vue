@@ -73,7 +73,8 @@
         v-if="singleArtist?.upcoming_concerts.length > 0"
         v-for="upcoming in singleArtist?.upcoming_concerts"
         :key="upcoming.id"
-        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto"
+       >
         <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -120,7 +121,8 @@
         v-for="historical in singleArtist?.historical_concerts"
         :key="historical.id"
         class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
-        <div class="flex items-center">
+        <div class="flex items-center"
+       >
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(historical.holding_time).format('MM/DD') }}
@@ -193,8 +195,7 @@ export default {
       try {
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
-        console.log(this.singleArtist)
-
+        
       } catch (error) {
         console.log(error);
       }

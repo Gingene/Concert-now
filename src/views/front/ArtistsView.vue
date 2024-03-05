@@ -159,40 +159,6 @@ export default {
         console.log(error);
       }
     }, 300),
-    // async postFollowConcetsData(id) {
-    //   try {
-    //     const res = await postFollowConcets(id)
-    //     console.log(res)
-
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
-    // async deleteFollowConcetsData(id) {
-    //   try {
-    //     const res = await deleteFollowConcets(id)
-    //     console.log(res)
-
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
-
-    // prevenLink(event) {
-    //   if(event.target.classList.contains("followDom")) {
-    //     console.log('follow click')
-    //   }
-    //   // let followP = document.querySelectorAll('.followDom');
-    //   // console.log(followP);
-    //   // console.log(this.$el.querySelector(".followDom"))
-    // },
-    // prevenLink(event) {
-    //   if (event && event.target.classList.contains('followDom')) {
-    //     console.log('follow click');
-    //     // event.stopPropagation()
-    //     event.preventDefault();
-    //   }
-    // },
   },
   mounted() {
     this.getArtistsData();

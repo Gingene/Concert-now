@@ -38,11 +38,6 @@ export default {
           href: '/venues',
         },
         {
-          title: '歌單',
-          enTitle: 'SONGS',
-          href: '/songs',
-        },
-        {
           title: '聯絡我們',
           enTitle: 'ABOUT US',
           href: '/about',

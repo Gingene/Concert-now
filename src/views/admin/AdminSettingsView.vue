@@ -179,25 +179,6 @@
           </TableRow>
         </TableBody>
       </Table>
-      <!-- Pagination -->
-      <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="2" class="self-center py-2">
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst />
-          <PaginationPrev />
-
-          <template v-for="(item, index) in items">
-            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext />
-          <PaginationLast />
-        </PaginationList>
-      </Pagination>
     </div>
   </div>
 </template>
@@ -238,7 +219,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
 <script>
@@ -250,31 +230,31 @@ export default {
           id: 1,
           name: '豪豪',
           email: 'b0936486128@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=ltwY9be3CZixC6Ry&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=aMylVqvsAIdbUCWF&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           id: 2,
           name: '銀光菇',
           email: 'ginx2618@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=9BKmRgzEGqBdo87r&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=Ot4kL7W8vXaZuIln&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
         {
           id: 3,
           name: 'Celine 510',
           email: 'celinewu1010@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=reSnnGiW_t0Ou6AT&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=SrcR-6gR3qxMRiBp&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           id: 4,
           name: 'Celine',
           email: 'celine41104@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=oBYs0Utxj_Yarj3B&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=r7SbaqZLzqnnhy1b&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
         {
           id: 5,
           name: '人平',
           email: 'chen.jen.ping@hotmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=PP-s_wAC6c0zMPp3&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=ZK0hThocjZ27JP1R&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
       ],
     };
