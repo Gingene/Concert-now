@@ -26,66 +26,75 @@
       <!-- Concert Now -->
       <h1 class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">CONCERT NOW</h1>
       <!-- Search Now Button -->
-      <div class="w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%]">
-        <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full p-7 md:p-7 lg:p-7 hover:border-transparent">
-          <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
-          <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-              fill="white" />
-          </svg>
-        </Button>
-      </div>
+      <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent">
+        <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
+        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
     </div>
   </section>
   <!-- Concerts -->
-  <section class="relative container pb-48 text-center overflow-hidden">
-    <p class="text-stroke text-[180px] font-lato opacity-50 mb-[350px]">CONCERTS</p>
-    <div class="grid grid-cols-2 gap-4 pb-20">
-      <div></div>
-      <div class="grid grid-cols-3 gap-4">
-        <Button variant="tiffany-blur" class="rounded-[40px] py-12 col-span-1 col-start-3 justify-end">
-          <ArrowRight size="50px" />
-        </Button>
-        <div class="font-bold bg-shadow-trans-text rounded-[40px] border-black-60 p-12 text-start col-span-3">
-          <p class="py-4">2024-01-27 (六) 19:00</p>
-          <p class="text-2xl pb-10">紅髮艾德世界巡迴演唱會高雄站 Ed Sheeran +-=÷× 2024 TOUR</p>
-          <div class="relative">
-            <Button variant="white-outline" class="p-7 rounded-[40px]">
-              <span class="pr-5">查看更多</span>
-              <div class="relative w-[200px] h-0 border-[1px]">
-                <ChevronRight class="absolute -bottom-3 -right-3" />
-              </div>
-            </Button>
-          </div>
-        </div>
-        <Button variant="pink-blur" class="rounded-[40px] py-12 col-span-1 justify-start">
-          <ArrowLeft size="50px" />
-        </Button>
+  <section class="relative pb-64 text-center concert-section overflow-hidden w-full">
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">CONCERTS</h2>
+    <!-- Concert Swiper -->
+    <swiper
+      :effect="'cards'"
+      :grabCursor="false"
+      :freeMode="true"
+      :loop="true" 
+      :initialSlide="'4'"
+      :navigation="true"
+      :cardsEffect="{
+        perSlideOffset:16,
+        perSlideRotate:12,
+        slideShadows: false,
+      }"
+      :modules="modules"
+      class="mySwiper concert-section xs:w-[90%] xl:w-[80%] -mt-8"
+      >
+      <swiper-slide 
+      v-slot="{ isActive }" v-for="(concert) in concerts" 
+      :key="concert.id +123" 
+      class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 sm:my-5 md:my-8" 
+      style="z-index:-1;"
+      :style="`height: 700px;`">
+        <img 
+        :src="`${concert.image}`" 
+        :class="{'concert-photo-show':isActive}" 
+        class="w-[310px] xs:w-[400px] mt-10 h-[450px] xs:h-[520px] lg:h-[580px] grayscale brightness-[0.3] object-cover rounded-[40px]">
+        <div class="hidden">{{ isActive ? (concertActive = concert) : '' }}</div>
+      </swiper-slide>
+      <!-- Single Concert Card -->
+      <div class="z-10 -mt-20 xs:mt-0 md:mt-7 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[600px] xl:absolute xl:-bottom-20 xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
+        <p class="py-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
+        <h3 class="text-lg xs:text-[24px] lg:text-[30px] lg:py-4 pb-2">{{ concertActive.name }}</h3>
+        <router-link :to="`/concerts/${concertActive.id}`" class="w-full xl:w-[60%] block" >
+          <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full lg:w-[70%] hover:border-transparent btn-explore-icon-color">
+            <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
+            <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+                fill="white" />
+            </svg>
+          </Button>
+        </router-link>
       </div>
-    </div>
-    <!-- Concerts: posters -->
-    <div>
-      <img class="concert-photo-5" src="https://i.imgur.com/fRQSYPt.jpeg" alt="poster5" />
-      <img class="concert-photo-4" src="https://i.imgur.com/A5DhRO7.jpeg" alt="poster4" />
-      <img class="concert-photo-3" src="https://i.imgur.com/mshBsMl.jpeg" alt="poster3" />
-      <img class="concert-photo-2" src="https://i.imgur.com/Uw7irJA.png" alt="poster2" />
-      <img class="concert-photo-8" src="https://i.imgur.com/qa5gJWy.jpeg" alt="poster8" />
-      <img class="concert-photo-7" src="https://i.imgur.com/yOfGJQr.jpeg" alt="poster7" />
-      <img class="concert-photo-6" src="https://i.imgur.com/bXpm5PG.jpeg" alt="poster6" />
-      <img class="concert-photo-1" src="https://i.imgur.com/nxrHaiC.jpeg" alt="poster1" />
-    </div>
+    </swiper>
   </section>
   <!-- Artist -->
   <section class="container pb-48 text-center relative">
     <!-- Title -->
-    <p class="text-[80px] xs:text-[100px] sm:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-50 xl:mr-[160px]">ARTISTS</p>
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-[0.3] xl:mr-[160px]">ARTISTS</h2>
     <!-- Artist List -->
     <div class="xl:hidden">
       <swiper
         :effect="'coverflow'"
         :grabCursor="true"
         :centeredSlides="true"
+        :initialSlide="'2'"
         :slidesPerView="'1'"
         :coverflowEffect="{
           rotate: 50,
@@ -161,16 +170,13 @@
   </section>
   <!-- Venue -->
   <section class="container pb-48 text-center">
-    <TitleComponent class="flex justify-center mb-8">
-      <template #subTitle>VENUES</template>
-      <template #mainTitle>場地體驗</template>
-    </TitleComponent>
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">VENUES</h2>
     <!-- Venue Info -->
-    <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-12 sm:py-10 mb-10 rounded-[40px] bg-shadow-trans-text">
+    <!-- <article class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-12 sm:py-10 mb-10 rounded-[40px] bg-shadow-trans-text"> -->
       <!-- Swiper -->
-      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper w-full h-full relative venue-section">
+      <swiper :cssMode="true" :navigation="true" :pagination="true" :mousewheel="true" :keyboard="true" :modules="modules" :slidesPerView="1" :loop="true" class="mySwiper xs:w-[85%] sm:w-[80%] lg:w-[60%] px-10 rounded-[40px] bg-shadow-trans-text relative venue-section">
         <!-- Slide 1 -->
-        <swiper-slide v-for="venue in venueInfo" :key="venue.id">
+        <swiper-slide v-for="venue in venueInfo" :key="venue.id" class="p-10">
           <!-- Venue Title -->
           <a href="#" class="font-bold text-3xl sm:text-5xl">{{ venue.title }}</a>
           <!-- Venue Seats -->
@@ -244,7 +250,7 @@
           </div>
         </swiper-slide>
       </swiper>
-    </div>
+    <!-- </article> -->
   </section>
   <!-- Songs -->
   <section class="container pb-48">
@@ -344,177 +350,209 @@
 </template>
 
 <script setup>
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Heart, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
-import TitleComponent from '@/components/custom/TitleComponent.vue';
-// Swiper
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-coverflow';
-import { Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow } from 'swiper/modules';
+  import { Button } from '@/components/ui/button';
+  import { ScrollArea } from '@/components/ui/scroll-area';
+  import { Heart, ChevronRight, ArrowRight, ArrowLeft } from 'lucide-vue-next';
+  import TitleComponent from '@/components/custom/TitleComponent.vue';
+  // Swiper
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import 'swiper/css/effect-coverflow';
+  import 'swiper/css/effect-cards';
+  import 'swiper/css/free-mode';
+  import { Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards } from 'swiper/modules';
 </script>
 
 <script>
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+  import AOS from 'aos';
+  import 'aos/dist/aos.css';
 
-import axios from 'axios';
-const { VITE_APP_SERVICE_API } = import.meta.env;
+  import axios from 'axios';
+  const { VITE_APP_SERVICE_API } = import.meta.env;
 
-export default {
-  data() {
-    return {
-      venueInfo: [],
-      modules: [Navigation, Pagination, Mousewheel, Keyboard, EffectCoverflow],
-      songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
-      artists: [
-        {
-          id: 11,
-          name: 'Itzy',
-          image: 'https://i.imgur.com/yxpSEBX.jpeg',
-          followers: 40192,
-        },
-        {
-          id: 5,
-          name: '溫蒂漫步',
-          image: 'https://i.imgur.com/1w27w5u.jpeg',
-          followers: 3927,
-        },
-        {
-          id: 2,
-          name: 'Apink',
-          image: 'https://i.imgur.com/BxG8f6P.jpeg',
-          followers: 49270,
-        },
-        {
-          id: 7,
-          name: 'YOASOBI',
-          image: 'https://i.imgur.com/miVeAVr.jpeg',
-          followers: 52380,
-        },
-        {
-          id: 12,
-          name: '理想混蛋',
-          image: 'https://i.imgur.com/dKHPtCY.jpeg',
-          followers: 14702,
-        },
-        {
-          id: 9,
-          name: 'HYBS',
-          image: 'https://i.imgur.com/UGVUsOq.jpg',
-          followers: 21092,
-        },
-      ],
-    };
-  },
-  methods: {
-    getVenueInfo() {
-      axios
-        .get(`${VITE_APP_SERVICE_API}/api/venues?comments=1`)
-        .then((res) => {
-          this.venueInfo = res.data.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+  export default {
+    data() {
+      return {
+        venueInfo: [],
+        modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
+        songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
+        concertActive: {},
+        concerts:[
+          {
+            id: 1,
+            show: 'false',
+            name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
+            date: '2024-04-06 (六) 19:00',
+            image: 'https://i.imgur.com/ZbzHz0X.jpg'
+          },
+          {
+            id: 2,
+            show: 'false',
+            name: '原子邦妮「明明早點放棄就沒事了」',
+            date: '2024-04-20 (六) 19:30',
+            image: 'https://i.imgur.com/CDtPlHG.png'
+          },
+          {
+            id: 3,
+            show: 'true',
+            name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
+            date: '2024-01-27 (六) 19:00',
+            image: 'https://i.imgur.com/kPcCvf8.jpg'
+          },
+
+          {
+            id: 4,
+            show: 'false',
+            name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
+            date: '2024-01-27 (六) 19:00',
+            image: 'https://i.imgur.com/FlEOLfm.jpg'
+          },
+
+          {
+            id: 5,
+            show: 'false',
+            name: 'YOASOBI演唱會2024台北站',
+            date: '2024-01-21 (日) 19:00',
+            image: 'https://i.imgur.com/E6JbF0S.jpg'
+          },
+          {
+            id: 6,
+            show: 'false',
+            name: 'FTISLAND演唱會2024台北站',
+            date: '2024-02-18 (六) 17:00',
+            image: 'https://i.imgur.com/2VtzkiT.png'
+          },
+          {
+            id: 7,
+            show: 'false',
+            name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
+            date: '2024-07-20 (六) 18:00',
+            image: 'https://i.imgur.com/GWg5REN.png'
+          },
+
+          {
+            id: 8,
+            show: 'false',
+            name: '宇宙人《α：回到未來》20週年演唱會',
+            date: '2024-04-27 (六) 19:30',
+            image: 'https://i.imgur.com/TkXaaeF.png'
+          },
+
+        ],
+        artists: [
+          {
+            id: 11,
+            name: 'Itzy',
+            image: 'https://i.imgur.com/yxpSEBX.jpeg',
+            followers: 40192,
+          },
+          {
+            id: 5,
+            name: '溫蒂漫步',
+            image: 'https://i.imgur.com/1w27w5u.jpeg',
+            followers: 3927,
+          },
+          {
+            id: 2,
+            name: 'Apink',
+            image: 'https://i.imgur.com/BxG8f6P.jpeg',
+            followers: 49270,
+          },
+          {
+            id: 7,
+            name: 'YOASOBI',
+            image: 'https://i.imgur.com/miVeAVr.jpeg',
+            followers: 52380,
+          },
+          {
+            id: 12,
+            name: '理想混蛋',
+            image: 'https://i.imgur.com/dKHPtCY.jpeg',
+            followers: 14702,
+          },
+          {
+            id: 9,
+            name: 'HYBS',
+            image: 'https://i.imgur.com/UGVUsOq.jpg',
+            followers: 21092,
+          },
+        ],
+      };
     },
-  },
-  mounted() {
-    this.getVenueInfo();
-    AOS.init();
-  },
-  // inject: ['http', 'path'],
-  // methods: {
-  //   ...mapActions(useConcertsStore, ['getConcerts']),
-  // },
-  // computed: {
-  //   ...mapState(useConcertsStore, ['concerts', 'pagination']),
-  //   ...mapState(useUserStore, ['AccessToken']),
-  // },
-  // mounted() {
-  //   this.getConcerts();
-  // },
-  components: {
-    Swiper,
-    SwiperSlide,
-  },
-};
+    methods: {
+      getVenueInfo() {
+        axios
+          .get(`${VITE_APP_SERVICE_API}/api/venues?comments=1`)
+          .then((res) => {
+            this.venueInfo = res.data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      },
+    },
+    mounted() {
+      // this.getVenueInfo();
+      AOS.init();
+    },
+    // inject: ['http', 'path'],
+    // methods: {
+    //   ...mapActions(useConcertsStore, ['getConcerts']),
+    // },
+    // computed: {
+    //   ...mapState(useConcertsStore, ['concerts', 'pagination']),
+    //   ...mapState(useUserStore, ['AccessToken']),
+    // },
+    // mounted() {
+    //   this.getConcerts();
+    // },
+    components: {
+      Swiper,
+      SwiperSlide,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-// Concert Photo
-@mixin concert-photo($width, $top, $left, $rotate, $grayscale: 0, $brightness: 0.5) {
+// -------------------------------------- Concert
+.concert-photo-show{
   position: absolute;
-  top: $top;
-  left: $left;
-  width: $width;
   border-radius: 40px;
-  transform: rotate($rotate);
-  filter: grayscale($grayscale) brightness($brightness);
-}
-.concert-photo-1 {
-  @include concert-photo(400px, 25%, 25%, -12deg, 0, 1);
-}
-.concert-photo-2 {
-  @include concert-photo(350px, 20%, 40%, 0deg, 1, 50%);
-}
-.concert-photo-3 {
-  @include concert-photo(300px, 15%, 55%, 12deg, 1, 50%);
-}
-.concert-photo-4 {
-  @include concert-photo(250px, 13%, 70%, 24deg, 1, 50%);
-}
-.concert-photo-5 {
-  @include concert-photo(200px, 10%, 83%, 36deg, 1, 50%);
-}
-.concert-photo-6 {
-  @include concert-photo(350px, 40%, 15%, 0deg, 1, 50%);
-}
-.concert-photo-7 {
-  @include concert-photo(300px, 53%, 7%, 12deg, 1, 50%);
-}
-.concert-photo-8 {
-  @include concert-photo(250px, 60%, 0%, 36deg, 1, 50%);
-}
-// Grid Transition
-.grid-transition{
-  grid-template-columns: 1fr 4fr;
-}
+  filter: grayscale(0) brightness(90%);
+};
 
-// Gradient Border
-.gradient-border {
-  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
-    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
-    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
-    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
-  background-size:
-    19px 19px,
-    calc(100% - 38px) 3px,
-    19px 19px,
-    3px calc(100% - 38px);
-  background-position:
-    top left,
-    top center,
-    top right,
-    center right,
-    bottom right,
-    bottom center,
-    bottom left,
-    center left;
-  background-repeat: no-repeat;
+:deep(.concert-section>.swiper-button-prev),
+:deep(.concert-section>.swiper-button-next) {
+  height: 0px;
+  &::after {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    width: 60px;
+    height: 60px;
+    font-size: 25px;
+    position: absolute;
+    border-radius: 40%;
+    box-shadow: inset 0 0 20px #fff;
+    color: #fff;
+    // filter: blur(12px);
+  }
 }
+// :deep(.concert-section > .swiper-button-prev::after),
+// :deep(.concert-section > .swiper-button-next::after) {
+//   color: #fff;
+//   border: solid 2px #fff;
+//   box-shadow: inset 0 0 20px #fff;
+// };
 
-// Swiper
-// .swiper {
-//   width: 100%;
-//   height: 100%;
-//   position: relative;
-// }
-:deep(.venue-section > .swiper-button-prev),
-:deep(.venue-section > .swiper-button-next) {
+
+// -------------------------------------- Venue
+// Venue Swiper
+:deep(.swiper-button-prev),
+:deep(.swiper-button-next) {
   height: 0px;
   &::after {
     display: flex;
@@ -546,12 +584,30 @@ export default {
 :deep(.swiper-pagination-bullet-active) {
   background: #fff;
 }
+// Venue Gradient Border
+.gradient-border {
+  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
+    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
+    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
+    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
+  background-size:
+    19px 19px,
+    calc(100% - 38px) 3px,
+    19px 19px,
+    3px calc(100% - 38px);
+  background-position:
+    top left,
+    top center,
+    top right,
+    center right,
+    bottom right,
+    bottom center,
+    bottom left,
+    center left;
+  background-repeat: no-repeat;
+}
 
-// Artist Swiper
-// :deep(.swiper-slide-prev){
-// }
-
-// Songs
+// -------------------------------------- Songs
 .marquee-container {
   display: flex;
   overflow: hidden;
