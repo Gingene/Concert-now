@@ -1,0 +1,1 @@
+import{o as t,c as r,K as n,C as o,u as c,P as l}from"./index-IwGVorfi.js";const m={__name:"CardContent",props:{class:{type:String,default:""}},setup(s){const a=s;return(e,p)=>(t(),r("div",{class:o(c(l)("p-6 pt-0",a.class))},[n(e.$slots,"default")],2))}};export{m as _};
