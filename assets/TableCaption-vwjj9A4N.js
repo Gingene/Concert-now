@@ -1,0 +1,1 @@
+import{o as t,c as r,N as o,a8 as n,u as c,S as l}from"./index-bAjc-hai.js";const u={__name:"TableCaption",props:{class:{type:String,required:!1}},setup(e){const s=e;return(a,p)=>(t(),r("caption",{class:n(c(l)("mt-4 text-sm text-muted-foreground",s.class))},[o(a.$slots,"default")],2))}};export{u as _};
