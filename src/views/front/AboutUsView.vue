@@ -13,7 +13,7 @@
     </p>
     <!-- <div class="absolute rotate-90 right-0">WEBSITE CONCEPT.</div> -->
   </div>
-  <div class="pt-[128px] lg:pt-[117px] space-y-[178px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
+  <div class="pt-[117px] lg:pt-[178px] space-y-[178px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
     <section class="blur-bg-frontend display-title-back container mb-[5rem] md:mb-[20rem] relative">
       <div class="text-center absolute mt-[-3.5rem] lg:mt-[-5.5rem] xl:mt-[5.5rem] block xl:hidden">
         <span class="display-title-back text-stroke-light z-[-1]">FRONTEND</span>
@@ -57,7 +57,7 @@
         </ul>
       </div>
     </section>
-    <div class="text-center flex flex-col space-y-[-2.5rem] xl:space-y-[-4rem] mb-[5rem] md:mb-[12rem] relative">
+    <div class="text-center flex flex-col space-y-[-2.5rem] xl:space-y-[-4rem] lg:pt-[7rem] mb-[5rem] md:mb-[12rem] relative">
       <div class="bg-contactUs text-stroke-light">CONTACT US</div>
       <div class="bg-contactUs text-stroke-light">CONTACT US</div>
       <div class="relative">

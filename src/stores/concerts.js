@@ -4,10 +4,12 @@ import { http, path } from '@/api';
 import { useUserStore } from '@/stores/user';
 import useDarkAlert from '@/hooks/useDarkAlert';
 import { useDebounceFn } from '@vueuse/core';
+import { loadingStore } from '../stores/isLoading';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 const { getUserSavedAndFollowed } = useUserStore();
 const { swalWithStylingButtons } = useDarkAlert();
+const { setIsLoading } = loadingStore();
 
 export const useConcertsStore = defineStore('concerts', {
   state: () => {
@@ -26,17 +28,6 @@ export const useConcertsStore = defineStore('concerts', {
     searchConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
       this.getConcerts();
-      // http
-      //   .get(`${path.concerts}/?q=${searchText}`)
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.concerts = res.data.data;
-      //     this.pagination = res.data.pagination;
-      //     console.log(this.concerts);
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //   });
     }, 300),
     getConcerts(filterFactor, rangeFactor, page = 1) {
       // 全部按鈕帶空字串，其他按鈕帶該字
@@ -45,18 +36,23 @@ export const useConcertsStore = defineStore('concerts', {
 
       this.pageFactor = page;
 
-      timeCountryFilter('concerts', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
-        console.log('concerts', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor);
-        this.concerts = data.data;
-        this.pagination = data.pagination;
-      });
+      timeCountryFilter('concerts', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor)
+        .then((data) => {
+          this.concerts = data.data;
+          this.pagination = data.pagination;
+        })
+        .then(() => {});
     },
     getSingleConcert(id) {
+      setIsLoading();
       http
         .get(`${path.concerts}/${id}`)
         .then((res) => {
           // console.log(res);
           this.singleConcert = res.data.data;
+        })
+        .then(() => {
+          setIsLoading();
         })
         .catch((error) => {
           console.log(error);

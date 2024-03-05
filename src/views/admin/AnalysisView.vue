@@ -97,11 +97,10 @@
                   </TableCell>
                   <TableCell>{{ Number.parseInt(168 / (index + 1)) }}</TableCell>
                   <TableCell>
-                    <router-link :to="`/concerts/${concert.id}`">
+                    <router-link :to="`/concerts/${concert.id}`" target="_blank">
                       {{ concert.title }}
                     </router-link>
                   </TableCell>
-                  <!-- <TableCell class="text-right">{{ concert.artist?.name }}</TableCell> -->
                 </TableRow>
                 <!-- 保留的靜態資料 -->
                 <!-- <TableRow>
@@ -173,6 +172,9 @@ import '@/helpers/d3';
 
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
+import { loadingStore } from '@/stores/isLoading';
+
+const { setIsLoading } = loadingStore();
 
 export default {
   data() {
@@ -273,6 +275,7 @@ export default {
     ...mapState(useConcertsStore, ['concerts']),
   },
   mounted() {
+    setIsLoading();
     this.getConcerts();
 
     // 一月日期生成
@@ -326,73 +329,77 @@ export default {
       donut: { width: 40 },
     });
 
-    // 熱門表演者檢索量
-    // eslint-disable-next-line no-undef
-    c3.generate({
-      bindto: '#chart5',
-      data: {
-        columns: [
-          ['Tom Jones', 380],
-          ['Apink', 230],
-          ['FTIsland', 170],
-          ['理想混蛋', 340],
-          ['溫蒂漫步', 60],
-        ],
-        type: 'bar',
-      },
-      color: {
-        pattern: ['#4D0D97', '#42DFC8', '#020087', '#D595F1', '#971AA6'],
-      },
-      bar: {
-        width: {
-          ratio: 0.7,
+    // 等演唱會檢索圖表生成完畢後再生成，避免跑版
+    setTimeout(() => {
+      // 熱門表演者檢索量
+      // eslint-disable-next-line no-undef
+      c3.generate({
+        bindto: '#chart5',
+        data: {
+          columns: [
+            ['Tom Jones', 380],
+            ['Apink', 230],
+            ['FTIsland', 170],
+            ['理想混蛋', 340],
+            ['溫蒂漫步', 60],
+          ],
+          type: 'bar',
         },
-        space: 0.3,
-      },
-      size: {
-        height: 320,
-      },
-      axis: {
-        x: {
-          type: 'category',
-          categories: ['表演者'],
+        color: {
+          pattern: ['#4D0D97', '#42DFC8', '#020087', '#D595F1', '#971AA6'],
         },
-      },
-    });
+        bar: {
+          width: {
+            ratio: 0.7,
+          },
+          space: 0.3,
+        },
+        size: {
+          height: 320,
+        },
+        axis: {
+          x: {
+            type: 'category',
+            categories: ['表演者'],
+          },
+        },
+      });
 
-    // 熱門會場瀏覽量
-    // eslint-disable-next-line no-undef
-    c3.generate({
-      bindto: '#chart6',
-      data: {
-        columns: [
-          ['Legacy Taichung', 210],
-          ['台北流行音樂中心', 380],
-          ['高雄流行音樂中心', 300],
-          ['新北工商展覽中心', 150],
-          ['台北國際會議中心TICC', 250],
-        ],
-        type: 'bar',
-      },
-      color: {
-        pattern: ['#4D0D97', '#42DFC8', '#020087', '#D595F1', '#971AA6'],
-      },
-      bar: {
-        width: {
-          ratio: 0.7,
+      // 熱門會場瀏覽量
+      // eslint-disable-next-line no-undef
+      c3.generate({
+        bindto: '#chart6',
+        data: {
+          columns: [
+            ['Legacy Taichung', 210],
+            ['台北流行音樂中心', 380],
+            ['高雄流行音樂中心', 300],
+            ['新北工商展覽中心', 150],
+            ['台北國際會議中心TICC', 250],
+          ],
+          type: 'bar',
         },
-        space: 0.3,
-      },
-      size: {
-        height: 350,
-      },
-      axis: {
-        x: {
-          type: 'category',
-          categories: ['場地'],
+        color: {
+          pattern: ['#4D0D97', '#42DFC8', '#020087', '#D595F1', '#971AA6'],
         },
-      },
-    });
+        bar: {
+          width: {
+            ratio: 0.7,
+          },
+          space: 0.3,
+        },
+        size: {
+          height: 350,
+        },
+        axis: {
+          x: {
+            type: 'category',
+            categories: ['場地'],
+          },
+        },
+      });
+      setIsLoading();
+    }, 1000);
   },
 };
 </script>
