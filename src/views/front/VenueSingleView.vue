@@ -20,11 +20,25 @@
         <template #mainTitle> 場地體驗 </template>
       </TitleComponent>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:order-2 flex items-center">
-          <img :src="venue.seat_picture" :alt="venue.title" class="w-full" />
-        </div>
-        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2 col-span-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section" data-aos="zoom-in-up">
+          <!-- Venue Title -->
+          <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-4xl 2xl:text-6xl pb-2">{{ venue.title }}</h2>
+          <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
+          <!-- Venue Seats -->
+          <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
+            <div
+              v-for="(area, index) in venue.seat_areas"
+              :key="`${index + 123}`"
+              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center transition-transform"
+              :class="area === seatArea ? 'active' : ''">
+              <p>
+                {{ area }}
+              </p>
+            </div>
+          </div>
+        </article>
+        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2">
           <div class="flex justify-between pb-6 lg:pb-10">
             <Select v-model="seatArea">
               <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
@@ -48,15 +62,17 @@
                   </Button>
                 </DialogTrigger>
                 <DialogContent class="max-w-sm md:max-w-xl">
-                  <DialogHeader class="mb-6">
+                  <DialogHeader class="mb-6" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
                     <DialogTitle>留下評論</DialogTitle>
-                    <DialogDescription></DialogDescription>
+                    <DialogDescription>
+                      <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
+                    </DialogDescription>
                   </DialogHeader>
-                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10">
+                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
                     <div class="relative flex items-center">
                       <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
                       <Select v-model="commentSeatArea" id="seat-select">
-                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
+                        <SelectTrigger class="ml-[7rem] border-white">
                           <SelectValue placeholder="選取座位區" />
                         </SelectTrigger>
                         <SelectContent>
@@ -85,11 +101,7 @@
                       <div class="relative flex items-center mb-4">
                         <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
                         <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
-                        <Button
-                          type="button"
-                          class="ml-[7rem] border-white border w-full rounded-md justify-start text-sm"
-                          :class="{ 'w-3/5': concertId, 'md:w-full': concertId }"
-                          @click="handleFileButton">
+                        <Button type="button" class="ml-[7rem] border-white border w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
                           <span v-if="!images.length">未選擇任何檔案</span>
                           <span v-else>已選擇{{ images.length }}個檔案</span>
                         </Button>
@@ -106,21 +118,24 @@
                     <div>
                       <Textarea v-model="commentContent" placeholder="留下你的評論..." />
                     </div>
-                    <div class="flex justify-center items-center">
-                      <Button for="commentPolicy" type="button" class="text-sm text-black-60 text-right cursor-pointer px-0" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Button>
-                    </div>
-                    <DialogFooter class="justify-center sm:justify-center">
-                      <DialogClose as-child>
-                        <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
-                      </DialogClose>
-                      <Button variant="tiffany-fill" size="base" type="submit" class="px-14 md:px-14 lg:px-14">送出評論</Button>
+
+                    <DialogFooter class="justify-center sm:justify-center flex-col sm:flex-col space-y-2">
+                      <div class="flex justify-center items-center">
+                        <Button for="commentPolicy" type="button" class="text-sm text-black-60 text-right cursor-pointer px-0" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Button>
+                      </div>
+                      <div class="flex justify-center items-center space-x-2">
+                        <DialogClose as-child>
+                          <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
+                        </DialogClose>
+                        <Button variant="tiffany-fill" size="base" type="submit" class="px-14 md:px-14 lg:px-14">送出評論</Button>
+                      </div>
                     </DialogFooter>
                   </form>
                 </DialogContent>
               </Dialog>
             </div>
           </div>
-          <ScrollArea class="lg:h-[280px] xl:h-[350px]">
+          <ScrollArea class="lg:h-[350px]">
             <div
               v-for="(comment, index) in filterSeatComment"
               :key="comment.id"
@@ -157,7 +172,10 @@
                     </Button>
                   </HoverCardTrigger>
                   <HoverCardContent>
-                    <Button @click="reportUser(comment.user.name)">檢舉該名使用者</Button>
+                    <Button @click="reportUser(comment.user.name)" class="justify-between w-full">
+                      <span>檢舉該名使用者</span>
+                      <AlertCircle />
+                    </Button>
                   </HoverCardContent>
                 </HoverCard>
               </div>
@@ -168,6 +186,10 @@
     </main>
   </section>
   <div>
+    <!-- <div class="text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-bold marquee-container bg-tiffany">
+      <div class="marquee-text">{{ venue?.title }}</div>
+      <div class="marquee-text font-display text-stroke">{{ venue?.eng_title }}</div>
+    </div> -->
     <div class="marquee-type bg-tiffany">
       <div ref="marquee" class="flex text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-black text-black tracking-widest whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
         <p class="marquee space-x-4">
@@ -216,11 +238,11 @@
           </Accordion>
         </template> -->
         <Accordion type="single" collapsible>
-          <AccordionItem class="lg:relative" v-for="method in transportation" :key="method.type" :value="method.value">
-            <AccordionTrigger :hideIcon="true" :value="method.value" class="accordion-button">
-              <div class="flex space-x-10 font-black">
-                <ArrowDownRight class="size-10 lg:size-16" />
-                <span class="-mb-8 pt-2 lg:pt-[30px] text-4xl">{{ method.type }}</span>
+          <AccordionItem class="lg:relative border-b-4" v-for="method in transportation" :key="method.type" :value="method.value">
+            <AccordionTrigger :hideIcon="true" :value="method.value" class="accordion-button hover:no-underline">
+              <div class="flex gap-4 font-black -mb-[18px] lg:-mb-[33px] pt-8 lg:pt-[42px]">
+                <ArrowDownRight class="size-10 lg:size-16 pb-2 sm:pb-0 lg:pb-2" />
+                <span class="text-lg sm:text-2xl lg:text-4xl">{{ method.type }}</span>
               </div>
             </AccordionTrigger>
             <AccordionContent class="lg:flex lg:justify-end">
@@ -248,7 +270,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
-import { MoreHorizontal, ArrowDownRight } from 'lucide-vue-next';
+import { MoreHorizontal, ArrowDownRight, AlertCircle } from 'lucide-vue-next';
 </script>
 <script>
 import { mapActions, mapState, mapWritableState } from 'pinia';
@@ -258,6 +280,8 @@ import { http } from '@/api';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
 import { useToast } from '@/components/ui/toast/use-toast';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const { setIsLoading } = loadingStore();
 const { toast } = useToast();
 
@@ -301,7 +325,7 @@ export default {
       });
     },
     readURL(input) {
-      console.log(input.target.files);
+      // console.log(input.target.files);
       if (input.target.files && input.target.files[0]) {
         if (input.target.files.length > 3) {
           toast({
@@ -377,10 +401,7 @@ export default {
       http
         .post(`${this.path.venues}/${this.$route.params.id}/comment`, payload)
         .then((res) => {
-          this.concertId = '';
-          this.commentSeatArea = '';
-          this.commentContent = '';
-          this.images = [];
+          this.resetComment();
           toast({
             title: '已新增評論',
             description: '',
@@ -395,6 +416,12 @@ export default {
           setIsLoading();
         });
     },
+    resetComment() {
+      this.concertId = '';
+      this.commentSeatArea = '';
+      this.commentContent = '';
+      this.images = [];
+    },
     showCommentPolicy() {
       toast({
         title: '評論規範',
@@ -403,6 +430,19 @@ export default {
     },
     openModal(val) {
       this.openCommentModal = val;
+      if (val === false) {
+        this.resetComment();
+      }
+    },
+    handleMarQuee() {
+      const marquee = this.$refs.marquee;
+      marquee.childNodes.forEach((item) => {
+        if (item.textContent.length <= 90 && item.textContent.length > 60) {
+          item.style.animationDuration = '80s';
+        } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
+          item.style.animationDuration = '90s';
+        }
+      });
     },
     ...mapActions(useVenuesStore, ['getVenue', 'reportUser']),
   },
@@ -414,21 +454,25 @@ export default {
     id(newId) {
       this.getVenue(newId);
     },
+    concertId(newVal) {
+      // const concert = this.venue.concerts.find((item) => item.id === +newVal);
+      // console.log(concert.title.length);
+      // if (concert.title.length > 19) {
+      //   console.dir(this.$refs.modalForm);
+      //   this.$refs.modalForm.classList.add('w-3/5');
+      //   this.$refs.modalForm[2].style.width = '50%';
+      // } else if (concert.title.length > 39) {
+      //   this.$refs.modalForm[2].style.width = '40%';
+      // }
+    },
   },
   mounted() {
     this.getVenue(this.id);
+    AOS.init();
   },
   updated() {
-    const marquee = this.$refs.marquee;
     const accordionButtons = document.querySelectorAll('.accordion-button');
 
-    marquee.childNodes.forEach((item) => {
-      if (item.textContent.length <= 90 && item.textContent.length > 60) {
-        item.style.animationDuration = '20s';
-      } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
-        item.style.animationDuration = '25s';
-      }
-    });
     accordionButtons.forEach((item) => {
       if (item?.dataset?.state === 'open') {
         item?.click();
@@ -515,13 +559,31 @@ export default {
   scrollbar-width: none;
 }
 
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+}
+.marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll 80s linear infinite;
+}
+@keyframes scroll {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
 .marquee-type {
   &:nth-child(odd) {
     // a {
     //   @apply col-span-3;
     // }
     p.marquee {
-      animation: marquee-negative 15s infinite linear;
+      animation: marquee-negative 40s infinite linear;
     }
   }
   &:nth-child(even) {
@@ -532,7 +594,7 @@ export default {
     //   @apply w-full;
     // }
     p.marquee {
-      animation: marquee-positive 15s infinite linear;
+      animation: marquee-positive 90s infinite linear;
     }
   }
 }
@@ -553,5 +615,42 @@ export default {
   100% {
     transform: translateX((0%));
   }
+}
+
+.gradient-border {
+  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
+    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
+    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
+    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
+  background-size:
+    19px 19px,
+    calc(100% - 38px) 3px,
+    19px 19px,
+    3px calc(100% - 38px);
+  background-position:
+    top left,
+    top center,
+    top right,
+    center right,
+    bottom right,
+    bottom center,
+    bottom left,
+    center left;
+  background-repeat: no-repeat;
+}
+
+.gradient-border.active {
+  // background-color: #fff;
+  border-radius: 1rem;
+  @apply bg-shadow-trans-text-brighter -translate-x-1 -translate-y-1;
+}
+
+.gradient-test {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  background: linear-gradient(to right, #ffffff, #d595f1), linear-gradient(to bottom, #d595f1, #ffffff), linear-gradient(to left, #ffffff, #42dfc8), linear-gradient(to top, #42dfc8, #ffffff);
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  transition: all 0.3s;
 }
 </style>

@@ -82,4 +82,10 @@
       0px 4px 16px 0px rgba(154, 146, 210, 0.2) inset;
     backdrop-filter: blur(10px);
   }
+  .bg-shadow-trans-text-brighter {
+    box-shadow:
+      -10px 10px 30px -10px rgba(213, 149, 241, 0.9) inset,
+      10px -10px 30px -10px rgba(66, 223, 200, 0.9) inset;
+    backdrop-filter: blur(7px);
+  }
 }

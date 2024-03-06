@@ -26,7 +26,7 @@
             <div v-if="!concerts.length && !artists.length && !venues.length" class="mt-4"></div>
 
             <ScrollArea class="border-0">
-              <div v-if="artists.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 w-[72%] xl:w-[95%]">
+              <div v-if="artists.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
                 <h3 class="absolute top-2 left-0 text-2xl text-black-20 drop-shadow-light">表演者</h3>
                 <RouterLink to="/artists" class="absolute top-2 right-0">
                   <DialogClose as-child>
@@ -129,7 +129,7 @@
                   </li>
                   <li v-if="user?.is_admin">
                     <NavigationMenuLink>
-                      <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                      <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
                     </NavigationMenuLink>
                   </li>
                   <li class="py-2">
@@ -283,7 +283,7 @@
                           </li>
                           <li v-if="user?.is_admin">
                             <NavigationMenuLink>
-                              <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                              <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
                             </NavigationMenuLink>
                           </li>
                           <li class="py-2">
@@ -423,14 +423,14 @@ export default {
         item.classList.add('blur');
       });
       e.currentTarget.classList.remove('blur');
-      console.log('hover');
+      // console.log('hover');
     },
     removeBlurEffect: useDebounceFn(function () {
       this.hoveredIndex = -1;
       this.$refs.linkItems.forEach((item) => {
         item.classList.remove('blur');
       });
-      console.log('remove');
+      // console.log('remove');
     }, 650),
     searchConcenrts() {
       this.http
@@ -470,11 +470,17 @@ export default {
       this.searchArtists();
       this.searchVenues();
     }, 500),
+    test() {
+      const scrollArea = document.querySelector('[data-radix-scroll-area-viewport]');
+      console.dir(scrollArea);
+      scrollArea.childNodes[0].style = 'display: width';
+    },
     ...mapActions(useUserStore, ['logout']),
   },
   computed: {
     ...mapState(useUserStore, ['user']),
   },
+  updated() {},
 };
 </script>
 <style lang="scss" scoped>

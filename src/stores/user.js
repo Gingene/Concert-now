@@ -10,11 +10,22 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     AccessToken: '',
     user: {},
+    userDynamic: {},
     // 收藏與追蹤列表
     savedConcerts: [],
     followedArtists: [],
   }),
   actions: {
+    getUserDynamic(){
+      http
+        .get(`${path.me}`)
+        .then((res) => {
+          this.userDynamic = res.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     getToken() {
       this.AccessToken = cookies.get('AccessToken');
     },

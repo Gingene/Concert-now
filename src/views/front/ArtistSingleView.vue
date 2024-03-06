@@ -3,10 +3,22 @@
     <!-- 表演者圖片(區塊一) start -->
     <section class="artist-intro mb-10 md:mb-[6.5rem] lg:mb-40">
       <div class="flex justify-between mb-5">
-        <div class="flex" v-for="keyword in singleArtist?.keywords">
-          <p class="mr-3">{{ keyword }} /</p>
+        <div class="flex">
+          <p class="mr-3" v-for="(keyword, index) in singleArtist?.keywords" :key="index">{{ keyword }} /</p>
         </div>
-        <button class="basic tiffany-outline ml-auto">follow</button>
+        <HoverCard>
+          <HoverCardTrigger>
+            <button
+              :key="singleArtist?.id"
+              class="basic text-base"
+              :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
+              @click="toggleFollowArtist(singleArtist.is_followed, singleArtist.id)">
+              follow
+            </button>
+          </HoverCardTrigger>
+          <!-- 辨識登入狀態，未登入才顯示提示框 -->
+          <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟追蹤功能 </HoverCardContent>
+        </HoverCard>
       </div>
       <div class="w-[85%] lg:w-[63%] mx-auto xl:relative">
         <img class="rounded-xl mb-5" :src="singleArtist?.cover_urls?.horizontal" :alt="singleArtist?.name" />
@@ -49,13 +61,17 @@
 
     <!-- 即將舉辦(區塊四) start -->
     <div>
-      <TitleComponent class="flex justify-center mb-[30px]">
+      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
       </TitleComponent>
 
-      <div v-if="singleArtist?.upcoming_concerts.length > 0" class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
-        <div v-for="upcoming in singleArtist?.upcoming_concerts" :key="upcoming.id" class="flex items-center">
+      <div
+        v-if="singleArtist?.upcoming_concerts.length > 0"
+        v-for="upcoming in singleArtist?.upcoming_concerts"
+        :key="upcoming.id"
+        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(upcoming.holding_time).format('MM/DD') }}
@@ -73,10 +89,16 @@
             </p>
           </div>
         </div>
-        <button class="flex items-center">
-          <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" /> -->
-          <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl text-[var(--pink)] hover:translate-y-[-.25rem]" />
-        </button>
+        <HoverCard>
+          <HoverCardTrigger>
+            <button class="mb-auto" @click="changeSaveConcertsMode(upcoming.id)">
+              <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+              <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+            </button>
+          </HoverCardTrigger>
+          <!-- 辨識登入狀態，未登入才顯示提示框 -->
+          <HoverCardContent v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
+        </HoverCard>
       </div>
 
       <div v-else class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
@@ -85,13 +107,17 @@
 
     <!-- 已結束(區塊五) start -->
     <div class="mb-[150px]">
-      <TitleComponent class="flex justify-center mb-[30px]">
+      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
         <template #subTitle>HISTORY</template>
         <template #mainTitle>已結束</template>
       </TitleComponent>
 
-      <div v-if="singleArtist?.historical_concerts.length > 0" class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
-        <div v-for="historical in singleArtist?.historical_concerts" :key="historical.id" class="flex items-center">
+      <div
+        v-if="singleArtist?.historical_concerts.length > 0"
+        v-for="historical in singleArtist?.historical_concerts"
+        :key="historical.id"
+        class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(historical.holding_time).format('MM/DD') }}
@@ -101,14 +127,20 @@
             </p>
           </div>
           <div>
-            <p class="text-[14px] sm:text-[17px] md:text-[21px]">Tom Jones湯姆瓊斯演唱會2024台北站</p>
-            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">台北國際會議中心TICC</p>
+            <p class="text-[14px] sm:text-[17px] md:text-[21px]">{{ historical?.title }}</p>
+            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">{{ historical?.venue?.title }}</p>
           </div>
         </div>
-        <button class="flex items-center">
-          <!-- <font-awesome-icon icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" /> -->
-          <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl text-[var(--pink)] hover:translate-y-[-.25rem]" />
-        </button>
+        <HoverCard>
+          <HoverCardTrigger>
+            <button class="mb-auto" @click="changeSaveConcertsMode(historical.id)">
+              <font-awesome-icon v-if="saveState?.some((item) => item.id === historical?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+              <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+            </button>
+          </HoverCardTrigger>
+          <!-- 辨識登入狀態，未登入才顯示提示框 -->
+          <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟收藏功能 </HoverCardContent>
+        </HoverCard>
       </div>
       <div v-else class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
     </div>
@@ -118,40 +150,158 @@
 
 <script setup>
 import TitleComponent from '@/components/custom/TitleComponent.vue';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 </script>
 
 <script>
-import { getSingleArtist } from '../../api/index';
+// 引入pinia 內容
+import { mapState, mapActions } from 'pinia';
+import { useUserStore } from '@/stores/user';
+import { loadingStore } from '@/stores/isLoading';
+const { setIsLoading } = loadingStore();
+
+// 引入hooks
+import useDarkAlert from '@/hooks/useDarkAlert';
+
+// 引入API方法
+import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
+import { useArtistsStore } from '@/stores/artists';
+const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {
     return {
+      checkData: null,
       singleArtist: null,
+      savedConcertsData: null,
     };
   },
-  // computed: {
-  //   artistId() {
-  //     console.log(this.id);
-  //   },
-  // },
+  computed: {
+    ...mapState(useUserStore, ['AccessToken']),
+
+    saveState() {
+      return this.savedConcertsData;
+    },
+  },
   methods: {
+    ...mapActions(useArtistsStore, ['postFollowConcetsData', 'deleteFollowConcetsData']),
+
     async getSingleArtistData(id) {
       try {
+        setIsLoading();
+
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
       } catch (error) {
         console.log(error);
+
+      } finally {
+        setIsLoading();
       }
     },
-    // changeTime() {
-    //   // const hodingYear = moment(this.singleArtist?.upcoming_concerts[0].holding_time).format('YYYY');
-    //   const hodingDate = moment(this.singleArtist?.upcoming_concerts[0].holding_time).format("YYYY/MM/DD");
-    //   console.log(hodingDate);
-    // },
+    // 追蹤功能
+    toggleFollowArtist(isfollow, id) {
+      // 未登入狀態
+      if (!this.AccessToken) {
+        swalWithStylingButtons
+          .fire({
+            title: '登入後才能用追蹤功能喔！',
+            showCancelButton: true,
+            confirmButtonText: '前往登入',
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'login#/login';
+            }
+          });
+        return;
+      }
+
+      // 登入且未追蹤狀態
+      if (!isfollow) {
+        // 新增追蹤
+        this.postFollowConcetsData(id)
+          .then(() => this.getSingleArtistData(id));
+        return;
+
+      } else {
+        // 登入且追蹤狀態 => 刪除追蹤
+        this.deleteFollowConcetsData(id)
+          .then(() => this.getSingleArtistData(id));
+      }
+
+      return;
+    },
+    // 收藏功能
+    changeSaveConcertsMode(id) {
+      // 未登入
+      if (this.AccessToken === undefined) {
+        // 自訂alert樣式
+        swalWithStylingButtons
+          .fire({
+            title: '登入後才能用收藏功能喔！',
+            showCancelButton: true,
+            confirmButtonText: '前往登入',
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'login#/login';
+            }
+          });
+        return;
+      }
+
+      // 判別是否已收藏
+      if (this.savedConcertsData?.some((item) => item.id === id)) {
+        // 刪除收藏
+        this.deleteSaveConcertsData(id)
+          .then(() => this.getSavedConcertsData());
+      } else {
+        // 新增收藏
+        this.postSaveConcertsData(id)
+          .then(() => this.getSavedConcertsData());
+      }
+    },
+    // 取得 收藏演唱會資料
+    async getSavedConcertsData() {
+      try {
+        const res = await getSavedConcerts();
+        this.savedConcertsData = res.data.data.saved_concerts;
+
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    // 新增收藏演唱會
+    async postSaveConcertsData(id) {
+      try {
+        const res = await postSaveConcerts(id);
+        console.log(res);
+
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteSaveConcertsData(id) {
+      try {
+        const res = await deleteSaveConcerts(id);
+        console.log(res);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    updateData(id) {
+      this.getSingleArtistData(id);
+    },
   },
   mounted() {
     this.getSingleArtistData(Number(this.$route.params.id));
+
+    if (this.AccessToken) {
+      this.getSavedConcertsData();
+    }
   },
 };
 </script>
