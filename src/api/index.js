@@ -161,7 +161,7 @@ export const getSavedConcerts = async () => {
   const url = `${VITE_APP_SERVICE_API}/api/me`;
 
   try {
-    const res = await http.get(url)
+    const res = await http.get(url);
     return res;
 
   } catch (error) {
@@ -175,14 +175,14 @@ export const getSavedConcerts = async () => {
 export const postSaveConcerts = async (id) => {
   const url = `${VITE_APP_SERVICE_API}/api/concerts/${id}/save`;
   try {
-    const res = await http.post(url)
+    const res = await http.post(url);
     return res;
 
   } catch (error) {
     console.error('[PostSaveConcerts Failed]', error);
     throw error;
   }
-}
+};
 
 // delete - 『刪除』單一表演者之『收藏演唱會』資料
 export const deleteSaveConcerts = async (id) => {

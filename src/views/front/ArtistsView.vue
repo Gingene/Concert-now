@@ -94,13 +94,15 @@ import { useArtistsStore } from '@/stores/artists';
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
-const { swalWithStylingButtons } = useDarkAlert();
 
 // 引入API方法
 import { getArtists, getInputArtist } from '../../api/index';
 import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '@/stores/isLoading';
 const { setIsLoading } = loadingStore();
+
+const { swalWithStylingButtons } = useDarkAlert();
+
 
 export default {
   data() {

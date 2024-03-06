@@ -162,12 +162,12 @@ const { setIsLoading } = loadingStore();
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
-const { swalWithStylingButtons } = useDarkAlert();
 
 // 引入API方法
 import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
 import { useArtistsStore } from '@/stores/artists';
+const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {

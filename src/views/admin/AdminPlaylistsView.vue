@@ -16,8 +16,22 @@
         </SelectContent>
       </Select>
     </div>
-    <div class="flex col-span-2">
-      <Input type="text" placeholder="輸入演唱會、用戶名稱查詢..." @input="searchSong" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
+    <div class="col-span-2 lg:col-span-1">
+      <Select v-model="concertId">
+        <SelectTrigger>
+          <SelectValue placeholder="選擇演唱會" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>選擇演唱會</SelectLabel>
+            <SelectItem value="0"> 全部演唱會 </SelectItem>
+            <SelectItem :value="concert.id.toString()" v-for="concert in concerts" :key="concert.id"> {{ concert.title }} </SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+    <div class="flex col-span-1">
+      <Input type="text" placeholder="輸入用戶信箱查詢..." @keyup="searchSong" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
       <Button class="rounded-l-none">
         <span class="material-symbols-outlined absolute"> search </span>
       </Button>
@@ -107,7 +121,7 @@
               </Dialog>
             </TableCell>
             <TableCell
-              ><router-link class="text-purple-500 hover:text-purple-800" :to="`/concert/4`">{{ song.concert.title }}</router-link></TableCell
+              ><RouterLink :to="`/concerts/${song.concert.id}`">{{ song.concert.title }}</RouterLink></TableCell
             >
             <TableCell>{{ song.user.email }}</TableCell>
             <TableCell class="space-x-4 flex">
@@ -174,22 +188,22 @@
   </div>
   <!-- Pagination -->
   <div class="flex justify-center">
-    <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+    <Pagination :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
       <PaginationList v-slot="{ items }" class="flex items-center md:gap-1">
-        <PaginationFirst @click="getSongs(1)" />
-        <PaginationPrev @click="getSongs(pagination.current_page - 1)" />
+        <PaginationFirst @click="searchSongsByPage(1)" />
+        <PaginationPrev @click="searchSongsByPage(pagination.current_page - 1)" />
 
         <template v-for="(item, index) in items">
           <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'" @click="getSongs(item.value)">
+            <Button class="w-10 h-10 p-0" :variant="item.value === searchPage ? 'default' : 'page'" @click="searchSongsByPage(item.value)">
               {{ item.value }}
             </Button>
           </PaginationListItem>
           <PaginationEllipsis v-else :key="item.type" :index="index" class="hidden sm:flex" />
         </template>
 
-        <PaginationNext @click="getSongs(pagination.current_page + 1)" />
-        <PaginationLast @click="getSongs(pagination.total_pages)" />
+        <PaginationNext @click="searchSongsByPage(pagination.current_page + 1)" />
+        <PaginationLast @click="searchSongsByPage(pagination.total_pages)" />
       </PaginationList>
     </Pagination>
   </div>
@@ -247,15 +261,27 @@ export default {
       'warnUser',
       'alertMessage',
       'deleteSelectReview',
+      'getConcerts',
+      'searchSongsByConcert',
+      'searchSongsByPage',
+      'resetState',
     ]),
   },
   computed: {
-    ...mapState(songsStore, ['songs', 'mapSongs', 'concertSongs', 'songCheckList', 'sortInitial', 'filterDatas', 'pagination']),
-    ...mapWritableState(songsStore, ['selectReview']),
+    ...mapState(songsStore, ['songs', 'mapSongs', 'concertSongs', 'songCheckList', 'sortInitial', 'filterDatas', 'pagination', 'concerts', 'searchPage']),
+    ...mapWritableState(songsStore, ['selectReview', 'concertId']),
+  },
+  watch: {
+    concertId() {
+      this.searchSongsByConcert();
+    },
   },
   mounted() {
-    // this.logIn();
     this.getSongs(this.adminPath.songs);
+    this.getConcerts();
+  },
+  unmounted() {
+    this.resetState();
   },
 };
 </script>

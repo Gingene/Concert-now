@@ -283,7 +283,7 @@
                           </li>
                           <li v-if="user?.is_admin">
                             <NavigationMenuLink>
-                              <RouterLink to="/admin" class="block px-4 py-4 text-center">管理後台</RouterLink>
+                              <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
                             </NavigationMenuLink>
                           </li>
                           <li class="py-2">
@@ -336,44 +336,6 @@
                   <RouterLink to="/login" class="px-4"> Log in </RouterLink>
                 </Button>
               </SheetClose>
-              <NavigationMenu v-else class="w-full">
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger class="mt-4">{{ user.name }} 您好</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul class="w-[150px] border-0 space-y-2">
-                        <li>
-                          <NavigationMenuLink as-child>
-                            <RouterLink to="/member" class="block px-4 py-4 text-center">個人頁面</RouterLink>
-                          </NavigationMenuLink>
-                        </li>
-                        <li v-if="user?.is_admin">
-                          <NavigationMenuLink>
-                            <RouterLink to="/admin/concerts" class="block px-4 py-4 text-center">管理後台</RouterLink>
-                          </NavigationMenuLink>
-                        </li>
-                        <li class="py-2">
-                          <AlertDialog>
-                            <AlertDialogTrigger as-child>
-                              <Button variant="ghost" class="w-full"> 登出 </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>您確定要登出嗎?</AlertDialogTitle>
-                                <AlertDialogDescription> </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel class="border-lime-700 border bg-transparent text-foreground hover:bg-lime-500"> 取消 </AlertDialogCancel>
-                                <AlertDialogAction class="border-destructive border bg-transparent text-foreground hover:bg-destructive" @click="logout">確定</AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
             </nav>
           </SheetContent>
         </Sheet>

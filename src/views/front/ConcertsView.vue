@@ -162,8 +162,8 @@ export default {
       this.getUserSavedAndFollowed();
     }
 
-    console.log(this.AccessToken)
-    console.log(this.savedConcerts)
+    console.log(this.AccessToken);
+    console.log(this.savedConcerts);
   },
 };
 </script>

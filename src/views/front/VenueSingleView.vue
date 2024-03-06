@@ -54,7 +54,7 @@
                       <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
                     </DialogDescription>
                   </DialogHeader>
-                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
+                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm">
                     <div class="relative flex items-center">
                       <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
                       <Select v-model="commentSeatArea" id="seat-select">
@@ -72,7 +72,7 @@
                     <div class="flex items-center">
                       <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
                       <Select id="concert-select" v-model="concertId">
-                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
+                        <SelectTrigger class="ml-[7rem] border-white">
                           <SelectValue placeholder="選取演唱會" />
                         </SelectTrigger>
                         <SelectContent>
@@ -437,6 +437,17 @@ export default {
   watch: {
     id(newId) {
       this.getVenue(newId);
+    },
+    concertId(newVal) {
+      // const concert = this.venue.concerts.find((item) => item.id === +newVal);
+      // console.log(concert.title.length);
+      // if (concert.title.length > 19) {
+      //   console.dir(this.$refs.modalForm);
+      //   this.$refs.modalForm.classList.add('w-3/5');
+      //   this.$refs.modalForm[2].style.width = '50%';
+      // } else if (concert.title.length > 39) {
+      //   this.$refs.modalForm[2].style.width = '40%';
+      // }
     },
   },
   mounted() {
