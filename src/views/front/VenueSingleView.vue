@@ -21,7 +21,7 @@
       </TitleComponent>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
+        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section" data-aos="zoom-in-up">
           <!-- Venue Title -->
           <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-4xl 2xl:text-6xl pb-2">{{ venue.title }}</h2>
           <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
@@ -30,7 +30,7 @@
             <div
               v-for="(area, index) in venue.seat_areas"
               :key="`${index + 123}`"
-              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center"
+              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center transition-transform"
               :class="area === seatArea ? 'active' : ''">
               <p>
                 {{ area }}
@@ -280,6 +280,8 @@ import { http } from '@/api';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
 import { useToast } from '@/components/ui/toast/use-toast';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 const { setIsLoading } = loadingStore();
 const { toast } = useToast();
 
@@ -466,6 +468,7 @@ export default {
   },
   mounted() {
     this.getVenue(this.id);
+    AOS.init();
   },
   updated() {
     const accordionButtons = document.querySelectorAll('.accordion-button');
@@ -639,7 +642,7 @@ export default {
 .gradient-border.active {
   // background-color: #fff;
   border-radius: 1rem;
-  @apply bg-shadow-trans-text;
+  @apply bg-shadow-trans-text-brighter -translate-x-1 -translate-y-1;
 }
 
 .gradient-test {

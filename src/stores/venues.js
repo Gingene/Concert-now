@@ -73,12 +73,14 @@ export const useVenuesStore = defineStore('venues', {
         .then((res) => {
           this.venue = res.data.data;
           console.log(this.venue);
-          setTimeout(() => {
-            setIsLoading();
-          }, 100);
         })
         .catch((err) => {
           console.error(err);
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setIsLoading();
+          }, 100);
         });
     },
     searchVenues: useDebounceFn(function (searchText, page = 1) {
