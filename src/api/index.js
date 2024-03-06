@@ -133,7 +133,6 @@ export const postFollowConcets = async (id) => {
   try {
     const res = await http.post(url);
     return res;
-
   } catch (error) {
     console.log('[PostFollowConcets Failed]', error);
   }
@@ -170,7 +169,6 @@ export const postSaveConcerts = async (id) => {
   try {
     const res = await http.post(url);
     return res;
-
   } catch (error) {
     console.error('[PostSaveConcerts Failed]', error);
     throw error;
@@ -188,4 +186,3 @@ export const deleteSaveConcerts = async (id) => {
     throw error;
   }
 };
-
