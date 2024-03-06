@@ -20,11 +20,25 @@
         <template #mainTitle> 場地體驗 </template>
       </TitleComponent>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:order-2 flex items-center">
-          <img :src="venue.seat_picture" :alt="venue.title" class="w-full" />
-        </div>
-        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2 col-span-2">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
+          <!-- Venue Title -->
+          <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-4xl 2xl:text-6xl pb-2">{{ venue.title }}</h2>
+          <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
+          <!-- Venue Seats -->
+          <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
+            <div
+              v-for="(area, index) in venue.seat_areas"
+              :key="`${index + 123}`"
+              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center"
+              :class="area === seatArea ? 'active' : ''">
+              <p>
+                {{ area }}
+              </p>
+            </div>
+          </div>
+        </article>
+        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2">
           <div class="flex justify-between pb-6 lg:pb-10">
             <Select v-model="seatArea">
               <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
@@ -54,7 +68,7 @@
                       <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
                     </DialogDescription>
                   </DialogHeader>
-                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm">
+                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
                     <div class="relative flex items-center">
                       <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
                       <Select v-model="commentSeatArea" id="seat-select">
@@ -72,7 +86,7 @@
                     <div class="flex items-center">
                       <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
                       <Select id="concert-select" v-model="concertId">
-                        <SelectTrigger class="ml-[7rem] border-white">
+                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
                           <SelectValue placeholder="選取演唱會" />
                         </SelectTrigger>
                         <SelectContent>
@@ -121,7 +135,7 @@
               </Dialog>
             </div>
           </div>
-          <ScrollArea class="lg:h-[280px] xl:h-[350px]">
+          <ScrollArea class="lg:h-[350px]">
             <div
               v-for="(comment, index) in filterSeatComment"
               :key="comment.id"
@@ -598,5 +612,42 @@ export default {
   100% {
     transform: translateX((0%));
   }
+}
+
+.gradient-border {
+  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
+    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
+    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
+    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
+  background-size:
+    19px 19px,
+    calc(100% - 38px) 3px,
+    19px 19px,
+    3px calc(100% - 38px);
+  background-position:
+    top left,
+    top center,
+    top right,
+    center right,
+    bottom right,
+    bottom center,
+    bottom left,
+    center left;
+  background-repeat: no-repeat;
+}
+
+.gradient-border.active {
+  // background-color: #fff;
+  border-radius: 1rem;
+  @apply bg-shadow-trans-text;
+}
+
+.gradient-test {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  background: linear-gradient(to right, #ffffff, #d595f1), linear-gradient(to bottom, #d595f1, #ffffff), linear-gradient(to left, #ffffff, #42dfc8), linear-gradient(to top, #42dfc8, #ffffff);
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  transition: all 0.3s;
 }
 </style>
