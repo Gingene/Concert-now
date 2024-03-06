@@ -1,0 +1,1 @@
+import{o as a,c as r,L as o,D as n,u as c,Q as l}from"./index-E1ZPMCP-.js";const u={__name:"TableCaption",props:{class:{type:String,required:!1}},setup(e){const s=e;return(t,p)=>(a(),r("caption",{class:n(c(l)("mt-4 text-sm text-muted-foreground",s.class))},[o(t.$slots,"default")],2))}};export{u as _};
