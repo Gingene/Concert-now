@@ -1,0 +1,1 @@
+import{al as s,am as e,an as a}from"./index-YXoIurfv.js";const r=s("artists",{state:()=>({}),actions:{async postFollowConcetsData(t){try{const o=await e(t);console.log(o)}catch(o){console.log(o)}},async deleteFollowConcetsData(t){try{const o=await a(t);console.log(o)}catch(o){console.log(o)}}}});export{r as u};
