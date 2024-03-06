@@ -71,6 +71,16 @@ const router = createRouter({
           path: 'member',
           name: 'member',
           component: () => import('../views/front/Members.vue'),
+          beforeEnter: (to, from) => {
+            const { AccessToken } = useUserStore();
+            if (!AccessToken) {
+              toast({
+                title: '請先登入',
+                description: '',
+              });
+              return false;
+            }
+          },
         },
         {
           path: '/loading',
