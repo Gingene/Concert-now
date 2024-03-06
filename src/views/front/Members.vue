@@ -6,9 +6,9 @@
     >
     <figure
       class="relative w-[80px] sm:w-[100px] h-[80px] sm:h-[100px] bg-[length:60px] sm:bg-[length:80px] bg-center bg-no-repeat bg-white/25 rounded-full"
-      :style="`background-image: url('${user.profile_image_url}')`">
+      :style="`background-image: url('${userDynamic?.profile_image_url}')`">
       <figcaption class="ml-[85px] xs:ml-[120px] pt-5 text-nowrap text-[30px] sm:text-[40px] font-lato">
-        {{ user.name }}
+        {{ userDynamic?.name }}
       </figcaption>
     </figure>
     <div class="flex justify-end">
@@ -20,7 +20,7 @@
           <Info class="ml-auto" />
         </PopoverTrigger>
         <PopoverContent class="w-[150px] text-center">
-          <div>警告次數：{{ user.warning_count }}</div>
+          <div>警告次數：{{ userDynamic?.warning_count }}</div>
         </PopoverContent>
       </Popover>
     </div>
@@ -42,17 +42,17 @@
           </router-link>
         </CardTitle>
         <CardDescription class="pt-1 xs:text-base xl:text-[18px]">
-          追蹤數：{{ followedArtists.length }}
+          追蹤數：{{ userDynamic?.followed_artists?.length }}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea class="w-full h-[144px] lg:h-[400px]">
-          <div v-if="followedArtists.length === 0" class="text-lg text-tiffany font-semibold tracking-wider"> 
+          <div v-if="userDynamic?.followed_artists?.length === 0" class="text-lg text-tiffany font-semibold tracking-wider"> 
             目前沒有追蹤的藝人喔！
           </div>
           <router-link 
           v-else
-          v-for="artist in followedArtists" 
+          v-for="artist in userDynamic?.followed_artists" 
           :key="artist.id"
           :to="`/artists/${artist.id}`"
           class="inline-block sm:py-1">
@@ -78,17 +78,18 @@
           </router-link>
         </CardTitle>
         <CardDescription class="pt-1 xs:text-base xl:text-[18px]">
-          收藏數：{{ savedConcerts.length }}
+          收藏數：{{ userDynamic?.saved_concerts?.length }}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea class="w-full h-[280px] sm:h-[350px] lg:h-[400px]">
-          <div v-if="savedConcerts.length === 0" class="text-lg text-pink font-semibold tracking-wider"> 
+          <div v-if="userDynamic?.saved_concerts?.length === 0" class="text-lg text-pink font-semibold tracking-wider"> 
             目前沒有收藏任何演唱會喔！
           </div>
           <router-link 
+          v-else
           :to="`/concerts/${concert.id}`" 
-          v-for="concert in savedConcerts" 
+          v-for="concert in userDynamic?.saved_concerts" 
           :key="concert.id +123" 
           class="rounded-[30px] hover:cursor-pointer">
             <div class="flex flex-row gap-6 items-center hover:-translate-y-2">
@@ -138,14 +139,13 @@
     },
     inject: ['http', 'path'],
     methods: {
-      ...mapActions(useUserStore, ['getUser','getUserSavedAndFollowed']),
+      ...mapActions(useUserStore, ['getUserDynamic']),
     },
     computed: {
-      ...mapState(useUserStore, ['user','savedConcerts','followedArtists']),
+      ...mapState(useUserStore, ['userDynamic']),
     },
     mounted() {
-      this.getUser();
-      this.getUserSavedAndFollowed();
+      this.getUserDynamic();
     },
   };
 </script>
