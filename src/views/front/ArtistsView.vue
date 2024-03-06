@@ -65,18 +65,18 @@ import { useArtistsStore } from '@/stores/artists';
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
-const { swalWithStylingButtons } = useDarkAlert();
 
 // 引入API方法
 import { getArtists, getInputArtist } from '../../api/index';
 import { useDebounceFn } from '@vueuse/core';
+const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {
     return {
       activeFilterIndex: 0,
       isFollowActive: {},
-      followState: null, //追蹤狀態
+      followState: null, // 追蹤狀態
       bannerInputPlaceholder: '請輸入表演者名稱',
       artists: [],
       countries: [
@@ -141,7 +141,7 @@ export default {
         this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
       }
 
-      return; 
+       
     },
     async getArtistsData() {
       try {
