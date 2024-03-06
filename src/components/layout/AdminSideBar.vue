@@ -1,8 +1,8 @@
 <template>
-  <div class="lg:hidden">
+  <div class="absolute pl-12 pt-12 lg:hidden">
     <Sheet>
       <SheetTrigger class="lg:hidden">
-        <span class="material-symbols-outlined p-5 lg:p-0"> menu </span>
+        <span class="material-symbols-outlined lg:p-0"> menu </span>
       </SheetTrigger>
       <SheetContent side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
@@ -27,7 +27,7 @@
     </Sheet>
   </div>
   <nav class="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-1">
-    <div class="w-[230px] font-semibold pl-5 py-8 flex text-xl">CONCERTS NOW.</div>
+    <div class="w-[205px] font-semibold pl-5 py-8 flex text-xl">CONCERTS NOW.</div>
     <RouterLink to="/admin/concerts">
       <Button variant="side-bar" size="side-bar">
         <span class="material-symbols-outlined pe-6"> location_on </span>
@@ -47,7 +47,14 @@
 </template>
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  // SheetDescription,
+  // SheetHeader,
+  // SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 </script>
 
 <script>

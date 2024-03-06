@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { http, path } from '@/api';
+import { http, path, adminPath } from '@/api';
 import moment from 'moment';
 
 export default () => {
@@ -10,8 +10,9 @@ export default () => {
     const interval = timeFactor === '本日' ? 'day' : timeFactor === '本週' ? 'week' : 'month';
     const startTime = moment().startOf(interval).format('YYYY-MM-DD');
     const endTime = moment().endOf(interval).format('YYYY-MM-DD');
-    // 時間篩選有兩個主題: 演唱會concerts、表演者artists
-    const topicPath = topic === 'concerts' ? path.concerts : path.artists;
+
+    // topic 分辨前後台
+    const topicPath = topic === 'front' ? path.concerts : adminPath.concerts;
     let lastPath = topicPath + '?';
 
     const timePath = `start=${startTime}&end=${endTime}`;
@@ -31,7 +32,7 @@ export default () => {
       http
         .get(lastPath)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           state = res.data;
           resolve(state);
         })
