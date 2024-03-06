@@ -87,12 +87,13 @@ export { http, path, adminPath };
 
 // 一般會員
 // 取得『表演者總覽頁面』資料
-export const getArtists = async () => {
-  const url = `${VITE_APP_SERVICE_API}/api/artists?page=1`;
+export const getArtists = async (page) => {
+  const url = `${VITE_APP_SERVICE_API}/api/artists?page=${page}`;
 
   try {
     const res = await http.get(url);
     return res;
+    
   } catch (error) {
     console.error('[GetArtists Failed]', error);
     throw error;
@@ -106,6 +107,7 @@ export const getSingleArtist = async (id) => {
   try {
     const res = await http.get(url);
     return res;
+
   } catch (error) {
     console.error('[GetSingleArtist Failed]', error);
     throw error;
@@ -113,13 +115,15 @@ export const getSingleArtist = async (id) => {
 };
 
 // 取得『input 篩選表演者頁面』資料
-export const getInputArtist = async (searchText) => {
-  const url = `${VITE_APP_SERVICE_API}/api/artists?q=${searchText}`;
+export const getInputArtist = async (searchText, country, page) => {
+
+  const url = `${VITE_APP_SERVICE_API}/api/artists?q=${searchText}&page=${page}&country=${country}`;
 
   try {
     const res = await http.get(url);
     return res;
   } catch (error) {
+
     console.error('[GetInputArtist Failed]', error);
     throw error;
   }
@@ -146,6 +150,7 @@ export const deleteFollowConcets = async (id) => {
   try {
     const res = await http.delete(url);
     return res;
+
   } catch (error) {
     console.log('[DeleteFollowConcets Failed]', error);
   }
@@ -158,7 +163,9 @@ export const getSavedConcerts = async () => {
   try {
     const res = await http.get(url)
     return res;
+
   } catch (error) {
+
     console.error('[GetSavedConcerts Failed]', error);
     throw error;
   }
@@ -183,6 +190,7 @@ export const deleteSaveConcerts = async (id) => {
   try {
     const res = await http.delete(url);
     return res;
+
   } catch (error) {
     console.error('[DeleteSaveConcerts Failed]', error);
     throw error;

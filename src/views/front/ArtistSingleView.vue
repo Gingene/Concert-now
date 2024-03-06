@@ -8,19 +8,16 @@
         </div>
         <HoverCard>
           <HoverCardTrigger>
-            <button 
-              :key="singleArtist?.id" 
-              class="basic text-base" 
+            <button
+              :key="singleArtist?.id"
+              class="basic text-base"
               :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
-              @click="toggleFollowArtist(singleArtist.is_followed, singleArtist.id)"
-            >
+              @click="toggleFollowArtist(singleArtist.is_followed, singleArtist.id)">
               follow
             </button>
           </HoverCardTrigger>
           <!-- 辨識登入狀態，未登入才顯示提示框 -->
-          <HoverCardContent v-if="AccessToken === undefined"> 
-            請登入開啟追蹤功能 
-          </HoverCardContent>
+          <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟追蹤功能 </HoverCardContent>
         </HoverCard>
       </div>
       <div class="w-[85%] lg:w-[63%] mx-auto xl:relative">
@@ -36,7 +33,7 @@
     <!-- 表演者圖片(區塊一) end -->
 
     <!-- 盒子(含區塊二及區塊三) -->
-    <div class="space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem] md:flex md:justify-between md:items-center md:mb-2.5 lg:w-[70%] lg:mx-auto">
+    <div class="md:flex md:justify-between md:items-center md:mb-2.5 lg:w-[70%] lg:mx-auto">
       <!-- 表演者介紹(區塊二) start -->
       <section class="mb-[150px] md:mb-0 md:w-[45%]">
         <p class="break-all text-justify pb-10 md:pb-6 md:text-[12px] lg:text-[13px]">
@@ -64,7 +61,7 @@
 
     <!-- 即將舉辦(區塊四) start -->
     <div>
-      <TitleComponent class="flex justify-center mb-[30px] space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem]">
+      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
       </TitleComponent>
@@ -73,8 +70,7 @@
         v-if="singleArtist?.upcoming_concerts.length > 0"
         v-for="upcoming in singleArtist?.upcoming_concerts"
         :key="upcoming.id"
-        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto"
-       >
+        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
         <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -111,7 +107,7 @@
 
     <!-- 已結束(區塊五) start -->
     <div class="mb-[150px]">
-      <TitleComponent class="flex justify-center mb-[30px] space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem]">
+      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
         <template #subTitle>HISTORY</template>
         <template #mainTitle>已結束</template>
       </TitleComponent>
@@ -121,8 +117,7 @@
         v-for="historical in singleArtist?.historical_concerts"
         :key="historical.id"
         class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
-        <div class="flex items-center"
-       >
+        <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(historical.holding_time).format('MM/DD') }}
@@ -162,7 +157,8 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 // 引入pinia 內容
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
-// import { useConcertsStore } from '@/stores/concerts';
+import { loadingStore } from '@/stores/isLoading';
+const { setIsLoading } = loadingStore();
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
@@ -193,16 +189,19 @@ export default {
 
     async getSingleArtistData(id) {
       try {
+        setIsLoading();
+
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
-        
       } catch (error) {
         console.log(error);
+
+      } finally {
+        setIsLoading();
       }
     },
-     // 追蹤功能
+    // 追蹤功能
     toggleFollowArtist(isfollow, id) {
-
       // 未登入狀態
       if (!this.AccessToken) {
         swalWithStylingButtons
@@ -221,17 +220,18 @@ export default {
 
       // 登入且未追蹤狀態
       if (!isfollow) {
-
         // 新增追蹤
-        this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        return
+        this.postFollowConcetsData(id)
+          .then(() => this.getSingleArtistData(id));
+        return;
 
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
+        this.deleteFollowConcetsData(id)
+          .then(() => this.getSingleArtistData(id));
       }
-      
-      return
+
+      return;
     },
     // 收藏功能
     changeSaveConcertsMode(id) {
@@ -252,15 +252,15 @@ export default {
         return;
       }
 
-
       // 判別是否已收藏
       if (this.savedConcertsData?.some((item) => item.id === id)) {
         // 刪除收藏
-        this.deleteSaveConcertsData(id).then(() => this.getSavedConcertsData());
-
+        this.deleteSaveConcertsData(id)
+          .then(() => this.getSavedConcertsData());
       } else {
         // 新增收藏
-        this.postSaveConcertsData(id).then(() => this.getSavedConcertsData());
+        this.postSaveConcertsData(id)
+          .then(() => this.getSavedConcertsData());
       }
     },
     // 取得 收藏演唱會資料
@@ -287,19 +287,14 @@ export default {
       try {
         const res = await deleteSaveConcerts(id);
         console.log(res);
-
+        
       } catch (error) {
         console.log(error);
       }
     },
     updateData(id) {
-      this.getSingleArtistData(id)
-    }
-    // changeTime() {
-    //   // const hodingYear = moment(this.singleArtist?.upcoming_concerts[0].holding_time).format('YYYY');
-    //   const hodingDate = moment(this.singleArtist?.upcoming_concerts[0].holding_time).format("YYYY/MM/DD");
-    //   console.log(hodingDate);
-    // },
+      this.getSingleArtistData(id);
+    },
   },
   mounted() {
     this.getSingleArtistData(Number(this.$route.params.id));

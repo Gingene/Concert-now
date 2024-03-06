@@ -2,7 +2,7 @@
   <!-- swiper start -->
   <!-- swiper end -->
 
-  <section class="container relative">
+  <section class="container relative pb-[128px] lg:pb-[192px]">
     <!-- 區塊二 start-->
     <div class="grid grid-flow-col">
       <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchArtists">
@@ -14,7 +14,12 @@
     <!-- 區塊三(篩選按鈕) start-->
     <div>
       <div class="w-full flex gap-4 mb-3.5">
-        <button v-for="country in countries" class="basic" :class="[activeFilterIndex === country.id ? 'pink-fill' : 'pink-outline']" @click="toggleFilterBtn(country.id)" :key="country.id">
+        <button
+          v-for="country in countries"
+          class="basic"
+          :class="[activeFilterCountry === country.location ? 'pink-fill' : 'pink-outline']"
+          @click="FilterByCountry(country.location)"
+          :key="country.id">
           {{ country.location }}
         </button>
       </div>
@@ -22,10 +27,11 @@
     <!-- 區塊三(篩選按鈕) end-->
 
     <!-- 區塊四(表演者總覽 &follow) start -->
+
     <div class="py-5">
       <!--  grid  -->
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        <li v-for="artist in artists" :key="artist.id" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] border-black-60 rounded-2xl">
+        <li v-for="artist in aristData.artists" :key="artist.id" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] border-black-60 rounded-2xl">
           <RouterLink :to="`/artists/${artist.id}`" class="w-[81%] flex items-center">
             <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
             <div class="ml-4">
@@ -49,12 +55,35 @@
       </ul>
     </div>
     <!-- 區塊四(表演者總覽 &follow) end -->
+
+    <!-- Pagination start -->
+    <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages" :sibling-count="1" show-edges :default-page="1" class="flex justify-center mt-14">
+      <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+        <PaginationFirst />
+        <PaginationPrev />
+
+        <template v-for="(item, index) in items">
+          <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+              {{ item.value }}
+            </Button>
+          </PaginationListItem>
+          <PaginationEllipsis v-else :key="item.type" :index="index" />
+        </template>
+
+        <PaginationNext />
+        <PaginationLast />
+      </PaginationList>
+    </Pagination>
+    <!-- Pagination end -->
   </section>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
 <script>
@@ -70,15 +99,21 @@ const { swalWithStylingButtons } = useDarkAlert();
 // 引入API方法
 import { getArtists, getInputArtist } from '../../api/index';
 import { useDebounceFn } from '@vueuse/core';
+import { loadingStore } from '@/stores/isLoading';
+const { setIsLoading } = loadingStore();
 
 export default {
   data() {
     return {
-      activeFilterIndex: 0,
+      activeFilterCountry: '',
       isFollowActive: {},
-      followState: null, //追蹤狀態
       bannerInputPlaceholder: '請輸入表演者名稱',
-      artists: [],
+      aristData: {
+        artists: [],
+        searchWord: '',
+        pagination: {},
+        param: '',
+      },
       countries: [
         {
           id: 1,
@@ -108,12 +143,8 @@ export default {
   },
   methods: {
     ...mapActions(useArtistsStore, ['postFollowConcetsData', 'deleteFollowConcetsData']),
-    toggleFilterBtn(index = 1) {
-      console.log(index);
-      this.activeFilterIndex = index;
-    },
-    async toggleFollowArtists(isfollow, id) {
 
+    async toggleFollowArtists(isfollow, id) {
       // 未登入狀態
       if (!this.AccessToken) {
         swalWithStylingButtons
@@ -132,29 +163,54 @@ export default {
 
       // 登入且未追蹤狀態
       if (!isfollow) {
-
         // 新增追蹤
-        this.postFollowConcetsData(id).then(() => this.getArtistsData());
+        this.postFollowConcetsData(id)
+          .then(() => this.getArtistsData());
+        
+          return
       } else {
-
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
+        this.deleteFollowConcetsData(id)
+          .then(() => this.getArtistsData());
       }
 
-      return; 
+      return;
     },
-    async getArtistsData() {
+    async getArtistsData(page = 1) {
       try {
-        const res = await getArtists();
-        this.artists = res.data.data;
+        setIsLoading();
+
+        const res = await getArtists(page);
+        this.aristData.artists = res.data.data;
+        this.aristData.pagination = res.data.pagination;
+        // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
+        
+      } finally {
+        setIsLoading();
       }
     },
-    searchArtists: useDebounceFn(async function (searchText) {
+    FilterByCountry(country = '全部') {
+
+      this.activeFilterCountry = country;
+
+      country === '全部' ? (this.aristData.param = '') : (this.aristData.param = country);
+
+      setIsLoading()
+      this.searchArtists(this.aristData.searchWord);
+      setTimeout(() => {
+        setIsLoading();
+      }, 500);
+    },
+    searchArtists: useDebounceFn(async function (searchText, page = 1) {
+      this.aristData.searchWord = searchText;
+
       try {
-        const res = await getInputArtist(searchText);
-        this.artists = res.data.data;
+        const res = await getInputArtist(this.aristData.searchWord, this.aristData.param, page);
+
+        this.aristData.artists = res.data.data;
+        console.log(this.aristData.artists);
       } catch (error) {
         console.log(error);
       }
@@ -162,10 +218,7 @@ export default {
   },
   mounted() {
     this.getArtistsData();
-    this.toggleFilterBtn();
-    // this.prevenLink()
-    // console.log(this.$refs)
-    // console.log(follPs)
+    this.FilterByCountry();
   },
 };
 </script>
