@@ -31,9 +31,7 @@
         <img :src="singleConcert.cover_urls?.horizontal" alt="" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
-        <div
-          v-if="moment.duration(moment(singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() >= 0"
-          class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
+        <div v-if="!hasHold" class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
           <p class="text-2xl font-bold relative">
             <span class="text-base pr-2 absolute bottom-0 left-[-30%]">D-day</span>
             {{ countdownTimer.days }} : {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
@@ -62,19 +60,35 @@
       </TitleComponent>
       <div class="flex flex-col">
         <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20 relative">
-          <a :href="item.url" target="_blank" class="flex justify-between items-center mt-2 xl:mt-4 w-[100%] hover:translate-y-[-0.2rem] hover:lg:translate-y-[-0.4rem]">
-            <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.7rem] lg:mb-[-2rem] xl:mb-[-2.6rem]">0{{ index + 1 }}</div>
-            <h2 class="text-lg md:text-xl lg:text-3xl -ml-[0rem] md:-ml-[8rem] xl:-ml-[20rem] mt-6 md:mt-7 lg:mt-11">
-              {{ item.name }}
-            </h2>
-            <button class="py-4 mt-6 md:mt-7 lg:mt-11">
-              <svg class="w-[120px] sm:w-[230px] sm:h-[20px] xl:w-[299px] xl:h-[26px]" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
-                  fill="white" />
-              </svg>
-            </button>
-          </a>
+          <AlertDialog>
+            <AlertDialogTrigger class="w-full">
+              <div class="flex justify-between items-center mt-2 xl:mt-4 w-[100%] hover:translate-y-[-0.2rem] hover:lg:translate-y-[-0.4rem]">
+                <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.7rem] lg:mb-[-2rem] xl:mb-[-2.6rem]">0{{ index + 1 }}</div>
+                <h2 class="text-lg md:text-xl lg:text-3xl -ml-[0rem] md:-ml-[8rem] xl:-ml-[20rem] mt-6 md:mt-7 lg:mt-11">
+                  {{ item.name }}
+                </h2>
+                <button class="py-4 mt-6 md:mt-7 lg:mt-11">
+                  <svg class="w-[120px] sm:w-[230px] sm:h-[20px] xl:w-[299px] xl:h-[26px]" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
+                      fill="white" />
+                  </svg>
+                </button>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>您即將前往第三方網頁</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <a :href="item.url" rel="noreferrer noopener" target="_blank">繼續前往</a>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
           <div class="border-b-8 h-2 w-[100%] absolute -bottom-2"></div>
         </div>
       </div>
@@ -96,7 +110,7 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           @onload="onYouTubeIframeAPIReady()"
-          v-if="ytId"></iframe>
+          v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
           <img :src="singleConcert.cover_urls?.square" alt="" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
         </div>
@@ -110,11 +124,38 @@
             <div class="text-black-40 text-tiny">{{ singleConcert.artist?.name }}</div>
           </router-link>
           <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
-            <DialogTrigger @click="checkLogin">
+            <DialogTrigger v-if="hasHold && isLogin" class="flex">
               <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
                 <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
               </button>
             </DialogTrigger>
+            <AlertDialog v-if="hasHold && !isLogin">
+              <AlertDialogTrigger>
+                <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
+                  <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>登入後才能新增歌曲喔！</AlertDialogTitle>
+                  <AlertDialogDescription></AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>取消</AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <router-link to="/login"> 前往登入 </router-link>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <HoverCard>
+              <HoverCardTrigger v-if="!hasHold">
+                <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
+                  <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
+                </button>
+              </HoverCardTrigger>
+              <HoverCardContent> 不能當預言家喔 (⁎⁍̴̛ᴗ⁍̴̛⁎) 演唱會舉辦後才可以新增歌曲 </HoverCardContent>
+            </HoverCard>
             <DialogContent class="rounded-md">
               <DialogHeader>
                 <DialogTitle class="mb-6">新增歌曲</DialogTitle>
@@ -166,7 +207,7 @@
             </DialogContent>
           </Dialog>
         </div>
-        <ScrollArea class="h-[19rem] w-full mt-2" v-if="hadSong">
+        <ScrollArea class="h-[19rem] w-full mt-2" v-if="hadSong && hasHold">
           <div v-for="(song, index) in songList" :key="song + index">
             <div class="text-base flex justify-between items-center bg-trans">
               <div>{{ index + 1 }}</div>
@@ -253,6 +294,18 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import Toaster from '@/components/ui/toast/Toaster.vue';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
@@ -263,10 +316,8 @@ import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
 import moment from 'moment';
 import { http, path } from '@/api';
-import useDarkAlert from '@/hooks/useDarkAlert';
 import { useToast } from '@/components/ui/toast/use-toast';
 
-const { swalWithStylingButtons } = useDarkAlert();
 const { toast } = useToast();
 
 export default {
@@ -275,6 +326,8 @@ export default {
       ytId: '',
       // 操控 Dialog 顯示，未登入時不能顯示
       isLogin: false,
+      // 是否已舉辦
+      hasHold: false,
       // 歌單是否有歌曲
       hadSong: false,
       // 新增歌單的欄位
@@ -303,7 +356,7 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getSingleConcert', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useConcertsStore, ['getSingleConcert', 'callSaveAction']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
 
     changeYTplayer(url) {
@@ -319,21 +372,6 @@ export default {
         if (url.includes('watch')) num = url.indexOf('watch?v=') + 8;
         this.ytId = url.slice(num, num + 11);
       }
-    },
-    checkLogin() {
-      this.openTwo = this.isLogin;
-      if (this.isLogin) return;
-      swalWithStylingButtons
-        .fire({
-          title: '登入後才能用新增歌曲功能喔！',
-          showCancelButton: true,
-          confirmButtonText: '前往登入',
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = 'login#/login';
-          }
-        });
     },
     addSongs() {
       const songsData = [...this.songs];
@@ -387,7 +425,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['singleConcert', 'pagination']),
+    ...mapState(useConcertsStore, ['singleConcert']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
     // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
     isSaved() {
@@ -404,6 +442,7 @@ export default {
   },
   updated() {
     this.isLogin = this.AccessToken !== undefined;
+
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
@@ -418,6 +457,9 @@ export default {
     this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
     this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
     this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
+
+    // 是否已舉辦，用於歌單切換與計時器
+    this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
   },
 };
 </script>

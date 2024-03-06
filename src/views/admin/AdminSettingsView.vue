@@ -3,15 +3,14 @@
   <div class="grid grid-cols-4 grid-flow-col gap-4 px-12">
     <!-- Left: Profile -->
     <div class="col-span-1">
-      <div
-        class="mb-5 border-2 rounded-full w-[150px] h-[150px] bg-white bg-[length:100px] bg-center bg-no-repeat"
-        style="background-image: url('https://blush.design/api/download?shareUri=kK-78nEmrjoy3GoG&c=Skin_0%7Effdbb4&w=300&h=300&fm=png')"></div>
-      <h2 class="pl-4 pb-3 tracking-widest">隔壁阿姨</h2>
-      <p class="pl-4 pb-8">i-live-next-door@gmail.com</p>
+      <!-- ! 圖片未綁 -->
+      <img class="mb-5 border-2 rounded-full w-[150px] h-[150px]" :src="user.profile_image_url" />
+      <h2 class="font-bold">{{ user.name }}</h2>
+      <p class="pb-6">{{ user.email }}</p>
       <!-- Reset Password -->
       <Dialog>
         <DialogTrigger as-child>
-          <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
+          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
@@ -32,7 +31,7 @@
               <Button type="button" variant="secondary">放棄變更</Button>
             </DialogClose>
             <!-- 不會真的送出資料，所以用 DialogClose -->
-            <DialogClose as-child>
+            <DialogClose>
               <Button type="button">確認送出</Button>
             </DialogClose>
           </DialogFooter>
@@ -90,8 +89,8 @@
               <AlertDialogTitle>確定要刪除 N筆 成員嗎？</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>取消</AlertDialogCancel>
-              <AlertDialogAction>確定刪除</AlertDialogAction>
+              <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
+              <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -257,7 +256,11 @@ export default {
           avatar: 'https://blush.design/api/download?shareUri=ZK0hThocjZ27JP1R&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
       ],
+      user: {},
     };
+  },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   },
 };
 </script>

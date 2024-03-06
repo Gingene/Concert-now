@@ -11,7 +11,6 @@
       現有的售票系統只提供部分演唱會資訊，而有些演出甚至只在特定售票系統上有售票。<br />
       我們希望建立一個友善的平台，可以收集整理全台灣的演唱會資訊，讓大家不再需要辛苦查找各種資料，就能找到想看的演唱會資訊！
     </p>
-    <!-- <div class="absolute rotate-90 right-0">WEBSITE CONCEPT.</div> -->
   </div>
   <div class="pt-[117px] lg:pt-[178px] space-y-[178px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
     <section class="blur-bg-frontend display-title-back container mb-[5rem] md:mb-[20rem] relative">
@@ -40,7 +39,7 @@
       <div class="text-center absolute mt-[-3.5rem] lg:mt-[-5.5rem] xl:mt-[5.5rem] block xl:hidden">
         <span class="display-title-back text-stroke-light z-[-1]">BACKEND</span>
       </div>
-      <h2 class="drop-shadow-light text-5xl mx-auto md:pl-[30%] tracking-normal">TEAM</h2>
+      <h2 class="drop-shadow-light text-5xl text-center tracking-normal">TEAM</h2>
       <div class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-10 py-6 flex flex-col sm:flex-row justify-center space-y-10 sm:space-y-0 mx-auto w-[60%] sm:w-[200px] lg:w-[250px]">
         <ul v-for="person in teamBackend" :key="person">
           <li class="flex flex-col items-center space-y-2">
@@ -58,14 +57,14 @@
       </div>
     </section>
     <div class="text-center flex flex-col space-y-[-2.5rem] xl:space-y-[-4rem] lg:pt-[7rem] mb-[5rem] md:mb-[12rem] relative">
-      <div class="bg-contactUs text-stroke-light">CONTACT US</div>
-      <div class="bg-contactUs text-stroke-light">CONTACT US</div>
+      <div class="bg-contactUs text-stroke-light font-lato">CONTACT US</div>
+      <div class="bg-contactUs text-stroke-light font-lato">CONTACT US</div>
       <div class="relative">
         <div class="w-[100%] text-center absolute text-sm xl:text-lg font-bold bottom-0 color-tiffany">this-email-is-not-real@gmail.com</div>
-        <div class="bg-contactUs drop-shadow-light">CONTACT US</div>
+        <div class="bg-contactUs drop-shadow-light font-lato">CONTACT US</div>
       </div>
-      <div class="bg-contactUs text-stroke-light">CONTACT US</div>
-      <div class="bg-contactUs text-stroke-light">CONTACT US</div>
+      <div class="bg-contactUs text-stroke-light font-lato">CONTACT US</div>
+      <div class="bg-contactUs text-stroke-light font-lato">CONTACT US</div>
     </div>
   </div>
 </template>
@@ -113,11 +112,10 @@ export default {
 .blur-bg-frontend::before,
 .blur-bg-backend::before {
   position: absolute;
-  top: 58%;
+  top: 10%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--background);
-  // font-weight: bold;
   -webkit-text-stroke: 2px var(--black-80);
   display: none;
 }
@@ -128,9 +126,8 @@ export default {
   content: 'BACKEND';
 }
 .bg-contactUs {
-  font-weight: bold;
+  font-weight: 900;
   font-size: 4.5rem;
-  letter-spacing: calc(calc(4rem) * -0.04);
   overflow-x: hidden;
   text-wrap: nowrap;
   font-weight: 900;
@@ -145,9 +142,7 @@ export default {
     display: block;
   }
   .bg-contactUs {
-    font-weight: bold;
     font-size: 6rem;
-    letter-spacing: calc(calc(6rem + 1vw) * -0.04);
   }
 }
 @media screen and (min-width: 1536px) {
@@ -156,9 +151,7 @@ export default {
     font-size: 17rem;
   }
   .bg-contactUs {
-    font-weight: bold;
     font-size: 7rem;
-    letter-spacing: calc(calc(7rem + 1vw) * -0.04);
   }
 }
 </style>

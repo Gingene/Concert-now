@@ -65,22 +65,38 @@
               </router-link>
               <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] xl:h-[13rem] border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
-                  <p class="text-tiny lg:text-sm">{{ concert.holding_time.substring(0, 10) }}</p>
+                  <p class="text-tiny lg:text-sm">
+                    {{ concert.holding_time.substring(0, 10) }}
+                    <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85">已結束</Badge>
+                  </p>
                   <router-link :to="`/concerts/${concert.id}`">
                     <CardTitle class="pt-1 text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
                   </router-link>
                   <p class="absolute pt-2 pb-4 text-black-60 text-tiny">{{ concert.venue?.title }}</p>
                 </div>
-                <HoverCard>
-                  <HoverCardTrigger>
-                    <button class="mb-auto" @click="callSaveAction(concert.id)">
+                <AlertDialog>
+                  <AlertDialogTrigger class="flex">
+                    <button v-if="AccessToken !== undefined" @click="callSaveAction(concert.id)">
                       <font-awesome-icon v-if="isSaved.some((item) => item.id === concert.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                       <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                     </button>
-                  </HoverCardTrigger>
-                  <!-- 辨識登入狀態，未登入才顯示提示框 -->
-                  <HoverCardContent class="mt-[-15rem] sm:mt-[-15rem]" v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
-                </HoverCard>
+                    <button v-if="AccessToken === undefined">
+                      <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>登入才能收藏 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                      <AlertDialogDescription></AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>取消</AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <router-link to="/login"> 前往登入 </router-link>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </CardDescription>
             </CardHeader>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
@@ -119,14 +135,29 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ArrowRight } from 'lucide-vue-next';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
 </script>
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
+import moment from 'moment';
+import { useToast } from '@/components/ui/toast/use-toast';
+
+const { toast } = useToast();
 
 export default {
   data() {
@@ -142,8 +173,13 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts', 'saveUnSavedConcert', 'callSaveAction', 'searchConcerts']),
+    ...mapActions(useConcertsStore, ['getConcerts', 'callSaveAction', 'searchConcerts']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
+    showToast(msg) {
+      toast({
+        title: msg,
+      });
+    },
   },
   computed: {
     ...mapState(useConcertsStore, ['concerts', 'pagination']),

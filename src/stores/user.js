@@ -29,8 +29,6 @@ export const useUserStore = defineStore('user', {
         .then((res) => {
           this.savedConcerts = res.data.data.saved_concerts;
           this.followedArtists = res.data.data.followed_artists;
-          // console.log(this.savedConcerts);
-          // console.log(this.followedArtists);
         })
         .catch((error) => {
           console.log(error);
@@ -48,6 +46,14 @@ export const useUserStore = defineStore('user', {
         description: '',
       });
       location.reload();
+    },
+    adminLogout() {
+      const key = 'AccessToken';
+      document.cookie = key + '="";expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+      localStorage.removeItem('user');
+      this.AccessToken = '';
+      this.user = {};
+      location.href = '/';
     },
   },
 });
