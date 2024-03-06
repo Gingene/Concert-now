@@ -98,7 +98,7 @@ export const useVenuesStore = defineStore('venues', {
     resetState() {
       this.searchText = '';
       this.city = '';
-      this.page = 1;
+      this.searchPage = 1;
     },
     reportUser(name) {
       toast({

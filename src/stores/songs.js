@@ -19,8 +19,10 @@ export const songsStore = defineStore('songsStore', {
     backupDatas: [],
     mapSongs: {},
     pagination: {},
+    concerts: [],
     searchText: '',
     searchPage: 1,
+    concertId: '0',
   }),
   actions: {
     getSongs(page = 1) {
@@ -32,7 +34,7 @@ export const songsStore = defineStore('songsStore', {
           this.pagination = { ...res.data.pagination };
           this.backupDatas = [...res.data.data];
           // this.mapSongs = Object.groupBy([...res.data.data], ({ concert }) => concert.title);
-          console.log(res);
+          // console.log(res);
         })
         .catch((err) => {
           console.error(err);
@@ -117,52 +119,16 @@ export const songsStore = defineStore('songsStore', {
       }
     },
     searchSong: useDebounceFn(
-      function (e, page = 1) {
+      function (e) {
         this.searchText = e.target.value;
-        this.searchPage = page;
-        // setIsLoading();
-        // http
-        //   .get(`${adminPath.songs}/?q=${this.searchText}&?page=${page}`)
-        //   .then((res) => {
-        //     this.songs = [...res.data.data];
-        //     this.pagination = { ...res.data.pagination };
-        //     console.log(res);
-        //   })
-        //   .catch((err) => {
-        //     console.error(err);
-        //   })
-        //   .finally(() => {
-        //     setIsLoading();
-        //   });
-        this.songs = [];
-        if (e.target.value === '') {
-          this.songs = [...this.backupDatas];
-          return;
-        }
-        this.searchAllSongs();
-
-        // const regex = new RegExp(this.searchText, 'i');
-        // const songContents = this.songs.filter((item) => regex.test(item.concert.title));
-        // const songUser = this.songs.filter((item) => regex.test(item.user.email));
-        // if (songContents == songUser) {
-        //   this.songs = [...songContents];
-        // } else {
-        //   this.songs = [...songContents, ...songUser];
-        // }
-      },
-      500,
-      { maxWait: 2000 },
-    ),
-    searchAllSongs() {
-      for (let i = 1; i <= this.pagination.total_pages; i++) {
+        this.searchPage = 1;
         setIsLoading();
         http
-          .get(`${adminPath.songs}/?page=${i}`)
+          .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&?page=${this.searchPage}`)
           .then((res) => {
+            this.songs = [...res.data.data];
+            this.pagination = { ...res.data.pagination };
             console.log(res);
-            const regex = new RegExp(this.searchText, 'i');
-            const songContents = res.data.data.filter((item) => regex.test(item.concert.title));
-            this.songs = [...this.songs, ...songContents];
           })
           .catch((err) => {
             console.error(err);
@@ -170,7 +136,63 @@ export const songsStore = defineStore('songsStore', {
           .finally(() => {
             setIsLoading();
           });
-      }
+      },
+      500,
+      { maxWait: 2000 },
+    ),
+    searchSongsByConcert() {
+      this.searchPage = 1;
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&?page=${1}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    searchSongsByPage(page) {
+      this.searchPage = page;
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&page=${page}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getConcerts() {
+      setIsLoading();
+      http
+        .get(`${adminPath.concerts}`)
+        .then((res) => {
+          this.concerts = [...res.data.data];
+          // console.log(this.concerts);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    resetState() {
+      this.searchText = '';
+      this.searchPage = 1;
+      this.concertId = '0';
     },
     // comment 操作
     deleteSong(id) {
@@ -180,7 +202,7 @@ export const songsStore = defineStore('songsStore', {
       this.alertMessage('success', '評論已刪除');
     },
     warnUser(id) {
-      console.log(id);
+      // console.log(id);
       this.deleteSong(id);
       this.alertMessage('success', `對${this.userId1.email}使用者警告已送出`);
     },
