@@ -166,12 +166,12 @@ import { useUserStore } from '@/stores/user';
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
-const { swalWithStylingButtons } = useDarkAlert();
 
 // 引入API方法
 import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
 import { useArtistsStore } from '@/stores/artists';
+const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {
@@ -224,14 +224,14 @@ export default {
 
         // 新增追蹤
         this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        return
+        
 
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
       }
       
-      return
+      
     },
     // 收藏功能
     changeSaveConcertsMode(id) {
@@ -293,7 +293,7 @@ export default {
       }
     },
     updateData(id) {
-      this.getSingleArtistData(id)
+      this.getSingleArtistData(id);
     }
     // changeTime() {
     //   // const hodingYear = moment(this.singleArtist?.upcoming_concerts[0].holding_time).format('YYYY');

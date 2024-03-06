@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import { postFollowConcets, deleteFollowConcets } from '@/api';
 
 export const useArtistsStore = defineStore('artists', {
