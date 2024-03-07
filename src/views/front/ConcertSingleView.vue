@@ -17,7 +17,7 @@
             </Button>
           </div>
           <img :src="singleConcert.cover_urls?.straight" alt="" class="mx-auto rounded-[40px] lg:hidden" />
-          <p class="lg:bg-shadow-trans-text lg:rounded-[40px] lg:border-black-60 lg:px-10 lg:pt-10 lg:pb-6 lg:h-[100%] lg:overflow-y-hidden">
+          <p class="leading-7 lg:bg-shadow-trans-text lg:rounded-[40px] lg:border-black-60 lg:px-10 lg:pt-10 lg:pb-6 lg:h-[100%] lg:overflow-y-hidden">
             演出時間: {{ singleConcert.holding_time }}<br />
             演出地點: {{ singleConcert.venue?.title }}<br />
             地址: {{ singleConcert.venue?.address }}<br />

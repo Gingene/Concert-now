@@ -4,7 +4,9 @@
     <section class="artist-intro mb-10 md:mb-[6.5rem] lg:mb-40">
       <div class="flex justify-between mb-5">
         <div class="flex">
-          <p class="mr-3" v-for="(keyword, index) in singleArtist?.keywords" :key="index">{{ keyword }} /</p>
+          <p class="mr-1" v-for="(keyword, index) in singleArtist?.keywords" :key="index">{{ keyword }}
+          <span v-if="singleArtist.keywords?.length-1 !== index">/</span>
+          </p>
         </div>
         <HoverCard>
           <HoverCardTrigger>
@@ -53,7 +55,7 @@
       <section class="artist-honors-relative md:w-[50%]">
         <p class="honors text-stroke-light bg-artistName text-4xl md:text-[4.5rem] xl:text-7xl">HONORS</p>
         <p class="bg-shadow-trans-text artist-honors w-[90%] md:w-[100%] ml-auto text-center break-keep py-[50px] px-[10px] md:py-[60px] rounded-[31px] z-[-1]">
-          <span v-for="(honor, index) in singleArtist?.honors" :key="index"> {{ honor }} <br />-<br /> </span>
+          <div v-for="(honor, index) in singleArtist?.honors" :key="index"> {{ honor }} <span v-if="singleArtist.honors?.length-1 !== index"><br />-<br /></span> </div>
         </p>
       </section>
       <!-- 表演者介紹(區塊三) end -->
@@ -70,7 +72,7 @@
         v-if="singleArtist?.upcoming_concerts.length > 0"
         v-for="upcoming in singleArtist?.upcoming_concerts"
         :key="upcoming.id"
-        class="concert-box border rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
         <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -101,7 +103,7 @@
         </HoverCard>
       </div>
 
-      <div v-else class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
+      <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
     </div>
     <!-- 即將舉辦(區塊四) end -->
 
@@ -116,7 +118,7 @@
         v-if="singleArtist?.historical_concerts.length > 0"
         v-for="historical in singleArtist?.historical_concerts"
         :key="historical.id"
-        class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
         <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -142,7 +144,7 @@
           <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟收藏功能 </HoverCardContent>
         </HoverCard>
       </div>
-      <div v-else class="concert-box border rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
+      <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
     </div>
     <!-- 已結束(區塊五) end -->
   </div>
