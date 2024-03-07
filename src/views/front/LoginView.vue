@@ -2,8 +2,8 @@
   <Tabs default-value="login" class="px-0 mt-48 mb-24 w-[400px] container">
     <!-- Trigger: Login / Sign Up -->
     <TabsList class="grid grid-cols-2 w-full gap-1 p-0 px-6 h-12 text-white bg-transparent">
-      <TabsTrigger value="login" class="rounded-b-none py-4 bg-accent data-[state=active]:bg-white data-[state=active]:text-black"> 登入 </TabsTrigger>
-      <TabsTrigger value="signup" class="rounded-b-none py-4 bg-accent data-[state=active]:bg-white data-[state=active]:text-black"> 註冊 </TabsTrigger>
+      <TabsTrigger value="login" class="rounded-b-none py-4 bg-black-85 data-[state=active]:bg-white data-[state=active]:text-black"> 登入 </TabsTrigger>
+      <TabsTrigger value="signup" class="rounded-b-none py-4 bg-black-85 data-[state=active]:bg-white data-[state=active]:text-black"> 註冊 </TabsTrigger>
     </TabsList>
 
     <!-- Login -->
@@ -19,19 +19,19 @@
           <CardDescription> 若你還沒有加入會員，請先去註冊。 </CardDescription>
         </CardHeader>
         <!-- Card: content -->
-        <CardContent class="space-y-2">
-          <div class="space-y-1">
+        <CardContent class="space-y-4">
+          <div class="space-y-2">
             <Label for="login-email" class="text-base"> 信箱 </Label>
             <Input id="login-email" v-model="userLogin.email" type="email" default-value="" class="text-base tracking-widest" />
           </div>
-          <div class="space-y-1">
+          <div class="space-y-2">
             <Label for="login-password" class="text-base"> 密碼 </Label>
             <Input id="login-password" v-model="userLogin.password" type="password" class="text-base tracking-widest" />
           </div>
         </CardContent>
         <!-- Card: footer -->
         <CardFooter class="flex justify-between items-center">
-          <Button variant="btn2" class="my-2 py-6 px-8 rounded-[30px]" @click="login"> 確認送出 </Button>
+          <Button variant="white-outline" class="my-2" @click="login"> 確認送出 </Button>
           <!-- forget passwords -->
           <HoverCard>
             <HoverCardTrigger as-child>
@@ -56,23 +56,23 @@
           <CardDescription> 若你已有會員帳號，可以直接到登入頁面。 </CardDescription>
         </CardHeader>
         <!-- Card: content -->
-        <CardContent class="space-y-2">
-          <div class="space-y-1">
+        <CardContent class="space-y-4">
+          <div class="space-y-2">
             <Label for="signup-name" class="text-base"> 名稱 </Label>
             <Input id="signup-name" v-model="userSignUp.name" class="text-base tracking-widest" />
           </div>
-          <div class="space-y-1">
+          <div class="space-y-2">
             <Label for="signup-email" class="text-base"> 信箱 </Label>
             <Input id="signup-email" v-model="userSignUp.email" type="email" class="text-base tracking-widest" />
           </div>
-          <div class="space-y-1">
+          <div class="space-y-2">
             <Label for="signup-password" class="text-base"> 密碼 </Label>
             <Input id="signup-password" v-model="userSignUp.password" type="password" class="text-base tracking-widest" />
           </div>
         </CardContent>
         <!-- Card: footer -->
         <CardFooter>
-          <Button variant="btn2" class="my-2 py-6 px-8 rounded-[30px]" @click="signup">確認送出</Button>
+          <Button variant="white-outline" class="my-2" @click="signup">確認送出</Button>
         </CardFooter>
       </Card>
     </TabsContent>

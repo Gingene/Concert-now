@@ -62,7 +62,7 @@
   }
   .text-stroke {
     @apply text-transparent;
-    -webkit-text-stroke: 1px #fff;
+    -webkit-text-stroke: 1px var(--black-80);
   }
   .text-stroke-light {
     // 標題後方裝飾穿透字
