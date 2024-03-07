@@ -17,14 +17,14 @@
     </div>
     <div class="container pt-32 pb-[480px]">
       <!-- 暫存區 -->
-      <div class="mb-8 absolute right-32 top-20">
+      <!-- <div class="mb-8 absolute right-32 top-20">
         <RouterLink to="/base" class="px-4">
           <Button variant="btn1"> 設計稿基礎設定頁 </Button>
         </RouterLink>
         <RouterLink to="/loading" class="px-4">
           <Button variant="btn1"> loading動畫 </Button>
         </RouterLink>
-      </div>
+      </div> -->
       <!-- 小標題 -->
       <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
       <!-- Concert Now -->

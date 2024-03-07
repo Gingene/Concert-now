@@ -12,8 +12,8 @@
     <!-- 區塊二 end-->
 
     <!-- 區塊三(篩選按鈕) start-->
-    <div>
-      <div class="w-full flex gap-4 mb-3.5">
+    <div class="mb-4 lg:mb-14">
+      <div class="w-full flex flex-wrap gap-4">
         <button
           v-for="country in countries"
           class="basic"
@@ -28,7 +28,7 @@
 
     <!-- 區塊四(表演者總覽 &follow) start -->
 
-    <div class="py-5">
+    <div>
       <!--  grid  -->
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         <li v-for="artist in aristData.artists" :key="artist.id" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] border-black-60 rounded-2xl">
@@ -57,7 +57,7 @@
     <!-- 區塊四(表演者總覽 &follow) end -->
 
     <!-- Pagination start -->
-    <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages" :sibling-count="1" show-edges :default-page="1" class="flex justify-center mt-14">
+    <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages" :sibling-count="1" show-edges :default-page="1" class="flex justify-center my-5 lg:my-12">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst />
         <PaginationPrev />
@@ -76,6 +76,8 @@
       </PaginationList>
     </Pagination>
     <!-- Pagination end -->
+
+    <hr class="border-b-2 border-black-60">
   </section>
 </template>
 
