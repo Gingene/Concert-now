@@ -24,6 +24,12 @@ const router = createRouter({
           path: 'login',
           name: 'login',
           component: () => import('../views/front/LoginView.vue'),
+          beforeEnter: (to, from) => {
+            const { AccessToken } = useUserStore();
+            if (AccessToken) {
+              return { name: 'member' };
+            }
+          },
         },
         {
           path: 'base',

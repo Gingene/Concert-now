@@ -54,7 +54,7 @@ http.interceptors.response.use(
     switch (status) {
       case 401:
         // alertMessage('error', '請重新登入');
-        window.location.href = `${window.location.origin}${window.location.pathname}#/login`;
+        location.replace(`${window.location.origin}${window.location.pathname}#/login`);
         toast({
           title: '請先登入',
           description: '',
@@ -62,7 +62,7 @@ http.interceptors.response.use(
         break;
       case 403:
         // alertMessage('error', '權限不足');
-        window.location.href = `${window.location.origin}${window.location.pathname}#/`;
+        location.replace(`${window.location.origin}${window.location.pathname}#/`);
         toast({
           title: '權限不足',
           description: '',
@@ -70,7 +70,7 @@ http.interceptors.response.use(
         break;
       case 404:
         // alertMessage('error', '對不起我們找不到你要的><');
-        window.location.href = `${window.location.origin}${window.location.pathname}#/notfond`;
+        location.replace(`${window.location.origin}${window.location.pathname}#/notfond`);
         toast({
           title: '對不起我們找不到你要的><',
           description: '',
