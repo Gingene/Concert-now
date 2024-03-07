@@ -115,14 +115,14 @@
           </li>
         </ul>
       </nav>
-      <div class="hidden lg:flex lg:col-span-2 2xl:col-span-1 justify-center">
+      <div class="hidden lg:flex lg:col-span-2 2xl:col-span-1 justify-end">
         <RouterLink to="/login" v-if="!user?.name">
           <Button variant="white-outline" class="border-black-80 hover:border-0 py-[10px] px-6">Log in</Button>
         </RouterLink>
         <NavigationMenu v-else>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <NavigationMenuTrigger>{{ user?.is_admin ? '管理員' : '使用者' }}</NavigationMenuTrigger>
+              <NavigationMenuTrigger class="pr-[6px]">{{ user?.is_admin ? '管理員' : '使用者' }}</NavigationMenuTrigger>
               <NavigationMenuContent class="right-12">
                 <ul class="w-[150px] border-0 space-y-2">
                   <li>
