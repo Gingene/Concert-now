@@ -162,7 +162,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { loadingStore } from '@/stores/isLoading';
-const { setIsLoading } = loadingStore();
 
 // 引入hooks
 import useDarkAlert from '@/hooks/useDarkAlert';
@@ -171,6 +170,7 @@ import useDarkAlert from '@/hooks/useDarkAlert';
 import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
 import { useArtistsStore } from '@/stores/artists';
+const { setIsLoading } = loadingStore();
 const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
@@ -225,13 +225,13 @@ export default {
       if (!isfollow) {
         // 新增追蹤
         this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        return;
+        
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
       }
 
-      return;
+      
     },
     // 收藏功能
     changeSaveConcertsMode(id) {

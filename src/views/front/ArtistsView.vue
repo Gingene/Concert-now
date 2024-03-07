@@ -171,14 +171,14 @@ export default {
         this.postFollowConcetsData(id)
           .then(() => this.getArtistsData());
         
-          return
+          
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id)
           .then(() => this.getArtistsData());
       }
 
-      return;
+      
     },
     async getArtistsData(page = 1) {
       try {
@@ -201,7 +201,7 @@ export default {
 
       country === '全部' ? (this.aristData.param = '') : (this.aristData.param = country);
 
-      setIsLoading()
+      setIsLoading();
       this.searchArtists(this.aristData.searchWord);
       setTimeout(() => {
         setIsLoading();
