@@ -121,7 +121,7 @@
               </Dialog>
             </TableCell>
             <TableCell
-              ><RouterLink :to="`/concerts/${song.concert.id}`">{{ song.concert.title }}</RouterLink></TableCell
+              ><RouterLink :to="`/concerts/${song.concert.id}`" target="_blank">{{ song.concert.title }}</RouterLink></TableCell
             >
             <TableCell>{{ song.user.email }}</TableCell>
             <TableCell class="space-x-4 flex">

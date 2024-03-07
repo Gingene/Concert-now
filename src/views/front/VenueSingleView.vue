@@ -28,9 +28,10 @@
           <!-- Venue Seats -->
           <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
             <div
+              @click="activeArea(area)"
               v-for="(area, index) in venue.seat_areas"
               :key="`${index + 123}`"
-              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center transition-transform"
+              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1"
               :class="area === seatArea ? 'active' : ''">
               <p>
                 {{ area }}
@@ -139,12 +140,12 @@
             <div
               v-for="(comment, index) in filterSeatComment"
               :key="comment.id"
-              class="grid grid-cols-12 gap-x-4 border-b border-black-60 py-10 min-h-[150px] mt-6"
+              class="grid grid-cols-12 gap-x-3 border-b border-black-60 py-10 min-h-[150px] mt-6"
               :class="{ 'border-t': index === 0 }">
-              <div class="col-span-2 sm:col-span-1">
-                <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 2xl:size-12 bg-white/25" />
+              <div class="col-span-2 sm:col-span-1 lg:col-span-2 xl:col-span-1">
+                <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 bg-white/25 object-cover" />
               </div>
-              <div class="col-span-8 sm:col-span-9 md:col-span-10 flex flex-col space-y-4">
+              <div class="col-span-8 sm:col-span-10 lg:col-span-8 xl:col-span-10 flex flex-col space-y-4">
                 <div class="space-x-3">
                   <span>{{ comment.user.name }}</span>
                   <span class="text-black-40">{{ comment.seat_area }}</span>
@@ -164,7 +165,7 @@
                 </div>
               </div>
 
-              <div class="col-span-2 md:col-span-1">
+              <div class="col-span-2 sm:col-span-1 lg:col-span-2 xl:col-span-1">
                 <HoverCard :openDelay="0">
                   <HoverCardTrigger as-child>
                     <Button variant="ghost" class="p-1">
@@ -410,7 +411,7 @@ export default {
           this.openCommentModal = false;
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         })
         .finally(() => {
           setIsLoading();
@@ -443,6 +444,9 @@ export default {
           item.style.animationDuration = '90s';
         }
       });
+    },
+    activeArea(area) {
+      this.seatArea = area;
     },
     ...mapActions(useVenuesStore, ['getVenue', 'reportUser']),
   },
@@ -637,12 +641,16 @@ export default {
     bottom left,
     center left;
   background-repeat: no-repeat;
+  &:hover {
+    border-radius: 1rem;
+    @apply bg-shadow-trans-text-brighter;
+  }
 }
 
 .gradient-border.active {
   // background-color: #fff;
   border-radius: 1rem;
-  @apply bg-shadow-trans-text-brighter -translate-x-1 -translate-y-1;
+  @apply bg-shadow-trans-text-brighter;
 }
 
 .gradient-test {
