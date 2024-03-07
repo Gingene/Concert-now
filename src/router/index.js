@@ -24,6 +24,12 @@ const router = createRouter({
           path: 'login',
           name: 'login',
           component: () => import('../views/front/LoginView.vue'),
+          beforeEnter: (to, from) => {
+            const { AccessToken } = useUserStore();
+            if (AccessToken) {
+              return { name: 'member' };
+            }
+          },
         },
         {
           path: 'base',
@@ -78,7 +84,7 @@ const router = createRouter({
                 title: '請先登入',
                 description: '',
               });
-              return false;
+              return { name: 'login' };
             }
           },
         },
@@ -104,7 +110,7 @@ const router = createRouter({
             title: '請重新登入',
             description: '',
           });
-          return false;
+          return { name: 'login' };
         }
         if (!user.is_admin) {
           toast({

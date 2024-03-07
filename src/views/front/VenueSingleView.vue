@@ -21,7 +21,7 @@
       </TitleComponent>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section" data-aos="zoom-in-up">
+        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
           <!-- Venue Title -->
           <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-4xl 2xl:text-6xl pb-2">{{ venue.title }}</h2>
           <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
@@ -142,7 +142,7 @@
               class="grid grid-cols-12 gap-x-4 border-b border-black-60 py-10 min-h-[150px] mt-6"
               :class="{ 'border-t': index === 0 }">
               <div class="col-span-2 sm:col-span-1">
-                <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 2xl:size-12" />
+                <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 2xl:size-12 bg-white/25" />
               </div>
               <div class="col-span-8 sm:col-span-9 md:col-span-10 flex flex-col space-y-4">
                 <div class="space-x-3">
@@ -280,8 +280,8 @@ import { http } from '@/api';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
 import { useToast } from '@/components/ui/toast/use-toast';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+// import AOS from 'aos';
+// import 'aos/dist/aos.css';
 const { setIsLoading } = loadingStore();
 const { toast } = useToast();
 
@@ -468,7 +468,7 @@ export default {
   },
   mounted() {
     this.getVenue(this.id);
-    AOS.init();
+    // AOS.init();
   },
   updated() {
     const accordionButtons = document.querySelectorAll('.accordion-button');
