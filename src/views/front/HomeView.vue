@@ -2,12 +2,16 @@
   <!-- Header -->
   <section>
     <!-- Background -->
-    <div class="shadow-[inset_0px_70px_150px_rgba(0,0,0,.7)] w-full h-[812px] md:h-[800px] lg:h-[750px] xl:h-[920px] bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom" style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
+    <div
+      class="shadow-[inset_0px_70px_150px_rgba(0,0,0,.7)] w-full h-[812px] md:h-[800px] lg:h-[750px] xl:h-[920px] bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom"
+      style="background-image: url('https://i.imgur.com/qaXMIkJ.jpeg')">
       <!-- Scroll icon -->
       <div class="w-[100px] opacity-75 absolute bottom-10 right-1/2 translate-x-1/2 md:right-[8%] xl:right-[12%] md:translate-x-0 flex flex-col items-center">
         <p class="font-light pb-3">SCROLL</p>
         <svg width="8" height="49" viewBox="0 0 8 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3.64644 48.3536C3.84171 48.5488 4.15829 48.5488 4.35355 48.3536L7.53553 45.1716C7.73079 44.9763 7.73079 44.6597 7.53553 44.4645C7.34027 44.2692 7.02369 44.2692 6.82843 44.4645L4 47.2929L1.17157 44.4645C0.976309 44.2692 0.659726 44.2692 0.464464 44.4645C0.269202 44.6597 0.269202 44.9763 0.464464 45.1716L3.64644 48.3536ZM3.5 -2.18557e-08L3.5 48L4.5 48L4.5 2.18557e-08L3.5 -2.18557e-08Z" fill="white"/>
+          <path
+            d="M3.64644 48.3536C3.84171 48.5488 4.15829 48.5488 4.35355 48.3536L7.53553 45.1716C7.73079 44.9763 7.73079 44.6597 7.53553 44.4645C7.34027 44.2692 7.02369 44.2692 6.82843 44.4645L4 47.2929L1.17157 44.4645C0.976309 44.2692 0.659726 44.2692 0.464464 44.4645C0.269202 44.6597 0.269202 44.9763 0.464464 45.1716L3.64644 48.3536ZM3.5 -2.18557e-08L3.5 48L4.5 48L4.5 2.18557e-08L3.5 -2.18557e-08Z"
+            fill="white" />
         </svg>
       </div>
     </div>
@@ -24,7 +28,10 @@
       <!-- 小標題 -->
       <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
       <!-- Concert Now -->
-      <h1 class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">CONCERT NOW</h1>
+      <h1
+        class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">
+        CONCERT NOW
+      </h1>
       <!-- Search Now Button -->
       <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent">
         <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
@@ -44,34 +51,35 @@
       :effect="'cards'"
       :grabCursor="false"
       :freeMode="true"
-      :loop="true" 
+      :loop="true"
       :initialSlide="'1'"
       :navigation="true"
       :cardsEffect="{
-        perSlideOffset:16,
-        perSlideRotate:12,
+        perSlideOffset: 16,
+        perSlideRotate: 12,
         slideShadows: false,
       }"
       :modules="modules"
-      class="mySwiper concert-section xs:w-[90%] xl:w-[80%]"
-      >
-      <swiper-slide 
-      v-slot="{ isActive }" v-for="(concert) in concerts" 
-      :key="concert.id +123" 
-      class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 -my-10 sm:-my-5" 
-      style="z-index:-1;"
-      :style="`height: 700px;`">
-        <img 
-        :src="`${concert.image}`" 
-        :class="{'concert-photo-show':isActive}" 
-        class="w-[310px] xs:w-[400px] mt-10 h-[450px] xs:h-[520px] lg:h-[580px] grayscale brightness-[0.3] object-cover rounded-[40px]">
+      class="mySwiper concert-section xs:w-[90%] xl:w-[80%]">
+      <swiper-slide
+        v-slot="{ isActive }"
+        v-for="concert in concerts"
+        :key="concert.id + 123"
+        class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 -my-10 sm:-my-5"
+        style="z-index: -1"
+        :style="`height: 700px;`">
+        <img
+          :src="`${concert.image}`"
+          :class="{ 'concert-photo-show': isActive }"
+          class="w-[310px] xs:w-[400px] mt-10 h-[450px] xs:h-[520px] lg:h-[580px] grayscale brightness-[0.3] object-cover rounded-[40px]" />
         <div class="hidden">{{ isActive ? (concertActive = concert) : '' }}</div>
       </swiper-slide>
       <!-- Single Concert Card -->
-      <div class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
+      <div
+        class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
         <p class="py-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
         <h3 class="text-lg xs:text-[24px] lg:text-[30px] lg:py-4 pb-2">{{ concertActive.name }}</h3>
-        <router-link :to="`/concerts/${concertActive.id}`" class="w-full sm:w-[80%] xl:w-full 2xl:w-[80%] block" >
+        <router-link :to="`/concerts/${concertActive.id}`" class="w-full sm:w-[80%] xl:w-full 2xl:w-[80%] block">
           <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
             <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
             <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,16 +117,16 @@
           },
           '768': {
             slidesPerView: 3,
-          }
+          },
         }"
         :pagination="true"
         :modules="modules"
         class="mySwiper py-10">
-        <swiper-slide v-for="artist in artists" :key="artist.id" >
-          <router-link 
-            :to="`/artists/${artist.id}`" 
-            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]" 
-            :style="{ backgroundImage: `url(${artist.image})` }" >
+        <swiper-slide v-for="artist in artists" :key="artist.id">
+          <router-link
+            :to="`/artists/${artist.id}`"
+            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
+            :style="{ backgroundImage: `url(${artist.image})` }">
             <div class="absolute left-10 bottom-10 flex items-center opacity-75">
               <p class="text-white font-black text-xl pr-3">{{ artist.name }}</p>
               <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
@@ -142,9 +150,7 @@
       </router-link>
     </div>
     <!-- 所有表演者總覽頁 Button -->
-    <router-link 
-      :to="`/artists`" 
-      class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
+    <router-link :to="`/artists`" class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
       <Button variant="white-outline" size="base" class="p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
         <span class="font-bold text-base xs:text-lg">探索更多</span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -155,9 +161,7 @@
       </Button>
     </router-link>
     <!-- PC(xl:1280): 所有表演者總覽頁 Button -->
-    <router-link 
-      :to="`/artists`" 
-      class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
+    <router-link :to="`/artists`" class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
       <Button data-aos="fade-right" variant="white-outline" size="base" class="ml-[250px] xl:p-9 w-full hover:border-transparent btn-explore-icon-color">
         <span class="font-bold text-lg">探索更多</span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -172,48 +176,37 @@
   <section class="container px-[8%] xs:px-[38px] md:px-[64px] lg:w-[800px] xl:w-[1000px] pb-[180px] sm:pb-[230px] md:pb-[200px] lg:pb-[250px] xl:pb-[280px] text-center">
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">VENUES</h2>
     <!-- Venue Swiper -->
-    <swiper 
-    :cssMode="true" 
-    :navigation="true" 
-    :pagination="true" 
-    :mousewheel="true" 
-    :keyboard="true" 
-    :modules="modules" 
-    :slidesPerView="1" 
-    :loop="true" 
-    class="mySwiper rounded-[40px] bg-shadow-trans-text venue-section">
-      <swiper-slide 
-      v-for="venue in venueInfo" 
-      class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14"
-      :key="venue.id">
+    <swiper
+      :cssMode="true"
+      :navigation="true"
+      :pagination="true"
+      :mousewheel="true"
+      :keyboard="true"
+      :modules="modules"
+      :slidesPerView="1"
+      :loop="true"
+      class="mySwiper rounded-[40px] bg-shadow-trans-text venue-section">
+      <swiper-slide v-for="venue in venueInfo" class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14" :key="venue.id">
         <!-- Venue Title -->
         <h2 href="#" class="font-bold text-xl xs:text-[36px] sm:text-5xl lg:text-6xl pb-2">{{ venue.title }}</h2>
         <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
         <!-- Venue Seats -->
         <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
-          <div 
-            v-for="(area,index) in venue.seat_areas" 
-            :key="`${index+123}`"
-            class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center"
-            >
+          <div v-for="(area, index) in venue.seat_areas" :key="`${index + 123}`" class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center">
             {{ area }}
           </div>
         </div>
         <div class="xl:flex xl:gap-6 xl:items-end xl:px-10">
           <!-- Venue Comments -->
           <article class="w-full truncate text-[12px] xs:text-[14px] sm:text-[16px] lg:text-[18px] gap-2 md:px-5 py-3 sm:py-5 md:py-8">
-            <div 
-            v-for="(comment, index) in venue.comments"
-            :key="index + 123"
-            class="grid grid-cols-9 text-left" 
-            >
+            <div v-for="(comment, index) in venue.comments" :key="index + 123" class="grid grid-cols-9 text-left">
               <span>{{ index + 1 }}</span>
               <span class="col-span-2">{{ comment.seat_area }}</span>
               <span class="col-span-6">{{ comment.comment }}</span>
             </div>
           </article>
           <!-- 所有場地總覽頁 Button -->
-          <router-link :to="`/venues/${venue.id}`" class="block w-full mx-auto sm:w-[80%] xl:w-[40%]" >
+          <router-link :to="`/venues/${venue.id}`" class="block w-full mx-auto sm:w-[80%] xl:w-[40%]">
             <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
               <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
               <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -325,151 +318,150 @@
 </template>
 
 <script setup>
-  import { Button } from '@/components/ui/button';
-  import { ScrollArea } from '@/components/ui/scroll-area';
-  import { Heart} from 'lucide-vue-next';
-  // import TitleComponent from '@/components/custom/TitleComponent.vue';
-  // Swiper
-  import { Swiper, SwiperSlide } from 'swiper/vue';
-  import 'swiper/css';
-  import 'swiper/css/navigation';
-  import 'swiper/css/pagination';
-  import 'swiper/css/effect-coverflow';
-  import 'swiper/css/effect-cards';
-  import 'swiper/css/free-mode';
-  import { Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards } from 'swiper/modules';
+import { Button } from '@/components/ui/button';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Heart } from 'lucide-vue-next';
+// import TitleComponent from '@/components/custom/TitleComponent.vue';
+// Swiper
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/effect-cards';
+import 'swiper/css/free-mode';
+import { Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards } from 'swiper/modules';
 </script>
 
 <script>
-  import AOS from 'aos';
-  import 'aos/dist/aos.css';
-  import { mapActions, mapState } from 'pinia';
-  import { useVenuesStore } from '@/stores/venues';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { mapActions, mapState } from 'pinia';
+import { useVenuesStore } from '@/stores/venues';
 
-  export default {
-    data() {
-      return {
-        modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
-        songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
-        concertActive: {},
-        concerts:[
-          {
-            id: 10,
-            show: 'false',
-            name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
-            date: '2024-04-06 (六) 19:00',
-            image: 'https://i.imgur.com/ZbzHz0X.jpg'
-          },
-          {
-            id: 7,
-            show: 'false',
-            name: '原子邦妮「明明早點放棄就沒事了」',
-            date: '2024-04-20 (六) 19:30',
-            image: 'https://i.imgur.com/CDtPlHG.png'
-          },
-          {
-            id: 4,
-            show: 'true',
-            name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
-            date: '2024-01-27 (六) 19:00',
-            image: 'https://i.imgur.com/kPcCvf8.jpg'
-          },
+export default {
+  data() {
+    return {
+      modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
+      songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
+      concertActive: {},
+      concerts: [
+        {
+          id: 10,
+          show: 'false',
+          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
+          date: '2024-04-06 (六) 19:00',
+          image: 'https://i.imgur.com/ZbzHz0X.jpg',
+        },
+        {
+          id: 7,
+          show: 'false',
+          name: '原子邦妮「明明早點放棄就沒事了」',
+          date: '2024-04-20 (六) 19:30',
+          image: 'https://i.imgur.com/CDtPlHG.png',
+        },
+        {
+          id: 4,
+          show: 'true',
+          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/kPcCvf8.jpg',
+        },
 
-          {
-            id: 5,
-            show: 'false',
-            name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
-            date: '2024-01-27 (六) 19:00',
-            image: 'https://i.imgur.com/FlEOLfm.jpg'
-          },
+        {
+          id: 5,
+          show: 'false',
+          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/FlEOLfm.jpg',
+        },
 
-          {
-            id: 6,
-            show: 'false',
-            name: 'YOASOBI演唱會2024台北站',
-            date: '2024-01-21 (日) 19:00',
-            image: 'https://i.imgur.com/E6JbF0S.jpg'
-          },
-          {
-            id: 3,
-            show: 'false',
-            name: 'FTISLAND演唱會2024台北站',
-            date: '2024-02-18 (六) 17:00',
-            image: 'https://i.imgur.com/2VtzkiT.png'
-          },
-          {
-            id: 12,
-            show: 'false',
-            name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
-            date: '2024-07-20 (六) 18:00',
-            image: 'https://i.imgur.com/GWg5REN.png'
-          },
+        {
+          id: 6,
+          show: 'false',
+          name: 'YOASOBI演唱會2024台北站',
+          date: '2024-01-21 (日) 19:00',
+          image: 'https://i.imgur.com/E6JbF0S.jpg',
+        },
+        {
+          id: 3,
+          show: 'false',
+          name: 'FTISLAND演唱會2024台北站',
+          date: '2024-02-18 (六) 17:00',
+          image: 'https://i.imgur.com/2VtzkiT.png',
+        },
+        {
+          id: 12,
+          show: 'false',
+          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
+          date: '2024-07-20 (六) 18:00',
+          image: 'https://i.imgur.com/GWg5REN.png',
+        },
 
-          {
-            id: 11,
-            show: 'false',
-            name: '宇宙人《α：回到未來》20週年演唱會',
-            date: '2024-04-27 (六) 19:30',
-            image: 'https://i.imgur.com/TkXaaeF.png'
-          },
-
-        ],
-        artists: [
-          {
-            id: 11,
-            name: 'Itzy',
-            image: 'https://i.imgur.com/yxpSEBX.jpeg',
-            followers: 40192,
-          },
-          {
-            id: 5,
-            name: '溫蒂漫步',
-            image: 'https://i.imgur.com/1w27w5u.jpeg',
-            followers: 3927,
-          },
-          {
-            id: 2,
-            name: 'Apink',
-            image: 'https://i.imgur.com/BxG8f6P.jpeg',
-            followers: 49270,
-          },
-          {
-            id: 7,
-            name: 'YOASOBI',
-            image: 'https://i.imgur.com/miVeAVr.jpeg',
-            followers: 52380,
-          },
-          {
-            id: 12,
-            name: '理想混蛋',
-            image: 'https://i.imgur.com/dKHPtCY.jpeg',
-            followers: 14702,
-          },
-          {
-            id: 9,
-            name: 'HYBS',
-            image: 'https://i.imgur.com/UGVUsOq.jpg',
-            followers: 21092,
-          },
-        ],
-      };
-    },
-    inject: ['http', 'path'],
-    methods: {
-      ...mapActions(useVenuesStore, ['getVenueInfo']),
-    },
-    computed: {
-      ...mapState(useVenuesStore, ['venueInfo']),
-    },
-    mounted() {
-      this.getVenueInfo();
-      AOS.init();
-    },
-    components: {
-      Swiper,
-      SwiperSlide,
-    },
-  };
+        {
+          id: 11,
+          show: 'false',
+          name: '宇宙人《α：回到未來》20週年演唱會',
+          date: '2024-04-27 (六) 19:30',
+          image: 'https://i.imgur.com/TkXaaeF.png',
+        },
+      ],
+      artists: [
+        {
+          id: 11,
+          name: 'Itzy',
+          image: 'https://i.imgur.com/yxpSEBX.jpeg',
+          followers: 40192,
+        },
+        {
+          id: 5,
+          name: '溫蒂漫步',
+          image: 'https://i.imgur.com/1w27w5u.jpeg',
+          followers: 3927,
+        },
+        {
+          id: 2,
+          name: 'Apink',
+          image: 'https://i.imgur.com/BxG8f6P.jpeg',
+          followers: 49270,
+        },
+        {
+          id: 7,
+          name: 'YOASOBI',
+          image: 'https://i.imgur.com/miVeAVr.jpeg',
+          followers: 52380,
+        },
+        {
+          id: 12,
+          name: '理想混蛋',
+          image: 'https://i.imgur.com/dKHPtCY.jpeg',
+          followers: 14702,
+        },
+        {
+          id: 9,
+          name: 'HYBS',
+          image: 'https://i.imgur.com/UGVUsOq.jpg',
+          followers: 21092,
+        },
+      ],
+    };
+  },
+  inject: ['http', 'path'],
+  methods: {
+    ...mapActions(useVenuesStore, ['getVenueInfo']),
+  },
+  computed: {
+    ...mapState(useVenuesStore, ['venueInfo']),
+  },
+  mounted() {
+    this.getVenueInfo();
+    AOS.init();
+  },
+  components: {
+    Swiper,
+    SwiperSlide,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -481,13 +473,13 @@
   background: #fff;
 }
 // -------------------------------------- Concert
-.concert-photo-show{
+.concert-photo-show {
   position: absolute;
   border-radius: 40px;
   filter: grayscale(0) brightness(90%);
-};
-:deep(.concert-section>.swiper-button-prev),
-:deep(.concert-section>.swiper-button-next) {
+}
+:deep(.concert-section > .swiper-button-prev),
+:deep(.concert-section > .swiper-button-next) {
   height: 0px;
   &::after {
     display: flex;

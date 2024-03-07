@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', {
     followedArtists: [],
   }),
   actions: {
-    getUserDynamic(){
+    getUserDynamic() {
       http
         .get(`${path.me}`)
         .then((res) => {

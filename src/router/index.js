@@ -78,7 +78,7 @@ const router = createRouter({
                 title: '請先登入',
                 description: '',
               });
-              return false;
+              return { name: 'login' };
             }
           },
         },
@@ -104,7 +104,7 @@ const router = createRouter({
             title: '請重新登入',
             description: '',
           });
-          return false;
+          return { name: 'login' };
         }
         if (!user.is_admin) {
           toast({

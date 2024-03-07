@@ -1,17 +1,17 @@
 import axios from 'axios';
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { useToast } from '@/components/ui/toast/use-toast';
 
 const { toast } = useToast();
 
 const { VITE_APP_SERVICE_API } = import.meta.env;
 
-// function alertMessage(icon, msg) {
-//   Swal.fire({
-//     icon,
-//     text: msg,
-//   });
-// }
+function alertMessage(icon, msg) {
+  Swal.fire({
+    icon,
+    text: msg,
+  });
+}
 
 const http = axios.create({
   baseURL: `${VITE_APP_SERVICE_API}/api`,
@@ -43,7 +43,7 @@ http.interceptors.response.use(
   (err) => {
     console.log(err);
     if (!err.response) {
-      // alertMessage('error', '是不是沒有連接伺服器呢? 請看console><');
+      alertMessage('error', '是不是沒有連接伺服器呢? 請看console><');
       toast({
         title: '是不是沒有連接伺服器呢? 請看console><',
         description: '',
@@ -54,7 +54,7 @@ http.interceptors.response.use(
     switch (status) {
       case 401:
         // alertMessage('error', '請重新登入');
-        window.location.href = `${window.location.origin}/#/login`;
+        window.location.href = `${window.location.origin}${window.location.pathname}#/login`;
         toast({
           title: '請先登入',
           description: '',
@@ -62,7 +62,7 @@ http.interceptors.response.use(
         break;
       case 403:
         // alertMessage('error', '權限不足');
-        window.location.href = `${window.location.origin}/#/`;
+        window.location.href = `${window.location.origin}${window.location.pathname}#/`;
         toast({
           title: '權限不足',
           description: '',
@@ -70,7 +70,7 @@ http.interceptors.response.use(
         break;
       case 404:
         // alertMessage('error', '對不起我們找不到你要的><');
-        window.location.href = `${window.location.origin}/#/notfond`;
+        window.location.href = `${window.location.origin}${window.location.pathname}#/notfond`;
         toast({
           title: '對不起我們找不到你要的><',
           description: '',
