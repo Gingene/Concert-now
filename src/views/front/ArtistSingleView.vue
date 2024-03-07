@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-16">
+  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pt-16 pb-[128px] lg:pb-[192px]">
     <!-- 表演者圖片(區塊一) start -->
     <section class="artist-intro mb-10 md:mb-[6.5rem] lg:mb-40">
       <div class="flex justify-between mb-5">
@@ -33,7 +33,7 @@
     <!-- 表演者圖片(區塊一) end -->
 
     <!-- 盒子(含區塊二及區塊三) -->
-    <div class="md:flex md:justify-between md:items-center md:mb-2.5 lg:w-[70%] lg:mx-auto">
+    <div class="md:flex md:justify-between md:items-center lg:w-[70%] lg:mx-auto">
       <!-- 表演者介紹(區塊二) start -->
       <section class="mb-[150px] md:mb-0 md:w-[45%]">
         <p class="break-all text-justify pb-10 md:pb-6 md:text-[12px] lg:text-[13px]">
@@ -51,7 +51,7 @@
 
       <!-- 表演者介紹(區塊三) start -->
       <section class="artist-honors-relative md:w-[50%]">
-        <p class="honors text-stroke-light bg-artistName text-4xl md:text-[4.5rem] xl:text-7xl">HONORS</p>
+        <p class="honors text-stroke-light bg-artistName">HONORS</p>
         <p class="bg-shadow-trans-text artist-honors w-[90%] md:w-[100%] ml-auto text-center break-keep py-[50px] px-[10px] md:py-[60px] rounded-[31px] z-[-1]">
           <span v-for="(honor, index) in singleArtist?.honors" :key="index"> {{ honor }} <br />-<br /> </span>
         </p>
@@ -61,7 +61,7 @@
 
     <!-- 即將舉辦(區塊四) start -->
     <div>
-      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
+      <TitleComponent class="flex justify-center mb-[30px]">
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
       </TitleComponent>
@@ -81,9 +81,9 @@
             </p>
           </div>
           <div>
-            <p class="text-[14px] sm:text-[17px] md:text-[21px]">
+            <RouterLink :to="`/concerts/${upcoming?.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
               {{ upcoming?.title }}
-            </p>
+            </RouterLink>
             <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">
               {{ upcoming?.venue?.title }}
             </p>
@@ -106,8 +106,8 @@
     <!-- 即將舉辦(區塊四) end -->
 
     <!-- 已結束(區塊五) start -->
-    <div class="mb-[150px]">
-      <TitleComponent class="flex justify-center mb-[30px] space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px]">
+    <div>
+      <TitleComponent class="flex justify-center mb-[30px]">
         <template #subTitle>HISTORY</template>
         <template #mainTitle>已結束</template>
       </TitleComponent>
@@ -127,8 +127,12 @@
             </p>
           </div>
           <div>
-            <p class="text-[14px] sm:text-[17px] md:text-[21px]">{{ historical?.title }}</p>
-            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">{{ historical?.venue?.title }}</p>
+            <RouterLink :to="`/concerts/${historical.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
+              {{ historical?.title }}
+            </RouterLink>
+            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">
+              {{ historical?.venue?.title }}
+            </p>
           </div>
         </div>
         <HoverCard>
@@ -195,7 +199,6 @@ export default {
         this.singleArtist = res.data.data;
       } catch (error) {
         console.log(error);
-
       } finally {
         setIsLoading();
       }
@@ -221,14 +224,11 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id)
-          .then(() => this.getSingleArtistData(id));
+        this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
         return;
-
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id)
-          .then(() => this.getSingleArtistData(id));
+        this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
       }
 
       return;
@@ -255,12 +255,10 @@ export default {
       // 判別是否已收藏
       if (this.savedConcertsData?.some((item) => item.id === id)) {
         // 刪除收藏
-        this.deleteSaveConcertsData(id)
-          .then(() => this.getSavedConcertsData());
+        this.deleteSaveConcertsData(id).then(() => this.getSavedConcertsData());
       } else {
         // 新增收藏
-        this.postSaveConcertsData(id)
-          .then(() => this.getSavedConcertsData());
+        this.postSaveConcertsData(id).then(() => this.getSavedConcertsData());
       }
     },
     // 取得 收藏演唱會資料
@@ -268,7 +266,6 @@ export default {
       try {
         const res = await getSavedConcerts();
         this.savedConcertsData = res.data.data.saved_concerts;
-
       } catch (error) {
         console.log(error);
       }
@@ -278,7 +275,6 @@ export default {
       try {
         const res = await postSaveConcerts(id);
         console.log(res);
-
       } catch (error) {
         console.log(error);
       }
@@ -287,7 +283,6 @@ export default {
       try {
         const res = await deleteSaveConcerts(id);
         console.log(res);
-        
       } catch (error) {
         console.log(error);
       }
@@ -351,8 +346,8 @@ export default {
 @media screen and (min-width: 450px) {
   .artist-honors-relative {
     .honors {
-      top: 30%;
-      left: -12%;
+      top: 43px;
+      left: -82px;
     }
   }
 
@@ -364,12 +359,30 @@ export default {
   }
 }
 
+@media screen and (min-width: 576px) {
+  .artist-honors-relative {
+    .honors {
+      top: 43px;
+      left: -81px;
+    }
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .artist-honors-relative {
+    .honors {
+      top: 43px;
+      left: -65px;
+    }
+  }
+}
+
 @media screen and (min-width: 768px) {
   .artist-honors-relative {
     order: -1;
     .honors {
-      top: 24px;
-      left: -163px;
+      top: 43px;
+      left: -129px;
     }
 
     .artist-honors {
@@ -381,7 +394,7 @@ export default {
 @media screen and (min-width: 1024px) {
   .artist-honors-relative {
     .honors {
-      top: 66px;
+      top: 47px;
       left: -129px;
     }
   }
