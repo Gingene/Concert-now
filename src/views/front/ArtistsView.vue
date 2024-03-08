@@ -175,16 +175,14 @@ export default {
     },
     async getArtistsData(page = 1) {
       try {
-
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
-        
       } finally {
-        setIsLoading();
+        // setIsLoading();
       }
     },
     FilterByCountry(country = '全部') {

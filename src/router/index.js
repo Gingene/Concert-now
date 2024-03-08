@@ -76,7 +76,7 @@ const router = createRouter({
         {
           path: 'member',
           name: 'member',
-          component: () => import('../views/front/Members.vue'),
+          component: () => import('../views/front/MembersView.vue'),
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (!AccessToken) {
