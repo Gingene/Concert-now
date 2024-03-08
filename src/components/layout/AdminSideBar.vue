@@ -6,7 +6,7 @@
       </SheetTrigger>
       <SheetContent side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
-          <div class="w-[205px] font-semibold py-8 flex text-xl">CONCERTS NOW.</div>
+          <div class="w-[205px] font-semibold py-8 flex text-xl">CONCERT NOW.</div>
           <RouterLink to="/admin/concerts">
             <Button variant="side-bar" size="side-bar">
               <span class="material-symbols-outlined pe-6"> location_on </span>
@@ -27,7 +27,7 @@
     </Sheet>
   </div>
   <nav class="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-1">
-    <div class="w-[205px] font-semibold pl-5 py-8 flex text-xl">CONCERTS NOW.</div>
+    <div class="w-[205px] font-semibold pl-5 py-8 flex text-xl">CONCERT NOW.</div>
     <RouterLink to="/admin/concerts">
       <Button variant="side-bar" size="side-bar">
         <span class="material-symbols-outlined pe-6"> location_on </span>

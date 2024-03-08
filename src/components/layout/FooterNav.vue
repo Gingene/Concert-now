@@ -4,7 +4,7 @@
       <li class="footer-nav flex flex-col border-b-2 border-black-80 py-6" v-for="item in footNavList" :key="item.enTitle">
         <RouterLink :to="item.href" class="flex justify-between items-end w-full">
           <div class="flex flex-col lg:flex-row">
-            <div class="text-sm lg:text-4xl lg:order-2">{{ item.title }}</div>
+            <div class="pt-0 md:pt-4 text-sm lg:text-4xl lg:order-2">{{ item.title }}</div>
             <div class="text-5xl font-lato lg:font-lato-display3 lg:order-1 lg:me-5">{{ item.enTitle }}</div>
           </div>
           <ArrowDownRight class="footer-nav-arrow size-10 lg:size-24" />
