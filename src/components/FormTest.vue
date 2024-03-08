@@ -26,14 +26,6 @@
         <Button type="submit" variant="btn1"> 送出訂單 </Button>
       </form>
     </div>
-    <div>
-      <Accordion type="single" collapsible>
-        <AccordionItem value="item-1">
-          <AccordionTrigger>Is it accessible?</AccordionTrigger>
-          <AccordionContent> Yes. It adheres to the WAI-ARIA design pattern. </AccordionContent>
-        </AccordionItem>
-      </Accordion>
-    </div>
   </section>
 </template>
 <script setup>
@@ -46,7 +38,6 @@ import { Button } from '@/components/ui/button';
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/components/ui/toast/use-toast';
 
 const { toast } = useToast();
@@ -74,11 +65,5 @@ const onSubmit = form.handleSubmit((values) => {
 </script>
 
 <script>
-let accordionBtns;
-export default {
-  mounted() {
-    accordionBtns = document.querySelectorAll('.accordionBtn');
-    console.log(accordionBtns);
-  },
-};
+export default {};
 </script>

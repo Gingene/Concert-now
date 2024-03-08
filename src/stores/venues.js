@@ -24,7 +24,7 @@ export const useVenuesStore = defineStore('venues', {
           this.venueInfo = res.data.data;
         })
         .catch((err) => {
-          console.err(err);
+          console.error(err);
         });
     },
     getVenues(page = 1) {
@@ -35,7 +35,7 @@ export const useVenuesStore = defineStore('venues', {
           window.scroll(0, 0);
           this.venues = res.data.data;
           this.pagination = res.data.pagination;
-          console.log(this.venues);
+          // console.log(this.venues);
         })
         .catch((err) => {
           console.error(err);
@@ -72,7 +72,7 @@ export const useVenuesStore = defineStore('venues', {
         .get(`${path.venues}/${id}`)
         .then((res) => {
           this.venue = res.data.data;
-          console.log(this.venue);
+          // console.log(this.venue);
         })
         .catch((err) => {
           console.error(err);
