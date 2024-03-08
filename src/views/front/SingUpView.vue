@@ -9,6 +9,9 @@ import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { http, path } from '@/api';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/components/ui/toast/use-toast';
+const { toast } = useToast();
+
 const router = useRouter();
 
 const formSchema = toTypedSchema(
@@ -24,25 +27,24 @@ const form = useForm({
 });
 
 const signup = (user) => {
-  console.log(user);
   http
     .post(path.register, user)
     .then((res) => {
-      alert('註冊成功！可以去登入了ヽ(●´∀`●)ﾉ');
+      toast({
+        title: '註冊成功！可以去登入了ヽ(●´∀`●)ﾉ',
+      });
       router.push({ name: 'login' });
     })
-    .catch((err) => {
-      console.log(err);
+    .catch(() => {
+      toast({
+        title: '註冊失敗，請再次確認資料是否正確。',
+      });
       alert('註冊失敗！');
     });
 };
 
 const handleSignup = form.handleSubmit((values) => {
-  // loginValue = values;
-  // this.$ref.form.reset();
-  console.log(values);
   signup(values);
-
   form.resetForm();
 });
 </script>

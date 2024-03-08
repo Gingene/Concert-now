@@ -9,12 +9,14 @@ import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { http, path } from '@/api';
 import { useRouter } from 'vue-router';
+import { useToast } from '@/components/ui/toast/use-toast';
+const { toast } = useToast();
 const router = useRouter();
 
 const formSchema = toTypedSchema(
   z.object({
-    email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
-    password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
+    email: z.string({ required_error: '必填' }),
+    password: z.string({ required_error: '必填' }),
   }),
 );
 
@@ -23,36 +25,24 @@ const form = useForm({
 });
 
 const login = (user) => {
-  console.log(user);
   http
     .post(path.login, user)
     .then((res) => {
       const { data } = res.data;
       document.cookie = `AccessToken=${data.access_token}; path=/`;
       localStorage.setItem('user', JSON.stringify(res.data.data.user));
-      alert('登入成功！');
-
-      // window.location = '@/me';
-      // console.log(this.$router);
-      // this.$router.push('/member');
       router.push('/member');
     })
-    .catch((err) => {
-      console.log(err);
-      alert('登入失敗！');
+    .catch(() => {
+      toast({
+        title: '登入失敗，請再次確認資料是否正確。',
+      });
       this.userLogin.password = '';
     });
 };
 
 const handleLogin = form.handleSubmit((values) => {
-  // loginValue = values;
-  // this.$ref.form.reset();
-  console.log(values);
   login(values);
   form.resetForm();
 });
-</script>
-
-<script>
-export default {};
 </script>
