@@ -76,7 +76,7 @@ const router = createRouter({
         {
           path: 'member',
           name: 'member',
-          component: () => import('../views/front/Members.vue'),
+          component: () => import('../views/front/MembersView.vue'),
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (!AccessToken) {
@@ -131,6 +131,16 @@ const router = createRouter({
           path: 'concerts',
           name: 'admin-concerts',
           component: () => import('../views/admin/AdminConcertsView.vue'),
+        },
+        {
+          path: 'artists',
+          name: 'admin-artists',
+          component: () => import('../views/admin/AdminArtistsView.vue'),
+        },
+        {
+          path: 'venues',
+          name: 'admin-venues',
+          component: () => import('../views/admin/AdminVenuesView.vue'),
         },
         {
           path: 'analysis',

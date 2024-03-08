@@ -12,7 +12,7 @@
             class="me-4"
             :class="{ active: timeButtonIsActive === 'stateAll' }"
             @click="
-              getConcerts('time', 'all');
+              getFilterConcerts('time', 'all');
               timeButtonIsActive = 'stateAll';
             ">
             全部
@@ -23,7 +23,7 @@
               size="base"
               :class="{ active: timeButtonIsActive === `state${index}` }"
               @click="
-                getConcerts('time', time);
+                getFilterConcerts('time', time);
                 timeButtonIsActive = `state${index}`;
               ">
               {{ time }}
@@ -37,7 +37,7 @@
             class="me-4"
             :class="{ active: countryButtonIsActive === 'stateAll' }"
             @click="
-              getConcerts('country', 'all');
+              getFilterConcerts('country', 'all');
               countryButtonIsActive = 'stateAll';
             ">
             全部
@@ -48,7 +48,7 @@
               size="base"
               :class="{ active: countryButtonIsActive === `state${index}` }"
               @click="
-                getConcerts('country', country);
+                getFilterConcerts('country', country);
                 countryButtonIsActive = `state${index}`;
               ">
               {{ country }}
@@ -67,7 +67,7 @@
                 <div>
                   <p class="text-tiny lg:text-sm text-black-60">
                     {{ concert.holding_time.substring(0, 10) }}
-                    <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85">已結束</Badge>
+                    <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85 hover:bg-black-85">已結束</Badge>
                   </p>
                   <router-link :to="`/concerts/${concert.id}`">
                     <CardTitle class="text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
@@ -173,7 +173,7 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts', 'callSaveAction', 'searchConcerts']),
+    ...mapActions(useConcertsStore, ['getAllConcerts', 'getFilterConcerts', 'callSaveAction', 'searchConcerts']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
     showToast(msg) {
       toast({
@@ -182,7 +182,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['concerts', 'pagination']),
+    ...mapState(useConcertsStore, ['concerts', 'pagination', 'toastActive']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
 
     isSaved() {
@@ -190,8 +190,7 @@ export default {
     },
   },
   mounted() {
-    this.getConcerts('country', 'all');
-    this.getConcerts('time', 'all');
+    this.getAllConcerts();
 
     // 確認使用者登入狀態
     if (this.AccessToken !== undefined) {
