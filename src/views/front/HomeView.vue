@@ -45,14 +45,14 @@
   </section>
   <!-- Concerts -->
   <section class="relative pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[400px] text-center concert-section overflow-hidden w-full">
-    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">CONCERTS</h2>
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato sm:mb-5">CONCERTS</h2>
     <!-- Concert Swiper -->
     <swiper
       :effect="'cards'"
       :grabCursor="false"
       :freeMode="true"
       :loop="true"
-      :initialSlide="'1'"
+      :initialSlide="1"
       :navigation="true"
       :cardsEffect="{
         perSlideOffset: 16,
@@ -77,11 +77,11 @@
       <!-- Single Concert Card -->
       <div
         class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
-        <p class="py-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
-        <h3 class="text-lg xs:text-[24px] lg:text-[30px] lg:py-4 pb-2">{{ concertActive.name }}</h3>
+        <p class="pt-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
+        <h3 class="text-xl md:text-2xl lg:text-3xl lg:py-4 pb-2 h-[10.5rem] xs:h-[6.5rem] xl:h-[9.5rem]">{{ concertActive.name }}</h3>
         <router-link :to="`/concerts/${concertActive.id}`" class="w-full sm:w-[80%] xl:w-full 2xl:w-[80%] block">
-          <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
-            <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
+          <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
+            <span class="font-bold text-base lg:text-lg">探索更多</span>
             <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -95,15 +95,15 @@
   <!-- Artist -->
   <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px] text-center relative">
     <!-- Title -->
-    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 xl:-mb-20 text-stroke font-lato opacity-[0.3] xl:mr-[160px]">ARTISTS</h2>
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato sm:mb-5 xl:-mb-20 xl:mr-[160px]">ARTISTS</h2>
     <!-- Artist List -->
     <div class="xl:hidden">
       <swiper
         :effect="'coverflow'"
         :grabCursor="true"
         :centeredSlides="true"
-        :initialSlide="'2'"
-        :slidesPerView="'1'"
+        :initialSlide="2"
+        :slidesPerView="1"
         :coverflowEffect="{
           rotate: 50,
           stretch: 0,
@@ -151,8 +151,8 @@
     </div>
     <!-- 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
-      <Button variant="white-outline" size="base" class="p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
-        <span class="font-bold text-base xs:text-lg">探索更多</span>
+      <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-base lg:text-lg">探索更多</span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -162,8 +162,8 @@
     </router-link>
     <!-- PC(xl:1280): 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
-      <Button data-aos="fade-right" variant="white-outline" size="base" class="ml-[250px] xl:p-9 w-full hover:border-transparent btn-explore-icon-color">
-        <span class="font-bold text-lg">探索更多</span>
+      <Button data-aos="fade-right" variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 ml-[250px] w-full hover:border-transparent btn-explore-icon-color">
+        <span class="font-bold text-base lg:text-lg">探索更多</span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -174,7 +174,7 @@
   </section>
   <!-- Venue -->
   <section class="container px-[8%] xs:px-[38px] md:px-[64px] lg:w-[800px] xl:w-[1000px] pb-[180px] sm:pb-[230px] md:pb-[200px] lg:pb-[250px] xl:pb-[280px] text-center">
-    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] sm:mb-5 text-stroke font-lato opacity-[0.3]">VENUES</h2>
+    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato">VENUES</h2>
     <!-- Venue Swiper -->
     <swiper
       :cssMode="true"
@@ -184,11 +184,11 @@
       :keyboard="true"
       :modules="modules"
       :slidesPerView="1"
-      :loop="true"
+      :loop="false"
       class="mySwiper rounded-[40px] bg-shadow-trans-text venue-section">
       <swiper-slide v-for="venue in venueInfo" class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14" :key="venue.id">
         <!-- Venue Title -->
-        <h2 href="#" class="font-bold text-xl xs:text-[36px] sm:text-5xl lg:text-6xl pb-2">{{ venue.title }}</h2>
+        <h2 href="#" class="font-bold text-3xl lg:text-4xl pb-2">{{ venue.title }}</h2>
         <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
         <!-- Venue Seats -->
         <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
@@ -207,8 +207,8 @@
           </article>
           <!-- 所有場地總覽頁 Button -->
           <router-link :to="`/venues/${venue.id}`" class="block w-full mx-auto sm:w-[80%] xl:w-[40%]">
-            <Button variant="white-outline" size="base" class="my-4 p-6 xs:p-7 md:p-8 lg:p-9 w-full hover:border-transparent btn-explore-icon-color">
-              <span class="font-bold text-base xs:text-lg lg:text-xl">探索更多</span>
+            <Button variant="white-outline" class="my-4 rounded-btn1 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
+              <span class="font-bold text-base lg:text-lg">探索更多</span>
               <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -224,10 +224,12 @@
   <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px]">
     <section class="pt-[10rem] relative flex">
       <!-- 2xl以上-標題 -->
-      <span class="hidden 2xl:block font-lato-display3 xl:font-lato-display2 text-stroke-title z-[-1] xl:top-[-1rem] xl:right-[-0rem]"> SONGS </span>
+      <span class="hidden 2xl:block font-black text-[160px] text-stroke font-lato absolute z-[-1] xl:top-[1rem] xl:right-[8rem]"> SONGS </span>
       <div class="mx-auto relative">
         <!-- 2xl以下-標題 -->
-        <div class="2xl:hidden font-lato-display4 sm:font-lato-display3 xl:font-lato-display2 text-stroke-light z-[-1] mb-[-2rem] sm:mb-[-3rem] xl:mb-[-7rem] text-center">SONGS</div>
+        <div class="2xl:hidden font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato z-[-1] mb-[-2rem] sm:mb-[-3rem] xl:mb-[-7rem] text-center">
+          SONGS
+        </div>
         <!-- 主要內容區塊 -->
         <div
           class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-8 py-12 flex flex-col items-center mx-auto w-auto max-w-[350px] sm:max-w-none sm:w-[350px] lg:w-[450px] gap-2 xl:mr-[20rem]">
@@ -239,24 +241,47 @@
           </div>
           <div class="flex justify-between items-center w-full">
             <div class="text-black-40">Taylor Swift</div>
-            <button class="px-1 space-x-2 ml-auto border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
-              <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
-            </button>
+            <Popover>
+              <PopoverTrigger as-child>
+                <button
+                  class="flex justify-center items-center px-1 space-x-2 ml-auto border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
+                  <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent> 在演唱會下才能新增歌曲喔，快去看看吧～ </PopoverContent>
+            </Popover>
           </div>
           <ScrollArea class="h-[19rem] w-full pt-4">
             <div v-for="(song, index) in songList" :key="song">
               <div class="text-base flex justify-between items-center bg-trans">
                 <div>{{ index + 1 }}</div>
-                <button class="ml-4 mr-auto py-3 sm:max-w-none overflow-x-hidden sm:text-nowrap">{{ song }}</button>
-                <div class="flex pr-4 gap-2 sm:gap-6 h-14">
-                  <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
-                    <font-awesome-icon icon="fa-solid fa-chevron-up" />
-                    <p>{{ (2056 / (index + 8)).toFixed(0) }}</p>
-                  </button>
-                  <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-5.4px] hover:font-bold">
-                    <font-awesome-icon icon="fa-solid fa-chevron-down" />
-                    <p>{{ (148 / (index + 11)).toFixed(0) }}</p>
-                  </button>
+                <Popover>
+                  <PopoverTrigger as-child>
+                    <div class="cursor-pointer w-full text-left ml-6 mr-auto text-nowrap">
+                      {{ song }}
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent> 去演唱會探索更多 </PopoverContent>
+                </Popover>
+                <div class="flex justify-end pr-4 gap-2 sm:gap-6 h-14 cursor-pointer w-full text-left ml-6 mr-auto text-nowrap">
+                  <Popover>
+                    <PopoverTrigger as-child>
+                      <div class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
+                        <font-awesome-icon icon="fa-solid fa-chevron-up" />
+                        <p>{{ (2056 / (index + 8)).toFixed(0) }}</p>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent> 這首歌有在演唱會聽到！ </PopoverContent>
+                  </Popover>
+                  <Popover>
+                    <PopoverTrigger as-child>
+                      <div class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-5.4px] hover:font-bold">
+                        <font-awesome-icon icon="fa-solid fa-chevron-down" />
+                        <p>{{ (148 / (index + 11)).toFixed(0) }}</p>
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent> 演唱會上沒聽到這首歌餒 ॱଳॱ </PopoverContent>
+                  </Popover>
                 </div>
               </div>
               <div class="w-full h-[1px] bg-[var(--black-60)]"></div>
@@ -265,47 +290,56 @@
         </div>
         <!-- xl以下-複習框 -->
         <div class="xl:hidden bg-shadow-trans-text rounded-[40px] space-y-6 p-6 sm:p-12 w-auto lg:w-[636px] mt-6 sm:mt-[-2.6rem]">
-          <h4 class="text-xl md:text-3xl font-bold">來複習演唱會歌單吧！</h4>
+          <h4 class="text-xl md:text-2xl lg:text-3xl font-bold">來複習演唱會歌單吧！</h4>
           <p>
-            有3個人說這首歌沒有在演唱會中出現！<br />
+            有3個人說這首歌沒有在演唱會中出現 &#65281;<br />
             快來分享你的經驗～
           </p>
-          <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full">
-            探索歌單
-            <svg class="hidden sm:block md:hidden pl-4" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                class="icon"
-                d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
-                fill="white" />
-            </svg>
-            <svg class="hidden md:block pl-4 ml-auto" width="341" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-                fill="white" />
-            </svg>
-          </Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button variant="white-outline" class="btn-explore-icon-color rounded-btn1 my-4 p-6 xs:p-7 w-full text-base lg:text-lg">
+                探索歌單
+                <svg class="hidden sm:block md:hidden pl-4" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    class="icon"
+                    d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
+                    fill="white" />
+                </svg>
+                <svg class="hidden md:block pl-4 ml-auto" width="341" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+                    fill="white" />
+                </svg>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent> 你可以到演唱會頁面下看到歌單～ </PopoverContent>
+          </Popover>
         </div>
         <!-- xl以上-複習框 -->
-        <div class="hidden xl:block bg-shadow-trans-text rounded-[40px] space-y-6 p-12 w-[500px] 2xl:w-[580px] absolute right-[-10rem] top-[20rem] 2xl:right-[-14rem] 2xl:top-[9rem]">
-          <!-- 適合放標題語意標籤，要換哪個標籤都可以 -->
+        <div class="hidden xl:block bg-shadow-trans-text rounded-[40px] space-y-6 p-12 w-[500px] 2xl:w-[580px] absolute right-[-10rem] top-[20rem] 2xl:right-[-14.5rem] 2xl:top-[9rem]">
           <h4 class="text-3xl font-bold">來複習演唱會歌單吧！</h4>
           <p>
-            有3個人說這首歌沒有在演唱會中出現！<br />
+            有3個人說這首歌沒有在演唱會中出現 &#65281;<br />
             快來分享你的經驗～
           </p>
-          <Button variant="white-outline" size="base" class="btn-explore-icon-color">
-            探索歌單
-            <svg class="hidden 2xl:block pl-4" width="341" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-                fill="white" />
-            </svg>
-            <svg class="hidden xl:block 2xl:hidden pl-4" width="270" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-                fill="white" />
-            </svg>
-          </Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full btn-explore-icon-color text-base lg:text-lg">
+                探索歌單
+                <svg class="hidden 2xl:block pl-4" width="341" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+                    fill="white" />
+                </svg>
+                <svg class="hidden xl:block 2xl:hidden pl-4" width="270" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+                    fill="white" />
+                </svg>
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent> 你可以到演唱會頁面下看到歌單～ </PopoverContent>
+          </Popover>
         </div>
         <svg class="hidden xl:block absolute right-0 bottom-[12.5rem]" width="371" height="132" viewBox="0 0 371 132" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -331,6 +365,7 @@ import 'swiper/css/effect-coverflow';
 import 'swiper/css/effect-cards';
 import 'swiper/css/free-mode';
 import { Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards } from 'swiper/modules';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 </script>
 
 <script>
@@ -346,6 +381,124 @@ export default {
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       concertActive: {},
       concerts: [
+        {
+          id: 10,
+          show: 'false',
+          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
+          date: '2024-04-06 (六) 19:00',
+          image: 'https://i.imgur.com/ZbzHz0X.jpg',
+        },
+        {
+          id: 7,
+          show: 'false',
+          name: '原子邦妮「明明早點放棄就沒事了」',
+          date: '2024-04-20 (六) 19:30',
+          image: 'https://i.imgur.com/CDtPlHG.png',
+        },
+        {
+          id: 4,
+          show: 'true',
+          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/kPcCvf8.jpg',
+        },
+
+        {
+          id: 5,
+          show: 'false',
+          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/FlEOLfm.jpg',
+        },
+
+        {
+          id: 6,
+          show: 'false',
+          name: 'YOASOBI演唱會2024台北站',
+          date: '2024-01-21 (日) 19:00',
+          image: 'https://i.imgur.com/E6JbF0S.jpg',
+        },
+        {
+          id: 3,
+          show: 'false',
+          name: 'FTISLAND演唱會2024台北站',
+          date: '2024-02-18 (六) 17:00',
+          image: 'https://i.imgur.com/2VtzkiT.png',
+        },
+        {
+          id: 12,
+          show: 'false',
+          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
+          date: '2024-07-20 (六) 18:00',
+          image: 'https://i.imgur.com/GWg5REN.png',
+        },
+
+        {
+          id: 11,
+          show: 'false',
+          name: '宇宙人《α：回到未來》20週年演唱會',
+          date: '2024-04-27 (六) 19:30',
+          image: 'https://i.imgur.com/TkXaaeF.png',
+        },
+        {
+          id: 10,
+          show: 'false',
+          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
+          date: '2024-04-06 (六) 19:00',
+          image: 'https://i.imgur.com/ZbzHz0X.jpg',
+        },
+        {
+          id: 7,
+          show: 'false',
+          name: '原子邦妮「明明早點放棄就沒事了」',
+          date: '2024-04-20 (六) 19:30',
+          image: 'https://i.imgur.com/CDtPlHG.png',
+        },
+        {
+          id: 4,
+          show: 'true',
+          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/kPcCvf8.jpg',
+        },
+
+        {
+          id: 5,
+          show: 'false',
+          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/FlEOLfm.jpg',
+        },
+
+        {
+          id: 6,
+          show: 'false',
+          name: 'YOASOBI演唱會2024台北站',
+          date: '2024-01-21 (日) 19:00',
+          image: 'https://i.imgur.com/E6JbF0S.jpg',
+        },
+        {
+          id: 3,
+          show: 'false',
+          name: 'FTISLAND演唱會2024台北站',
+          date: '2024-02-18 (六) 17:00',
+          image: 'https://i.imgur.com/2VtzkiT.png',
+        },
+        {
+          id: 12,
+          show: 'false',
+          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
+          date: '2024-07-20 (六) 18:00',
+          image: 'https://i.imgur.com/GWg5REN.png',
+        },
+
+        {
+          id: 11,
+          show: 'false',
+          name: '宇宙人《α：回到未來》20週年演唱會',
+          date: '2024-04-27 (六) 19:30',
+          image: 'https://i.imgur.com/TkXaaeF.png',
+        },
         {
           id: 10,
           show: 'false',

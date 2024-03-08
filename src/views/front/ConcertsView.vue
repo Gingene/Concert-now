@@ -65,21 +65,21 @@
               </router-link>
               <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] xl:h-[13rem] border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
                 <div>
-                  <p class="text-tiny lg:text-sm">
+                  <p class="text-tiny lg:text-sm text-black-60">
                     {{ concert.holding_time.substring(0, 10) }}
                     <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85">已結束</Badge>
                   </p>
                   <router-link :to="`/concerts/${concert.id}`">
-                    <CardTitle class="pt-1 text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
+                    <CardTitle class="text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
                   </router-link>
-                  <p class="absolute pt-2 pb-4 text-black-60 text-tiny">{{ concert.venue?.title }}</p>
+                  <p class="absolute pt-1 md:pt-2 pb-4 text-black-60 text-tiny">{{ concert.venue?.title }}</p>
                 </div>
+                <button v-if="AccessToken !== undefined" @click="callSaveAction(concert.id)" class="flex ml-auto">
+                  <font-awesome-icon v-if="isSaved.some((item) => item.id === concert.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                  <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                </button>
                 <AlertDialog>
                   <AlertDialogTrigger class="flex">
-                    <button v-if="AccessToken !== undefined" @click="callSaveAction(concert.id)">
-                      <font-awesome-icon v-if="isSaved.some((item) => item.id === concert.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-                      <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-                    </button>
                     <button v-if="AccessToken === undefined">
                       <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                     </button>
@@ -101,7 +101,7 @@
             </CardHeader>
             <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
-                <Button variant="white-outline" size="base2">
+                <Button variant="white-outline" size="base2" class="border-black-20 hover:border-white">
                   <span class="text-sm">查看更多</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
@@ -197,9 +197,6 @@ export default {
     if (this.AccessToken !== undefined) {
       this.getUserSavedAndFollowed();
     }
-
-    console.log(this.AccessToken);
-    console.log(this.savedConcerts);
   },
 };
 </script>

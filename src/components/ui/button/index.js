@@ -17,14 +17,14 @@ export const buttonVariants = cva(
         'pink-outline': 'border-2 border-pink text-pink hover:bg-pink hover:text-primary hover:box-shadow-pink-outline-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-outline-hover',
         'pink-blur': 'border-2 border-pink text-pink box-shadow-pink-blur hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover [&.active]:bg-pink [&.active]:text-primary [&.active]:box-shadow-pink-blur-hover',
         destructive: 'bg-destructive text-destructive-foreground hover:bg-destructive/90',
-        outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        outline: 'border border-input bg-background hover:bg-black-85 hover:text-black-85-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        ghost: 'hover:bg-black-85 hover:text-black-85-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         'side-bar': 'bg-white text-lg text-gray-400 w-full text-left justify-start rounded-none hover:text-gray-800 hover:bg-white hover:border-e-4 hover:border-indigo-500/100',
         'side-bar-active':
           'text-lg text-gray-800 w-full text-left justify-start rounded-none bg-white border-e-4 border-indigo-500/100 hover:text-gray-800 hover:bg-white hover:border-e-4 hover:border-indigo-500/100',
-        page: 'hidden sm:block border border-input bg-background hover:bg-accent hover:text-accent-foreground',
+        page: 'hidden sm:block border border-input bg-background hover:bg-black-85 hover:text-black-85-foreground',
       },
       size: {
         default: 'h-10 px-4 py-2',

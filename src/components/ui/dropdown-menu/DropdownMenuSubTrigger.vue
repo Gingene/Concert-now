@@ -15,7 +15,7 @@ const props = defineProps({
 <template>
   <DropdownMenuSubTrigger
     v-bind="props"
-    :class="[cn('flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent', props.class)]">
+    :class="[cn('flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg--black-85 data-[state=open]:bg--black-85', props.class)]">
     <slot />
     <ChevronRight class="ml-auto h-4 w-4" />
   </DropdownMenuSubTrigger>

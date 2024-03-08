@@ -2,8 +2,8 @@
   <!-- Search/Command -->
   <div>
     <!-- <div> 會員身分{{ memberStatus }}</div> -->
-    <div class="flex gap-6 mt-3 mb-8 relative">
-      <div class="w-[36%] lg:w-[290px] relative pt-8 lg:pt-6">
+    <div class="flex gap-6 mb-8 relative">
+      <div class="w-[36%] lg:w-[290px] relative lg:pt-6 lg:pt-6">
         <Input type="text" placeholder="請輸入姓名及信箱查詢" v-model.trim="searchText" />
         <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>

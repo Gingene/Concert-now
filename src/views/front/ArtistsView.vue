@@ -182,11 +182,10 @@ export default {
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
-      } 
-      
-      // finally {
-      //   setIsLoading();
-      // }
+        
+      } finally {
+        setIsLoading();
+      }
     },
     FilterByCountry(country = '全部') {
       this.activeFilterCountry = country;

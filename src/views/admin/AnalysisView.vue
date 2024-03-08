@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-flow-row gap-5">
+  <div class="grid grid-flow-row gap-5 lg:pt-6">
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
       <Card v-for="item in totalData" :key="item.title" class="flex-1 hover:bg-slate-50">
         <CardHeader class="h-[72px]">
@@ -13,8 +13,7 @@
         <Card>
           <CardHeader class="flex flex-row items-center justify-between h-[94px]">
             <CardTitle class="text-xl">用戶瀏覽人數</CardTitle>
-            <Select
-              ><!-- ! 無法覆蓋 margin-top:6px -->
+            <Select>
               <SelectTrigger class="justify-end w-auto">
                 <SelectValue placeholder="日" />
               </SelectTrigger>
@@ -87,15 +86,14 @@
                   <TableHead class="w-[100px]">檢視量</TableHead>
                   <TableHead class="text-nowrap">收藏量</TableHead>
                   <TableHead>演唱會</TableHead>
-                  <!-- <TableHead class="text-right">表演者</TableHead> -->
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow v-for="(concert, index) in concerts.splice(0, 5)" :key="concert + index">
                   <TableCell class="font-medium">
-                    {{ Number.parseInt(829 / (index + 1)) }}
+                    {{ Number.parseInt(5451 / (index + 1)) }}
                   </TableCell>
-                  <TableCell>{{ Number.parseInt(168 / (index + 1)) }}</TableCell>
+                  <TableCell>{{ Number.parseInt(1622 / (index + 1)) }}</TableCell>
                   <TableCell>
                     <router-link :to="`/concerts/${concert.id}`" target="_blank">
                       {{ concert.title }}
