@@ -8,6 +8,8 @@ import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
 import { http, path } from '@/api';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 const formSchema = toTypedSchema(
   z.object({
@@ -27,6 +29,7 @@ const signup = (user) => {
     .post(path.register, user)
     .then((res) => {
       alert('註冊成功！可以去登入了ヽ(●´∀`●)ﾉ');
+      router.push({ name: 'login' });
     })
     .catch((err) => {
       console.log(err);
@@ -39,6 +42,7 @@ const handleSignup = form.handleSubmit((values) => {
   // this.$ref.form.reset();
   console.log(values);
   signup(values);
+
   form.resetForm();
 });
 </script>
