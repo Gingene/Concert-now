@@ -81,10 +81,6 @@ const router = createRouter({
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (!AccessToken) {
-              toast({
-                title: '請先登入',
-                description: '',
-              });
               return { name: 'login' };
             }
           },
