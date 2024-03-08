@@ -44,8 +44,8 @@
           </RouterLink>
           <HoverCard>
             <HoverCardTrigger>
-              <button :key="artist.id" class="basic text-base" :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'" @click="toggleFollowArtists(artist.is_followed, artist.id)">
-                follow
+              <button :key="artist.id" class="basic-follow text-base" :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'" @click="toggleFollowArtists(artist.is_followed, artist.id)">
+                {{ artist.is_followed ? 'Following' : 'Follow' }}
               </button>
             </HoverCardTrigger>
             <!-- 辨識登入狀態，未登入才顯示提示框 -->
@@ -77,7 +77,7 @@
     </Pagination>
     <!-- Pagination end -->
 
-    <hr class="border-b-2 border-black-60">
+    <hr class="border-b-2 border-black-60" />
   </section>
 </template>
 
@@ -104,7 +104,6 @@ import { loadingStore } from '@/stores/isLoading';
 const { setIsLoading } = loadingStore();
 
 const { swalWithStylingButtons } = useDarkAlert();
-
 
 export default {
   data() {
@@ -168,21 +167,14 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id)
-          .then(() => this.getArtistsData());
-        
-          
+        this.postFollowConcetsData(id).then(() => this.getArtistsData());
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id)
-          .then(() => this.getArtistsData());
+        this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
       }
-
-      
     },
     async getArtistsData(page = 1) {
       try {
-        setIsLoading();
 
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
@@ -190,13 +182,13 @@ export default {
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
-        
-      } finally {
-        setIsLoading();
-      }
+      } 
+      
+      // finally {
+      //   setIsLoading();
+      // }
     },
     FilterByCountry(country = '全部') {
-
       this.activeFilterCountry = country;
 
       country === '全部' ? (this.aristData.param = '') : (this.aristData.param = country);

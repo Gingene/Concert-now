@@ -12,10 +12,10 @@
           <HoverCardTrigger>
             <button
               :key="singleArtist?.id"
-              class="basic text-base"
+              class="basic-follow text-base"
               :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
               @click="toggleFollowArtist(singleArtist.is_followed, singleArtist.id)">
-              follow
+              {{ singleArtist?.is_followed ? 'Following' : 'Follow' }}
             </button>
           </HoverCardTrigger>
           <!-- 辨識登入狀態，未登入才顯示提示框 -->
@@ -36,6 +36,7 @@
 
     <!-- 盒子(含區塊二及區塊三) -->
     <div class="md:flex md:justify-between md:items-center lg:w-[70%] lg:mx-auto">
+      
       <!-- 表演者介紹(區塊二) start -->
       <section class="mb-[150px] md:mb-0 md:w-[45%]">
         <p class="break-all text-justify pb-10 md:pb-6 md:text-[12px] lg:text-[13px]">
@@ -195,15 +196,18 @@ export default {
 
     async getSingleArtistData(id) {
       try {
-        setIsLoading();
+        // setIsLoading();
 
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
+
       } catch (error) {
         console.log(error);
-      } finally {
-        setIsLoading();
-      }
+
+      } 
+      // finally {
+      //   setIsLoading();
+      // }
     },
     // 追蹤功能
     toggleFollowArtist(isfollow, id) {
@@ -294,7 +298,13 @@ export default {
     },
   },
   mounted() {
+
+    setIsLoading();
     this.getSingleArtistData(Number(this.$route.params.id));
+
+    setTimeout(() => {
+       setIsLoading();
+    }, 300)
 
     if (this.AccessToken) {
       this.getSavedConcertsData();

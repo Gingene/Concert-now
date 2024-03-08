@@ -126,8 +126,14 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
 
   .basic {
     @apply flex items-center 
-    text-base h-10 px-4 py-2 rounded-btn1;
+    h-10 p-4 md:py-4 md:px-6 lg:py-5 lg:px-8 rounded-btn1
   }
+
+  .basic-follow {
+    @apply flex items-center 
+    text-base h-10 w-[100px]  justify-center rounded-btn1;
+  }
+
 
   // 粉色模糊
   .pink-blur {
