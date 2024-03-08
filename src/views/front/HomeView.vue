@@ -33,7 +33,7 @@
         CONCERT NOW
       </h1>
       <!-- Search Now Button -->
-      <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent">
+      <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent" @click="openModal">
         <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
@@ -601,6 +601,10 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
+    openModal() {
+      const searchModal = document.querySelector('.searchModal');
+      searchModal.click();
+    },
     ...mapActions(useVenuesStore, ['getVenueInfo']),
   },
   computed: {

@@ -160,7 +160,7 @@ export const postFollowConcets = async (id) => {
     const res = await http.post(url);
     return res;
   } catch (error) {
-    console.log('[PostFollowConcets Failed]', error);
+    console.error('[PostFollowConcets Failed]', error);
     throw error;
   }
 };
@@ -173,7 +173,7 @@ export const deleteFollowConcets = async (id) => {
     const res = await http.delete(url);
     return res;
   } catch (error) {
-    console.log('[DeleteFollowConcets Failed]', error);
+    console.error('[DeleteFollowConcets Failed]', error);
     throw error;
   }
 };

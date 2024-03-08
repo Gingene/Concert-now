@@ -72,7 +72,6 @@ export const useVenuesStore = defineStore('venues', {
         .get(`${path.venues}/${id}`)
         .then((res) => {
           this.venue = res.data.data;
-          // console.log(this.venue);
         })
         .catch((err) => {
           console.error(err);

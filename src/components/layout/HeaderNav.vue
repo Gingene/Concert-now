@@ -9,7 +9,7 @@
         <span class="absolute text-black-60 top-2 left-3">Search now</span>
         <Search class="absolute text-black-60 top-2 right-3" />
         <Dialog :open="openSearchModal" @update:open="openModal">
-          <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25" @click="searchAll('')"> </DialogTrigger>
+          <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25 searchModal" @click="searchAll('')"> </DialogTrigger>
           <DialogContent class="max-w-[90%] p-8 rounded-md" :class="{ 'h-full': concertResults.length || artistResults.length || venueResults.length }">
             <DialogHeader>
               <DialogTitle>

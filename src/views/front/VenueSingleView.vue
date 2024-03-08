@@ -61,18 +61,18 @@
                     <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
                   </Button>
                 </DialogTrigger>
-                <DialogContent class="max-w-sm md:max-w-xl">
-                  <DialogHeader class="mb-6" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
+                <DialogContent class="max-w-sm md:max-w-3xl">
+                  <DialogHeader class="mb-6">
                     <DialogTitle>留下評論</DialogTitle>
                     <DialogDescription>
                       <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
                     </DialogDescription>
                   </DialogHeader>
-                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm" :class="{ 'w-[90%]': concertId, 'md:w-full': concertId }">
+                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm">
                     <div class="relative flex items-center">
                       <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
                       <Select v-model="commentSeatArea" id="seat-select">
-                        <SelectTrigger class="ml-[7rem] border-white">
+                        <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
                           <SelectValue placeholder="選取座位區" />
                         </SelectTrigger>
                         <SelectContent>
@@ -86,13 +86,16 @@
                     <div class="flex items-center">
                       <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
                       <Select id="concert-select" v-model="concertId">
-                        <SelectTrigger class="ml-[7rem] border-white" :class="{ 'w-3/5': concertId, 'md:w-full': concertId }">
+                        <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
                           <SelectValue placeholder="選取演唱會" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>選取演唱會</SelectLabel>
-                            <SelectItem :value="concert.id.toString()" v-for="concert in venue.concerts" :key="concert.id"> {{ concert.title }} </SelectItem>
+                            <SelectItem :value="concert.id.toString()" v-for="concert in venue.concerts" :key="concert.id">
+                              {{ concert.title }}
+                              <time class="text-black-40">{{ concert.holding_time.split(' ')[0] }}</time>
+                            </SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
@@ -101,7 +104,7 @@
                       <div class="relative flex items-center mb-4">
                         <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
                         <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
-                        <Button type="button" class="ml-[7rem] border-white border w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
+                        <Button type="button" class="ml-[7rem] border-white border w-[220px] md:w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
                           <span v-if="!images.length">未選擇任何檔案</span>
                           <span v-else>已選擇{{ images.length }}個檔案</span>
                         </Button>
@@ -471,6 +474,8 @@ export default {
     // AOS.init();
   },
   updated() {
+    // document.title = this.venue.title;
+    // console.log(document.title);
     const accordionButtons = document.querySelectorAll('.accordion-button');
 
     accordionButtons.forEach((item) => {

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
 
 const cookies = useCookies();
 const { toast } = useToast();
@@ -17,13 +18,18 @@ export const useUserStore = defineStore('user', {
   }),
   actions: {
     getUserDynamic() {
+      const { setIsLoading } = loadingStore();
+      setIsLoading();
       http
         .get(`${path.me}`)
         .then((res) => {
           this.userDynamic = res.data.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
         });
     },
     getToken() {
@@ -42,7 +48,7 @@ export const useUserStore = defineStore('user', {
           this.followedArtists = res.data.data.followed_artists;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     logout() {
