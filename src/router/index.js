@@ -133,6 +133,16 @@ const router = createRouter({
           component: () => import('../views/admin/AdminConcertsView.vue'),
         },
         {
+          path: 'artists',
+          name: 'admin-artists',
+          component: () => import('../views/admin/AdminArtistsView.vue'),
+        },
+        {
+          path: 'venues',
+          name: 'admin-venues',
+          component: () => import('../views/admin/AdminVenuesView.vue'),
+        },
+        {
           path: 'analysis',
           name: 'admin-analysis',
           component: () => import('../views/admin/AnalysisView.vue'),

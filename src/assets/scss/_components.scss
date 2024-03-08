@@ -42,7 +42,7 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   .font-TC-display {
     @apply text-7xl font-black drop-shadow-dark;
   }
-  
+
   // 首頁標題字體隨螢幕縮放自適應，letter-spacing對應文字-4%
   .display-title {
     @apply font-display font-black leading-display;
@@ -121,19 +121,18 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
 
   // 字體大小
   .default {
-    @apply h-10 px-4 py-2 rounded-btn1
+    @apply h-10 px-4 py-2 rounded-btn1;
   }
 
   .basic {
     @apply flex items-center 
-    h-10 p-4 md:py-4 md:px-6 lg:py-5 lg:px-8 rounded-btn1
+    h-10 p-4 md:py-4 md:px-6 lg:py-5 lg:px-8 rounded-btn1;
   }
 
   .basic-follow {
     @apply flex items-center 
     text-base h-10 w-[100px]  justify-center rounded-btn1;
   }
-
 
   // 粉色模糊
   .pink-blur {
@@ -164,10 +163,9 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   .tiffany-outline {
     @apply border-2 border-tiffany text-tiffany hover:bg-tiffany hover:text-primary;
   }
-  
-   // 藍色 active
-  .tiffany-follow {
-    @apply border-2 border-tiffany bg-tiffany text-primary
-  }
 
+  // 藍色 active
+  .tiffany-follow {
+    @apply border-2 border-tiffany bg-tiffany text-primary;
+  }
 }

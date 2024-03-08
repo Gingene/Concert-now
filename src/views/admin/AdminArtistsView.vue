@@ -2,49 +2,35 @@
   <!-- Search/Command -->
   <div class="flex gap-6 mb-8 relative">
     <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
-      <Input type="text" placeholder="輸入演唱會名稱" v-model="searchText" @keyup="searchAdminConcerts(searchText)" />
+      <Input type="text" placeholder="輸入表演者名稱" v-model="searchText" />
       <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
     </div>
-    <!-- 國籍選擇 -->
+    <!-- 國籍篩選 -->
     <div class="w-[15%] lg:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
       <Select>
         <SelectTrigger>
-          <SelectValue placeholder="表演者國籍" />
+          <SelectValue placeholder="國籍" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel class="tracking-wide">表演者國籍</SelectLabel>
-            <SelectItem v-for="country in countryRanges" :key="country" :value="country" @click="getFilterAdminConcerts('country', country)"> {{ country }} </SelectItem>
+            <SelectItem v-for="country in countryRanges" :key="country" :value="country" @click="getAdminConcerts('country', country)"> {{ country }} </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
     </div>
-    <!-- 演唱會選擇 -->
-    <div class="w-[15%] lg:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
-      <Select>
-        <SelectTrigger>
-          <SelectValue placeholder="演唱會時間" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>演唱會時間</SelectLabel>
-            <SelectItem v-for="time in timeRanges" :key="time" :value="time" @click="getFilterAdminConcerts('time', time)">{{ time }}</SelectItem>
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-    </div>
-    <!-- 新增演唱會 -->
+    <!-- 新增表演者 -->
     <div class="lg:pt-5 mt-auto">
       <Dialog>
         <DialogTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增演唱會 </Button>
+          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增表演者 </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[850px]">
           <DialogHeader>
-            <DialogTitle class="text-center">新增演唱會</DialogTitle>
-            <DialogDescription>請新增演唱會</DialogDescription>
+            <DialogTitle class="text-center">新增表演者</DialogTitle>
+            <DialogDescription>請新增表演者</DialogDescription>
           </DialogHeader>
-          <div class="grid grid-cols-2 place-items-start gap-8">
+          <!-- <div class="grid grid-cols-2 place-items-start gap-8">
             <div class="grid gap-4 py-4">
               <div class="grid grid-cols-4 items-center gap-4">
                 <Label for="title" class="text-left"> 演唱會名稱 </Label>
@@ -135,7 +121,7 @@
               </div>
               <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔購票網站名稱與網站連結</span>
             </div>
-          </div>
+          </div> -->
           <DialogFooter>
             <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
             <Button type="button" @click="addNewConcert">新增</Button>
@@ -167,25 +153,23 @@
       <TableRow class="hover:bg-white text-nowrap" style="color: black !important">
         <TableHead></TableHead>
         <TableHead>表演者名稱</TableHead>
-        <TableHead>演唱會標題</TableHead>
-        <TableHead>演唱會日期</TableHead>
-        <TableHead>演唱會地點</TableHead>
-        <TableHead>收藏數</TableHead>
+        <!-- <TableHead>表演者國籍</TableHead> -->
+        <TableHead>即將舉辦演唱會數</TableHead>
+        <TableHead>追蹤人數</TableHead>
         <TableHead></TableHead>
       </TableRow>
     </TableHeader>
     <TableBody class="text-gray-600">
-      <TableRow v-for="(concert, index) in adminConcerts" :key="concert.id">
+      <TableRow v-for="artist in artists" :key="artist.id">
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
           <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
-        <TableCell class="text-purple-primary">{{ concert.artist?.name }}</TableCell>
-        <TableCell>{{ concert.title }}</TableCell>
-        <TableCell>{{ concert.holding_time }}</TableCell>
-        <TableCell>{{ concert.venue?.title }}</TableCell>
-        <TableCell>{{ ((concert.saver_count * 7) / 6) * 258 * (index + 4) }}</TableCell>
-        <TableCell>
+        <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
+        <TableCell>{{ artist.concert_count }}</TableCell>
+        <TableCell>{{ artist.follower_count }}</TableCell>
+        <!-- <TableCell>{{ venue?.title }}</TableCell> -->
+        <TableCell class="text-right">
           <Dialog>
             <DialogTrigger as-child>
               <Button variant="none" class="hover:text-[#6366f1]">
@@ -307,145 +291,42 @@ import {
 </script>
 
 <script>
-import { mapState, mapActions } from 'pinia';
-import { useConcertsStore } from '@/stores/concerts';
-import { http, adminPath } from '@/api';
-// import { loadingStore } from '@/stores/isLoading';
+import { http, path } from '@/api';
+import { loadingStore } from '@/stores/isLoading';
 
-// const { setIsLoading } = loadingStore();
+const { setIsLoading } = loadingStore();
 
 export default {
   data() {
     return {
       // 篩選選項
-      timeRanges: ['全部', '本日', '本週', '本月'],
       countryRanges: ['全部', '台灣', '日本', '韓國', '歐美', '其它'],
       searchText: '',
-      // 表單選項
-      selectVenues: [
-        {
-          id: '1',
-          name: '台北國際會議中心',
-        },
-        {
-          id: '2',
-          name: 'Zepp New Taipei',
-        },
-        {
-          id: '3',
-          name: '台北流行音樂中心',
-        },
-        {
-          id: '4',
-          name: '高雄流行音樂中心',
-        },
-        {
-          id: '5',
-          name: 'Legacy Taichung',
-        },
-        {
-          id: '6',
-          name: '台北小巨蛋',
-        },
-      ],
-      selectArtists: [
-        {
-          id: '1',
-          name: 'Tom Jones',
-        },
-        {
-          id: '2',
-          name: 'Apink',
-        },
-        {
-          id: '3',
-          name: 'FTIsland',
-        },
-        {
-          id: '4',
-          name: '理想混蛋',
-        },
-        {
-          id: '5',
-          name: '溫蒂漫步',
-        },
-        {
-          id: '6',
-          name: 'Kodaline',
-        },
-        {
-          id: '7',
-          name: 'YOASOBI',
-        },
-        {
-          id: '8',
-          name: '原子邦妮',
-        },
-        {
-          id: '9',
-          name: 'HYBS',
-        },
-        {
-          id: '10',
-          name: '宇宙人',
-        },
-        {
-          id: '11',
-          name: 'Itzy',
-        },
-        {
-          id: '12',
-          name: 'King Gnu',
-        },
-      ],
       // 暫存待處理的資料
       tempConcert: {},
+      artists: [],
     };
   },
   methods: {
-    ...mapActions(useConcertsStore, ['getAllAdminConcerts', 'getFilterAdminConcerts', 'searchAdminConcerts']),
-    readFile(event, topic) {
-      this.tempConcert[`cover_${topic}`] = event.target.files[0];
-    },
-    addNewConcert() {
-      this.tempConcert.price_list = this.tempConcert.priceList?.split(',');
-      this.tempConcert.holding_time = `${this.tempConcert.holdingDate} ${this.tempConcert.holdingTime}:00`;
-      this.tempConcert.sales_time = `${this.tempConcert.salesDate} ${this.tempConcert.salesTime}:00`;
-      this.tempConcert.organizers = this.tempConcert.organizerList?.split(',');
-
-      const deleteList = ['priceList', 'holdingDate', 'holdingTime', 'salesDate', 'salesTime', 'organizerList'];
-      for (let i = 0; i < deleteList.length; i++) {
-        delete this.tempConcert[`${deleteList[i]}`];
-      }
-
-      this.tempConcert.foreign_urls = [];
-      for (let i = 0; i < 3; i++) {
-        if (this.tempConcert[`foreignUrl${i}`]) {
-          this.tempConcert.foreign_urls.push({
-            name: this.tempConcert[`foreignUrl${i}`]?.split(',')[0],
-            url: this.tempConcert[`foreignUrl${i}`]?.split(',')[1],
-          });
-        }
-        delete this.tempConcert[`foreignUrl${i}`];
-      }
-
-      // console.log(this.tempConcert);
+    getArtists() {
+      setIsLoading();
       http
-        .post(adminPath.concerts, { ...this.tempConcert })
+        .get(`${path.artists}`)
         .then((res) => {
           // console.log(res);
-          this.getAllAdminConcerts();
+          this.artists = res.data.data;
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
         });
     },
   },
-  computed: {
-    ...mapState(useConcertsStore, ['adminConcerts', 'pagination']),
-  },
+  computed: {},
   mounted() {
-    this.getAllAdminConcerts();
+    this.getArtists();
   },
 };
 </script>
