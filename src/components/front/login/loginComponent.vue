@@ -1,5 +1,5 @@
 <template>
-  <Tabs :default-value="defaultPage" class="px-0 mt-48 mb-24 w-[400px] container">
+  <Tabs :default-value="defaultPage" class="min-h-full px-0 mt-48 mb-24 w-[400px] container">
     <!-- Trigger: Login / Sign Up -->
     <TabsList class="grid grid-cols-2 w-full gap-1 p-0 px-6 h-12 text-white bg-transparent">
       <TabsTrigger @click="$router.push({ name: 'login' })" value="login" class="rounded-b-none py-4 bg-black-85 data-[state=active]:bg-white data-[state=active]:text-black"> 登入 </TabsTrigger>
@@ -19,40 +19,43 @@
           <CardDescription> 若你還沒有加入會員，請先去註冊。 </CardDescription>
         </CardHeader>
         <!-- Card: content -->
-        <CardContent class="space-y-4">
+        <CardContent class="flex flex-col">
           <form @submit="method">
-            <FormField v-slot="{ componentField }" name="email">
+            <FormField v-slot="{ componentField }" name="email" class="space-y-4">
               <FormItem>
                 <FormLabel>信箱</FormLabel>
                 <FormControl>
-                  <Input type="email" v-bind="componentField" autocomplete="email" class="text-base tracking-widest" />
+                  <Input 
+                  type="email" 
+                  v-bind="componentField" 
+                  autocomplete="email" 
+                  class="tracking-widest" />
                 </FormControl>
-                <FormMessage class="text-lime-300" />
+                <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="password">
               <FormItem>
                 <FormLabel>密碼</FormLabel>
                 <FormControl>
-                  <Input type="password" v-bind="componentField" autocomplete="password" class="text-base tracking-widest" />
+                  <Input 
+                  type="password" 
+                  v-bind="componentField" 
+                  autocomplete="password" 
+                  class="tracking-widest" />
                 </FormControl>
-                <FormMessage class="text-lime-300" />
+                <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
-            <Button variant="white-outline" class="my-2"> 確認送出 </Button>
+            <Button variant="white-outline" class="mt-5"> 確認送出 </Button>
           </form>
-        </CardContent>
-        <!-- Card: footer -->
-        <CardFooter class="flex justify-between items-center">
-          <Button variant="white-outline" class="my-2"> 確認送出 </Button>
-          <!-- forget passwords -->
           <HoverCard>
             <HoverCardTrigger as-child>
-              <Button class="underline decoration-solid underline-offset-8"> 忘記密碼 </Button>
+              <Button class="underline decoration-solid underline-offset-8 self-end"> 忘記密碼 </Button>
             </HoverCardTrigger>
             <HoverCardContent class="w-80"> oops! 這是 demo 網頁，不許你忘記密碼喔 (´・Å・`) </HoverCardContent>
           </HoverCard>
-        </CardFooter>
+        </CardContent>
       </Card>
     </TabsContent>
 
@@ -69,42 +72,49 @@
           <CardDescription> 若你已有會員帳號，可以直接到登入頁面。 </CardDescription>
         </CardHeader>
         <!-- Card: content -->
-        <CardContent class="space-y-4">
+        <CardContent class="flex flex-col">
           <form @submit="method">
             <FormField v-slot="{ componentField }" name="name">
               <FormItem>
                 <FormLabel>名稱</FormLabel>
                 <FormControl>
-                  <Input type="text" v-bind="componentField" class="text-base tracking-widest" />
+                  <Input 
+                  type="text" 
+                  v-bind="componentField" 
+                  class="tracking-widest" />
                 </FormControl>
-                <FormMessage class="text-lime-300" />
+                <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="email">
               <FormItem>
                 <FormLabel>信箱</FormLabel>
                 <FormControl>
-                  <Input type="email" v-bind="componentField" autocomplete="email" class="text-base tracking-widest" />
+                  <Input 
+                  type="email" 
+                  v-bind="componentField" 
+                  autocomplete="email" 
+                  class="tracking-widest" />
                 </FormControl>
-                <FormMessage class="text-lime-300" />
+                <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
             <FormField v-slot="{ componentField }" name="password">
               <FormItem>
                 <FormLabel>密碼</FormLabel>
                 <FormControl>
-                  <Input type="password" v-bind="componentField" autocomplete="password" class="text-base tracking-widest" />
+                  <Input 
+                  type="password" 
+                  v-bind="componentField" 
+                  autocomplete="password" 
+                  class="tracking-widest" />
                 </FormControl>
-                <FormMessage class="text-lime-300" />
+                <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
-            <Button type="submit" variant="btn1"> 送出訂單 </Button>
+            <Button type="submit" variant="white-outline" class="mt-5"> 送出訂單 </Button>
           </form>
         </CardContent>
-        <!-- Card: footer -->
-        <CardFooter>
-          <Button variant="white-outline" class="my-2">確認送出</Button>
-        </CardFooter>
       </Card>
     </TabsContent>
   </Tabs>
@@ -112,17 +122,14 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 const props = defineProps(['defaultPage']);
 const emits = defineEmits(['method']);
-
-console.log(props);
 
 const method = (values) => {
   emits('method', values);
@@ -130,61 +137,14 @@ const method = (values) => {
 </script>
 
 <script>
-import axios from 'axios';
-const { VITE_APP_SERVICE_API } = import.meta.env;
 export default {
-  data() {
-    return {
-      userSignUp: {
-        name: '',
-        email: '',
-        password: '',
-      },
-      userLogin: {
-        email: '',
-        password: '',
-      },
-    };
-  },
   methods: {
     method(test) {
       this.$emit('method', test);
     },
-    signup() {
-      axios
-        .post(`${VITE_APP_SERVICE_API}/api/register`, this.userSignUp)
-        .then((res) => {
-          alert('註冊成功！可以去登入了ヽ(●´∀`●)ﾉ');
-          this.userSignUp.name = '';
-          this.userSignUp.email = '';
-          this.userSignUp.password = '';
-          // window.location = '@/login#/login';
-        })
-        .catch((err) => {
-          console.log(err);
-          alert('註冊失敗！');
-        });
-    },
-    login() {
-      axios
-        .post(`${VITE_APP_SERVICE_API}/api/login`, this.userLogin)
-        .then((res) => {
-          const { data } = res.data;
-          document.cookie = `AccessToken=${data.access_token}; path=/`;
-          localStorage.setItem('user', JSON.stringify(res.data.data.user));
-          alert('登入成功！');
-          this.userLogin.email = '';
-          this.userLogin.password = '';
-          // window.location = '@/me';
-          // console.log(this.$router);
-          this.$router.push('/member');
-        })
-        .catch((err) => {
-          console.log(err);
-          alert('登入失敗！');
-          this.userLogin.password = '';
-        });
-    },
   },
 };
 </script>
+
+<style scoped>
+</style>
