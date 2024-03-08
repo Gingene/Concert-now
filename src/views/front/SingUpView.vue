@@ -1,5 +1,5 @@
 <template>
-  <LoginComponent :defaultPage="'login'" @method="handleLogin" />
+  <LoginComponent :defaultPage="'signup'" @method="handleSignup" />
 </template>
 
 <script setup>
@@ -13,6 +13,7 @@ const router = useRouter();
 
 const formSchema = toTypedSchema(
   z.object({
+    name: z.string({ required_error: '必填' }).max(20, { message: '需要少於20個字' }),
     email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
     password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
   }),
@@ -22,37 +23,26 @@ const form = useForm({
   validationSchema: formSchema,
 });
 
-const login = (user) => {
+const signup = (user) => {
   console.log(user);
   http
-    .post(path.login, user)
+    .post(path.register, user)
     .then((res) => {
-      const { data } = res.data;
-      document.cookie = `AccessToken=${data.access_token}; path=/`;
-      localStorage.setItem('user', JSON.stringify(res.data.data.user));
-      alert('登入成功！');
-
-      // window.location = '@/me';
-      // console.log(this.$router);
-      // this.$router.push('/member');
-      router.push('/member');
+      alert('註冊成功！可以去登入了ヽ(●´∀`●)ﾉ');
+      router.push({ name: 'login' });
     })
     .catch((err) => {
       console.log(err);
-      alert('登入失敗！');
-      this.userLogin.password = '';
+      alert('註冊失敗！');
     });
 };
 
-const handleLogin = form.handleSubmit((values) => {
+const handleSignup = form.handleSubmit((values) => {
   // loginValue = values;
   // this.$ref.form.reset();
   console.log(values);
-  login(values);
+  signup(values);
+
   form.resetForm();
 });
-</script>
-
-<script>
-export default {};
 </script>

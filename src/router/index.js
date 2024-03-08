@@ -32,6 +32,17 @@ const router = createRouter({
           },
         },
         {
+          path: 'signup',
+          name: 'signup',
+          component: () => import('../views/front/SingUpView.vue'),
+          beforeEnter: (to, from) => {
+            const { AccessToken } = useUserStore();
+            if (AccessToken) {
+              return { name: 'member' };
+            }
+          },
+        },
+        {
           path: 'base',
           name: 'base',
           component: () => import('../views/front/BaseView.vue'),
