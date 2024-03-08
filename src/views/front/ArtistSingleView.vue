@@ -56,7 +56,9 @@
       <section class="artist-honors-relative md:w-[50%]">
         <p class="honors text-stroke-light bg-artistName">HONORS</p>
         <p class="bg-shadow-trans-text artist-honors w-[90%] md:w-[100%] ml-auto text-center break-keep py-[50px] px-[10px] md:py-[60px] rounded-[31px] z-[-1]">
-          <div v-for="(honor, index) in singleArtist?.honors" :key="index"> {{ honor }} <span v-if="singleArtist.honors?.length-1 !== index"><br />-<br /></span> </div>
+          <div v-for="(honor, index) in singleArtist?.honors" :key="index"> 
+            {{ honor }} <span v-if="singleArtist.honors?.length-1 !== index"><br />-<br /></span> 
+          </div>
         </p>
       </section>
       <!-- 表演者介紹(區塊三) end -->
@@ -68,7 +70,6 @@
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
       </TitleComponent>
-
       <div
         v-if="singleArtist?.upcoming_concerts.length > 0"
         v-for="upcoming in singleArtist?.upcoming_concerts"
@@ -119,7 +120,8 @@
         v-if="singleArtist?.historical_concerts.length > 0"
         v-for="historical in singleArtist?.historical_concerts"
         :key="historical.id"
-        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto">
+        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto"
+      >
         <div class="flex items-center">
           <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -280,7 +282,7 @@ export default {
     async postSaveConcertsData(id) {
       try {
         const res = await postSaveConcerts(id);
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(error);
       }
@@ -288,7 +290,7 @@ export default {
     async deleteSaveConcertsData(id) {
       try {
         const res = await deleteSaveConcerts(id);
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(error);
       }
@@ -304,7 +306,7 @@ export default {
 
     setTimeout(() => {
        setIsLoading();
-    }, 300)
+    }, 300);
 
     if (this.AccessToken) {
       this.getSavedConcertsData();

@@ -9,7 +9,7 @@ export const useArtistsStore = defineStore('artists', {
     async postFollowConcetsData(id) {
       try {
         const res = await postFollowConcets(id);
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(error);
       }
@@ -17,7 +17,7 @@ export const useArtistsStore = defineStore('artists', {
     async deleteFollowConcetsData(id) {
       try {
         const res = await deleteFollowConcets(id);
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(error);
       }
