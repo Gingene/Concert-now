@@ -104,14 +104,30 @@ export const useConcertsStore = defineStore('concerts', {
         this.pagination = data.pagination;
       });
     },
-    saveConcertAction(request, id) {
+    callSaveAction(id) {
+      // 每次調用callSaveAction，重新取得savedConcerts資料
+      const { savedConcerts, AccessToken } = useUserStore();
+      // 未登入，在頁面上已做過一次驗證
+      if (AccessToken === undefined) return;
+
+      let request = '';
+
+      // 取消收藏
+      if ([...savedConcerts].some((item) => item.id === id)) {
+        request = 'delete';
+      }
+      // 收藏
+      else {
+        request = 'post';
+      }
+
       http[request](`${path.concerts}/${id}/${request === 'post' ? 'save' : 'unsave'}`)
         .then((res) => {
           // console.log(res);
         })
         .then(() => {
           // 重新取得收藏與追蹤結果
-          getUserSavedAndFollowed();
+          getUserSavedAndFollowed(request);
           // toast({
           //   title: request === 'post' ? '已加入收藏' : '已取消收藏',
           // });
@@ -119,21 +135,6 @@ export const useConcertsStore = defineStore('concerts', {
         .catch((error) => {
           console.error(error);
         });
-    },
-    callSaveAction(id) {
-      // 每次調用callSaveAction，重新取得savedConcerts資料
-      const { savedConcerts, AccessToken } = useUserStore();
-      // 未登入，在頁面上已做過一次驗證
-      if (AccessToken === undefined) return;
-
-      // 取消收藏
-      if ([...savedConcerts].some((item) => item.id === id)) {
-        this.saveConcertAction('delete', id);
-      }
-      // 收藏
-      else {
-        this.saveConcertAction('post', id);
-      }
     },
   },
 });

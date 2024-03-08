@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import NotFound from '../views/NotFound.vue';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { http, adminPath } from '@/api';
 
 const { toast } = useToast();
 const router = createRouter({
@@ -91,10 +92,6 @@ const router = createRouter({
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (!AccessToken) {
-              toast({
-                title: '請先登入',
-                description: '',
-              });
               return { name: 'login' };
             }
           },
@@ -115,6 +112,15 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/admin/AdminView.vue'),
       beforeEnter: (to, from) => {
+        http
+          .get(adminPath.users)
+          .then((res) => {
+            // console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+            return { name: 'home' };
+          });
         const { AccessToken, user } = useUserStore();
         if (!AccessToken) {
           toast({
