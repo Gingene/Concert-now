@@ -41,7 +41,7 @@ http.interceptors.response.use(
     return res;
   },
   (err) => {
-    console.log(err);
+    console.error(err);
     if (!err.response) {
       alertMessage('error', '是不是沒有連接伺服器呢? 請看console><');
       toast({
@@ -70,7 +70,7 @@ http.interceptors.response.use(
         break;
       case 404:
         // alertMessage('error', '對不起我們找不到你要的><');
-        location.replace(`${window.location.origin}${window.location.pathname}#/notfond`);
+        location.replace(`${window.location.origin}${window.location.pathname}#/notfound`);
         toast({
           title: '對不起我們找不到你要的><',
           description: '',
@@ -161,6 +161,7 @@ export const postFollowConcets = async (id) => {
     return res;
   } catch (error) {
     console.log('[PostFollowConcets Failed]', error);
+    throw error;
   }
 };
 
@@ -173,6 +174,7 @@ export const deleteFollowConcets = async (id) => {
     return res;
   } catch (error) {
     console.log('[DeleteFollowConcets Failed]', error);
+    throw error;
   }
 };
 

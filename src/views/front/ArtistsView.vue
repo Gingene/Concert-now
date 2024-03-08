@@ -44,8 +44,8 @@
           </RouterLink>
           <HoverCard>
             <HoverCardTrigger>
-              <button :key="artist.id" class="basic text-base" :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'" @click="toggleFollowArtists(artist.is_followed, artist.id)">
-                follow
+              <button :key="artist.id" class="basic-follow text-base" :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'" @click="toggleFollowArtists(artist.is_followed, artist.id)">
+                {{ artist.is_followed ? 'Following' : 'Follow' }}
               </button>
             </HoverCardTrigger>
             <!-- 辨識登入狀態，未登入才顯示提示框 -->
@@ -175,7 +175,6 @@ export default {
     },
     async getArtistsData(page = 1) {
       try {
-        setIsLoading();
 
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
@@ -183,6 +182,7 @@ export default {
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
+        
       } finally {
         setIsLoading();
       }

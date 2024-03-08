@@ -1,29 +1,30 @@
 <template>
   <div
-    class="w-full h-[400px] md:h-[600px] lg:h-[850px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom shadow"
+    class="w-full h-[400px] md:h-[460px] lg:h-[600px] 2xl:h-[700px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-bottom shadow"
     :style="`background-image: url(${venue.picture?.horizontal})`"></div>
-  <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[600px] lg:pt-[850px] space-y-6 lg:space-y-10">
-    <div class="text-center">
-      <h2 class="text-2xl font-display lg:text-3xl 2xl:text-5xl font-black">{{ venue.title }}</h2>
-    </div>
+  <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[460px] lg:pt-[600px] 2xl:pt-[700px] space-y-6 lg:space-y-10">
     <main class="space-y-6 lg:space-y-10">
-      <div class="py-6 lg:hidden text-center">
-        {{ venue.address }}
+      <div class="text-center">
+        <h1 class="text-4xl lg:text-5xl font-black">{{ venue.title }}</h1>
+        <div class="py-4 lg:hidden text-center text-black-40">
+          {{ venue.address }}
+        </div>
+        <div class="hidden lg:grid grid-cols-3 text-lg text-center text-black-40" @mouseover="hoverTitle" @mouseleave="removeHoverTitle">
+          <div class="collapse-left py-4">{{ venue.seat_amount }} 席次</div>
+          <div class="col-start-2 py-4">{{ venue.eng_title }}</div>
+          <div class="collapse-right py-4">{{ venue.address }}</div>
+        </div>
       </div>
-      <div class="hidden lg:grid grid-cols-3 text-lg text-center" @mouseover="hoverTitle" @mouseleave="removeHoverTitle">
-        <div class="collapse-left py-6">{{ venue.seat_amount }} 席次</div>
-        <div class="col-start-2 py-6">{{ venue.eng_title }}</div>
-        <div class="collapse-right py-6">{{ venue.address }}</div>
-      </div>
+
       <TitleComponent class="flex justify-center">
         <template #subTitle> VENUES </template>
         <template #mainTitle> 場地體驗 </template>
       </TitleComponent>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <article class="lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <article class="lg:order-2 lg:col-span-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
           <!-- Venue Title -->
-          <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-4xl 2xl:text-6xl pb-2">{{ venue.title }}</h2>
+          <!-- <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-xl 2xl:text-2xl pb-2">{{ venue.title }}</h2> -->
           <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
           <!-- Venue Seats -->
           <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
@@ -31,7 +32,7 @@
               @click="activeArea(area)"
               v-for="(area, index) in venue.seat_areas"
               :key="`${index + 123}`"
-              class="text-[12px] md:text-base lg:text-xl gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1"
+              class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1"
               :class="area === seatArea ? 'active' : ''">
               <p>
                 {{ area }}
@@ -39,10 +40,10 @@
             </div>
           </div>
         </article>
-        <div class="space-y-6 lg:space-y-10 box-shadow-light2 p-6 lg:p-10 rounded-btn2">
-          <div class="flex justify-between pb-6 lg:pb-10">
+        <div class="space-y-6 lg:space-y-10 box-shadow-light2 px-4 py-6 sm:p-10 rounded-btn2 lg:col-span-3">
+          <div class="flex justify-between items-center">
             <Select v-model="seatArea">
-              <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 lg:py-6 lg:px-8 rounded-btn1">
+              <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
                 <SelectValue placeholder="座位區" />
               </SelectTrigger>
               <SelectContent>
@@ -56,10 +57,8 @@
             <div class="text-center">
               <Dialog :open="openCommentModal" @update:open="openModal">
                 <DialogTrigger as-child>
-                  <Button variant="ghost" class="space-x-4 md:text-lg lg:text-xl">
-                    <span>留下評論</span>
-                    <!-- <span class="inline-block  bg-black-0 hover:bg-black"></span> -->
-                    <font-awesome-icon icon="fa-solid fa-plus" />
+                  <Button variant="white-outline" class="rounded-full p-2">
+                    <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
                   </Button>
                 </DialogTrigger>
                 <DialogContent class="max-w-sm md:max-w-xl">
@@ -137,15 +136,11 @@
             </div>
           </div>
           <ScrollArea class="lg:h-[350px]">
-            <div
-              v-for="(comment, index) in filterSeatComment"
-              :key="comment.id"
-              class="grid grid-cols-12 gap-x-3 border-b border-black-60 py-10 min-h-[150px] mt-6"
-              :class="{ 'border-t': index === 0 }">
-              <div class="col-span-2 sm:col-span-1 lg:col-span-2 xl:col-span-1">
+            <div v-for="(comment, index) in filterSeatComment" :key="comment.id" class="grid grid-cols-12 gap-x-3 border-b border-black-60 py-4 min-h-[150px]" :class="{ 'border-t': index === 0 }">
+              <div class="col-span-2 sm:col-span-1 lg:col-span-1">
                 <img :src="comment.user.profile_image_url" :alt="comment.user.name" class="rounded-full size-8 bg-white/25 object-cover" />
               </div>
-              <div class="col-span-8 sm:col-span-10 lg:col-span-8 xl:col-span-10 flex flex-col space-y-4">
+              <div class="col-span-8 sm:col-span-10 lg:col-span-10 xl:col-span-10 flex flex-col space-y-4">
                 <div class="space-x-3">
                   <span>{{ comment.user.name }}</span>
                   <span class="text-black-40">{{ comment.seat_area }}</span>
@@ -160,12 +155,12 @@
                 </div>
 
                 <div class="text-tiny text-black-60">
-                  <p class="truncate mb-2">{{ comment.concert.title }}</p>
+                  <p class="truncate">{{ comment.concert.title }}</p>
                   <time>{{ comment.created_at }}</time>
                 </div>
               </div>
 
-              <div class="col-span-2 sm:col-span-1 lg:col-span-2 xl:col-span-1">
+              <div class="col-span-2 sm:col-span-1 lg:col-span-1 lg:-ml-4 xl:ml-0">
                 <HoverCard :openDelay="0">
                   <HoverCardTrigger as-child>
                     <Button variant="ghost" class="p-1">
@@ -192,7 +187,7 @@
       <div class="marquee-text font-display text-stroke">{{ venue?.eng_title }}</div>
     </div> -->
     <div class="marquee-type bg-tiffany">
-      <div ref="marquee" class="flex text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-black text-black tracking-widest whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
+      <div ref="marquee" class="flex text-[5rem] md:text-[6.5rem] lg:text-[8rem] font-black text-black tracking-[-1px] whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
         <p class="marquee space-x-4">
           <span>{{ venue.title }}</span>
           <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
@@ -215,7 +210,7 @@
     </TitleComponent>
     <div class="mt-4 lg:mt-6">
       <div class="mb-4 lg:mb-6">
-        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px]"></iframe>
+        <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px] rounded-md"></iframe>
       </div>
       <div class="space-y-6 lg:space-y-10">
         <!-- <template v-for="method in venue.transportation" :key="method.type">
@@ -457,6 +452,7 @@ export default {
   watch: {
     id(newId) {
       this.getVenue(newId);
+      this.seatArea = '';
     },
     concertId(newVal) {
       // const concert = this.venue.concerts.find((item) => item.id === +newVal);
