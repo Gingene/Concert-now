@@ -112,7 +112,7 @@
                 <FormMessage class="text-tiffany" />
               </FormItem>
             </FormField>
-            <Button type="submit" variant="white-outline" class="mt-5"> 送出訂單 </Button>
+            <Button type="submit" variant="white-outline" class="mt-5"> 確認送出 </Button>
           </form>
         </CardContent>
       </Card>
