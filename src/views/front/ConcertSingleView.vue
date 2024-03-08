@@ -354,6 +354,7 @@ export default {
       countdownTimer: {},
     };
   },
+  props: ['id'],
   inject: ['http', 'path'],
   methods: {
     ...mapActions(useConcertsStore, ['getSingleConcert', 'callSaveAction']),
@@ -429,6 +430,11 @@ export default {
     // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
     isSaved() {
       return [...this.savedConcerts];
+    },
+  },
+  watch: {
+    id(newId) {
+      this.getSingleConcert(newId);
     },
   },
   mounted() {

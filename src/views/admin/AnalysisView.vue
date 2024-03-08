@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-flow-row gap-5">
+  <div class="grid grid-flow-row gap-5 lg:pt-6">
     <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
       <Card v-for="item in totalData" :key="item.title" class="flex-1 hover:bg-slate-50">
         <CardHeader class="h-[72px]">

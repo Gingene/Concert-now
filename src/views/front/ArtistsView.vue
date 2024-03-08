@@ -77,7 +77,7 @@
     </Pagination>
     <!-- Pagination end -->
 
-    <hr class="border-b-2 border-black-60">
+    <hr class="border-b-2 border-black-60" />
   </section>
 </template>
 
@@ -104,7 +104,6 @@ import { loadingStore } from '@/stores/isLoading';
 const { setIsLoading } = loadingStore();
 
 const { swalWithStylingButtons } = useDarkAlert();
-
 
 export default {
   data() {
@@ -168,17 +167,11 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id)
-          .then(() => this.getArtistsData());
-        
-          
+        this.postFollowConcetsData(id).then(() => this.getArtistsData());
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id)
-          .then(() => this.getArtistsData());
+        this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
       }
-
-      
     },
     async getArtistsData(page = 1) {
       try {
@@ -190,13 +183,11 @@ export default {
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
-        
       } finally {
         setIsLoading();
       }
     },
     FilterByCountry(country = '全部') {
-
       this.activeFilterCountry = country;
 
       country === '全部' ? (this.aristData.param = '') : (this.aristData.param = country);
