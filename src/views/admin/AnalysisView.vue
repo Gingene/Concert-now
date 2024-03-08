@@ -13,8 +13,7 @@
         <Card>
           <CardHeader class="flex flex-row items-center justify-between h-[94px]">
             <CardTitle class="text-xl">用戶瀏覽人數</CardTitle>
-            <Select
-              ><!-- ! 無法覆蓋 margin-top:6px -->
+            <Select>
               <SelectTrigger class="justify-end w-auto">
                 <SelectValue placeholder="日" />
               </SelectTrigger>
@@ -87,15 +86,14 @@
                   <TableHead class="w-[100px]">檢視量</TableHead>
                   <TableHead class="text-nowrap">收藏量</TableHead>
                   <TableHead>演唱會</TableHead>
-                  <!-- <TableHead class="text-right">表演者</TableHead> -->
                 </TableRow>
               </TableHeader>
               <TableBody>
                 <TableRow v-for="(concert, index) in concerts.splice(0, 5)" :key="concert + index">
                   <TableCell class="font-medium">
-                    {{ Number.parseInt(829 / (index + 1)) }}
+                    {{ Number.parseInt(5451 / (index + 1)) }}
                   </TableCell>
-                  <TableCell>{{ Number.parseInt(168 / (index + 1)) }}</TableCell>
+                  <TableCell>{{ Number.parseInt(1622 / (index + 1)) }}</TableCell>
                   <TableCell>
                     <router-link :to="`/concerts/${concert.id}`" target="_blank">
                       {{ concert.title }}
