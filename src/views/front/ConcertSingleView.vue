@@ -148,14 +148,14 @@
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-            <HoverCard>
-              <HoverCardTrigger v-if="!hasHold">
+            <Popover>
+              <PopoverTrigger v-if="!hasHold">
                 <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
                   <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
                 </button>
-              </HoverCardTrigger>
-              <HoverCardContent> 不能當預言家喔 (⁎⁍̴̛ᴗ⁍̴̛⁎) 演唱會舉辦後才可以新增歌曲 </HoverCardContent>
-            </HoverCard>
+              </PopoverTrigger>
+              <PopoverContent> 不能當預言家喔 (⁎⁍̴̛ᴗ⁍̴̛⁎) 演唱會舉辦後才可以新增歌曲 </PopoverContent>
+            </Popover>
             <DialogContent class="rounded-md">
               <DialogHeader>
                 <DialogTitle class="mb-6">新增歌曲</DialogTitle>
@@ -294,7 +294,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import Toaster from '@/components/ui/toast/Toaster.vue';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -306,6 +305,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
@@ -361,7 +361,7 @@ export default {
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
 
     changeYTplayer(url) {
-      if (url.includes('iframe')) {
+      if (url.includes('embed')) {
         const num = url.indexOf('embed/') + 6;
         this.ytId = url.slice(num, num + 11);
       } else if (url.includes('youtu.be/')) {
@@ -391,7 +391,7 @@ export default {
         .then((res) => {
           this.getSingleConcert(this.$route.params.id);
           // 延後關閉時間
-          setTimeout((this.openTwo = false), 1500);
+          // setTimeout((this.openTwo = false), 1500);
           this.songs = [
             {
               name: '',
@@ -412,6 +412,7 @@ export default {
             title: '曲目新增成功',
             description: '',
           });
+          this.openTwo = false;
         })
         .catch((error) => {
           console.error(error);

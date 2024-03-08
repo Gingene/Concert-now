@@ -67,7 +67,7 @@
                 <div>
                   <p class="text-tiny lg:text-sm text-black-60">
                     {{ concert.holding_time.substring(0, 10) }}
-                    <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85">已結束</Badge>
+                    <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85 hover:bg-black-85">已結束</Badge>
                   </p>
                   <router-link :to="`/concerts/${concert.id}`">
                     <CardTitle class="text-base lg:text-lg text-white">{{ concert.title }}</CardTitle>
