@@ -175,7 +175,7 @@
       </TableRow>
     </TableHeader>
     <TableBody class="text-gray-600">
-      <TableRow v-for="(concert, index) in concerts" :key="concert.id">
+      <TableRow v-for="(concert, index) in adminConcerts" :key="concert.id">
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
           <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
@@ -443,7 +443,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['concerts', 'pagination']),
+    ...mapState(useConcertsStore, ['adminConcerts', 'pagination']),
   },
   mounted() {
     this.getAdminConcerts('country', '全部');

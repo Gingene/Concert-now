@@ -388,7 +388,6 @@ export default {
       http
         .post(`${path.songs}`, data)
         .then((res) => {
-          console.log(res);
           this.getSingleConcert(this.$route.params.id);
           // 延後關閉時間
           setTimeout((this.openTwo = false), 1500);
@@ -414,7 +413,7 @@ export default {
           });
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     showCommentPolicy() {

@@ -4,15 +4,18 @@ import { http, path } from '@/api';
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '../stores/isLoading';
+import { useToast } from '@/components/ui/toast/use-toast';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 const { getUserSavedAndFollowed } = useUserStore();
 const { setIsLoading } = loadingStore();
+const { toast } = useToast();
 
 export const useConcertsStore = defineStore('concerts', {
   state: () => {
     return {
       concerts: [],
+      adminConcerts: [],
       singleConcert: {},
       pagination: {},
       // 儲存篩選條件
@@ -52,7 +55,7 @@ export const useConcertsStore = defineStore('concerts', {
           this.singleConcert = res.data.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         })
         .finally(() => {
           setIsLoading();
@@ -67,21 +70,24 @@ export const useConcertsStore = defineStore('concerts', {
 
       timeCountryFilter('admin', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
         // this.concerts = data.data;
-        this.concerts = [...data.data].sort((a, b) => b.id - a.id);
+        this.adminConcerts = [...data.data].sort((a, b) => b.id - a.id);
         this.pagination = data.pagination;
       });
     },
     saveConcertAction(request, id) {
       http[request](`${path.concerts}/${id}/${request === 'post' ? 'save' : 'unsave'}`)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
         })
         .then(() => {
           // 重新取得收藏與追蹤結果
           getUserSavedAndFollowed();
+          toast({
+            title: request === 'post' ? '已加入收藏' : '已取消收藏',
+          });
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     callSaveAction(id) {
