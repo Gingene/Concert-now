@@ -35,7 +35,7 @@
     </div>
     <!-- 新增演唱會 -->
     <div class="lg:pt-5 mt-auto">
-      <Dialog>
+      <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
         <DialogTrigger as-child>
           <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增演唱會 </Button>
         </DialogTrigger>
@@ -310,9 +310,9 @@ import {
 import { mapState, mapActions } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
 import { http, adminPath } from '@/api';
-// import { loadingStore } from '@/stores/isLoading';
+import { useToast } from '@/components/ui/toast/use-toast';
 
-// const { setIsLoading } = loadingStore();
+const { toast } = useToast();
 
 export default {
   data() {
@@ -400,6 +400,9 @@ export default {
       ],
       // 暫存待處理的資料
       tempConcert: {},
+      // 操控 Dialog
+      open: false,
+      openTwo: false,
     };
   },
   methods: {
@@ -429,12 +432,14 @@ export default {
         delete this.tempConcert[`foreignUrl${i}`];
       }
 
-      // console.log(this.tempConcert);
       http
         .post(adminPath.concerts, { ...this.tempConcert })
         .then((res) => {
-          // console.log(res);
           this.getAllAdminConcerts();
+          toast({
+            title: '演唱會新增成功',
+          });
+          this.openTwo = false;
         })
         .catch((error) => {
           console.error(error);
