@@ -3,7 +3,8 @@
     <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchConcerts">
       <template #mainTitle>CONCERTS</template>
     </BannerComponent>
-    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-60">
+    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
+      <!-- filter buttons -->
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
           <Button
@@ -56,16 +57,17 @@
           </template>
         </div>
       </div>
+      <!-- concert list -->
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="concert in concerts" :key="concert.id">
-          <Card class="border-black-60">
+          <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <router-link :to="`/concerts/${concert.id}`">
-                <img :src="concert.cover_urls.square" :alt="concert.title" class="aspect-square rounded-2xl object-cover min-w-full" />
+                <img :src="concert.cover_urls.square" :alt="concert.title" class="brightness-90 aspect-square rounded-2xl object-cover min-w-full" />
               </router-link>
-              <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] xl:h-[13rem] border-x-2 pt-6 px-6 border-black-60 flex justify-between align-top">
+              <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] border-x-2 pt-6 px-6 border-black-80 flex justify-between align-top">
                 <div>
-                  <p class="text-tiny lg:text-sm text-black-60">
+                  <p class="text-tiny text-black-60">
                     {{ concert.holding_time.substring(0, 10) }}
                     <Badge v-if="moment.duration(moment(concert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0" class="ml-1 bg-black-85 hover:bg-black-85">已結束</Badge>
                   </p>
@@ -99,9 +101,9 @@
                 </AlertDialog>
               </CardDescription>
             </CardHeader>
-            <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
+            <CardFooter class="text-end border-x-2 border-b-2 border-black-80 rounded-b-2xl">
               <RouterLink :to="`/concerts/${concert.id}`">
-                <Button variant="white-outline" size="base2" class="border-black-20 hover:border-white">
+                <Button variant="white-outline" size="base2" class="border-black-80 hover:border-white">
                   <span class="text-sm">查看更多</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
@@ -110,8 +112,9 @@
           </Card>
         </li>
       </ul>
+      <!-- Pagination -->
       <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
-        <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1">
+        <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst />
           <PaginationPrev />
 
@@ -162,7 +165,7 @@ const { toast } = useToast();
 export default {
   data() {
     return {
-      bannerInputPlaceholder: '請輸入演唱會名稱',
+      bannerInputPlaceholder: '輸入演唱會名稱',
       // userLogged: false,
       timeRanges: ['本日', '本週', '本月'],
       countryRanges: ['台灣', '日本', '韓國', '歐美', '其它'],
@@ -182,7 +185,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['concerts', 'pagination', 'toastActive']),
+    ...mapState(useConcertsStore, ['concerts', 'pagination', 'toastActive', 'pagination']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
 
     isSaved() {
