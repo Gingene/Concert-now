@@ -44,7 +44,8 @@
           <div class="flex justify-between items-center">
             <Select v-model="seatArea">
               <!-- <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1"> -->
-              <SelectTrigger class="w-2/3 sm:w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
+              <SelectTrigger
+                class="w-2/3 sm:w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
                 <SelectValue placeholder="座位區" />
               </SelectTrigger>
               <SelectContent>
@@ -56,87 +57,110 @@
               </SelectContent>
             </Select>
             <div class="text-center">
-              <Dialog :open="openCommentModal" @update:open="openModal">
-                <DialogTrigger as-child>
-                  <Button variant="white-outline" class="rounded-full p-2 hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover hover:border-pink hover:text-white">
-                    <font-awesome-icon icon="fa-solid fa-plus" class="w-5 h-5 text-base md:text-xl size-4 md:size-6" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent class="max-w-sm md:max-w-3xl">
-                  <DialogHeader class="mb-6">
-                    <DialogTitle>留下評論</DialogTitle>
-                    <DialogDescription>
-                      <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
-                    </DialogDescription>
-                  </DialogHeader>
-                  <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm">
-                    <div class="relative flex items-center">
-                      <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
-                      <Select v-model="commentSeatArea" id="seat-select">
-                        <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
-                          <SelectValue placeholder="選取座位區" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>選取座位區</SelectLabel>
-                            <SelectItem :value="seat" v-for="seat in venue.seat_areas" :key="seat"> {{ seat }} </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div class="flex items-center">
-                      <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
-                      <Select id="concert-select" v-model="concertId">
-                        <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
-                          <SelectValue placeholder="選取演唱會" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>選取演唱會</SelectLabel>
-                            <SelectItem :value="concert.id.toString()" v-for="concert in venue.concerts" :key="concert.id">
-                              {{ concert.title }}
-                              <time class="text-black-40">{{ concert.holding_time.split(' ')[0] }}</time>
-                            </SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <div class="relative flex items-center mb-4">
-                        <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
-                        <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
-                        <Button type="button" class="ml-[7rem] border-white border w-[220px] md:w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
-                          <span v-if="!images.length">未選擇任何檔案</span>
-                          <span v-else>已選擇{{ images.length }}個檔案</span>
-                        </Button>
+              <template v-if="AccessToken === undefined">
+                <AlertDialog>
+                  <AlertDialogTrigger as-child>
+                    <Button variant="white-outline" class="rounded-full p-2 hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover hover:border-pink hover:text-white">
+                      <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>登入才能進行評論 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                      <AlertDialogDescription></AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>取消</AlertDialogCancel>
+                      <AlertDialogAction asChild>
+                        <router-link to="/login"> 前往登入 </router-link>
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </template>
+              <template v-else>
+                <Dialog :open="openCommentModal" @update:open="openModal">
+                  <DialogTrigger as-child>
+                    <Button variant="white-outline" class="rounded-full p-2 hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover hover:border-pink hover:text-white">
+                      <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent class="max-w-sm md:max-w-3xl">
+                    <DialogHeader class="mb-6">
+                      <DialogTitle>留下評論</DialogTitle>
+                      <DialogDescription>
+                        <p class="text-sm text-black-60 pb-4">※ 座位區、演唱會與評論皆需填寫，若有缺漏會新增失敗。</p>
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form @submit="onSubmit" class="space-y-6 lg:space-y-10" ref="modalForm">
+                      <div class="relative flex items-center">
+                        <Label for="seat-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">座位區</Label>
+                        <Select v-model="commentSeatArea" id="seat-select">
+                          <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
+                            <SelectValue placeholder="選取座位區" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>選取座位區</SelectLabel>
+                              <SelectItem :value="seat" v-for="seat in venue.seat_areas" :key="seat"> {{ seat }} </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
                       </div>
-                      <div class="space-y-4">
-                        <span class="text-sm text-black-60">圖片至多可傳三張</span>
-                        <div class="flex justify-center space-x-4">
-                          <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[0]" />
-                          <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[1]" />
-                          <img id="commentImage3" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[2]" />
+                      <div class="flex items-center">
+                        <Label for="concert-select" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">演唱會</Label>
+                        <Select id="concert-select" v-model="concertId">
+                          <SelectTrigger class="ml-[7rem] border-white w-[220px] md:w-full">
+                            <SelectValue placeholder="選取演唱會" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectLabel>選取演唱會</SelectLabel>
+                              <SelectItem :value="concert.id.toString()" v-for="concert in venue.concerts" :key="concert.id">
+                                {{ concert.title }}
+                                <time class="text-black-40">{{ concert.holding_time.split(' ')[0] }}</time>
+                              </SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <div class="relative flex items-center mb-4">
+                          <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
+                          <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
+                          <Button type="button" class="ml-[7rem] border-white border w-[220px] md:w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
+                            <span v-if="!images.length">未選擇任何檔案</span>
+                            <span v-else>已選擇{{ images.length }}個檔案</span>
+                          </Button>
+                        </div>
+                        <div class="space-y-4">
+                          <span class="text-sm text-black-60">圖片至多可傳三張(單一圖檔不能超過3MB)</span>
+                          <div class="flex justify-center space-x-4">
+                            <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[0]" />
+                            <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[1]" />
+                            <img id="commentImage3" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[2]" />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div>
-                      <Textarea v-model="commentContent" placeholder="留下你的評論..." />
-                    </div>
+                      <div>
+                        <Textarea v-model="commentContent" placeholder="留下你的評論..." />
+                      </div>
 
-                    <DialogFooter class="justify-center sm:justify-center flex-col sm:flex-col space-y-2">
-                      <div class="flex justify-center items-center">
-                        <Button for="commentPolicy" type="button" class="text-sm text-black-60 text-right cursor-pointer px-0" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Button>
-                      </div>
-                      <div class="flex justify-center items-center space-x-2">
-                        <DialogClose as-child>
-                          <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
-                        </DialogClose>
-                        <Button variant="tiffany-fill" size="base" type="submit" class="px-14 md:px-14 lg:px-14">送出評論</Button>
-                      </div>
-                    </DialogFooter>
-                  </form>
-                </DialogContent>
-              </Dialog>
+                      <DialogFooter class="justify-center sm:justify-center flex-col sm:flex-col space-y-2">
+                        <div class="flex justify-center items-center">
+                          <Button for="commentPolicy" type="button" class="text-sm text-black-60 text-right cursor-pointer px-0" @click="showCommentPolicy">送出即代表您同意遵守評論規範</Button>
+                        </div>
+                        <div class="flex justify-center items-center space-x-2">
+                          <DialogClose as-child>
+                            <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
+                          </DialogClose>
+                          <Button variant="tiffany-fill" size="base" type="submit" class="px-14 md:px-14 lg:px-14">送出評論</Button>
+                        </div>
+                      </DialogFooter>
+                    </form>
+                  </DialogContent>
+                </Dialog>
+              </template>
             </div>
           </div>
           <ScrollArea class="lg:h-[350px]">
@@ -165,19 +189,39 @@
               </div>
 
               <div class="col-span-2 sm:col-span-1 lg:col-span-1 lg:-ml-4 xl:ml-0">
-                <HoverCard :openDelay="0">
-                  <HoverCardTrigger as-child>
+                <Popover>
+                  <PopoverTrigger as-child>
                     <Button variant="ghost" class="p-1">
                       <MoreHorizontal />
                     </Button>
-                  </HoverCardTrigger>
-                  <HoverCardContent>
-                    <Button @click="reportUser(comment.user.name)" class="justify-between w-full">
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <AlertDialog v-if="AccessToken === undefined">
+                      <AlertDialogTrigger as-child>
+                        <Button class="justify-between w-full">
+                          <span>檢舉該名使用者</span>
+                          <AlertCircle />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>登入才能檢舉 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                          <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>取消</AlertDialogCancel>
+                          <AlertDialogAction asChild>
+                            <router-link to="/login"> 前往登入 </router-link>
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button v-else @click="reportUser(comment.user.name)" class="justify-between w-full">
                       <span>檢舉該名使用者</span>
                       <AlertCircle />
                     </Button>
-                  </HoverCardContent>
-                </HoverCard>
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </ScrollArea>
@@ -267,8 +311,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { MoreHorizontal, ArrowDownRight, AlertCircle } from 'lucide-vue-next';
 </script>
@@ -279,6 +334,7 @@ import { http } from '@/api';
 // import { get } from '@vueuse/core';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
+import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
@@ -458,6 +514,7 @@ export default {
   },
   computed: {
     ...mapState(useVenuesStore, ['venue', 'pagination', 'filterSeatComment', 'transportation']),
+    ...mapState(useUserStore, ['AccessToken']),
     ...mapWritableState(useVenuesStore, ['seatArea']),
   },
   watch: {

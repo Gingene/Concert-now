@@ -11,6 +11,6 @@ export const getAdminMembers = async (page) => {
     return res;
   } catch (error) {
     console.error('[GetAdminMembers Failed]', error);
-    throw new Error();
+    throw new Error('error');
   }
 };
