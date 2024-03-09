@@ -677,28 +677,6 @@ export default {
   right: 5px;
   color: #d595f1;
 }
-// Venue Gradient Border
-.gradient-border {
-  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
-    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
-    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
-    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
-  background-size:
-    19px 19px,
-    calc(100% - 38px) 3px,
-    19px 19px,
-    3px calc(100% - 38px);
-  background-position:
-    top left,
-    top center,
-    top right,
-    center right,
-    bottom right,
-    bottom center,
-    bottom left,
-    center left;
-  background-repeat: no-repeat;
-}
 
 // -------------------------------------- Songs
 .marquee-container {

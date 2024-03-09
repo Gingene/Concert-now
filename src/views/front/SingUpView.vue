@@ -16,7 +16,7 @@ const router = useRouter();
 
 const formSchema = toTypedSchema(
   z.object({
-    name: z.string({ required_error: '必填' }).min(3, { message: '名稱不少於3個字' }).max(20, { message: '需要少於20個字' }),
+    name: z.string({ required_error: '必填' }).min(3, { message: '密碼至少為3個字' }).max(20, { message: '需要少於20個字' }),
     email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
     password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
   }),
