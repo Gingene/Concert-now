@@ -38,7 +38,7 @@ export default {
           href: '/venues',
         },
         {
-          title: '聯絡我們',
+          title: '關於我們',
           enTitle: 'ABOUT US',
           href: '/about',
         },

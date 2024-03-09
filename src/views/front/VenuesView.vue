@@ -4,7 +4,7 @@
       <template #mainTitle>VENUES</template>
     </BannerComponent>
 
-    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-60”">
+    <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
           <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="getVenuesByCity('', $event)"> 全部 </Button>
@@ -15,27 +15,27 @@
       </div>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="venue in venues" :key="venue.id">
-          <Card class="border-black-60">
+          <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <RouterLink :to="`/venues/${venue.id}`">
-                <img :src="venue.picture.square" :alt="venue.title" class="aspect-square rounded-2xl object-cover min-w-full" />
+                <img :src="venue.picture.square" :alt="venue.title" class="brightness-90 aspect-square rounded-2xl object-cover min-w-full" />
               </RouterLink>
-              <CardTitle class="border-x-2 pt-6 px-6 border-black-60 text-base lg:text-lg">
+              <CardTitle class="border-x-2 pt-6 px-6 border-black-80 text-base lg:text-lg">
                 <RouterLink :to="`/venues/${venue.id}`">
                   {{ venue.title }}
                 </RouterLink>
               </CardTitle>
               <CardDescription class="hidden"></CardDescription>
             </CardHeader>
-            <CardContent class="border-x-2 border-black-60 text-black-60 pt-2">
+            <CardContent class="border-x-2 border-black-80 text-black-60 pt-2">
               <div class="text-tiny">
                 {{ venue.city }}
               </div>
             </CardContent>
-            <CardFooter class="text-end border-x-2 border-b-2 border-black-60 rounded-b-2xl">
+            <CardFooter class="text-end border-x-2 border-b-2 border-black-80 rounded-b-2xl">
               <RouterLink :to="`/venues/${venue.id}`">
-                <Button variant="white-outline" size="base" @click="getVenue(venue.id)">
-                  <span class="text-sm lg:text-base">查看評論</span>
+                <Button variant="white-outline" size="base2" @click="getVenue(venue.id)" class="border-black-80 hover:border-white">
+                  <span class="text-sm">查看評論</span>
                   <ArrowRight class="size-6 ms-2 lg:ms-4" />
                 </Button>
               </RouterLink>
@@ -44,7 +44,7 @@
         </li>
       </ul>
       <Pagination :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
-        <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1">
+        <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getVenuesByPage(1)" />
           <PaginationPrev @click="getVenuesByPage(pagination.current_page - 1)" />
 
@@ -111,7 +111,7 @@
           </div> -->
         </div>
       </div>
-      <div class="bg-black-100 h-[6px] relative z-10"></div>
+      <div class="bg-black-400 h-[6px] relative z-10"></div>
     </div>
   </section>
 </template>

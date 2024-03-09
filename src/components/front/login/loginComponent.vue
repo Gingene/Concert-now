@@ -158,23 +158,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
-const props = defineProps(['defaultPage']);
+defineProps(['defaultPage']);
 const emits = defineEmits(['method']);
 
 const method = (values) => {
   emits('method', values);
 };
 </script>
-
-<script>
-export default {
-  methods: {
-    method(test) {
-      this.$emit('method', test);
-    },
-  },
-};
-</script>
-
-<style scoped>
-</style>

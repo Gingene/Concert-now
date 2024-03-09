@@ -1,5 +1,4 @@
 <template>
-  <Toaster />
   <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px] pt-[60px] md:pt-[80px]">
     <section class="flex flex-col gap-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
@@ -238,38 +237,34 @@
         </div>
       </div>
     </section>
-    <section class="text-center">
+    <section class="flex flex-col items-center">
       <TitleComponent class="flex justify-center mb-8">
         <template #subTitle>VENUES</template>
         <template #mainTitle>場地體驗</template>
       </TitleComponent>
       <!-- Venue Info -->
-      <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-9 sm:py-7 mb-10 rounded-[40px] bg-shadow-trans-text">
+      <article class="w-[70%] lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
         <!-- Venue Title -->
-        <a href="#" class="font-bold text-3xl sm:text-5xl">Legacy Taipei</a>
+        <h2 href="#" class="font-bold text-center text-2xl xl:text-3xl pb-2">{{ venue.title }}</h2>
+        <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
         <!-- Venue Seats -->
-        <div class="text-sm sm:text-base grid gap-2 md:gap-4 mx-auto w-[60%] xl:w-[70%] sm:pb-4 my-5">
-          <p class="text-gray-500 text-base sm:text-xl font-lato text-center">_____ STAGE _____</p>
-          <div class="py-8 sm:py-12 xl:py-16 gradient-border">1F 站區</div>
-          <div class="py-8 sm:py-12 xl:py-16 gradient-border">2F 站區</div>
+        <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
+          <div
+            v-for="(area, index) in venue.seat_areas"
+            :key="`${index + 123}`"
+            class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1">
+            <p>
+              {{ area }}
+            </p>
+          </div>
         </div>
         <!-- Venue Comments -->
         <div class="truncate text-[12px] md:text-[14px] xl:text-[16px] flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 mb-2 sm:mb-12 p-3">
-          <div class="text-left lg:w-[60%]">
-            <div class="grid grid-cols-9">
-              <span>1</span>
-              <span class="col-span-2">1F站區</span>
-              <span class="col-span-6">場地不大，前面好擠</span>
-            </div>
-            <div class="grid grid-cols-9">
-              <span>2</span>
-              <span class="col-span-2">1F站區</span>
-              <span class="col-span-6">視野很不錯，離舞台好近好讚</span>
-            </div>
-            <div class="grid grid-cols-9">
-              <span>3</span>
-              <span class="col-span-2">2F站票</span>
-              <span class="col-span-6">好遠，應援布條舞台應該看不太到QQ</span>
+          <div class="text-left lg:w-[60%]" v-if="venueComments">
+            <div class="grid grid-cols-9" v-for="(comment, index) in venueComments" :key="comment">
+              <span>{{ index + 1 }}</span>
+              <span class="col-span-2">{{ comment.seat_area }}</span>
+              <span class="col-span-6">{{ comment.comment }}</span>
             </div>
           </div>
           <router-link :to="`/venues/${singleConcert.venue?.id}`" class="w-[100%] lg:w-[40%] flex justify-center lg:justify-end mb-7 sm:mb-0">
@@ -283,7 +278,7 @@
             </Button>
           </router-link>
         </div>
-      </div>
+      </article>
     </section>
   </div>
 </template>
@@ -293,7 +288,6 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import Toaster from '@/components/ui/toast/Toaster.vue';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -314,6 +308,7 @@ import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
+import { useVenuesStore } from '@/stores/venues';
 import moment from 'moment';
 import { http, path } from '@/api';
 import { useToast } from '@/components/ui/toast/use-toast';
@@ -352,6 +347,8 @@ export default {
       songList: [],
       // countdown
       countdownTimer: {},
+      // venue comments
+      venueComments: [],
     };
   },
   props: ['id'],
@@ -359,6 +356,7 @@ export default {
   methods: {
     ...mapActions(useConcertsStore, ['getSingleConcert', 'callSaveAction']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
+    ...mapActions(useVenuesStore, ['getVenue']),
 
     changeYTplayer(url) {
       if (url.includes('embed')) {
@@ -428,6 +426,7 @@ export default {
   computed: {
     ...mapState(useConcertsStore, ['singleConcert']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
+    ...mapState(useVenuesStore, ['venue', 'filterSeatComment']),
     // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
     isSaved() {
       return [...this.savedConcerts];
@@ -436,6 +435,12 @@ export default {
   watch: {
     id(newId) {
       this.getSingleConcert(newId);
+    },
+    singleConcert() {
+      this.getVenue(this.singleConcert.venue?.id);
+    },
+    venue() {
+      this.venueComments = [...this.venue.comments].splice(0, 3);
     },
   },
   mounted() {

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import LoginComponent from '@/components/front/login/loginComponent.vue';
+import LoginComponent from '@/components/front/login/LoginComponent.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
@@ -48,3 +48,4 @@ const handleSignup = form.handleSubmit((values) => {
   form.resetForm();
 });
 </script>
+@/components/front/login/LoginComponent.vue

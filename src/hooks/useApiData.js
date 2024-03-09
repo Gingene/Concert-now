@@ -16,7 +16,7 @@ export default () => {
           resolve(state);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           err.value = error;
           reject(err);
         })
