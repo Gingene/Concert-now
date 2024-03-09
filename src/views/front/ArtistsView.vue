@@ -100,7 +100,9 @@ import useDarkAlert from '@/hooks/useDarkAlert';
 // 引入API方法
 import { getArtists, getInputArtist } from '../../api/index';
 import { useDebounceFn } from '@vueuse/core';
+import { useToast } from '@/components/ui/toast/use-toast';
 import { loadingStore } from '@/stores/isLoading';
+const { toast } = useToast();
 const { setIsLoading } = loadingStore();
 
 const { swalWithStylingButtons } = useDarkAlert();
@@ -124,18 +126,22 @@ export default {
         },
         {
           id: 2,
-          location: '日本',
+          location: '台灣',
         },
         {
           id: 3,
-          location: '韓國',
+          location: '日本',
         },
         {
           id: 4,
-          location: '歐美',
+          location: '韓國',
         },
         {
           id: 5,
+          location: '歐美',
+        },
+        {
+          id: 6,
           location: '其它',
         },
       ],
@@ -168,23 +174,22 @@ export default {
       if (!isfollow) {
         // 新增追蹤
         this.postFollowConcetsData(id).then(() => this.getArtistsData());
+        this.toastMsg('追蹤成功')
+
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
+        this.toastMsg('刪除追蹤成功')
       }
     },
     async getArtistsData(page = 1) {
       try {
-
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
         // console.log(this.aristData.pagination)
       } catch (error) {
         console.log(error);
-        
-      } finally {
-        setIsLoading();
       }
     },
     FilterByCountry(country = '全部') {
@@ -210,6 +215,12 @@ export default {
         console.log(error);
       }
     }, 300),
+    toastMsg(msg) {
+      toast({
+        title: msg,
+        description: '',
+      });
+    },
   },
   mounted() {
     this.getArtistsData();
