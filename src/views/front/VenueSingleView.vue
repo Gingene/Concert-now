@@ -44,7 +44,8 @@
           <div class="flex justify-between items-center">
             <Select v-model="seatArea">
               <!-- <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1"> -->
-              <SelectTrigger class="w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
+              <SelectTrigger
+                class="w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
                 <SelectValue placeholder="座位區" />
               </SelectTrigger>
               <SelectContent>
@@ -111,7 +112,7 @@
                         </Button>
                       </div>
                       <div class="space-y-4">
-                        <span class="text-sm text-black-60">圖片至多可傳三張</span>
+                        <span class="text-sm text-black-60">圖片至多可傳三張(單一圖檔不能超過3MB)</span>
                         <div class="flex justify-center space-x-4">
                           <img id="commentImage1" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[0]" />
                           <img id="commentImage2" class="size-[80px] lg:size-[150px]" src="http://placehold.it/150" alt="your image" v-if="images[1]" />
@@ -165,19 +166,39 @@
               </div>
 
               <div class="col-span-2 sm:col-span-1 lg:col-span-1 lg:-ml-4 xl:ml-0">
-                <HoverCard :openDelay="0">
-                  <HoverCardTrigger as-child>
+                <Popover>
+                  <PopoverTrigger as-child>
                     <Button variant="ghost" class="p-1">
                       <MoreHorizontal />
                     </Button>
-                  </HoverCardTrigger>
-                  <HoverCardContent>
-                    <Button @click="reportUser(comment.user.name)" class="justify-between w-full">
+                  </PopoverTrigger>
+                  <PopoverContent>
+                    <AlertDialog v-if="AccessToken === undefined">
+                      <AlertDialogTrigger as-child>
+                        <Button class="justify-between w-full">
+                          <span>檢舉該名使用者</span>
+                          <AlertCircle />
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>登入才能收藏 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                          <AlertDialogDescription></AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>取消</AlertDialogCancel>
+                          <AlertDialogAction asChild>
+                            <router-link to="/login"> 前往登入 </router-link>
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                    <Button v-else @click="reportUser(comment.user.name)" class="justify-between w-full">
                       <span>檢舉該名使用者</span>
                       <AlertCircle />
                     </Button>
-                  </HoverCardContent>
-                </HoverCard>
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </ScrollArea>
@@ -267,8 +288,19 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { MoreHorizontal, ArrowDownRight, AlertCircle } from 'lucide-vue-next';
 </script>
@@ -279,6 +311,7 @@ import { http } from '@/api';
 // import { get } from '@vueuse/core';
 // import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
+import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
 // import AOS from 'aos';
 // import 'aos/dist/aos.css';
@@ -458,6 +491,7 @@ export default {
   },
   computed: {
     ...mapState(useVenuesStore, ['venue', 'pagination', 'filterSeatComment', 'transportation']),
+    ...mapState(useUserStore, ['AccessToken']),
     ...mapWritableState(useVenuesStore, ['seatArea']),
   },
   watch: {
