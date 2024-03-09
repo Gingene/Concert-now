@@ -1,5 +1,5 @@
 <template>
-  <Tabs :default-value="defaultPage" class="min-h-full px-0 mt-48 mb-24 w-[400px] container">
+  <Tabs :default-value="defaultPage" class="min-h-full px-0 mt-48 mb-24 sm:w-[400px] container">
     <!-- Trigger: Login / Sign Up -->
     <TabsList class="grid grid-cols-2 w-full gap-1 p-0 px-6 h-12 text-white bg-transparent">
       <TabsTrigger @click="$router.push({ name: 'login' })" value="login" class="rounded-b-none py-4 bg-black-85 data-[state=active]:bg-white data-[state=active]:text-black"> 登入 </TabsTrigger>
@@ -25,11 +25,7 @@
               <FormItem>
                 <FormLabel>信箱</FormLabel>
                 <FormControl>
-                  <Input 
-                  type="email" 
-                  v-bind="componentField" 
-                  autocomplete="email" 
-                  class="tracking-widest" />
+                  <Input type="email" v-bind="componentField" autocomplete="email" class="tracking-widest" />
                 </FormControl>
                 <FormMessage class="text-tiffany" />
               </FormItem>
@@ -38,11 +34,7 @@
               <FormItem>
                 <FormLabel>密碼</FormLabel>
                 <FormControl>
-                  <Input 
-                  type="password" 
-                  v-bind="componentField" 
-                  autocomplete="password" 
-                  class="tracking-widest" />
+                  <Input type="password" v-bind="componentField" autocomplete="password" class="tracking-widest" />
                 </FormControl>
                 <FormMessage class="text-tiffany" />
               </FormItem>
@@ -78,10 +70,7 @@
               <FormItem>
                 <FormLabel>名稱</FormLabel>
                 <FormControl>
-                  <Input 
-                  type="text" 
-                  v-bind="componentField" 
-                  class="tracking-widest" />
+                  <Input type="text" v-bind="componentField" class="tracking-widest" />
                 </FormControl>
                 <FormMessage class="text-tiffany" />
               </FormItem>
@@ -90,11 +79,7 @@
               <FormItem>
                 <FormLabel>信箱</FormLabel>
                 <FormControl>
-                  <Input 
-                  type="email" 
-                  v-bind="componentField" 
-                  autocomplete="email" 
-                  class="tracking-widest" />
+                  <Input type="email" v-bind="componentField" autocomplete="email" class="tracking-widest" />
                 </FormControl>
                 <FormMessage class="text-tiffany" />
               </FormItem>
@@ -103,11 +88,7 @@
               <FormItem>
                 <FormLabel>密碼</FormLabel>
                 <FormControl>
-                  <Input 
-                  type="password" 
-                  v-bind="componentField" 
-                  autocomplete="password" 
-                  class="tracking-widest" />
+                  <Input type="password" v-bind="componentField" autocomplete="password" class="tracking-widest" />
                 </FormControl>
                 <FormMessage class="text-tiffany" />
               </FormItem>
@@ -128,23 +109,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
-const props = defineProps(['defaultPage']);
+defineProps(['defaultPage']);
 const emits = defineEmits(['method']);
 
 const method = (values) => {
   emits('method', values);
 };
 </script>
-
-<script>
-export default {
-  methods: {
-    method(test) {
-      this.$emit('method', test);
-    },
-  },
-};
-</script>
-
-<style scoped>
-</style>

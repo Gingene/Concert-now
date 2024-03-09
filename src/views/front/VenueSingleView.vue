@@ -336,6 +336,13 @@ export default {
         for (let i = 0; i < input.target.files.length; i++) {
           const reader = new FileReader();
           // console.log(reader);
+          if (input.target.files[i].size > 3 * 1024 ** 2) {
+            toast({
+              title: '圖片不得超過3MB',
+              description: '',
+            });
+            return;
+          }
 
           reader.onload = function (e) {
             // console.log(e);

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import LoginComponent from '@/components/front/login/loginComponent.vue';
+import LoginComponent from '@/components/front/login/LoginComponent.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
@@ -16,7 +16,7 @@ const router = useRouter();
 
 const formSchema = toTypedSchema(
   z.object({
-    name: z.string({ required_error: '必填' }).max(20, { message: '需要少於20個字' }),
+    name: z.string({ required_error: '必填' }).min(3, { message: '名稱不少於3個字' }).max(20, { message: '需要少於20個字' }),
     email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
     password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
   }),
@@ -48,3 +48,4 @@ const handleSignup = form.handleSubmit((values) => {
   form.resetForm();
 });
 </script>
+@/components/front/login/LoginComponent.vue
