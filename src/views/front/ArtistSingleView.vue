@@ -26,8 +26,8 @@
         <img class="rounded-xl mb-5" :src="singleArtist?.cover_urls?.horizontal" :alt="singleArtist?.name" />
         <div class="flex justify-center xl:absolute bottom-[-13%] right-[-12%]">
           <div class="relative">
-            <div class="bg-artistName absolute top-[-1rem] left-[1rem] text-stroke-light z-[-1]">{{ singleArtist?.name }}</div>
-            <div class="bg-artistName">{{ singleArtist?.name }}</div>
+            <div class="bg-artistName font-lato absolute top-[-1rem] left-[1rem] text-stroke-light z-[-1]">{{ singleArtist?.name }}</div>
+            <div class="bg-artistName font-lato">{{ singleArtist?.name }}</div>
           </div>
         </div>
       </div>
@@ -199,7 +199,7 @@ export default {
   watch: {
     id(newId) {
       setIsLoading();
-      this.getSingleArtistData(newId)
+      this.getSingleArtistData(newId);
 
       setTimeout(() => {
        setIsLoading();
@@ -217,7 +217,7 @@ export default {
         this.singleArtist = res.data.data;
 
       } catch (error) {
-        console.log(error);
+        console.error(error);
 
       } 
       // finally {
@@ -247,12 +247,12 @@ export default {
         // 新增追蹤
         this.postFollowConcetsData(id)
           .then(() => this.getSingleArtistData(id));
-          this.toastMsg('追蹤成功')
+          this.toastMsg('追蹤成功');
         
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        this.toastMsg('刪除追蹤成功')
+        this.toastMsg('刪除追蹤成功');
       }
     },
     // 收藏功能
@@ -278,11 +278,11 @@ export default {
       if (this.savedConcertsData?.some((item) => item.id === id)) {
         // 刪除收藏
         this.deleteSaveConcertsData(id).then(() => this.getSavedConcertsData());
-        this.toastMsg('已取消收藏')
+        this.toastMsg('已取消收藏');
       } else {
         // 新增收藏
         this.postSaveConcertsData(id).then(() => this.getSavedConcertsData());
-        this.toastMsg('已加入收藏')
+        this.toastMsg('已加入收藏');
       }
     },
     // 取得 收藏演唱會資料
@@ -291,7 +291,7 @@ export default {
         const res = await getSavedConcerts();
         this.savedConcertsData = res.data.data.saved_concerts;
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     // 新增收藏演唱會
@@ -300,7 +300,7 @@ export default {
         const res = await postSaveConcerts(id);
         // console.log(res);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     async deleteSaveConcertsData(id) {
@@ -308,7 +308,7 @@ export default {
         const res = await deleteSaveConcerts(id);
         // console.log(res);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     updateData(id) {
@@ -339,7 +339,7 @@ export default {
 <style lang="scss" scoped>
 .bg-artistName {
   font-weight: 900;
-  font-size: 3.5rem;
+  font-size: 4rem;
   letter-spacing: calc(calc(4.5rem + 1vw) * -0.04);
   overflow-x: hidden;
   text-wrap: nowrap;
@@ -440,7 +440,7 @@ export default {
   .artist-honors-relative {
     .honors {
       top: 26px;
-      left: -245px;
+      left: -260px;
     }
 
     .artist-honors {
