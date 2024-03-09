@@ -1,7 +1,6 @@
 <template>
-  <Toaster />
-  <div class="container space-y-[4rem] md:space-y-[7rem] xl:space-y-[11rem] pb-[140px] md:pb-[240px]">
-    <section class="flex flex-col gap-10 md:pt-8">
+  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px] pt-[60px] md:pt-[80px]">
+    <section class="flex flex-col gap-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
         <div class="space-y-6 lg:flex lg:flex-col lg:justify-between lg:w-[100%]">
           <div class="flex space-x-4">
@@ -17,7 +16,7 @@
             </Button>
           </div>
           <img :src="singleConcert.cover_urls?.straight" alt="" class="mx-auto rounded-[40px] lg:hidden" />
-          <p class="lg:bg-shadow-trans-text lg:rounded-[40px] lg:border-black-60 lg:px-10 lg:pt-10 lg:pb-6 lg:h-[100%] lg:overflow-y-hidden">
+          <p class="leading-7 lg:bg-shadow-trans-text lg:rounded-[40px] lg:border-black-60 lg:px-10 lg:pt-10 lg:pb-6 lg:h-[100%] lg:overflow-y-hidden">
             演出時間: {{ singleConcert.holding_time }}<br />
             演出地點: {{ singleConcert.venue?.title }}<br />
             地址: {{ singleConcert.venue?.address }}<br />
@@ -31,23 +30,25 @@
         <img :src="singleConcert.cover_urls?.horizontal" alt="" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
-        <div class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
+        <div v-if="!hasHold" class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
           <p class="text-2xl font-bold relative">
             <span class="text-base pr-2 absolute bottom-0 left-[-30%]">D-day</span>
-            <!-- !倒計時器尚未處理 -->
-            <!-- {{moment(singleConcert.holding_time, "YYYY-MM-DD hh:mm:ss").endOf('day').fromNow(true).split(' ')[0]}} -->
-            00 : 00 : 00 : 00
+            {{ countdownTimer.days }} : {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
+            {{ countdownTimer.seconds }}
           </p>
         </div>
+        <div v-else class="w-[50%] lg:w-[30%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-3 lg:py-0 relative">
+          <p class="text-lg font-bold relative px-4">已舉辦</p>
+        </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
-          <Button variant="white-outline" size="base" class="border-[1px] border-black-60">
+          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60">
             {{ singleConcert.artist?.name }}
           </Button>
         </router-link>
-        <Button variant="white-outline" size="base" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
+        <Button variant="white-outline" size="base3" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
           <font-awesome-icon v-if="isSaved.some((item) => item.id === singleConcert.id)" icon="fa-solid fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
           <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
-          收藏到最愛
+          收藏
         </Button>
       </div>
     </section>
@@ -57,22 +58,38 @@
         <template #mainTitle>購票傳送門</template>
       </TitleComponent>
       <div class="flex flex-col">
-        <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20">
-          <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.5rem] xl:mb-[-2.5rem]">0{{ index + 1 }}</div>
-          <a :href="item.url" target="_blank" class="flex justify-between items-center mt-6 xl:mt-10 w-[100%] hover:translate-y-[-0.25rem]">
-            <h2 class="text-lg md:text-xl lg:text-3xl">
-              {{ item.name }}
-            </h2>
-            <button class="py-4">
-              <svg class="w-[120px] sm:w-[230px] sm:h-[20px] xl:w-[299px] xl:h-[26px]" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
-                  fill="white" />
-              </svg>
-            </button>
-          </a>
+        <div v-for="(item, index) in singleConcert.foreign_urls" :key="item" class="flex items-center justify-start gap-10 lg:gap-20 relative">
+          <AlertDialog>
+            <AlertDialogTrigger class="w-full">
+              <div class="flex justify-between items-center mt-2 xl:mt-4 w-[100%] hover:translate-y-[-0.2rem] hover:lg:translate-y-[-0.4rem]">
+                <div class="text-6xl md:text-[5rem] xl:text-[7rem] text-stroke-light font-bold mb-[-1.7rem] lg:mb-[-2rem] xl:mb-[-2.6rem]">0{{ index + 1 }}</div>
+                <h2 class="text-lg md:text-xl lg:text-3xl -ml-[0rem] md:-ml-[8rem] xl:-ml-[20rem] mt-6 md:mt-7 lg:mt-11">
+                  {{ item.name }}
+                </h2>
+                <button class="py-4 mt-6 md:mt-7 lg:mt-11">
+                  <svg class="w-[120px] sm:w-[230px] sm:h-[20px] xl:w-[299px] xl:h-[26px]" width="184" height="16" viewBox="0 0 184 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M183.707 8.70711C184.098 8.31658 184.098 7.68342 183.707 7.29289L177.343 0.928932C176.953 0.538408 176.319 0.538408 175.929 0.928932C175.538 1.31946 175.538 1.95262 175.929 2.34315L181.586 8L175.929 13.6569C175.538 14.0474 175.538 14.6805 175.929 15.0711C176.319 15.4616 176.953 15.4616 177.343 15.0711L183.707 8.70711ZM0 9H183V7H0V9Z"
+                      fill="white" />
+                  </svg>
+                </button>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>您即將前往第三方網頁</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <a :href="item.url" rel="noreferrer noopener" target="_blank">繼續前往</a>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <div class="border-b-8 h-2 w-[100%] absolute -bottom-2"></div>
         </div>
-        <div class="border-b-8 h-2 w-[100%]"></div>
       </div>
     </section>
     <section>
@@ -92,9 +109,8 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           @onload="onYouTubeIframeAPIReady()"
-          v-if="ytId"></iframe>
+          v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
-          <!-- ! 改成artist 方形圖 -->
           <img :src="singleConcert.cover_urls?.square" alt="" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
         </div>
         <div class="text-xl lg:text-2xl font-bold marquee-container w-[284px] sm:w-[336px]">
@@ -107,19 +123,46 @@
             <div class="text-black-40 text-tiny">{{ singleConcert.artist?.name }}</div>
           </router-link>
           <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
-            <DialogTrigger @click="checkLogin">
+            <DialogTrigger v-if="hasHold && isLogin" class="flex">
               <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
                 <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
               </button>
             </DialogTrigger>
+            <AlertDialog v-if="hasHold && !isLogin">
+              <AlertDialogTrigger>
+                <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
+                  <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>登入後才能新增歌曲喔！</AlertDialogTitle>
+                  <AlertDialogDescription></AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>取消</AlertDialogCancel>
+                  <AlertDialogAction asChild>
+                    <router-link to="/login"> 前往登入 </router-link>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+            <Popover>
+              <PopoverTrigger v-if="!hasHold">
+                <button class="flex justify-center items-center border-2 rounded-[50%] w-8 h-8 hover:border-[var(--pink)] hover:bg-[var(--pink)] hover:box-shadow-pink-blur-hover">
+                  <font-awesome-icon icon="fa-solid fa-plus" class="text-lg" />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent> 不能當預言家喔 (⁎⁍̴̛ᴗ⁍̴̛⁎) 演唱會舉辦後才可以新增歌曲 </PopoverContent>
+            </Popover>
             <DialogContent class="rounded-md">
               <DialogHeader>
-                <DialogTitle class="mb-6">新增歌曲</DialogTitle>
-                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 演唱會的歌單</p>
-                <p class="text-sm text-black-60 pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
-                <DialogDescription class="space-y-8">
+                <DialogTitle class="mb-2 md:mb-4">新增歌曲</DialogTitle>
+                <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 有演唱的曲目</p>
+                <p class="text-sm text-black-60 pb-0 md:pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
+                <DialogDescription class="space-y-2 md:space-y-4">
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 1</p>
+                    <p class="text-start text-base text-black-40">曲目 1</p>
                     <div class="relative flex items-center">
                       <label for="song1Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song1Name" v-model="songs[0].name" class="ml-[7rem] border-white" />
@@ -130,7 +173,7 @@
                     </div>
                   </div>
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 2</p>
+                    <p class="text-start text-base text-black-40">曲目 2</p>
                     <div class="relative flex items-center">
                       <label for="song2Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song2Name" v-model="songs[1].name" class="ml-[7rem] border-white" />
@@ -141,7 +184,7 @@
                     </div>
                   </div>
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 3</p>
+                    <p class="text-start text-base text-black-40">曲目 3</p>
                     <div class="relative flex items-center">
                       <label for="song3Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song3Name" v-model="songs[2].name" class="ml-[7rem] border-white" />
@@ -151,10 +194,10 @@
                       <Input type="text" name="song3Url" v-model="songs[2].youtube_url" class="ml-[7rem] border-white" />
                     </div>
                   </div>
-                  <p class="text-sm text-black-60 text-right cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</p>
+                  <p class="text-sm text-black-60 text-center cursor-pointer" @click="showCommentPolicy">送出即代表您同意遵守評論規範</p>
                 </DialogDescription>
               </DialogHeader>
-              <DialogFooter>
+              <DialogFooter class="justify-center sm:justify-center">
                 <DialogClose as-child>
                   <Button type="button" size="base" class="bg-black-80 hover:bg-black-80 px-14 md:px-14 lg:px-14">取消</Button>
                 </DialogClose>
@@ -163,19 +206,19 @@
             </DialogContent>
           </Dialog>
         </div>
-        <ScrollArea class="h-[19rem] w-full mt-2" v-if="hadSong">
-          <div v-for="(song, index) in singleConcert.songs" :key="song + index">
+        <ScrollArea class="h-[19rem] w-full mt-2" v-if="hadSong && hasHold">
+          <div v-for="(song, index) in songList" :key="song + index">
             <div class="text-base flex justify-between items-center bg-trans">
               <div>{{ index + 1 }}</div>
               <!-- 點擊更換YT iframe影片 -->
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
-              <div class="flex pr-4 gap-2 sm:gap-6 h-14">
-                <!-- (待完成)推與倒推按鈕 -->
-                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--tiffany)] hover:font-bold">
+              <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
+                <!-- 推與倒推按鈕 -->
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
                   <p>{{ song.up_votes }}</p>
                 </button>
-                <button class="flex items-center text-sm hover:text-base gap-1 hover:text-[var(--pink)] hover:ml-[-7px] hover:font-bold">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
                   <p>{{ song.down_votes }}</p>
                 </button>
@@ -194,38 +237,34 @@
         </div>
       </div>
     </section>
-    <section class="text-center">
+    <section class="flex flex-col items-center">
       <TitleComponent class="flex justify-center mb-8">
         <template #subTitle>VENUES</template>
         <template #mainTitle>場地體驗</template>
       </TitleComponent>
       <!-- Venue Info -->
-      <div class="container xs:w-[85%] sm:w-[80%] lg:w-[60%] px-8 py-7 sm:px-9 sm:py-7 mb-10 rounded-[40px] bg-shadow-trans-text">
+      <article class="w-full md:w-[70%] lg:order-2 py-10 sm:py-14 px-2 xs:px-7 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
         <!-- Venue Title -->
-        <a href="#" class="font-bold text-3xl sm:text-5xl">Legacy Taipei</a>
+        <h2 href="#" class="font-bold text-center text-2xl xl:text-3xl pb-2">{{ venue.title }}</h2>
+        <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
         <!-- Venue Seats -->
-        <div class="text-sm sm:text-base grid gap-2 md:gap-4 mx-auto w-[60%] xl:w-[70%] sm:pb-4 my-5">
-          <p class="text-gray-500 text-base sm:text-xl font-lato text-center">_____ STAGE _____</p>
-          <div class="py-8 sm:py-12 xl:py-16 gradient-border">1F 站區</div>
-          <div class="py-8 sm:py-12 xl:py-16 gradient-border">2F 站區</div>
+        <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
+          <div
+            v-for="(area, index) in venue.seat_areas"
+            :key="`${index + 123}`"
+            class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1">
+            <p>
+              {{ area }}
+            </p>
+          </div>
         </div>
         <!-- Venue Comments -->
         <div class="truncate text-[12px] md:text-[14px] xl:text-[16px] flex flex-col lg:flex-row justify-between items-center lg:items-end gap-6 mb-2 sm:mb-12 p-3">
-          <div class="text-left lg:w-[60%]">
-            <div class="grid grid-cols-9">
-              <span>1</span>
-              <span class="col-span-2">1F站區</span>
-              <span class="col-span-6">場地不大，前面好擠</span>
-            </div>
-            <div class="grid grid-cols-9">
-              <span>2</span>
-              <span class="col-span-2">1F站區</span>
-              <span class="col-span-6">視野很不錯，離舞台好近好讚</span>
-            </div>
-            <div class="grid grid-cols-9">
-              <span>3</span>
-              <span class="col-span-2">2F站票</span>
-              <span class="col-span-6">好遠，應援布條舞台應該看不太到QQ</span>
+          <div class="text-left lg:w-[60%]" v-if="venueComments">
+            <div class="grid grid-cols-9" v-for="(comment, index) in venueComments" :key="comment">
+              <span>{{ index + 1 }}</span>
+              <span class="col-span-2">{{ comment.seat_area }}</span>
+              <span class="col-span-6">{{ comment.comment }}</span>
             </div>
           </div>
           <router-link :to="`/venues/${singleConcert.venue?.id}`" class="w-[100%] lg:w-[40%] flex justify-center lg:justify-end mb-7 sm:mb-0">
@@ -239,7 +278,7 @@
             </Button>
           </router-link>
         </div>
-      </div>
+      </article>
     </section>
   </div>
 </template>
@@ -249,7 +288,18 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import Toaster from '@/components/ui/toast/Toaster.vue';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
@@ -258,12 +308,11 @@ import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { mapActions, mapState } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
+import { useVenuesStore } from '@/stores/venues';
 import moment from 'moment';
 import { http, path } from '@/api';
-import useDarkAlert from '@/hooks/useDarkAlert';
 import { useToast } from '@/components/ui/toast/use-toast';
 
-const { swalWithStylingButtons } = useDarkAlert();
 const { toast } = useToast();
 
 export default {
@@ -272,6 +321,8 @@ export default {
       ytId: '',
       // 操控 Dialog 顯示，未登入時不能顯示
       isLogin: false,
+      // 是否已舉辦
+      hasHold: false,
       // 歌單是否有歌曲
       hadSong: false,
       // 新增歌單的欄位
@@ -292,30 +343,34 @@ export default {
       // 操控 Dialog
       open: false,
       openTwo: false,
+      // 歌單
+      // songList: [],
+      // countdown
+      countdownTimer: {},
+      // venue comments
+      venueComments: [],
     };
   },
+  props: ['id'],
   inject: ['http', 'path'],
   methods: {
-    ...mapActions(useConcertsStore, ['getSingleConcert', 'saveUnSavedConcert', 'callSaveAction']),
+    ...mapActions(useConcertsStore, ['getSingleConcert', 'callSaveAction']),
     ...mapActions(useUserStore, ['getUserSavedAndFollowed']),
+    ...mapActions(useVenuesStore, ['getVenue']),
 
-    changeYTplayer(id) {
-      this.ytId = id.slice(32, 43);
-    },
-    checkLogin() {
-      this.openTwo = this.isLogin;
-      if (this.isLogin) return;
-      swalWithStylingButtons
-        .fire({
-          title: '登入後才能用新增歌曲功能喔！',
-          showCancelButton: true,
-          confirmButtonText: '前往登入',
-        })
-        .then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = 'login#/login';
-          }
-        });
+    changeYTplayer(url) {
+      if (url.includes('embed')) {
+        const num = url.indexOf('embed/') + 6;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtu.be/')) {
+        const num = url.indexOf('youtu.be') + 9;
+        this.ytId = url.slice(num, num + 11);
+      } else if (url.includes('youtube')) {
+        let num = 0;
+        if (url.includes('live')) num = url.indexOf('live/') + 5;
+        if (url.includes('watch')) num = url.indexOf('watch?v=') + 8;
+        this.ytId = url.slice(num, num + 11);
+      }
     },
     addSongs() {
       const songsData = [...this.songs];
@@ -332,10 +387,8 @@ export default {
       http
         .post(`${path.songs}`, data)
         .then((res) => {
-          console.log(res);
-          this.getSingleConcert(this.$route.params.id);
           // 延後關閉時間
-          setTimeout((this.openTwo = false), 1500);
+          // setTimeout((this.openTwo = false), 1500);
           this.songs = [
             {
               name: '',
@@ -350,15 +403,19 @@ export default {
               youtube_url: '',
             },
           ];
+          this.getSingleConcert(this.$route.params.id);
         })
         .then(() => {
+          // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+          this.songList = this.singleConcert.songs;
           toast({
             title: '曲目新增成功',
             description: '',
           });
+          this.openTwo = false;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     showCommentPolicy() {
@@ -369,11 +426,26 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['singleConcert', 'pagination']),
+    ...mapState(useConcertsStore, ['singleConcert']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
+    ...mapState(useVenuesStore, ['venue', 'filterSeatComment']),
     // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
     isSaved() {
       return [...this.savedConcerts];
+    },
+    songList() {
+      return this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+    },
+  },
+  watch: {
+    id(newId) {
+      this.getSingleConcert(newId);
+    },
+    singleConcert() {
+      this.getVenue(this.singleConcert.venue?.id);
+    },
+    venue() {
+      this.venueComments = [...this.venue.comments].splice(0, 3);
     },
   },
   mounted() {
@@ -386,11 +458,24 @@ export default {
   },
   updated() {
     this.isLogin = this.AccessToken !== undefined;
+
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
-      this.changeYTplayer(this.singleConcert.songs[0]?.youtube_url);
+      this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+      this.changeYTplayer(this.songList[0]?.youtube_url);
     }
+
+    // 倒數計時器
+    const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
+
+    this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
+    this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
+    this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
+    this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
+
+    // 是否已舉辦，用於歌單切換與計時器
+    this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
   },
 };
 </script>

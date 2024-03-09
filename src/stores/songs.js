@@ -1,9 +1,12 @@
 import { defineStore } from 'pinia';
 import Swal from 'sweetalert2';
-import useApiData from '@/hooks/useApiData';
+// import useApiData from '@/hooks/useApiData';
 import { useDebounceFn } from '@vueuse/core';
+import { adminPath, http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
 
-const { httpData } = useApiData();
+const { setIsLoading } = loadingStore();
+// const { httpData } = useApiData();
 
 export const songsStore = defineStore('songsStore', {
   state: () => ({
@@ -12,22 +15,47 @@ export const songsStore = defineStore('songsStore', {
     controlCheckAll: true,
     songCheckList: [],
     songs: [],
+    concertSongs: [],
     backupDatas: [],
     mapSongs: {},
     pagination: {},
+    concerts: [],
+    searchText: '',
+    searchPage: 1,
+    concertId: '0',
   }),
   actions: {
-    getSongs(thePath) {
-      httpData('get', thePath).then((res) => {
-        for (const i of res.data) {
-          i.id = i.id.toString();
-        }
-        this.songs = [...res.data];
-        this.pagination = { ...res.pagination };
-        console.log(this.pagination);
-        this.backupDatas = [...res.data];
-        this.mapSongs = Object.groupBy([...res.data], ({ concert }) => concert.title);
-      });
+    getSongs(page = 1) {
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?page=${page}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          this.backupDatas = [...res.data.data];
+          // this.mapSongs = Object.groupBy([...res.data.data], ({ concert }) => concert.title);
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getSongsByConcert(concertId) {
+      setIsLoading();
+      http
+        .get(`${path.concerts}/${concertId}`)
+        .then((res) => {
+          this.concertSongs = [...res.data.data.songs];
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
     },
     checkReview(id) {
       const song = this.songs.find((song) => song.id === id);
@@ -92,27 +120,89 @@ export const songsStore = defineStore('songsStore', {
     },
     searchSong: useDebounceFn(
       function (e) {
-        this.songs = [...this.backupDatas];
-        if (e.target.value === '') return;
-        // const songContents = this.songs.filter((item) => item.name.match(e.target.value));
-        // const songUser = this.songs.filter(() => this.userId1.email.match(e.target.value));
-        const regex = new RegExp(e.target.value, 'i');
-        const songContents = this.songs.filter((item) => regex.test(item.name));
-        const songUser = this.songs.filter(() => regex.test(this.userId1.email));
-        this.songs = [...songContents, ...songUser];
+        this.searchText = e.target.value;
+        this.searchPage = 1;
+        setIsLoading();
+        http
+          .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&?page=${this.searchPage}`)
+          .then((res) => {
+            this.songs = [...res.data.data];
+            this.pagination = { ...res.data.pagination };
+            // console.log(res);
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            setIsLoading();
+          });
       },
       500,
       { maxWait: 2000 },
     ),
+    searchSongsByConcert() {
+      this.searchPage = 1;
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&?page=${1}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    searchSongsByPage(page) {
+      this.searchPage = page;
+      setIsLoading();
+      http
+        .get(`${adminPath.songs}/?q=${this.searchText}&is_reviewed=0&concert_id=${this.concertId}&page=${page}`)
+        .then((res) => {
+          this.songs = [...res.data.data];
+          this.pagination = { ...res.data.pagination };
+          // console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getConcerts() {
+      setIsLoading();
+      http
+        .get(`${adminPath.concerts}`)
+        .then((res) => {
+          this.concerts = [...res.data.data];
+          // console.log(this.concerts);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    resetState() {
+      this.searchText = '';
+      this.searchPage = 1;
+      this.concertId = '0';
+    },
     // comment 操作
     deleteSong(id) {
-      console.log(id);
+      // console.log(id);
       const index = this.songs.findIndex((item) => item.id === id);
       this.songs.splice(index, 1);
       this.alertMessage('success', '評論已刪除');
     },
     warnUser(id) {
-      console.log(id);
+      // console.log(id);
       this.deleteSong(id);
       this.alertMessage('success', `對${this.userId1.email}使用者警告已送出`);
     },

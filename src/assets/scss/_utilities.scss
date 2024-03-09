@@ -62,17 +62,17 @@
   }
   .text-stroke {
     @apply text-transparent;
-    -webkit-text-stroke: 1px #fff;
+    -webkit-text-stroke: 1px var(--black-80);
   }
   .text-stroke-light {
     // 標題後方裝飾穿透字
     @apply text-transparent;
-    -webkit-text-stroke: 2px var(--black-80);
+    -webkit-text-stroke: 1px var(--black-80);
   }
   .text-stroke-title {
     // 標題後方裝飾穿透字
     @apply text-transparent;
-    -webkit-text-stroke: 2px var(--black-80);
+    -webkit-text-stroke: 1px var(--black-80);
     position: absolute;
     bottom: 0.6rem;
   }
@@ -81,5 +81,32 @@
       0px 1px 40px 0px rgba(227, 222, 255, 0.2) inset,
       0px 4px 16px 0px rgba(154, 146, 210, 0.2) inset;
     backdrop-filter: blur(10px);
+  }
+  .bg-shadow-trans-text-brighter {
+    box-shadow:
+      -10px 10px 30px -10px rgba(213, 149, 241, 0.9) inset,
+      10px -10px 30px -10px rgba(66, 223, 200, 0.9) inset;
+    backdrop-filter: blur(7px);
+  }
+  .gradient-border {
+    background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
+      radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
+      radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
+      radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
+    background-size:
+      19px 19px,
+      calc(100% - 38px) 3px,
+      19px 19px,
+      3px calc(100% - 38px);
+    background-position:
+      top left,
+      top center,
+      top right,
+      center right,
+      bottom right,
+      bottom center,
+      bottom left,
+      center left;
+    background-repeat: no-repeat;
   }
 }

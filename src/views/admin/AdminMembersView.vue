@@ -2,8 +2,8 @@
   <!-- Search/Command -->
   <div>
     <!-- <div> 會員身分{{ memberStatus }}</div> -->
-    <div class="flex gap-6 mt-3 mb-8 relative">
-      <div class="w-[36%] lg:w-[290px] relative pt-8 lg:pt-6">
+    <div class="flex gap-6 mb-8 relative">
+      <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
         <Input type="text" placeholder="請輸入姓名及信箱查詢" v-model.trim="searchText" />
         <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
@@ -27,14 +27,14 @@
   </div>
 
   <!-- 會員人數 -->
-  <div class="mb-4 pl-2"><strong>會員人數: </strong> {{ filteredData.length }} 人</div>
+  <!-- <div class="mb-4 pl-2"><strong>會員人數: </strong> {{ filteredData.length }} 人</div> -->
 
   <!-- Table -->
-  <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10" v-show="filteredData.length !== 0">
-    <TableCaption>會員管理</TableCaption>
+  <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10" v-show="filteredData?.length !== 0">
+    <!-- <TableCaption>會員管理</TableCaption> -->
     <TableHeader>
       <TableRow>
-        <TableHead class="w-[100px] font-semibold"> 名稱 </TableHead>
+        <TableHead class="font-semibold"> 名稱 </TableHead>
         <TableHead class="font-semibold">信箱</TableHead>
         <TableHead class="font-semibold pl-6">會員狀態</TableHead>
         <TableHead class="font-semibold"> 警告次數 </TableHead>
@@ -44,21 +44,28 @@
     </TableHeader>
     <TableBody>
       <TableRow v-for="user in filteredData" :key="user.id">
-        <TableCell class="font-medium"> {{ user.username }} </TableCell>
-        <TableCell>{{ user.email }}</TableCell>
-        <TableCell class="flex items-center">
-          <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
-          <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
-          {{ user.status }}
+        <TableCell class="font-medium">
+          <div class="flex items-center">
+            <img class="size-[56px] border-2 rounded-full bg-white p-1" :src="user?.profile_image_url" alt="使用者大頭貼" />
+            <p class="ml-3">{{ user?.name }}</p>
+          </div>
         </TableCell>
-        <TableCell class="pl-10">{{ user.warning_list.length }}</TableCell>
-        <TableCell class="pl-10">{{ user.id }}</TableCell>
-        <TableCell>{{ user.created_at }}</TableCell>
+        <TableCell>{{ user?.email }}</TableCell>
+        <TableCell>
+          <div  class="flex items-center">
+            <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
+            <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
+            {{ user.status }}
+          </div>
+        </TableCell>
+        <TableCell class="pl-10">{{ user?.warning_list.length }}</TableCell>
+        <TableCell class="pl-10">{{ user?.id }}</TableCell>
+        <TableCell>{{ user?.created_at }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>
 
-  <div v-show="!filteredData.length" class="flex justify-center py-12">
+  <div v-show="!filteredData?.length" class="flex justify-center py-12">
     <h2>哇! 找不到資料~</h2>
   </div>
 </template>
@@ -70,6 +77,9 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 </script>
 
 <script>
+// 引入api
+import { getAdminMembers } from '@/api/admin/members';
+
 export default {
   data() {
     return {
@@ -78,48 +88,49 @@ export default {
       selectTime: '',
       changeFilter: 'true',
       filteredUsers: [],
-      users: [
-        {
-          id: 1,
-          username: '小明',
-          email: '01@gamail.com',
-          status: '啟用中',
-          created_at: '2022-01-05',
-          warning_list: [],
-        },
-        {
-          id: 2,
-          username: '明明',
-          email: '02@gamail.com',
-          status: '啟用中',
-          created_at: '2020-05-06',
-          warning_list: ['不實評論', '惡意評論', '腥羶色內容', '不實評論', '不實評論'],
-        },
-        {
-          id: 3,
-          username: '小華',
-          email: '03@gamail.com',
-          status: '停權中',
-          created_at: '2020-03-06',
-          warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
-        },
-        {
-          id: 4,
-          username: '小壯',
-          email: '04@gamail.com',
-          status: '停權中',
-          created_at: '2020-03-29',
-          warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
-        },
-        {
-          id: 5,
-          username: '阿嬌',
-          email: '05@gamail.com',
-          status: '啟用中',
-          created_at: '2023-07-15',
-          warning_list: ['不實評論', '惡意評論'],
-        },
-      ],
+      usersData: null,
+      // users: [
+      //   {
+      //     id: 1,
+      //     username: '小明',
+      //     email: '01@gamail.com',
+      //     status: '啟用中',
+      //     created_at: '2022-01-05',
+      //     warning_list: [],
+      //   },
+      //   {
+      //     id: 2,
+      //     username: '明明',
+      //     email: '02@gamail.com',
+      //     status: '啟用中',
+      //     created_at: '2020-05-06',
+      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容', '不實評論', '不實評論'],
+      //   },
+      //   {
+      //     id: 3,
+      //     username: '小華',
+      //     email: '03@gamail.com',
+      //     status: '停權中',
+      //     created_at: '2020-03-06',
+      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
+      //   },
+      //   {
+      //     id: 4,
+      //     username: '小壯',
+      //     email: '04@gamail.com',
+      //     status: '停權中',
+      //     created_at: '2020-03-29',
+      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
+      //   },
+      //   {
+      //     id: 5,
+      //     username: '阿嬌',
+      //     email: '05@gamail.com',
+      //     status: '啟用中',
+      //     created_at: '2023-07-15',
+      //     warning_list: ['不實評論', '惡意評論'],
+      //   },
+      // ],
       jointimes: [
         {
           id: 1,
@@ -149,21 +160,25 @@ export default {
       // 宣告filter變數
 
       const filterInput = this.searchText;
+
+      // 待處理會員狀態功能
       const filterStatus = this.selectStatus;
 
       // 條件篩選 input
       if (filterInput) {
-        return this.users.filter((user) => user.username.match(filterInput) || user.email.match(filterInput));
+        return this.usersData.filter((user) => user.name.match(filterInput) || user.email.match(filterInput));
       } else {
         // 條件篩選 select
 
         if (filterStatus === '全部') {
-          return this.users;
+          // return this.users;
+          return this.usersData;
         } else {
-          return this.users.filter((user) => {
+          return this.usersData.filter((user) => {
             let filtered = true;
 
             // 會員身分篩選
+
             if (filterStatus && filterStatus.length > 0) {
               filtered = user.status === filterStatus;
             }
@@ -204,7 +219,22 @@ export default {
       }
     },
   },
-  mounted() {},
+  methods: {
+    async getAdminMembersData(page = 1) {
+      try {
+        const res = await getAdminMembers(page);
+        // console.log(res.data.data)
+        this.usersData = res.data.data;
+        // console.log(this.usersData);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
+  mounted() {
+    this.getAdminMembersData();
+    // console.log(this.usersData)
+  },
 };
 </script>
 <style lang=""></style>

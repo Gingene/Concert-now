@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { http, path } from '@/api';
+import { loadingStore } from '../stores/isLoading';
 
 const cookies = useCookies();
 const { toast } = useToast();
@@ -10,11 +11,27 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     AccessToken: '',
     user: {},
+    userDynamic: {},
     // 收藏與追蹤列表
     savedConcerts: [],
     followedArtists: [],
   }),
   actions: {
+    getUserDynamic() {
+      const { setIsLoading } = loadingStore();
+      setIsLoading();
+      http
+        .get(`${path.me}`)
+        .then((res) => {
+          this.userDynamic = res.data.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
     getToken() {
       this.AccessToken = cookies.get('AccessToken');
     },
@@ -29,15 +46,15 @@ export const useUserStore = defineStore('user', {
         .then((res) => {
           this.savedConcerts = res.data.data.saved_concerts;
           this.followedArtists = res.data.data.followed_artists;
-          // console.log(this.savedConcerts);
-          // console.log(this.followedArtists);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     logout() {
-      cookies.remove('AccessToken');
+      // cookies.remove('AccessToken');
+      const key = 'AccessToken';
+      document.cookie = key + '="";expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
       localStorage.removeItem('user');
       this.AccessToken = '';
       this.user = {};
@@ -46,6 +63,14 @@ export const useUserStore = defineStore('user', {
         description: '',
       });
       location.reload();
+    },
+    adminLogout() {
+      const key = 'AccessToken';
+      document.cookie = key + '="";expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+      localStorage.removeItem('user');
+      this.AccessToken = '';
+      this.user = {};
+      location.href = '/';
     },
   },
 });

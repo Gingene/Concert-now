@@ -3,15 +3,14 @@
   <div class="grid grid-cols-4 grid-flow-col gap-4 px-12">
     <!-- Left: Profile -->
     <div class="col-span-1">
-      <div
-        class="mb-5 border-2 rounded-full w-[150px] h-[150px] bg-white bg-[length:100px] bg-center bg-no-repeat"
-        style="background-image: url('https://blush.design/api/download?shareUri=kK-78nEmrjoy3GoG&c=Skin_0%7Effdbb4&w=300&h=300&fm=png')"></div>
-      <h2 class="pl-4 pb-3 tracking-widest">隔壁阿姨</h2>
-      <p class="pl-4 pb-8">i-live-next-door@gmail.com</p>
+      <!-- ! 圖片未綁 -->
+      <img class="mb-5 border-2 rounded-full w-[150px] h-[150px]" :src="user.profile_image_url" />
+      <h2 class="font-bold">{{ user.name }}</h2>
+      <p class="pb-6">{{ user.email }}</p>
       <!-- Reset Password -->
       <Dialog>
         <DialogTrigger as-child>
-          <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
+          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
@@ -32,7 +31,7 @@
               <Button type="button" variant="secondary">放棄變更</Button>
             </DialogClose>
             <!-- 不會真的送出資料，所以用 DialogClose -->
-            <DialogClose as-child>
+            <DialogClose>
               <Button type="button">確認送出</Button>
             </DialogClose>
           </DialogFooter>
@@ -90,8 +89,8 @@
               <AlertDialogTitle>確定要刪除 N筆 成員嗎？</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>取消</AlertDialogCancel>
-              <AlertDialogAction>確定刪除</AlertDialogAction>
+              <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
+              <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -179,25 +178,6 @@
           </TableRow>
         </TableBody>
       </Table>
-      <!-- Pagination -->
-      <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="2" class="self-center py-2">
-        <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-          <PaginationFirst />
-          <PaginationPrev />
-
-          <template v-for="(item, index) in items">
-            <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
-                {{ item.value }}
-              </Button>
-            </PaginationListItem>
-            <PaginationEllipsis v-else :key="item.type" :index="index" />
-          </template>
-
-          <PaginationNext />
-          <PaginationLast />
-        </PaginationList>
-      </Pagination>
     </div>
   </div>
 </template>
@@ -238,7 +218,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
 <script>
@@ -250,34 +229,38 @@ export default {
           id: 1,
           name: '豪豪',
           email: 'b0936486128@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=ltwY9be3CZixC6Ry&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=aMylVqvsAIdbUCWF&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           id: 2,
           name: '銀光菇',
           email: 'ginx2618@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=9BKmRgzEGqBdo87r&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=Ot4kL7W8vXaZuIln&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
         {
           id: 3,
           name: 'Celine 510',
           email: 'celinewu1010@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=reSnnGiW_t0Ou6AT&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=SrcR-6gR3qxMRiBp&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
         {
           id: 4,
           name: 'Celine',
           email: 'celine41104@gmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=oBYs0Utxj_Yarj3B&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=r7SbaqZLzqnnhy1b&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
         },
         {
           id: 5,
           name: '人平',
           email: 'chen.jen.ping@hotmail.com',
-          avatar: 'https://blush.design/api/download?shareUri=PP-s_wAC6c0zMPp3&c=Skin_0%7Effdbb4&w=300&h=300&fm=png',
+          avatar: 'https://blush.design/api/download?shareUri=ZK0hThocjZ27JP1R&c=Skin_0%7Eedb98a&w=300&h=300&fm=png',
         },
       ],
+      user: {},
     };
+  },
+  mounted() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   },
 };
 </script>

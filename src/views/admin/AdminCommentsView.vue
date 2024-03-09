@@ -1,6 +1,6 @@
 <template>
   <!-- Search/Command -->
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-8 lg:pt-6">
     <div class="col-span-2 lg:col-span-1">
       <Select v-model="selectReview">
         <SelectTrigger>
@@ -134,7 +134,7 @@
   </div>
   <!-- Pagination -->
   <div class="flex justify-center">
-    <Pagination v-slot="{ page }" :total="100" :sibling-count="1" show-edges :default-page="1">
+    <Pagination v-slot="{ page }" :total="10" :sibling-count="1" show-edges :default-page="1">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst />
         <PaginationPrev />

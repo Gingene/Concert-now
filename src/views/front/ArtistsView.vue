@@ -2,27 +2,24 @@
   <!-- swiper start -->
   <!-- swiper end -->
 
-  <section class="container relative">
+  <section class="container relative pb-[128px] lg:pb-[192px]">
     <!-- 區塊二 start-->
     <div class="grid grid-flow-col">
-      <BannerComponent 
-        :prop-placeholder="bannerInputPlaceholder"
-        @searchMethod="searchArtists"
-      >
+      <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchArtists">
         <template #mainTitle>ARTISTS</template>
       </BannerComponent>
     </div>
     <!-- 區塊二 end-->
 
     <!-- 區塊三(篩選按鈕) start-->
-    <div>
-      <div class="w-full flex gap-4 mb-3.5">
-        <button 
-          v-for="country in countries" class="basic" 
-          :class="[activeBtnOneIndex === country.id ? 'tiffany-blur-fill' : 'tiffany-blur']"  
-          @click="toggleBtnOne(country.id)"
-          :key="country.id"
-        >
+    <div class="mb-4 lg:mb-14 mt-4">
+      <div class="w-full flex flex-wrap gap-4">
+        <button
+          v-for="country in countries"
+          class="basic"
+          :class="[activeFilterCountry === country.location ? 'pink-fill' : 'pink-outline']"
+          @click="FilterByCountry(country.location)"
+          :key="country.id">
           {{ country.location }}
         </button>
       </div>
@@ -30,43 +27,139 @@
     <!-- 區塊三(篩選按鈕) end-->
 
     <!-- 區塊四(表演者總覽 &follow) start -->
-    <div class="py-5">
 
+    <div>
       <!--  grid  -->
-      <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <RouterLink :to="`/artists/${artist.id}`" class="flex flex-row justify-between items-center p-2.5 md:border-[1px] rounded-2xl" v-for="artist in artists" :key="artist.id">
-          <div class="w-[81%] flex items-center">
+      <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <li v-for="artist in aristData.artists" :key="artist.id" class="flex flex-row justify-between items-center px-4 py-3 md:border-2 border-black-80 rounded-2xl">
+          <RouterLink :to="`/artists/${artist.id}`" class="w-[81%] flex items-center">
             <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
             <div class="ml-4">
-              <div class="pr-3">
-                <p class="text-lg md:text-xl">{{ artist.name }}</p>
-                <p class="text-[13px] text-slate-500">{{ artist.follower_count }} fans</p>
+              <p class="text-base lg:text-lg">{{ artist.name }}</p>
+              <div class="flex gap-3">
+                <p class="text-tiny text-black-40">{{ artist.follower_count }} fans</p>
+                <p class="text-tiny text-black-60">{{ artist.concert_count }} concerts</p>
               </div>
-              <p class="text-[13px">{{ artist.concert_count }} concerts</p>
+              <!-- <div class="pr-3">
+                <p class="text-base lg:text-lg">{{ artist.name }}</p>
+                <p class="text-tiny text-black-60">{{ artist.follower_count }} fans</p>
+              </div>
+              <p class="text-tiny text-black-60">{{ artist.concert_count }} concerts</p> -->
             </div>
-          </div>
-          <button class="basic tiffany-outline" :key="artist.id">follow</button>
-        </RouterLink>
+          </RouterLink>
+          <AlertDialog>
+            <AlertDialogTrigger class="flex">
+              <button v-if="AccessToken === undefined" class="hover:translate-y-[-.25rem] basic-follow text-sm tiffany-outline">Follow</button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>登入才能追蹤！</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <router-link to="/login"> 前往登入 </router-link>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <button
+            v-if="AccessToken !== undefined"
+            :key="artist.id"
+            class="hover:translate-y-[-.25rem] basic-follow text-sm"
+            :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
+            @click="toggleFollowArtists(artist.is_followed, artist.id)">
+            {{ artist.is_followed ? 'Following' : 'Follow' }}
+          </button>
+          <!-- <HoverCard>
+            <HoverCardTrigger>
+              <button :key="artist.id" class="basic-follow text-base" :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'" @click="toggleFollowArtists(artist.is_followed, artist.id)">
+                {{ artist.is_followed ? 'Following' : 'Follow' }}
+              </button>
+            </HoverCardTrigger> -->
+          <!-- 辨識登入狀態，未登入才顯示提示框 -->
+          <!-- <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟追蹤功能 </HoverCardContent>
+          </HoverCard> -->
+        </li>
       </ul>
     </div>
     <!-- 區塊四(表演者總覽 &follow) end -->
+
+    <!-- Pagination start -->
+    <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages" :sibling-count="1" show-edges :default-page="1" class="flex justify-center my-5 lg:my-12 pt-16">
+      <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+        <PaginationFirst />
+        <PaginationPrev />
+
+        <template v-for="(item, index) in items">
+          <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+              {{ item.value }}
+            </Button>
+          </PaginationListItem>
+          <PaginationEllipsis v-else :key="item.type" :index="index" />
+        </template>
+
+        <PaginationNext />
+        <PaginationLast />
+      </PaginationList>
+    </Pagination>
+    <!-- Pagination end -->
+
+    <hr class="border-b-2 border-black-40" />
   </section>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
+// import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
+// 引入pinia 內容
+import { mapState, mapActions } from 'pinia';
+import { useUserStore } from '@/stores/user';
+import { useArtistsStore } from '@/stores/artists';
+
+// 引入hooks
+// import useDarkAlert from '@/hooks/useDarkAlert';
+
+// 引入API方法
 import { getArtists, getInputArtist } from '../../api/index';
 import { useDebounceFn } from '@vueuse/core';
+import { useToast } from '@/components/ui/toast/use-toast';
+import { loadingStore } from '@/stores/isLoading';
+const { toast } = useToast();
+const { setIsLoading } = loadingStore();
+
+// const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {
     return {
-      activeBtnOneIndex: 0,
-      bannerInputPlaceholder: '請輸入表演者名稱',
-      artists: [],
+      activeFilterCountry: '',
+      isFollowActive: {},
+      bannerInputPlaceholder: '輸入表演者名稱',
+      aristData: {
+        artists: [],
+        searchWord: '',
+        pagination: {},
+        param: '',
+      },
       countries: [
         {
           id: 1,
@@ -74,48 +167,104 @@ export default {
         },
         {
           id: 2,
-          location: '日本',
+          location: '台灣',
         },
         {
           id: 3,
-          location: '韓國',
+          location: '日本',
         },
         {
           id: 4,
-          location: '歐美',
+          location: '韓國',
         },
         {
           id: 5,
-          location: '其他',
+          location: '歐美',
+        },
+        {
+          id: 6,
+          location: '其它',
         },
       ],
     };
   },
+  computed: {
+    ...mapState(useUserStore, ['AccessToken']),
+  },
   methods: {
-    toggleBtnOne(index) {
-      this.activeBtnOneIndex = index;
-    },
-    async getArtistsData() {
-      try {
-        const res = await getArtists();
-        this.artists = res.data.data;
+    ...mapActions(useArtistsStore, ['postFollowConcetsData', 'deleteFollowConcetsData']),
 
+    async toggleFollowArtists(isfollow, id) {
+      // 未登入狀態：改按鈕顯示時判斷
+      // if (!this.AccessToken) {
+      //   swalWithStylingButtons
+      //     .fire({
+      //       title: '登入後才能用追蹤功能喔！',
+      //       showCancelButton: true,
+      //       confirmButtonText: '前往登入',
+      //     })
+      //     .then((result) => {
+      //       if (result.isConfirmed) {
+      //         window.location.href = 'login#/login';
+      //       }
+      //     });
+      //   return;
+      // }
+
+      // 登入且未追蹤狀態
+      if (!isfollow) {
+        // 新增追蹤
+        this.postFollowConcetsData(id).then(() => this.getArtistsData());
+        this.toastMsg('追蹤成功');
+      } else {
+        // 登入且追蹤狀態 => 刪除追蹤
+        this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
+        this.toastMsg('刪除追蹤成功');
+      }
+    },
+    async getArtistsData(page = 1) {
+      try {
+        const res = await getArtists(page);
+        this.aristData.artists = res.data.data;
+        this.aristData.pagination = res.data.pagination;
+        // console.log(this.aristData.pagination)
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
-    searchArtists: useDebounceFn(async function(searchText) {
-      try {
-        const res = await getInputArtist(searchText);
-        this.artists = res.data.data;
+    FilterByCountry(country = '全部') {
+      this.activeFilterCountry = country;
 
-      } catch(error) {
-        console.log(error);
+      country === '全部' ? (this.aristData.param = '') : (this.aristData.param = country);
+
+      setIsLoading();
+      this.searchArtists(this.aristData.searchWord);
+      setTimeout(() => {
+        setIsLoading();
+      }, 500);
+    },
+    searchArtists: useDebounceFn(async function (searchText, page = 1) {
+      this.aristData.searchWord = searchText;
+
+      try {
+        const res = await getInputArtist(this.aristData.searchWord, this.aristData.param, page);
+
+        this.aristData.artists = res.data.data;
+        // console.log(this.aristData.artists);
+      } catch (error) {
+        console.error(error);
       }
-    } ,300) 
+    }, 300),
+    toastMsg(msg) {
+      toast({
+        title: msg,
+        description: '',
+      });
+    },
   },
   mounted() {
     this.getArtistsData();
+    this.FilterByCountry();
   },
 };
 </script>
