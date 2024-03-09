@@ -157,12 +157,12 @@
             </Popover>
             <DialogContent class="rounded-md">
               <DialogHeader>
-                <DialogTitle class="mb-6">新增歌曲</DialogTitle>
+                <DialogTitle class="mb-2 md:mb-4">新增歌曲</DialogTitle>
                 <p class="text-base text-black-0">請輸入 {{ singleConcert.title }} 有演唱的曲目</p>
-                <p class="text-sm text-black-60 pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
-                <DialogDescription class="space-y-8">
+                <p class="text-sm text-black-60 pb-0 md:pb-4">※ 單筆曲目的名稱與 YT 連結都要填寫，若有缺漏會新增失敗。</p>
+                <DialogDescription class="space-y-2 md:space-y-4">
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 1</p>
+                    <p class="text-start text-base text-black-40">曲目 1</p>
                     <div class="relative flex items-center">
                       <label for="song1Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song1Name" v-model="songs[0].name" class="ml-[7rem] border-white" />
@@ -173,7 +173,7 @@
                     </div>
                   </div>
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 2</p>
+                    <p class="text-start text-base text-black-40">曲目 2</p>
                     <div class="relative flex items-center">
                       <label for="song2Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song2Name" v-model="songs[1].name" class="ml-[7rem] border-white" />
@@ -184,7 +184,7 @@
                     </div>
                   </div>
                   <div class="space-y-2">
-                    <p class="text-base text-black-40">曲目 3</p>
+                    <p class="text-start text-base text-black-40">曲目 3</p>
                     <div class="relative flex items-center">
                       <label for="song3Name" class="absolute text-white bg-black-85 border-black-85 border-[1px] rounded-md pl-6 pr-20 -z-10 py-2 px-3">曲目名稱</label>
                       <Input type="text" name="song3Name" v-model="songs[2].name" class="ml-[7rem] border-white" />
