@@ -4,12 +4,12 @@ import { adminPath, http, path } from '@/api';
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '../stores/isLoading';
-// import { useToast } from '@/components/ui/toast/use-toast';
+import { useToast } from '@/components/ui/toast/use-toast';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 const { getUserSavedAndFollowed } = useUserStore();
 const { setIsLoading } = loadingStore();
-// const { toast } = useToast();
+const { toast } = useToast();
 
 export const useConcertsStore = defineStore('concerts', {
   state: () => {
@@ -128,9 +128,9 @@ export const useConcertsStore = defineStore('concerts', {
         .then(() => {
           // 重新取得收藏與追蹤結果
           getUserSavedAndFollowed(request);
-          // toast({
-          //   title: request === 'post' ? '已加入收藏' : '已取消收藏',
-          // });
+          toast({
+            title: request === 'post' ? '已加入收藏' : '已取消收藏',
+          });
         })
         .catch((error) => {
           console.error(error);
