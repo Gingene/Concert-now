@@ -243,7 +243,7 @@
         <template #mainTitle>場地體驗</template>
       </TitleComponent>
       <!-- Venue Info -->
-      <article class="w-[70%] lg:order-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
+      <article class="w-full md:w-[70%] lg:order-2 py-10 sm:py-14 px-2 xs:px-7 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
         <!-- Venue Title -->
         <h2 href="#" class="font-bold text-center text-2xl xl:text-3xl pb-2">{{ venue.title }}</h2>
         <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
