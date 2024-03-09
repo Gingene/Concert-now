@@ -45,6 +45,7 @@ const router = createRouter({
           path: 'artists/:id',
           name: 'artist',
           component: () => import('../views/front/ArtistSingleView.vue'),
+          props: true,
         },
         {
           path: 'concerts',
