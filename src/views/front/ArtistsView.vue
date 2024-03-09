@@ -174,12 +174,11 @@ export default {
       if (!isfollow) {
         // 新增追蹤
         this.postFollowConcetsData(id).then(() => this.getArtistsData());
-        this.toastMsg('追蹤成功')
-
+        this.toastMsg('追蹤成功');
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getArtistsData());
-        this.toastMsg('刪除追蹤成功')
+        this.toastMsg('刪除追蹤成功');
       }
     },
     async getArtistsData(page = 1) {
@@ -189,7 +188,7 @@ export default {
         this.aristData.pagination = res.data.pagination;
         // console.log(this.aristData.pagination)
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
     FilterByCountry(country = '全部') {
@@ -210,9 +209,9 @@ export default {
         const res = await getInputArtist(this.aristData.searchWord, this.aristData.param, page);
 
         this.aristData.artists = res.data.data;
-        console.log(this.aristData.artists);
+        // console.log(this.aristData.artists);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }, 300),
     toastMsg(msg) {

@@ -223,9 +223,9 @@ export default {
         const res = await getAdminMembers(page);
         // console.log(res.data.data)
         this.usersData = res.data.data;
-        console.log(this.usersData);
+        // console.log(this.usersData);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },
