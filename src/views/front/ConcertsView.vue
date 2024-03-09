@@ -65,7 +65,7 @@
               <router-link :to="`/concerts/${concert.id}`">
                 <img :src="concert.cover_urls.square" :alt="concert.title" class="brightness-90 aspect-square rounded-2xl object-cover min-w-full" />
               </router-link>
-              <CardDescription class="h-[10rem] md:h-[13rem] lg:h-[12rem] border-x-2 pt-6 px-6 border-black-80 flex justify-between align-top">
+              <CardDescription class="h-[8rem] sm:h-[10rem] md:h-[13rem] lg:h-[12rem] border-x-2 pt-6 px-6 border-black-80 flex justify-between align-top">
                 <div>
                   <p class="text-tiny text-black-60">
                     {{ concert.holding_time.substring(0, 10) }}
