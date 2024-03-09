@@ -82,6 +82,7 @@ export const useConcertsStore = defineStore('concerts', {
         .get(adminPath.concerts)
         .then((res) => {
           this.adminConcerts = res.data.data;
+          // console.log(this.adminConcerts);
           this.pagination = res.data.pagination;
         })
         .catch((error) => {
