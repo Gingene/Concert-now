@@ -4,8 +4,9 @@
     <section class="artist-intro mb-10 md:mb-[6.5rem] lg:mb-40">
       <div class="flex justify-between mb-5">
         <div class="flex">
-          <p class="mr-1" v-for="(keyword, index) in singleArtist?.keywords" :key="index">{{ keyword }}
-          <span v-if="singleArtist.keywords?.length-1 !== index">/</span>
+          <p class="mr-1" v-for="(keyword, index) in singleArtist?.keywords" :key="index">
+            {{ keyword }}
+            <span v-if="singleArtist.keywords?.length - 1 !== index">/</span>
           </p>
         </div>
         <HoverCard>
@@ -36,7 +37,6 @@
 
     <!-- 盒子(含區塊二及區塊三) -->
     <div class="md:flex md:justify-between md:items-center lg:w-[70%] lg:mx-auto">
-      
       <!-- 表演者介紹(區塊二) start -->
       <section class="mb-[150px] md:mb-0 md:w-[45%]">
         <p class="break-all text-justify pb-10 md:pb-6 md:text-[12px] lg:text-[13px]">
@@ -55,11 +55,11 @@
       <!-- 表演者介紹(區塊三) start -->
       <section class="artist-honors-relative md:w-[50%]">
         <p class="honors text-stroke-light bg-artistName">HONORS</p>
-        <p class="bg-shadow-trans-text artist-honors w-[90%] md:w-[100%] ml-auto text-center break-keep py-[50px] px-[10px] md:py-[60px] rounded-[31px] z-[-1]">
-          <div v-for="(honor, index) in singleArtist?.honors" :key="index"> 
-            {{ honor }} <span v-if="singleArtist.honors?.length-1 !== index"><br />-<br /></span> 
+        <div class="bg-shadow-trans-text artist-honors w-[90%] md:w-[100%] ml-auto text-center break-keep py-[50px] px-[10px] md:py-[60px] rounded-[31px] z-[-1]">
+          <div v-for="(honor, index) in singleArtist?.honors" :key="index">
+            {{ honor }} <span v-if="singleArtist.honors?.length - 1 !== index"><br />-<br /></span>
           </div>
-        </p>
+        </div>
       </section>
       <!-- 表演者介紹(區塊三) end -->
     </div>
@@ -70,40 +70,41 @@
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
       </TitleComponent>
-      <div
-        v-if="singleArtist?.upcoming_concerts.length > 0"
-        v-for="upcoming in singleArtist?.upcoming_concerts"
-        :key="upcoming.id"
-        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
-        <div class="flex items-center">
-          <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
-            <p class="text-[12px] sm:text-[15px] md:text-[19px]">
-              {{ moment(upcoming.holding_time).format('MM/DD') }}
-            </p>
-            <p class="text-[14px] sm:text-[18px] md:text-[22px]">
-              {{ moment(upcoming.holding_time).format('YYYY') }}
-            </p>
+      <template v-if="singleArtist?.upcoming_concerts.length > 0">
+        <div
+          v-for="upcoming in singleArtist?.upcoming_concerts"
+          :key="upcoming.id"
+          class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+          <div class="flex items-center">
+            <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
+              <p class="text-[12px] sm:text-[15px] md:text-[19px]">
+                {{ moment(upcoming.holding_time).format('MM/DD') }}
+              </p>
+              <p class="text-[14px] sm:text-[18px] md:text-[22px]">
+                {{ moment(upcoming.holding_time).format('YYYY') }}
+              </p>
+            </div>
+            <div>
+              <RouterLink :to="`/concerts/${upcoming?.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
+                {{ upcoming?.title }}
+              </RouterLink>
+              <p class="text-[13px] sm:text-[16px] md:text-[18px] text-black-60">
+                {{ upcoming?.venue?.title }}
+              </p>
+            </div>
           </div>
-          <div>
-            <RouterLink :to="`/concerts/${upcoming?.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
-              {{ upcoming?.title }}
-            </RouterLink>
-            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-black-60">
-              {{ upcoming?.venue?.title }}
-            </p>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <button class="mb-auto" @click="changeSaveConcertsMode(upcoming.id)">
+                <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+              </button>
+            </HoverCardTrigger>
+            <!-- 辨識登入狀態，未登入才顯示提示框 -->
+            <HoverCardContent v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
+          </HoverCard>
         </div>
-        <HoverCard>
-          <HoverCardTrigger>
-            <button class="mb-auto" @click="changeSaveConcertsMode(upcoming.id)">
-              <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-              <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-            </button>
-          </HoverCardTrigger>
-          <!-- 辨識登入狀態，未登入才顯示提示框 -->
-          <HoverCardContent v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
-        </HoverCard>
-      </div>
+      </template>
 
       <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
     </div>
@@ -116,41 +117,42 @@
         <template #mainTitle>已結束</template>
       </TitleComponent>
 
-      <div
-        v-if="singleArtist?.historical_concerts.length > 0"
-        v-for="historical in singleArtist?.historical_concerts"
-        :key="historical.id"
-        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto"
-      >
-        <div class="flex items-center">
-          <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
-            <p class="text-[12px] sm:text-[15px] md:text-[19px]">
-              {{ moment(historical.holding_time).format('MM/DD') }}
-            </p>
-            <p class="text-[14px] sm:text-[18px] md:text-[22px]">
-              {{ moment(historical.holding_time).format('YYYY') }}
-            </p>
+      <template v-if="singleArtist?.historical_concerts.length > 0">
+        <div
+          v-for="historical in singleArtist?.historical_concerts"
+          :key="historical.id"
+          class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+          <div class="flex items-center">
+            <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
+              <p class="text-[12px] sm:text-[15px] md:text-[19px]">
+                {{ moment(historical.holding_time).format('MM/DD') }}
+              </p>
+              <p class="text-[14px] sm:text-[18px] md:text-[22px]">
+                {{ moment(historical.holding_time).format('YYYY') }}
+              </p>
+            </div>
+            <div>
+              <RouterLink :to="`/concerts/${historical.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
+                {{ historical?.title }}
+              </RouterLink>
+              <p class="text-[12px] sm:text-[15px] md:text-[16px] text-black-60">
+                {{ historical?.venue?.title }}
+              </p>
+            </div>
           </div>
-          <div>
-            <RouterLink :to="`/concerts/${historical.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
-              {{ historical?.title }}
-            </RouterLink>
-            <p class="text-[12px] sm:text-[15px] md:text-[16px] text-black-60">
-              {{ historical?.venue?.title }}
-            </p>
-          </div>
+          <HoverCard>
+            <HoverCardTrigger>
+              <button class="mb-auto" @click="changeSaveConcertsMode(historical.id)">
+                <font-awesome-icon v-if="saveState?.some((item) => item.id === historical?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+                <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+              </button>
+            </HoverCardTrigger>
+            <!-- 辨識登入狀態，未登入才顯示提示框 -->
+            <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟收藏功能 </HoverCardContent>
+          </HoverCard>
         </div>
-        <HoverCard>
-          <HoverCardTrigger>
-            <button class="mb-auto" @click="changeSaveConcertsMode(historical.id)">
-              <font-awesome-icon v-if="saveState?.some((item) => item.id === historical?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-              <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-            </button>
-          </HoverCardTrigger>
-          <!-- 辨識登入狀態，未登入才顯示提示框 -->
-          <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟收藏功能 </HoverCardContent>
-        </HoverCard>
-      </div>
+      </template>
+
       <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
     </div>
     <!-- 已結束(區塊五) end -->
@@ -202,9 +204,9 @@ export default {
       this.getSingleArtistData(newId);
 
       setTimeout(() => {
-       setIsLoading();
-    }, 300);
-    }
+        setIsLoading();
+      }, 300);
+    },
   },
   methods: {
     ...mapActions(useArtistsStore, ['postFollowConcetsData', 'deleteFollowConcetsData']),
@@ -212,14 +214,11 @@ export default {
     async getSingleArtistData(id) {
       try {
         // setIsLoading();
-
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
-
       } catch (error) {
         console.error(error);
-
-      } 
+      }
       // finally {
       //   setIsLoading();
       // }
@@ -245,10 +244,8 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id)
-          .then(() => this.getSingleArtistData(id));
-          this.toastMsg('追蹤成功');
-        
+        this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
+        this.toastMsg('追蹤成功');
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
@@ -297,7 +294,7 @@ export default {
     // 新增收藏演唱會
     async postSaveConcertsData(id) {
       try {
-        const res = await postSaveConcerts(id);
+        await postSaveConcerts(id);
         // console.log(res);
       } catch (error) {
         console.error(error);
@@ -305,7 +302,7 @@ export default {
     },
     async deleteSaveConcertsData(id) {
       try {
-        const res = await deleteSaveConcerts(id);
+        await deleteSaveConcerts(id);
         // console.log(res);
       } catch (error) {
         console.error(error);
@@ -322,12 +319,11 @@ export default {
     },
   },
   mounted() {
-
     setIsLoading();
     this.getSingleArtistData(Number(this.$route.params.id));
 
     setTimeout(() => {
-       setIsLoading();
+      setIsLoading();
     }, 300);
 
     if (this.AccessToken) {

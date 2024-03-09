@@ -128,7 +128,7 @@ export const songsStore = defineStore('songsStore', {
           .then((res) => {
             this.songs = [...res.data.data];
             this.pagination = { ...res.data.pagination };
-            console.log(res);
+            // console.log(res);
           })
           .catch((err) => {
             console.error(err);
@@ -196,7 +196,7 @@ export const songsStore = defineStore('songsStore', {
     },
     // comment 操作
     deleteSong(id) {
-      console.log(id);
+      // console.log(id);
       const index = this.songs.findIndex((item) => item.id === id);
       this.songs.splice(index, 1);
       this.alertMessage('success', '評論已刪除');
