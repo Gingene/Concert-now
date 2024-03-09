@@ -25,12 +25,12 @@
 
             <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4"></div>
 
-            <ScrollArea class="rounded-md border-0 p-4">
+            <ScrollArea class="rounded-md border-0 -ml-8 sm:ml-0 sm:p-4">
               <div v-if="artistResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
                 <h3 class="absolute top-2 left-0 text-2xl text-black-20 drop-shadow-light">表演者</h3>
-                <RouterLink to="/artists" class="absolute top-2 right-0">
+                <RouterLink to="/artists" class="absolute top-3 right-0">
                   <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
+                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
                   </DialogClose>
                 </RouterLink>
                 <Carousel class="w-[120px] md:w-[500px] lg:w-[90%] mt-16">
@@ -50,9 +50,9 @@
               </div>
               <div v-if="concertResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
                 <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">演唱會</h3>
-                <RouterLink to="/concerts" class="absolute top-4 right-0">
+                <RouterLink to="/concerts" class="absolute top-5 right-0">
                   <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
+                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
                   </DialogClose>
                 </RouterLink>
                 <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
@@ -65,8 +65,8 @@
                             :alt="concert.title"
                             class="size-[100px] md:size-[200px] lg:w-[250px] lg:h-[250px] xl:w-[300px] xl:h-[300px] object-cover rounded-2xl" />
                           <div class="flex flex-col items-center mt-2">
-                            <span class="text-base text-center text-white">{{ concert.title }}</span>
-                            <span class="text-base text-center text-border-60">{{ concert.holding_time }}</span>
+                            <span class="text-sm sm:text-base text-center text-white">{{ concert.title }}</span>
+                            <span class="text-sm sm:text-base text-center text-border-60">{{ concert.holding_time }}</span>
                           </div>
                         </DialogDescription>
                       </RouterLink>
@@ -78,20 +78,20 @@
               </div>
               <div v-if="venueResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
                 <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">場地</h3>
-                <RouterLink to="/venues" class="absolute top-4 right-0">
+                <RouterLink to="/venues" class="absolute top-5 right-0">
                   <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-base">查看更多</Button>
+                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
                   </DialogClose>
                 </RouterLink>
-                <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-[72px]">
+                <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
                   <CarouselContent>
                     <CarouselItem v-for="venue in venueResults" :key="venue.id" class="md:basis-1/2 lg:basis-1/3 2xl:basis-1/4">
                       <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col justify-center items-center" @click="openModal(false)">
-                        <DialogDescription>
+                        <DialogDescription class="mt-2 flex flex-col justify-center items-center">
                           <img :src="venue.picture.square" :alt="venue.title" class="size-[100px] md:size-[200px] lg:w-[300px] lg:h-[300px] object-cover rounded-2xl" />
                           <div class="mt-2 flex flex-col">
-                            <span class="text-base text-center text-white">{{ venue.title }}</span>
-                            <span class="text-base text-center text-border-60">{{ venue.city }}</span>
+                            <span class="text-sm sm:text-base text-center text-white">{{ venue.title }}</span>
+                            <span class="text-sm sm:text-base text-center text-border-60">{{ venue.city }}</span>
                           </div>
                         </DialogDescription>
                       </RouterLink>

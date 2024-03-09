@@ -5,7 +5,7 @@
   <div class="container relative mb-[50px] lg:mb-[117px] mt-[-3rem] xl:mt-[-4rem]">
     <h1 class="drop-shadow-light md:pl-20">網站理念</h1>
     <div class="border-2 w-[40%] md:w-[55%] ml-auto"></div>
-    <p class="text-center md:px-20 md:pt-[7rem]">
+    <p class="text-center pt-10 md:px-20 md:pt-[7rem]">
       現在台灣舉辦的音樂演唱會愈來愈多，不論是國際知名的歌手、韓團或台灣本地歌手，都紛紛在台灣開唱。<br />
       然而，目前卻沒有一個能夠集結所有演唱會資訊的平台。<br />
       現有的售票系統只提供部分演唱會資訊，而有些演出甚至只在特定售票系統上有售票。<br />
@@ -127,10 +127,23 @@ export default {
 }
 .bg-contactUs {
   font-weight: 900;
-  font-size: 4.5rem;
+  font-size: 2.5rem;
+  line-height: 1.9;
   overflow-x: hidden;
   text-wrap: nowrap;
   font-weight: 900;
+}
+@media screen and (min-width: 360px) {
+  .bg-contactUs {
+    font-size: 3rem;
+    line-height: 1.7;
+  }
+}
+@media screen and (min-width: 540px) {
+  .bg-contactUs {
+    font-size: 4.5rem;
+    line-height: 1.4;
+  }
 }
 .color-tiffany {
   color: var(--tiffany);
