@@ -1,5 +1,5 @@
 <template>
-  <LoginComponent :defaultPage="'login'" @method="handleLogin" />
+  <LoginComponent :defaultPage="'login'" @method="handleLogin" class="overflow-hidden" />
 </template>
 
 <script setup>
