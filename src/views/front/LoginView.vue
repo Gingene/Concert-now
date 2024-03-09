@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import LoginComponent from '@/components/front/login/loginComponent.vue';
+import LoginComponent from '@/components/front/login/LoginComponent.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
@@ -31,13 +31,15 @@ const login = (user) => {
       const { data } = res.data;
       document.cookie = `AccessToken=${data.access_token}; path=/`;
       localStorage.setItem('user', JSON.stringify(res.data.data.user));
+      toast({
+        title: '登入成功',
+      });
       router.push('/member');
     })
     .catch(() => {
       toast({
         title: '登入失敗，請再次確認資料是否正確。',
       });
-      this.userLogin.password = '';
     });
 };
 
