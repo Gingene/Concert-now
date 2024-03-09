@@ -43,7 +43,8 @@
         <div class="space-y-6 lg:space-y-10 box-shadow-light2 px-4 py-6 sm:p-10 rounded-btn2 lg:col-span-3">
           <div class="flex justify-between items-center">
             <Select v-model="seatArea">
-              <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
+              <!-- <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1"> -->
+              <SelectTrigger class="w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
                 <SelectValue placeholder="座位區" />
               </SelectTrigger>
               <SelectContent>
@@ -57,7 +58,7 @@
             <div class="text-center">
               <Dialog :open="openCommentModal" @update:open="openModal">
                 <DialogTrigger as-child>
-                  <Button variant="white-outline" class="rounded-full p-2">
+                  <Button variant="white-outline" class="rounded-full p-2 hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover hover:border-pink hover:text-white">
                     <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
                   </Button>
                 </DialogTrigger>

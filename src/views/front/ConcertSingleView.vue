@@ -344,7 +344,7 @@ export default {
       open: false,
       openTwo: false,
       // 歌單
-      songList: [],
+      // songList: [],
       // countdown
       countdownTimer: {},
       // venue comments
@@ -387,7 +387,6 @@ export default {
       http
         .post(`${path.songs}`, data)
         .then((res) => {
-          this.getSingleConcert(this.$route.params.id);
           // 延後關閉時間
           // setTimeout((this.openTwo = false), 1500);
           this.songs = [
@@ -404,8 +403,11 @@ export default {
               youtube_url: '',
             },
           ];
+          this.getSingleConcert(this.$route.params.id);
         })
         .then(() => {
+          // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+          this.songList = this.singleConcert.songs;
           toast({
             title: '曲目新增成功',
             description: '',
@@ -430,6 +432,9 @@ export default {
     // 寫在mounted會在取得pinia的state之前完成動作，導致取不到理想結果
     isSaved() {
       return [...this.savedConcerts];
+    },
+    songList() {
+      return this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
     },
   },
   watch: {

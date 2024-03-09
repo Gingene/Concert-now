@@ -31,7 +31,7 @@
 
   <!-- Table -->
   <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10" v-show="filteredData?.length !== 0">
-    <TableCaption>會員管理</TableCaption>
+    <!-- <TableCaption>會員管理</TableCaption> -->
     <TableHeader>
       <TableRow>
         <TableHead class="font-semibold"> 名稱 </TableHead>
@@ -51,10 +51,12 @@
           </div>
         </TableCell>
         <TableCell>{{ user?.email }}</TableCell>
-        <TableCell class="flex items-center">
-          <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
-          <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
-          {{ user.status }}
+        <TableCell>
+          <div  class="flex items-center">
+            <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
+            <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
+            {{ user.status }}
+          </div>
         </TableCell>
         <TableCell class="pl-10">{{ user?.warning_list.length }}</TableCell>
         <TableCell class="pl-10">{{ user?.id }}</TableCell>

@@ -159,6 +159,8 @@ import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
 import moment from 'moment';
 import { useToast } from '@/components/ui/toast/use-toast';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const { toast } = useToast();
 
@@ -193,6 +195,7 @@ export default {
     },
   },
   mounted() {
+    AOS.init();
     this.getAllConcerts();
 
     // 確認使用者登入狀態
