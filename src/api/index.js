@@ -107,6 +107,7 @@ const adminPath = {
   venues: '/admin/venues',
   venues_comments: '/admin/venues_comments',
   songs: '/admin/songs',
+  users: '/admin/users',
 };
 
 export { http, path, adminPath };

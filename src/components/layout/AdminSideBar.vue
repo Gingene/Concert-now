@@ -63,6 +63,14 @@ export default {
     return {
       sidebarNavItems: [
         {
+          title: '表演者資訊管理',
+          href: '/admin/artists',
+        },
+        {
+          title: '場地資訊管理',
+          href: '/admin/venues',
+        },
+        {
           title: '分析報表',
           href: '/admin/analysis',
         },

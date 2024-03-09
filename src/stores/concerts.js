@@ -1,15 +1,15 @@
 import { defineStore } from 'pinia';
 import useTimeCountryFilter from '@/hooks/useTimeCountryFilter';
-import { http, path } from '@/api';
+import { adminPath, http, path } from '@/api';
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '../stores/isLoading';
-import { useToast } from '@/components/ui/toast/use-toast';
+// import { useToast } from '@/components/ui/toast/use-toast';
 
 const { timeCountryFilter } = useTimeCountryFilter();
 const { getUserSavedAndFollowed } = useUserStore();
 const { setIsLoading } = loadingStore();
-const { toast } = useToast();
+// const { toast } = useToast();
 
 export const useConcertsStore = defineStore('concerts', {
   state: () => {
@@ -28,13 +28,28 @@ export const useConcertsStore = defineStore('concerts', {
   actions: {
     searchConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
-      this.getConcerts();
+      this.getFilterConcerts();
     }, 300),
     searchAdminConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
       this.getAdminConcerts();
     }, 300),
-    getConcerts(filterFactor, rangeFactor, page = 1) {
+    getAllConcerts() {
+      setIsLoading();
+      http
+        .get(path.concerts)
+        .then((res) => {
+          this.concerts = res.data.data;
+          this.pagination = res.data.pagination;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getFilterConcerts(filterFactor, rangeFactor, page = 1) {
       // 全部按鈕帶空字串，其他按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
@@ -61,7 +76,22 @@ export const useConcertsStore = defineStore('concerts', {
           setIsLoading();
         });
     },
-    getAdminConcerts(filterFactor, rangeFactor, page = 1) {
+    getAllAdminConcerts() {
+      setIsLoading();
+      http
+        .get(adminPath.concerts)
+        .then((res) => {
+          this.adminConcerts = res.data.data;
+          this.pagination = res.data.pagination;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getFilterAdminConcerts(filterFactor, rangeFactor, page = 1) {
       // 全部按鈕帶空字串，其它按鈕帶該字
       if (filterFactor === 'time') rangeFactor === '全部' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === '全部' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
@@ -74,36 +104,37 @@ export const useConcertsStore = defineStore('concerts', {
         this.pagination = data.pagination;
       });
     },
-    saveConcertAction(request, id) {
-      http[request](`${path.concerts}/${id}/${request === 'post' ? 'save' : 'unsave'}`)
-        .then((res) => {
-          // console.log(res);
-        })
-        .then(() => {
-          // 重新取得收藏與追蹤結果
-          getUserSavedAndFollowed();
-          toast({
-            title: request === 'post' ? '已加入收藏' : '已取消收藏',
-          });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
     callSaveAction(id) {
       // 每次調用callSaveAction，重新取得savedConcerts資料
       const { savedConcerts, AccessToken } = useUserStore();
       // 未登入，在頁面上已做過一次驗證
       if (AccessToken === undefined) return;
 
+      let request = '';
+
       // 取消收藏
       if ([...savedConcerts].some((item) => item.id === id)) {
-        this.saveConcertAction('delete', id);
+        request = 'delete';
       }
       // 收藏
       else {
-        this.saveConcertAction('post', id);
+        request = 'post';
       }
+
+      http[request](`${path.concerts}/${id}/${request === 'post' ? 'save' : 'unsave'}`)
+        .then((res) => {
+          // console.log(res);
+        })
+        .then(() => {
+          // 重新取得收藏與追蹤結果
+          getUserSavedAndFollowed(request);
+          // toast({
+          //   title: request === 'post' ? '已加入收藏' : '已取消收藏',
+          // });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 });

@@ -203,7 +203,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useConcertsStore, ['getConcerts']),
+    ...mapActions(useConcertsStore, ['getAllConcerts']),
     // 用戶瀏覽/註冊人數 圖表
     timeSeriesChart(type, time = 'day') {
       let chartId = 1;
@@ -274,7 +274,7 @@ export default {
   },
   mounted() {
     setIsLoading();
-    this.getConcerts();
+    this.getAllConcerts();
 
     // 一月日期生成
     for (let i = 1; i <= 31; i++) {
