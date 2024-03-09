@@ -76,7 +76,7 @@
         :key="upcoming.id"
         class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
         <div class="flex items-center">
-          <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
+          <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(upcoming.holding_time).format('MM/DD') }}
             </p>
@@ -88,7 +88,7 @@
             <RouterLink :to="`/concerts/${upcoming?.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
               {{ upcoming?.title }}
             </RouterLink>
-            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">
+            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-black-60">
               {{ upcoming?.venue?.title }}
             </p>
           </div>
@@ -120,10 +120,10 @@
         v-if="singleArtist?.historical_concerts.length > 0"
         v-for="historical in singleArtist?.historical_concerts"
         :key="historical.id"
-        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-between items-center lg:w-[70%] lg:mx-auto"
+        class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto"
       >
         <div class="flex items-center">
-          <div class="concert-box-time mr-3.5 md:mr-[45px] xl:mr-[120px]">
+          <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
             <p class="text-[12px] sm:text-[15px] md:text-[19px]">
               {{ moment(historical.holding_time).format('MM/DD') }}
             </p>
@@ -135,7 +135,7 @@
             <RouterLink :to="`/concerts/${historical.id}`" class="text-[14px] sm:text-[17px] md:text-[21px]">
               {{ historical?.title }}
             </RouterLink>
-            <p class="text-[13px] sm:text-[16px] md:text-[18px] text-gray-300">
+            <p class="text-[12px] sm:text-[15px] md:text-[16px] text-black-60">
               {{ historical?.venue?.title }}
             </p>
           </div>
@@ -175,7 +175,9 @@ import useDarkAlert from '@/hooks/useDarkAlert';
 import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
 import { useArtistsStore } from '@/stores/artists';
+import { useToast } from '@/components/ui/toast/use-toast';
 const { setIsLoading } = loadingStore();
+const { toast } = useToast();
 const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
@@ -186,12 +188,23 @@ export default {
       savedConcertsData: null,
     };
   },
+  props: ['id'],
   computed: {
     ...mapState(useUserStore, ['AccessToken']),
 
     saveState() {
       return this.savedConcertsData;
     },
+  },
+  watch: {
+    id(newId) {
+      setIsLoading();
+      this.getSingleArtistData(newId)
+
+      setTimeout(() => {
+       setIsLoading();
+    }, 300);
+    }
   },
   methods: {
     ...mapActions(useArtistsStore, ['postFollowConcetsData', 'deleteFollowConcetsData']),
@@ -232,14 +245,15 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
+        this.postFollowConcetsData(id)
+          .then(() => this.getSingleArtistData(id));
+          this.toastMsg('追蹤成功')
         
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
         this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
+        this.toastMsg('刪除追蹤成功')
       }
-
-      
     },
     // 收藏功能
     changeSaveConcertsMode(id) {
@@ -264,9 +278,11 @@ export default {
       if (this.savedConcertsData?.some((item) => item.id === id)) {
         // 刪除收藏
         this.deleteSaveConcertsData(id).then(() => this.getSavedConcertsData());
+        this.toastMsg('已取消收藏')
       } else {
         // 新增收藏
         this.postSaveConcertsData(id).then(() => this.getSavedConcertsData());
+        this.toastMsg('已加入收藏')
       }
     },
     // 取得 收藏演唱會資料
@@ -297,6 +313,12 @@ export default {
     },
     updateData(id) {
       this.getSingleArtistData(id);
+    },
+    toastMsg(msg) {
+      toast({
+        title: msg,
+        description: '',
+      });
     },
   },
   mounted() {
