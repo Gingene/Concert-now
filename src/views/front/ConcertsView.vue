@@ -115,20 +115,20 @@
       <!-- Pagination -->
       <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
-          <PaginationFirst />
-          <PaginationPrev />
+          <PaginationFirst @click="getFilterConcerts('', '', 1)" />
+          <PaginationPrev @click="getFilterConcerts('', '', pagination.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'">
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getFilterConcerts('', '', index + 1)">
                 {{ item.value }}
               </Button>
             </PaginationListItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
 
-          <PaginationNext />
-          <PaginationLast />
+          <PaginationNext @click="getFilterConcerts('', '', pagination.current_page + 1)" />
+          <PaginationLast @click="getFilterConcerts('', '', pagination.total_pages)" />
         </PaginationList>
       </Pagination>
     </main>
@@ -159,8 +159,6 @@ import { useConcertsStore } from '@/stores/concerts';
 import { useUserStore } from '@/stores/user';
 import moment from 'moment';
 import { useToast } from '@/components/ui/toast/use-toast';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 const { toast } = useToast();
 
@@ -195,7 +193,6 @@ export default {
     },
   },
   mounted() {
-    AOS.init();
     this.getAllConcerts();
 
     // 確認使用者登入狀態
