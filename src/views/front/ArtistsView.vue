@@ -38,8 +38,9 @@
               <p class="text-base lg:text-lg">{{ artist.name }}</p>
               <div class="flex gap-3">
                 <p class="text-tiny text-black-40">{{ artist.follower_count }} fans</p>
-                <p class="text-tiny text-black-60">{{ artist.concert_count }} concerts</p>
+                <p class="text-tiny text-black-60 hidden xs:block">{{ artist.concert_count }} concerts</p>
               </div>
+              <p class="text-tiny text-black-60 block xs:hidden">{{ artist.concert_count }} concerts</p>
               <!-- <div class="pr-3">
                 <p class="text-base lg:text-lg">{{ artist.name }}</p>
                 <p class="text-tiny text-black-60">{{ artist.follower_count }} fans</p>
