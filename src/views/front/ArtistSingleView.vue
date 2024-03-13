@@ -213,15 +213,11 @@ export default {
 
     async getSingleArtistData(id) {
       try {
-        // setIsLoading();
         const res = await getSingleArtist(id);
         this.singleArtist = res.data.data;
       } catch (error) {
         console.error(error);
       }
-      // finally {
-      //   setIsLoading();
-      // }
     },
     // 追蹤功能
     toggleFollowArtist(isfollow, id) {
@@ -244,12 +240,10 @@ export default {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
-        this.postFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        this.toastMsg('追蹤成功');
+        this.handleFollowAction(id, '新增', '追蹤成功');
       } else {
         // 登入且追蹤狀態 => 刪除追蹤
-        this.deleteFollowConcetsData(id).then(() => this.getSingleArtistData(id));
-        this.toastMsg('刪除追蹤成功');
+        this.handleFollowAction(id, '刪除', '刪除追蹤成功');
       }
     },
     // 收藏功能
@@ -274,12 +268,10 @@ export default {
       // 判別是否已收藏
       if (this.savedConcertsData?.some((item) => item.id === id)) {
         // 刪除收藏
-        this.deleteSaveConcertsData(id).then(() => this.getSavedConcertsData());
-        this.toastMsg('已取消收藏');
+        this.handleSaveAction(id, '刪除', '已加入收藏');
       } else {
         // 新增收藏
-        this.postSaveConcertsData(id).then(() => this.getSavedConcertsData());
-        this.toastMsg('已加入收藏');
+        this.handleSaveAction(id, '新增', '已取消收藏');
       }
     },
     // 取得 收藏演唱會資料
@@ -300,6 +292,7 @@ export default {
         console.error(error);
       }
     },
+    // 刪除收藏
     async deleteSaveConcertsData(id) {
       try {
         await deleteSaveConcerts(id);
@@ -308,14 +301,36 @@ export default {
         console.error(error);
       }
     },
-    updateData(id) {
-      this.getSingleArtistData(id);
+    // 新增或刪除追蹤
+    handleFollowAction(id, actionType, msg) {
+      const followAction = actionType === '新增' ? this.postFollowConcetsData : this.deleteFollowConcetsData;
+
+      followAction(id)
+        .then(() => this.getSingleArtistData(id))
+        .then(() => {
+          // 延遲顯示 toastMsg，等待 getArtistsData 完成後
+          setTimeout(() => this.toastMsg(msg), 300);
+        });
+    },
+    // 新增或刪除收藏
+    handleSaveAction(id, actionType, msg) {
+      const saveAction = actionType === '新增' ? this.postSaveConcertsData : this.deleteSaveConcertsData;
+
+      saveAction(id)
+        .then(() => this.getSavedConcertsData())
+        .then(() => {
+          // 延遲顯示 toastMsg，等待 getArtistsData 完成後
+          setTimeout(() => this.toastMsg(msg), 300);
+        });
     },
     toastMsg(msg) {
       toast({
         title: msg,
         description: '',
       });
+    },
+    updateData(id) {
+      this.getSingleArtistData(id);
     },
   },
   mounted() {

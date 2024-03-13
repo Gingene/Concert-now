@@ -32,7 +32,7 @@
               @click="activeArea(area)"
               v-for="(area, index) in venue.seat_areas"
               :key="`${index + 123}`"
-              class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1"
+              class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1 cursor-pointer"
               :class="area === seatArea ? 'active' : ''">
               <p>
                 {{ area }}

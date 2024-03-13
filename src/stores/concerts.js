@@ -22,7 +22,6 @@ export const useConcertsStore = defineStore('concerts', {
       timeFactor: '',
       countryFactor: '',
       textFactor: '',
-      pageFactor: '',
     };
   },
   actions: {
@@ -32,7 +31,7 @@ export const useConcertsStore = defineStore('concerts', {
     }, 300),
     searchAdminConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
-      this.getAdminConcerts();
+      this.getFilterAdminConcerts();
     }, 300),
     getAllConcerts() {
       setIsLoading();
@@ -54,9 +53,7 @@ export const useConcertsStore = defineStore('concerts', {
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
 
-      this.pageFactor = page;
-
-      timeCountryFilter('front', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
+      timeCountryFilter('front', this.timeFactor, this.countryFactor, this.textFactor, page).then((data) => {
         this.concerts = data.data;
         this.pagination = data.pagination;
       });
@@ -100,7 +97,6 @@ export const useConcertsStore = defineStore('concerts', {
       this.pageFactor = page;
 
       timeCountryFilter('admin', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
-        // this.concerts = data.data;
         this.adminConcerts = [...data.data].sort((a, b) => b.id - a.id);
         this.pagination = data.pagination;
       });

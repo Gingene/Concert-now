@@ -15,11 +15,17 @@ const { toast } = useToast();
 const router = useRouter();
 
 const formSchema = toTypedSchema(
-  z.object({
-    name: z.string({ required_error: '必填' }).min(3, { message: '密碼至少為3個字' }).max(20, { message: '需要少於20個字' }),
-    email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
-    password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
-  }),
+  z
+    .object({
+      name: z.string({ required_error: '必填' }).min(3, { message: '名稱至少3個字' }).max(20, { message: '需要少於20個字' }),
+      email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
+      password: z.string({ required_error: '必填' }).min(8, { message: '密碼至少為8碼' }),
+      confirm: z.string({ required_error: '必填' }),
+    })
+    .refine((data) => data.password === data.confirm, {
+      message: '密碼不相符',
+      path: ['confirm'],
+    }),
 );
 
 const form = useForm({
@@ -44,8 +50,9 @@ const signup = (user) => {
 };
 
 const handleSignup = form.handleSubmit((values) => {
-  signup(values);
+  const data = { ...values };
+  delete data.confirm;
+  signup(data);
   form.resetForm();
 });
 </script>
-@/components/front/login/LoginComponent.vue

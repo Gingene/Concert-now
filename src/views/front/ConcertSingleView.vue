@@ -407,7 +407,7 @@ export default {
         })
         .then(() => {
           // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
-          this.songList = this.singleConcert.songs;
+          // this.songList = this.singleConcert.songs;
           toast({
             title: '曲目新增成功',
             description: '',
@@ -462,7 +462,7 @@ export default {
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
-      this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
+      // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
       this.changeYTplayer(this.songList[0]?.youtube_url);
     }
 

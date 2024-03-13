@@ -1,10 +1,9 @@
 <template lang="">
   <!-- Search/Command -->
   <div>
-    <!-- <div> 會員身分{{ memberStatus }}</div> -->
     <div class="flex gap-6 mb-8 relative">
       <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
-        <Input type="text" placeholder="請輸入姓名及信箱查詢" v-model.trim="searchText" />
+        <Input type="text" placeholder="請輸入信箱查詢" v-model.trim="searchText" @keyup="searchInput" />
         <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
       <div class="w-[20%] lg:w-[250px] flex flex-col items-center lg:flex-row lg:justify-center lg:pt-5">
@@ -16,9 +15,9 @@
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">會員狀態</SelectLabel>
-              <SelectItem value="全部"> 全部 </SelectItem>
-              <SelectItem value="啟用中"> 啟用中</SelectItem>
-              <SelectItem value="停權中">停權中</SelectItem>
+              <SelectItem v-for="status in allstatus" :key="status.id" :value="status.type">
+                {{ status.type }}
+              </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -34,7 +33,7 @@
     <!-- <TableCaption>會員管理</TableCaption> -->
     <TableHeader>
       <TableRow>
-        <TableHead class="font-semibold"> 名稱 </TableHead>
+        <TableHead class="font-semibold w-[200px]"> 名稱 </TableHead>
         <TableHead class="font-semibold">信箱</TableHead>
         <TableHead class="font-semibold pl-6">會員狀態</TableHead>
         <TableHead class="font-semibold"> 警告次數 </TableHead>
@@ -44,7 +43,7 @@
     </TableHeader>
     <TableBody>
       <TableRow v-for="user in filteredData" :key="user.id">
-        <TableCell class="font-medium">
+        <TableCell class="font-medium w-[200px]">
           <div class="flex items-center">
             <img class="size-[56px] border-2 rounded-full bg-white p-1" :src="user?.profile_image_url" alt="使用者大頭貼" />
             <p class="ml-3">{{ user?.name }}</p>
@@ -52,7 +51,7 @@
         </TableCell>
         <TableCell>{{ user?.email }}</TableCell>
         <TableCell>
-          <div  class="flex items-center">
+          <div class="flex items-center">
             <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
             <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
             {{ user.status }}
@@ -73,64 +72,82 @@
 <script setup>
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 </script>
 
 <script>
 // 引入api
-import { getAdminMembers } from '@/api/admin/members';
+import { getAdminMembers, filterAdminMembers } from '@/api/admin/members';
+import { useDebounceFn } from '@vueuse/core';
 
 export default {
   data() {
     return {
       searchText: '',
-      selectStatus: '全部',
+      selectStatus: '',
       selectTime: '',
-      changeFilter: 'true',
-      filteredUsers: [],
       usersData: null,
       // users: [
       //   {
       //     id: 1,
-      //     username: '小明',
+      //     name: '小明',
       //     email: '01@gamail.com',
       //     status: '啟用中',
       //     created_at: '2022-01-05',
       //     warning_list: [],
+      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
       //   },
       //   {
       //     id: 2,
-      //     username: '明明',
+      //     name: '明明',
       //     email: '02@gamail.com',
-      //     status: '啟用中',
+      //     status: '停權中',
       //     created_at: '2020-05-06',
       //     warning_list: ['不實評論', '惡意評論', '腥羶色內容', '不實評論', '不實評論'],
+      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
       //   },
       //   {
       //     id: 3,
-      //     username: '小華',
+      //     name: '小華',
       //     email: '03@gamail.com',
       //     status: '停權中',
       //     created_at: '2020-03-06',
       //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
+      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
       //   },
       //   {
       //     id: 4,
-      //     username: '小壯',
+      //     name: '小壯',
       //     email: '04@gamail.com',
       //     status: '停權中',
       //     created_at: '2020-03-29',
       //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
+      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
       //   },
       //   {
       //     id: 5,
-      //     username: '阿嬌',
+      //     name: '阿嬌',
       //     email: '05@gamail.com',
       //     status: '啟用中',
       //     created_at: '2023-07-15',
       //     warning_list: ['不實評論', '惡意評論'],
+      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
       //   },
       // ],
+      allstatus: [
+        {
+          id: 1,
+          type: '全部',
+        },
+        {
+          id: 2,
+          type: '啟用中',
+        },
+        {
+          id: 3,
+          type: '停權中',
+        },
+      ],
       jointimes: [
         {
           id: 1,
@@ -157,62 +174,19 @@ export default {
   },
   computed: {
     filteredData() {
-      // 宣告filter變數
-
-      const filterInput = this.searchText;
-
-      // 待處理會員狀態功能
       const filterStatus = this.selectStatus;
-
-      // 條件篩選 input
-      if (filterInput) {
-        return this.usersData.filter((user) => user.name.match(filterInput) || user.email.match(filterInput));
-      } else {
-        // 條件篩選 select
-
-        if (filterStatus === '全部') {
-          // return this.users;
-          return this.usersData;
-        } else {
-          return this.usersData.filter((user) => {
-            let filtered = true;
-
-            // 會員身分篩選
-
-            if (filterStatus && filterStatus.length > 0) {
-              filtered = user.status === filterStatus;
-            }
-
-            return filtered;
-          });
-        }
-      }
-    },
-    filterSelect() {
-      // this.changeFilter = false;
-      // console.log(this.changeFilter)
-
-      const filterStatus = this.selectStatus;
-
-      // let filterTimes = this.selectTime;
 
       if (filterStatus === '全部') {
-        return this.users;
+        return this.usersData;
       } else {
-        return this.users.filter((user) => {
+        return this.usersData?.filter((user) => {
           let filtered = true;
 
           // 會員身分篩選
+
           if (filterStatus && filterStatus.length > 0) {
             filtered = user.status === filterStatus;
           }
-
-          // 會員加入時間篩選
-          // if(filtered) {
-          //   if( filterTimes && filterTimes.length > 0 ) {
-          //     filtered = user.created_at === filterTimes
-          //   }
-          // }
 
           return filtered;
         });
@@ -230,10 +204,18 @@ export default {
         console.error(error);
       }
     },
+    searchInput: useDebounceFn(async function (page = 1) {
+      try {
+        const res = await filterAdminMembers(this.searchText, this.selectStatus, page);
+        this.usersData = res.data.data;
+        // console.log(this.usersData);
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300),
   },
   mounted() {
     this.getAdminMembersData();
-    // console.log(this.usersData)
   },
 };
 </script>
