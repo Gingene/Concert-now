@@ -7,9 +7,9 @@
     <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="getVenuesByCity('', $event)"> 全部 </Button>
+          <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="(e) => getVenuesByCity('', e)"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button variant="tiffany-outline" size="base" @click="getVenuesByCity(city, $event)" class="city-button"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="(e) => getVenuesByCity(city, e)" class="city-button"> {{ city }} </Button>
           </template>
         </div>
       </div>
@@ -205,12 +205,12 @@ export default {
   },
   inject: ['http', 'path'],
   methods: {
-    debounceClick: useThrottleFn(function (event) {
+    ThrottleClick: useThrottleFn(function (event) {
       event?.currentTarget.click();
       // console.log(event.currentTarget);
     }, 1000),
     simulatorAccordionButtonHover(element, eventType) {
-      element.addEventListener(eventType, this.debounceClick);
+      element.addEventListener(eventType, this.ThrottleClick);
     },
     installAccordionButtonHover() {
       const accordionButtons = document.querySelectorAll('.accordionButton');
