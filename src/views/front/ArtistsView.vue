@@ -252,7 +252,6 @@ export default {
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
         // console.log(this.aristData.pagination);
-
       } catch (error) {
         console.error(error);
       }
