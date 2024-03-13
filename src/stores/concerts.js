@@ -22,6 +22,7 @@ export const useConcertsStore = defineStore('concerts', {
       timeFactor: '',
       countryFactor: '',
       textFactor: '',
+      pageFactor: 1,
     };
   },
   actions: {
@@ -52,6 +53,7 @@ export const useConcertsStore = defineStore('concerts', {
       // 全部按鈕帶空字串，其他按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
+      this.pageFactor = page;
 
       timeCountryFilter('front', this.timeFactor, this.countryFactor, this.textFactor, page).then((data) => {
         this.concerts = data.data;
@@ -93,7 +95,6 @@ export const useConcertsStore = defineStore('concerts', {
       // 全部按鈕帶空字串，其它按鈕帶該字
       if (filterFactor === 'time') rangeFactor === '全部' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === '全部' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
-
       this.pageFactor = page;
 
       timeCountryFilter('admin', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {

@@ -63,7 +63,7 @@
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <router-link :to="`/concerts/${concert.id}`">
-                <img :src="concert.cover_urls.square" :alt="concert.title" class="brightness-90 aspect-square rounded-2xl object-cover min-w-full" />
+                <img :src="concert.cover_urls.square" :alt="concert.title" class="brightness-90 h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] rounded-2xl object-cover min-w-full" />
               </router-link>
               <CardDescription class="h-[8rem] sm:h-[10rem] md:h-[13rem] lg:h-[12rem] border-x-2 pt-6 px-6 border-black-80 flex justify-between align-top">
                 <div>
@@ -81,7 +81,7 @@
                   <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                 </button>
                 <AlertDialog>
-                  <AlertDialogTrigger class="flex">
+                  <AlertDialogTrigger class="flex mb-auto">
                     <button v-if="AccessToken === undefined">
                       <font-awesome-icon icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
                     </button>
@@ -113,22 +113,22 @@
         </li>
       </ul>
       <!-- Pagination -->
-      <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination v-slot="page" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getFilterConcerts('', '', 1)" />
-          <PaginationPrev @click="getFilterConcerts('', '', pagination.current_page - 1)" />
+          <PaginationPrev @click="getFilterConcerts('', '', pagination2.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getFilterConcerts('', '', index + 1)">
+              <Button class="w-10 h-10 p-0" :variant="page === item.value ? 'default' : 'outline'" @click="getFilterConcerts('', '', index + 1)" :disabled="pageFactor === item.value">
                 {{ item.value }}
               </Button>
             </PaginationListItem>
             <PaginationEllipsis v-else :key="item.type" :index="index" />
           </template>
 
-          <PaginationNext @click="getFilterConcerts('', '', pagination.current_page + 1)" />
-          <PaginationLast @click="getFilterConcerts('', '', pagination.total_pages)" />
+          <PaginationNext @click="getFilterConcerts('', '', pagination2.current_page + 1)" />
+          <PaginationLast @click="getFilterConcerts('', '', pagination2.total_pages)" />
         </PaginationList>
       </Pagination>
     </main>
@@ -185,13 +185,17 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['concerts', 'pagination', 'toastActive', 'pagination']),
+    ...mapState(useConcertsStore, ['concerts', 'pagination', 'toastActive', 'pagination', 'pageFactor']),
     ...mapState(useUserStore, ['AccessToken', 'savedConcerts']),
 
     isSaved() {
       return [...this.savedConcerts];
     },
+    pagination2() {
+      return this.pagination;
+    },
   },
+  watch: {},
   mounted() {
     this.getAllConcerts();
 
