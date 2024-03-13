@@ -250,7 +250,9 @@ export default {
         const res = await getInputArtist(this.aristData.searchWord, this.aristData.param, page);
 
         this.aristData.artists = res.data.data;
-        // console.log(this.aristData.artists);
+        this.aristData.pagination = res.data.pagination;
+        // console.log(this.aristData.pagination);
+
       } catch (error) {
         console.error(error);
       }
