@@ -230,7 +230,7 @@
                 <RouterLink to="/login">
                   <SheetClose as-child v-if="!user?.name">
                     <Button variant="ghost">
-                      <LogIn />
+                      <UsersRound />
                     </Button>
                   </SheetClose>
                 </RouterLink>
@@ -265,7 +265,7 @@
 </template>
 <script setup>
 import { VisuallyHidden } from 'radix-vue';
-import { ArrowDownRight, AlignJustify, Search, UsersRound, LogIn } from 'lucide-vue-next';
+import { ArrowDownRight, AlignJustify, Search, UsersRound } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';

@@ -18,7 +18,7 @@
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <RouterLink :to="`/venues/${venue.id}`">
-                <img :src="venue.picture.square" :alt="venue.title" class="brightness-90 aspect-square rounded-2xl object-cover min-w-full" />
+                <img :src="venue.picture.square" :alt="venue.title" class="brightness-90 aspect-square rounded-2xl h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] object-cover min-w-full" />
               </RouterLink>
               <CardTitle class="border-x-2 pt-6 px-6 border-black-80 text-base lg:text-lg">
                 <RouterLink :to="`/venues/${venue.id}`">
@@ -43,14 +43,14 @@
           </Card>
         </li>
       </ul>
-      <Pagination :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination v-slot="{ page }" :page="searchPage" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getVenuesByPage(1)" />
           <PaginationPrev @click="getVenuesByPage(pagination.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="searchPage === item.value ? 'default' : 'outline'" @click="getVenuesByPage(item.value)">
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getVenuesByPage(item.value, page)" :disabled="item.value === page">
                 {{ item.value }}
               </Button>
             </PaginationListItem>
