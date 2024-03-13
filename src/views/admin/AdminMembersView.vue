@@ -52,7 +52,7 @@
         </TableCell>
         <TableCell>{{ user?.email }}</TableCell>
         <TableCell>
-          <div  class="flex items-center">
+          <div class="flex items-center">
             <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
             <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
             {{ user.status }}

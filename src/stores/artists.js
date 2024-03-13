@@ -10,7 +10,6 @@ export const useArtistsStore = defineStore('artists', {
       try {
         await postFollowConcets(id);
         // console.log(res);
-
       } catch (error) {
         console.error(error);
       }
@@ -19,7 +18,6 @@ export const useArtistsStore = defineStore('artists', {
       try {
         await deleteFollowConcets(id);
         // console.log(res);
-        
       } catch (error) {
         console.error(error);
       }
