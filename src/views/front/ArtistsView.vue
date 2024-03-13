@@ -89,31 +89,20 @@
     <!-- Pagination start -->
     <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1" class="flex justify-center my-5 lg:my-12 pt-16">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-        <PaginationFirst 
-          @click="FilterByPage(1)"
-        />
-        <PaginationPrev 
-          @click="FilterByPage(aristData.pagination.current_page - 1)"
-        />
+        <PaginationFirst @click="FilterByPage(1)" />
+        <PaginationPrev @click="FilterByPage(aristData.pagination.current_page - 1)" />
 
         <template v-for="(item, index) in items">
           <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'"
-            @click="FilterByPage(item.value)"
-            >
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="FilterByPage(item.value)">
               {{ item.value }}
             </Button>
           </PaginationListItem>
           <PaginationEllipsis v-else :key="item.type" :index="index" />
         </template>
 
-        <PaginationNext 
-          @click="FilterByPage(aristData.pagination.current_page 
-          + 1)"
-        />
-        <PaginationLast 
-         @click="FilterByPage(aristData.pagination.total_pages)"
-        />
+        <PaginationNext @click="FilterByPage(aristData.pagination.current_page + 1)" />
+        <PaginationLast @click="FilterByPage(aristData.pagination.total_pages)" />
       </PaginationList>
     </Pagination>
     <!-- Pagination end -->
@@ -248,7 +237,6 @@ export default {
       }, 500);
     },
     FilterByPage(page) {
-      
       setIsLoading();
       this.searchArtists(this.aristData.searchWord, page);
       setTimeout(() => {
@@ -274,7 +262,7 @@ export default {
         .then(() => this.getArtistsData())
         .then(() => {
           // 延遲顯示 toastMsg，等待 getArtistsData 完成後
-          setTimeout(() => this.toastMsg(msg), 300); 
+          setTimeout(() => this.toastMsg(msg), 300);
         });
     },
     toastMsg(msg) {

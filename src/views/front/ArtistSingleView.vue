@@ -271,7 +271,7 @@ export default {
         this.handleSaveAction(id, '刪除', '已加入收藏');
       } else {
         // 新增收藏
-         this.handleSaveAction(id, '新增', '已取消收藏');
+        this.handleSaveAction(id, '新增', '已取消收藏');
       }
     },
     // 取得 收藏演唱會資料
@@ -309,10 +309,10 @@ export default {
         .then(() => this.getSingleArtistData(id))
         .then(() => {
           // 延遲顯示 toastMsg，等待 getArtistsData 完成後
-          setTimeout(() => this.toastMsg(msg), 300); 
+          setTimeout(() => this.toastMsg(msg), 300);
         });
     },
-     // 新增或刪除收藏
+    // 新增或刪除收藏
     handleSaveAction(id, actionType, msg) {
       const saveAction = actionType === '新增' ? this.postSaveConcertsData : this.deleteSaveConcertsData;
 
@@ -320,7 +320,7 @@ export default {
         .then(() => this.getSavedConcertsData())
         .then(() => {
           // 延遲顯示 toastMsg，等待 getArtistsData 完成後
-          setTimeout(() => this.toastMsg(msg), 300); 
+          setTimeout(() => this.toastMsg(msg), 300);
         });
     },
     toastMsg(msg) {

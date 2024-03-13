@@ -3,11 +3,7 @@
   <div>
     <div class="flex gap-6 mb-8 relative">
       <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
-        <Input 
-          type="text" placeholder="請輸入信箱查詢" 
-          v-model.trim="searchText" 
-          @keyup="searchInput"
-        />
+        <Input type="text" placeholder="請輸入信箱查詢" v-model.trim="searchText" @keyup="searchInput" />
         <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
       <div class="w-[20%] lg:w-[250px] flex flex-col items-center lg:flex-row lg:justify-center lg:pt-5">
@@ -19,11 +15,7 @@
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">會員狀態</SelectLabel>
-              <SelectItem 
-                v-for="status in allstatus" 
-                :key="status.id" 
-                :value="status.type"
-              >
+              <SelectItem v-for="status in allstatus" :key="status.id" :value="status.type">
                 {{ status.type }}
               </SelectItem>
             </SelectGroup>
@@ -85,8 +77,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 
 <script>
 // 引入api
-import { getAdminMembers } from '@/api/admin/members';
-import { filterAdminMembers } from '@/api/admin/members';
+import { getAdminMembers, filterAdminMembers } from '@/api/admin/members';
 import { useDebounceFn } from '@vueuse/core';
 
 export default {
@@ -186,8 +177,7 @@ export default {
       const filterStatus = this.selectStatus;
 
       if (filterStatus === '全部') {
-        return this.usersData
-
+        return this.usersData;
       } else {
         return this.usersData?.filter((user) => {
           let filtered = true;
@@ -195,7 +185,7 @@ export default {
           // 會員身分篩選
 
           if (filterStatus && filterStatus.length > 0) {
-             filtered = user.status === filterStatus;
+            filtered = user.status === filterStatus;
           }
 
           return filtered;
@@ -214,16 +204,15 @@ export default {
         console.error(error);
       }
     },
-    searchInput: useDebounceFn(async function ( page = 1) {
+    searchInput: useDebounceFn(async function (page = 1) {
       try {
         const res = await filterAdminMembers(this.searchText, this.selectStatus, page);
         this.usersData = res.data.data;
         // console.log(this.usersData);
-
       } catch (error) {
         console.error(error);
       }
-    }, 300)
+    }, 300),
   },
   mounted() {
     this.getAdminMembersData();
