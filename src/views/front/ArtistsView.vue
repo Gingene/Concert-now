@@ -94,7 +94,7 @@
 
         <template v-for="(item, index) in items">
           <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="FilterByPage(item.value)">
+            <Button class="w-10 h-10 p-0" :variant="item.value === searchPage ? 'default' : 'outline'" @click="FilterByPage(item.value)">
               {{ item.value }}
             </Button>
           </PaginationListItem>
@@ -149,6 +149,7 @@ export default {
       activeFilterCountry: '',
       isFollowActive: {},
       bannerInputPlaceholder: '輸入表演者名稱',
+      searchPage: 1,
       aristData: {
         artists: [],
         searchWord: '',
@@ -221,6 +222,7 @@ export default {
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
         // console.log(this.aristData.pagination)
+
       } catch (error) {
         console.error(error);
       }
@@ -245,6 +247,7 @@ export default {
     },
     searchArtists: useDebounceFn(async function (searchText, page = 1) {
       this.aristData.searchWord = searchText;
+      this.searchPage = page;
 
       try {
         const res = await getInputArtist(this.aristData.searchWord, this.aristData.param, page);
