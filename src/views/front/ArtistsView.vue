@@ -87,7 +87,7 @@
     <!-- 區塊四(表演者總覽 &follow) end -->
 
     <!-- Pagination start -->
-    <Pagination v-slot="{ page }" :total="aristData.pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1" class="flex justify-center my-5 lg:my-12 pt-16">
+    <Pagination :total="aristData.pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1" class="flex justify-center my-5 lg:my-12 pt-16">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst @click="FilterByPage(1)" />
         <PaginationPrev @click="FilterByPage(aristData.pagination.current_page - 1)" />
