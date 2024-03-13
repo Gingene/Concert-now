@@ -1,1 +1,0 @@
-import{o as t,c as r,P as n,C as o,u as c,U as l}from"./index-OrsFlzd2.js";const m={__name:"CardContent",props:{class:{type:String,default:""}},setup(s){const a=s;return(e,p)=>(t(),r("div",{class:o(c(l)("p-6 pt-0",a.class))},[n(e.$slots,"default")],2))}};export{m as _};
