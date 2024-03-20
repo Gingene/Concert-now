@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import LoginComponent from '@/components/front/login/LoginComponent.vue';
+import LoginComponent from '@/components/front/LoginComponent.vue';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod';
 import * as z from 'zod';
