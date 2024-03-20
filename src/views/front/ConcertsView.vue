@@ -4,7 +4,6 @@
       <template #mainTitle>CONCERTS</template>
     </BannerComponent>
     <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
-      <!-- filter buttons -->
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
           <Button
@@ -57,13 +56,13 @@
           </template>
         </div>
       </div>
-      <!-- concert list -->
+      <p v-if="!concerts.length" class="p-14 font-semibold tracking-tighter text-base lg:text-lg text-white text-center">抱歉，搜尋不到相關資源</p>
       <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="concert in concerts" :key="concert.id">
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <router-link :to="`/concerts/${concert.id}`">
-                <img :src="concert.cover_urls.square" :alt="concert.title" class="brightness-90 h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] rounded-2xl object-cover min-w-full" />
+                <img :src="concert.cover_urls.square" alt="演唱會圖片" class="brightness-90 h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] rounded-2xl object-cover min-w-full" />
               </router-link>
               <CardDescription class="h-[8rem] sm:h-[10rem] md:h-[13rem] lg:h-[12rem] border-x-2 pt-6 px-6 border-black-80 flex justify-between align-top">
                 <div>
@@ -112,8 +111,7 @@
           </Card>
         </li>
       </ul>
-      <!-- Pagination -->
-      <Pagination v-slot="page" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination v-if="concerts.length" v-slot="page" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getFilterConcerts('', '', 1)" />
           <PaginationPrev @click="getFilterConcerts('', '', pagination2.current_page - 1)" />

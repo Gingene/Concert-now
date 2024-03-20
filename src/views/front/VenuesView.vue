@@ -18,7 +18,10 @@
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <RouterLink :to="`/venues/${venue.id}`">
-                <img :src="venue.picture.square" :alt="venue.title" class="brightness-90 aspect-square rounded-2xl h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] object-cover min-w-full" />
+                <img
+                  :src="venue.picture.square"
+                  :alt="venue.title"
+                  class="brightness-90 aspect-square rounded-2xl h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] object-cover min-w-full" />
               </RouterLink>
               <CardTitle class="border-x-2 pt-6 px-6 border-black-80 text-base lg:text-lg">
                 <RouterLink :to="`/venues/${venue.id}`">

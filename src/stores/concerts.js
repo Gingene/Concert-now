@@ -50,7 +50,7 @@ export const useConcertsStore = defineStore('concerts', {
         });
     },
     getFilterConcerts(filterFactor, rangeFactor, page = 1) {
-      // 全部按鈕帶空字串，其他按鈕帶該字
+      // 全部按鈕帶空字串，其它按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
       this.pageFactor = page;
