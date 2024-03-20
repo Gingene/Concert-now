@@ -163,7 +163,7 @@ const router = createRouter({
         {
           path: 'analysis',
           name: 'admin-analysis',
-          component: () => import('../views/admin/AnalysisView.vue'),
+          component: () => import('../views/admin/AdminAnalysisView.vue'),
         },
         {
           path: 'members',
