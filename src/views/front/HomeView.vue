@@ -7,7 +7,7 @@
         <br />難忘的演唱會， 
         <br />前進每個感動的瞬間
       </p>
-      <h1 
+      <h1
         class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light"
         >
         CONCERT NOW
