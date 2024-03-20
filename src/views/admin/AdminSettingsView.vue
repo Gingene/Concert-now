@@ -4,17 +4,26 @@
     <!-- Left: Profile -->
     <div class="col-span-1">
       <!-- ! 圖片未綁 -->
-      <img class="mb-5 border-2 rounded-full w-[150px] h-[150px]" :src="user.profile_image_url" />
+      <img 
+        class="mb-5 border-2 rounded-full w-[150px] h-[150px]" 
+        :src="user.profile_image_url" 
+      />
       <h2 class="font-bold">{{ user.name }}</h2>
       <p class="pb-6">{{ user.email }}</p>
       <!-- Reset Password -->
       <Dialog>
         <DialogTrigger as-child>
-          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
+          <Button 
+            class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"
+            >
+            重設密碼
+          </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle class="text-center py-4">請輸入以下資料</DialogTitle>
+            <DialogTitle class="text-center py-4">
+              請輸入以下資料
+            </DialogTitle>
           </DialogHeader>
           <div class="grid gap-4 py-4">
             <div class="grid grid-cols-4 items-center gap-4">
@@ -44,11 +53,17 @@
         <!-- 新增成員 -->
         <Dialog>
           <DialogTrigger as-child>
-            <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">新增成員</Button>
+            <Button 
+              class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"
+              >
+              新增成員
+            </Button>
           </DialogTrigger>
           <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle class="text-center py-4">新增成員</DialogTitle>
+              <DialogTitle class="text-center py-4">
+                新增成員
+              </DialogTitle>
             </DialogHeader>
             <div class="grid gap-4 py-4">
               <div class="grid grid-cols-4 items-center gap-4">
@@ -70,7 +85,12 @@
             </div>
             <DialogFooter>
               <DialogClose as-child>
-                <Button type="button" variant="secondary">捨棄編輯</Button>
+                <Button 
+                  type="button" 
+                  variant="secondary"
+                  >
+                  捨棄編輯
+                </Button>
               </DialogClose>
               <!-- 不會真的送出資料，所以用 DialogClose -->
               <DialogClose as-child>
@@ -82,11 +102,15 @@
         <!-- 刪除多筆成員 -->
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">刪除成員</Button>
+            <Button 
+              class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"
+              >
+              刪除成員
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>確定要刪除 N筆 成員嗎？</AlertDialogTitle>
+              <AlertDialogTitle>確定要刪除成員嗎？</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
@@ -120,11 +144,17 @@
             <TableCell>
               <Dialog>
                 <DialogTrigger as-child>
-                  <span class="material-symbols-outlined hover:text-[#D595F1] hover:cursor-pointer transition ease-in-out hover:-translate-y-1 duration-300">edit</span>
+                  <span 
+                    class="material-symbols-outlined hover:text-[#D595F1] hover:cursor-pointer transition ease-in-out hover:-translate-y-1 duration-300"
+                    >
+                    edit
+                  </span>
                 </DialogTrigger>
                 <DialogContent class="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle class="text-center py-4">編輯成員</DialogTitle>
+                    <DialogTitle class="text-center py-4">
+                      編輯成員
+                    </DialogTitle>
                   </DialogHeader>
                   <div class="grid gap-4 pb-4">
                     <!-- edit: photo -->
@@ -148,11 +178,15 @@
                   </div>
                   <DialogFooter>
                     <DialogClose as-child>
-                      <Button type="button" variant="secondary">捨棄編輯</Button>
+                      <Button type="button" variant="secondary">
+                        捨棄編輯
+                      </Button>
                     </DialogClose>
                     <!-- 不會真的送出資料，所以用 DialogClose -->
                     <DialogClose as-child>
-                      <Button type="button">確認修改</Button>
+                      <Button type="button">
+                        確認修改
+                      </Button>
                     </DialogClose>
                   </DialogFooter>
                 </DialogContent>
@@ -162,7 +196,11 @@
             <TableCell>
               <AlertDialog>
                 <AlertDialogTrigger>
-                  <span class="material-symbols-outlined hover:text-[#D595F1] transition ease-in-out hover:-translate-y-1 duration-300">delete</span>
+                  <span 
+                    class="material-symbols-outlined hover:text-[#D595F1] transition ease-in-out hover:-translate-y-1 duration-300"
+                    >
+                    delete
+                  </span>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -188,7 +226,6 @@ import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
-  // DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -200,7 +237,6 @@ import { Label } from '@/components/ui/label';
 import {
   Table,
   TableBody,
-  // TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -212,7 +248,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  // AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -264,5 +299,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style lang=""></style> -->
