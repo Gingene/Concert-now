@@ -23,7 +23,7 @@
           SEARCH NOW
         </span>
         <svg 
-          class="pl-3" 
+          class="pl-3"
           width="400" 
           height="16" 
           viewBox="0 0 341 16" 
@@ -381,14 +381,8 @@
             class="w-[200px] h-[200px] lg:w-[306px] lg:h-[306px] object-cover object-top rounded-[20px]" 
             src="https://i.kfs.io/playlist/global/77385678v1/cropresize/600x600.jpg" 
             alt="" />
-          <div class="text-xl lg:text-2xl font-bold marquee-container w-[196px] sm:w-[286px] lg:w-[386px]">
-            <div class="marquee-text">
-              Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北
-            </div>
-            <div class="marquee-text">
-              Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北
-            </div>
-            <div class="marquee-text">
+          <div class="text-xl lg:text-2xl font-bold flex overflow-hidden w-[196px] sm:w-[286px] lg:w-[386px]">
+            <div class="animate-[right-to-left_80s_linear_infinite] whitespace-nowrap inline-block">
               Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北
             </div>
           </div>
@@ -409,7 +403,7 @@
               v-for="(song, index) in songList" 
               :key="song"
               >
-              <div class="text-base flex justify-between items-center bg-trans">
+              <div class="text-base flex justify-between items-center hover:bg-[#A5A5A5] hover:bg-opacity-10">
                 <div>{{ index + 1 }}</div>
                 <Popover>
                   <PopoverTrigger as-child>
@@ -819,7 +813,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// 皆為首頁才會用到，無法用 tailwind 改寫的部分
 // -------------------------------------- General
+.btn-explore-icon-color:hover svg path {
+  fill: #1e1e1e;
+}
 :deep(.swiper-pagination-bullet) {
   border: solid 2px #fff;
 }
@@ -873,30 +871,5 @@ export default {
 :deep(.venue-section > .swiper-button-next::after) {
   right: 5px;
   color: #d595f1;
-}
-
-// -------------------------------------- Songs
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-}
-.marquee-text {
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll 80s linear infinite;
-}
-@keyframes scroll {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-.bg-trans:hover {
-  background: rgba(165, 165, 165, 0.1);
-}
-.btn-explore-icon-color:hover svg path {
-  fill: #1e1e1e;
 }
 </style>
