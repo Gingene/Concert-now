@@ -230,10 +230,6 @@
     </main>
   </section>
   <div>
-    <!-- <div class="text-[3.5rem] md:text-[4.5rem] lg:text-[6.5rem] font-bold marquee-container bg-tiffany">
-      <div class="marquee-text">{{ venue?.title }}</div>
-      <div class="marquee-text font-display text-stroke">{{ venue?.eng_title }}</div>
-    </div> -->
     <div class="marquee-type bg-tiffany">
       <div ref="marquee" class="flex text-[5rem] md:text-[6.5rem] lg:text-[8rem] font-black text-black tracking-[-1px] whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
         <p class="marquee space-x-4">
@@ -261,26 +257,6 @@
         <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px] rounded-md"></iframe>
       </div>
       <div class="space-y-6 lg:space-y-10">
-        <!-- <template v-for="method in venue.transportation" :key="method.type">
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1" class="lg:relative">
-              <AccordionTrigger :hideIcon="true">
-                <div class="flex space-x-10 font-black">
-                  <ArrowDownRight class="size-10 lg:size-16" />
-                  <span class="-mb-8 pt-2 lg:pt-[30px] text-4xl">{{ method.type }}</span>
-                </div>
-              </AccordionTrigger>
-              <AccordionContent class="lg:flex lg:justify-end">
-                <ul class="list-disc text-base px-6 space-y-4 lg:-mt-16 lg:w-3/4 hidden lg:block lg:opacity-0">
-                  <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
-                </ul>
-                <ul class="list-disc text-base px-6 lg:px-0 space-y-4 mt-6 lg:mt-0 lg:w-2/3 lg:absolute lg:top-0">
-                  <li v-for="(t, index) in method.info" :key="index">{{ t }}</li>
-                </ul>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </template> -->
         <Accordion type="single" collapsible>
           <AccordionItem class="lg:relative border-b-4" v-for="method in transportation" :key="method.type" :value="method.value">
             <AccordionTrigger :hideIcon="true" :value="method.value" class="accordion-button hover:no-underline">
@@ -303,6 +279,7 @@
     </div>
   </section>
 </template>
+
 <script setup>
 import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -327,6 +304,7 @@ import {
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { MoreHorizontal, ArrowDownRight, AlertCircle } from 'lucide-vue-next';
 </script>
+
 <script>
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';

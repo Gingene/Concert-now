@@ -57,6 +57,7 @@
                   <HoverCardContent class="w-80"> oops! 這是 demo 網頁，不許你忘記密碼喔 (´・Å・`) </HoverCardContent>
                 </HoverCard>
               </div>
+              <GoogleLogin :callback="callback" />
             </form>
           </CardContent>
         </Card>
@@ -129,6 +130,14 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+
+import { ref } from 'vue';
+const data = ref();
+
+const callback = (response) => {
+  data.value = response;
+  console.log(data.value);
+};
 
 defineProps(['defaultPage']);
 const emits = defineEmits(['method']);

@@ -7,16 +7,6 @@
             <font-awesome-icon :icon="item.icon" class="text-xl" />
           </a>
         </li>
-        <!-- <li>
-          <a href="#" target="_blank" class="inline-flex justify-center items-center size-10">
-            <font-awesome-icon icon="fa-brands fa-line" class="text-xl" />
-          </a>
-        </li>
-        <li>
-          <a href="#" target="_blank" class="inline-flex justify-center items-center size-10">
-            <font-awesome-icon icon="fa-brands fa-instagram" class="text-xl" />
-          </a>
-        </li> -->
       </ul>
     </nav>
     <div class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:justify-between lg:items-end">

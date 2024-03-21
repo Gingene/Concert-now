@@ -263,6 +263,7 @@
     </div>
   </header>
 </template>
+
 <script setup>
 import { VisuallyHidden } from 'radix-vue';
 import { ArrowDownRight, AlignJustify, Search, UsersRound } from 'lucide-vue-next';

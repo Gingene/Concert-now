@@ -7,6 +7,8 @@ import { http, path, adminPath } from './api';
 import App from './App.vue';
 import router from './router';
 
+// google oauth
+import vue3GoogleLogin from 'vue3-google-login';
 // icon
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faFacebook, faInstagram, faLine, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
@@ -21,6 +23,9 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
+app.use(vue3GoogleLogin, {
+  clientId: '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com',
+});
 
 library.add(
   faInstagram,
