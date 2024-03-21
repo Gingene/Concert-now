@@ -106,12 +106,6 @@
             <img :src="venue.picture.horizontal" :alt="venue.title" class="w-[220px] h-[130px] md:w-[350px] md:h-[170px] object-cover rounded-md" />
           </div>
           <div class="border-t-4 border-t-white w-full border-b-4 border-b-black-100" />
-          <!-- <div class="flex flex-col justify-center items-center pt-4 gap-4 md:gap-2"></div>
-            <div class="text-lg sm:text-3xl">{{ venue.title }}</div>
-            <router-link :to="`/venues/${venue.id}`">
-              <img :src="venue.picture.horizontal" :alt="venue.title" class="w-[550px] h-[230px] object-cover rounded-md" />
-            </router-link>
-          </div> -->
         </div>
       </div>
       <div class="bg-black-400 h-[6px] relative z-10"></div>
@@ -121,10 +115,8 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowRight, ArrowDownRight } from 'lucide-vue-next';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
@@ -241,16 +233,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-// .test {
-//   mix-blend-mode: difference;
-//   color: #000;
-//   filter: invert(100%);
-// }
-.scrollbar-none {
-  scrollbar-width: none;
-}
 
+<style lang="scss" scoped>
 .marquee-type {
   &:nth-child(odd) {
     a {

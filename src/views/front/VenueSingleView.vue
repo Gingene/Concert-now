@@ -282,7 +282,6 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -309,13 +308,9 @@ import { MoreHorizontal, ArrowDownRight, AlertCircle } from 'lucide-vue-next';
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
 import { http } from '@/api';
-// import { get } from '@vueuse/core';
-// import { GhostIcon } from 'lucide-vue-next';
 import { loadingStore } from '@/stores/isLoading';
 import { useUserStore } from '@/stores/user';
 import { useToast } from '@/components/ui/toast/use-toast';
-// import AOS from 'aos';
-// import 'aos/dist/aos.css';
 const { setIsLoading } = loadingStore();
 const { toast } = useToast();
 
@@ -663,46 +658,5 @@ export default {
   100% {
     transform: translateX((0%));
   }
-}
-
-.gradient-border {
-  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
-    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
-    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
-    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
-  background-size:
-    19px 19px,
-    calc(100% - 38px) 3px,
-    19px 19px,
-    3px calc(100% - 38px);
-  background-position:
-    top left,
-    top center,
-    top right,
-    center right,
-    bottom right,
-    bottom center,
-    bottom left,
-    center left;
-  background-repeat: no-repeat;
-  &:hover {
-    border-radius: 1rem;
-    @apply bg-shadow-trans-text-brighter;
-  }
-}
-
-.gradient-border.active {
-  // background-color: #fff;
-  border-radius: 1rem;
-  @apply bg-shadow-trans-text-brighter;
-}
-
-.gradient-test {
-  border-width: 2px;
-  border-radius: 1.25rem;
-  background: linear-gradient(to right, #ffffff, #d595f1), linear-gradient(to bottom, #d595f1, #ffffff), linear-gradient(to left, #ffffff, #42dfc8), linear-gradient(to top, #42dfc8, #ffffff);
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  transition: all 0.3s;
 }
 </style>

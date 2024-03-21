@@ -46,6 +46,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .footer-nav {
   transition: border 0.3s ease;

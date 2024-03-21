@@ -117,7 +117,7 @@
       </nav>
       <div class="hidden lg:flex lg:col-span-2 2xl:col-span-1 justify-end">
         <RouterLink to="/login" v-if="!user?.name">
-          <Button variant="white-outline" class="border-black-80 hover:border-0 py-[10px] px-6">Log in</Button>
+          <Button variant="white-outline" class="border-black-80 hover:border-transparent py-[10px] px-6">Log in</Button>
         </RouterLink>
         <NavigationMenu v-else>
           <NavigationMenuList>

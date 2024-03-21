@@ -109,4 +109,9 @@
       center left;
     background-repeat: no-repeat;
   }
+  .gradient-border.active {
+    // background-color: #fff;
+    border-radius: 1rem;
+    @apply bg-shadow-trans-text-brighter;
+  }
 }
