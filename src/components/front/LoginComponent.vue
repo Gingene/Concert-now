@@ -130,17 +130,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ref } from 'vue';
-import { googleAuthCodeLogin } from 'vue3-google-login';
+import { googleTokenLogin } from 'vue3-google-login';
 const data = ref();
 
 const GOOGLE_CLIENT_ID = '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com';
 
 const handleGoogleAuthCodeLogin = () => {
-  googleAuthCodeLogin({
+  googleTokenLogin({
     clientId: GOOGLE_CLIENT_ID,
   }).then((response) => {
     data.value = response;
-    // console.log(data.value);
+    const { access_token } = data.value;
+    console.log(data.value);
+    console.log(access_token);
   });
 };
 
