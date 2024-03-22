@@ -127,14 +127,14 @@ module.exports = {
             filter: 'var(--tw-brightness) var(--tw-grayscale)',
           },
           '100%': { 
-            width: 'calc((100%/9)*4)',
+            width: 'calc((100%/9)*5)',
             opacity: 1,
             filter: 'brightness(90%) grayscale(0%)',
           },
         },
         'col-span-4-to-1':{
           '0%': { 
-            width: 'calc((100%/9)*4)',
+            width: 'calc((100%/9)*5)',
             opacity: 1,
             filter: 'brightness(90%) grayscale(0%)',
           },
@@ -150,8 +150,8 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'collapsible-down': 'collapsible-down 0.2s ease-in-out',
         'collapsible-up': 'collapsible-up 0.2s ease-in-out',
-        'col-span-1-to-4': 'col-span-1-to-4 1s ease-in-out forwards',
-        'col-span-4-to-1': 'col-span-4-to-1 1s ease-in-out',
+        'col-span-1-to-4': 'col-span-1-to-4 0.8s ease-in-out forwards',
+        'col-span-4-to-1': 'col-span-4-to-1 0.8s ease-in-out',
       },
     },
   },

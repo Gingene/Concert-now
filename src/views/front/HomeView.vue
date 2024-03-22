@@ -211,8 +211,12 @@
         v-for="artist in artists"
         :to="`/artists/${artist.id}`"
         :key="artist.id"
-        :style="{ backgroundImage: `url(${artist.image})` }"
-        class="h-[580px] relative bg-cover rounded-[40px] 
+        :style="{
+          'background-image': `url(${artist.image})`,
+          'background-size': 'cover',
+          'background-position': 'center',
+        }"
+        class="h-[580px] relative rounded-[40px] 
           w-[calc((100%/6)*1)] opacity-50 brightness-50 grayscale
           shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
         >
