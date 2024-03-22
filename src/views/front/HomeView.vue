@@ -67,7 +67,7 @@
   </section>
 
   <!-- Concerts -->
-  <section 
+  <main 
     class="relative pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[400px] text-center concert-section overflow-hidden w-full"
     >
     <h2 
@@ -142,7 +142,7 @@
         </router-link>
       </article>
     </swiper>
-  </section>
+  </main>
 
   <!-- Artist -->
   <section 
@@ -202,14 +202,19 @@
         </swiper-slide>
       </swiper>
     </div>
-    <!-- PC(xl:1280): Artist List -->
-    <div class="hidden xl:grid xl:grid-flow-col-dense xl:gap-4 container w-[90%]">
+    <!-- PC(xl:1280): Artist right-to-left_80s_linear_infinite" -->
+    <div class="hidden xl:flex xl:gap-4 container w-[90%]">
       <router-link
+        :id="`artist${artist.id}`"
+        @mouseenter="startTimer(`artist${artist.id}`)"
+        @mouseleave="clearTimer(`artist${artist.id}`)"
         v-for="artist in artists"
         :to="`/artists/${artist.id}`"
         :key="artist.id"
         :style="{ backgroundImage: `url(${artist.image})` }"
-        class="h-[580px] hover:col-span-4 relative opacity-50 hover:opacity-100 brightness-50 hover:brightness-90 grayscale hover:grayscale-0 transition ease-in-out delay-150 duration-300 bg-center bg-cover rounded-[40px] shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
+        class="h-[580px] relative bg-cover rounded-[40px] 
+          w-[calc((100%/6)*1)] opacity-50 brightness-50 grayscale
+          shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
         >
         <div class="absolute bottom-5 left-5 text-start">
           <p class="text-white font-black text-lg">
@@ -568,6 +573,8 @@ import { useVenuesStore } from '@/stores/venues';
 export default {
   data() {
     return {
+      timer: {},
+      isAminationActive: false,
       modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       concertActive: {},
@@ -795,6 +802,33 @@ export default {
     openModal() {
       const searchModal = document.querySelector('.searchModal');
       searchModal.click();
+    },
+    startTimer(artistId) {
+      this.timer[artistId] = setTimeout(() => {
+        this.isAminationActive = true;
+        this.hoverAnimation(artistId);
+      }, 400);
+    },
+    clearTimer(artistId) {
+      if(this.isAminationActive){
+        this.isAminationActive = false;
+        this.leaveAnimation(artistId);
+      }
+      else{
+        clearTimeout(this.timer[artistId]);
+      };
+    },
+    hoverAnimation(artistId){
+      const id = document.querySelector(`#${artistId}`);
+      id.classList.add('animate-col-span-1-to-4');
+      if (id.classList.contains('animate-col-span-4-to-1')) {
+        id.classList.remove('animate-col-span-4-to-1');
+      };
+    },
+    leaveAnimation(artistId){
+      const id = document.querySelector(`#${artistId}`);
+      id.classList.add('animate-col-span-4-to-1');
+      id.classList.remove('animate-col-span-1-to-4');
     },
     ...mapActions(useVenuesStore, ['getVenueInfo']),
   },
