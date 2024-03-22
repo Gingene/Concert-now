@@ -1,13 +1,10 @@
 <template>
   <div class="loading" ref="loadingDom" v-show="isLoading">
     <div class="loading-window flex flex-col justify-center items-center">
-      <img :src="white" alt="white" class="size-32" />
+      <img src="@/assets/loading/tube-spinner-w.svg" alt="white" class="size-32" />
     </div>
   </div>
 </template>
-<script setup>
-import white from '@/assets/loading/tube-spinner-w.svg';
-</script>
 
 <script>
 import { mapState } from 'pinia';
@@ -19,6 +16,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .loading {
   position: fixed;

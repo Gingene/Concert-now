@@ -31,9 +31,9 @@
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
         <div v-if="!hasHold" class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
-          <p class="text-2xl font-bold relative">
-            <span class="text-base pr-2 absolute bottom-1 left-[-30%]">D-day</span>
-            {{ countdownTimer.days }} : {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
+          <p class="text-xl sm:text-2xl font-bold relative">
+            <span class="text-sm sm:text-base font-normal absolute bottom-1 left-[-16%]">倒數</span>
+            {{ countdownTimer.days }}<span class="pl-1 pr-3 text-sm sm:text-base font-normal">天</span> {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
             {{ countdownTimer.seconds }}
           </p>
         </div>
@@ -42,8 +42,7 @@
         </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
           <Button variant="white-outline" size="base3" class="border-[1px] border-black-60 gap-1">
-            {{ singleConcert.artist?.name }}
-            <ArrowRight class="footer-nav-arrow size-5" />
+            歌手 / {{ singleConcert.artist?.name }}
           </Button>
         </router-link>
         <Button
@@ -328,8 +327,6 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 import TitleComponent from '@/components/custom/TitleComponent.vue';
-
-import { ArrowRight } from 'lucide-vue-next';
 </script>
 
 <script>
