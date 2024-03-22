@@ -412,6 +412,7 @@ export default {
   updated() {},
 };
 </script>
+
 <style lang="scss" scoped>
 .transition-blur {
   transition: all 0.3s ease;
