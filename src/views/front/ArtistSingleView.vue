@@ -1,5 +1,5 @@
 <template>
-  <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pt-16 pb-[128px] lg:pb-[192px]">
+  <main class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pt-16 pb-[128px] lg:pb-[192px]">
     <!-- 表演者圖片(區塊一) start -->
     <section class="artist-intro mb-10 md:mb-[6.5rem] lg:mb-40">
       <div class="flex justify-between mb-5">
@@ -9,19 +9,31 @@
             <span v-if="singleArtist.keywords?.length - 1 !== index">/</span>
           </p>
         </div>
-        <HoverCard>
-          <HoverCardTrigger>
-            <button
-              :key="singleArtist?.id"
-              class="basic-follow text-base"
-              :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
-              @click="toggleFollowArtist(singleArtist.is_followed, singleArtist.id)">
-              {{ singleArtist?.is_followed ? 'Following' : 'Follow' }}
-            </button>
-          </HoverCardTrigger>
-          <!-- 辨識登入狀態，未登入才顯示提示框 -->
-          <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟追蹤功能 </HoverCardContent>
-        </HoverCard>
+        <AlertDialog>
+          <AlertDialogTrigger class="flex">
+            <button v-if="!AccessToken" class="basic-follow tiffany-outline text-base">Follow</button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>請登入後追蹤</AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>取消</AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <router-link to="/login"> 前往登入 </router-link>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+        <button
+          v-if="AccessToken"
+          :key="singleArtist?.id"
+          class="basic-follow text-base"
+          :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
+          @click="toggleFollowSingleArtist(singleArtist.is_followed, singleArtist.id)">
+          {{ singleArtist?.is_followed ? 'Following' : 'Follow' }}
+        </button>
       </div>
       <div class="w-[85%] lg:w-[63%] mx-auto xl:relative">
         <img class="rounded-xl mb-5" :src="singleArtist?.cover_urls?.horizontal" :alt="singleArtist?.name" />
@@ -45,7 +57,7 @@
         <hr class="pb-10 md:pb-6" />
         <p class="hidden font-semibold pb-4">HITS</p>
         <div class="gap-3 flex flex-row md:flex-col flex-wrap items-center md:items-end">
-          <div v-for="(song, index) in singleArtist?.popular_songs" :key="index" class="song border text-center rounded-2xl py-[8px] px-[11px]">
+          <div v-for="(song, index) in singleArtist?.popular_songs" :key="index" class="text-[11px] border text-center rounded-2xl py-[8px] px-[11px]">
             {{ song }}
           </div>
         </div>
@@ -65,7 +77,7 @@
     </div>
 
     <!-- 即將舉辦(區塊四) start -->
-    <div>
+    <section>
       <TitleComponent class="flex justify-center mb-[30px]">
         <template #subTitle>UPCOMING</template>
         <template #mainTitle>即將舉辦</template>
@@ -74,9 +86,9 @@
         <div
           v-for="upcoming in singleArtist?.upcoming_concerts"
           :key="upcoming.id"
-          class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+          class="border border-black-60 rounded-[25px] py-[10px] px-[9px] xs:px-[26px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
           <div class="flex items-center">
-            <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
+            <div class="text-black-20 mr-3.5 md:mr-[45px] xl:mr-[60px]">
               <p class="text-[12px] sm:text-[15px] md:text-[19px]">
                 {{ moment(upcoming.holding_time).format('MM/DD') }}
               </p>
@@ -93,25 +105,40 @@
               </p>
             </div>
           </div>
-          <HoverCard>
-            <HoverCardTrigger>
-              <button class="mb-auto" @click="changeSaveConcertsMode(upcoming.id)">
-                <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-                <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+          <button v-if="AccessToken" @click="changeSaveConcertsMode(upcoming.id)">
+            <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-solid fa-bookmark" />
+            <font-awesome-icon v-else class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-regular fa-bookmark" />
+          </button>
+          <AlertDialog v-else>
+            <AlertDialogTrigger class="flex">
+              <button v-if="AccessToken === undefined">
+                <font-awesome-icon class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-regular fa-bookmark" />
               </button>
-            </HoverCardTrigger>
-            <!-- 辨識登入狀態，未登入才顯示提示框 -->
-            <HoverCardContent v-if="AccessToken === undefined"> 登入開啟收藏功能 </HoverCardContent>
-          </HoverCard>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>登入才能收藏 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <router-link to="/login"> 前往登入 </router-link>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </template>
 
-      <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
-    </div>
+      <div v-else class="border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto text-[14px] sm:text-[17px] md:text-[21px]">
+        抱歉! 目前沒有資料
+      </div>
+    </section>
     <!-- 即將舉辦(區塊四) end -->
 
     <!-- 已結束(區塊五) start -->
-    <div>
+    <section>
       <TitleComponent class="flex justify-center mb-[30px]">
         <template #subTitle>HISTORY</template>
         <template #mainTitle>已結束</template>
@@ -121,9 +148,9 @@
         <div
           v-for="historical in singleArtist?.historical_concerts"
           :key="historical.id"
-          class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
+          class="border border-black-60 rounded-[25px] py-[10px] px-[9px] xs:px-[26px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
           <div class="flex items-center">
-            <div class="concert-box-time text-black-20 mr-3.5 md:mr-[45px] xl:mr-[120px]">
+            <div class="text-black-20 mr-3.5 md:mr-[45px] xl:mr-[60px]">
               <p class="text-[12px] sm:text-[15px] md:text-[19px]">
                 {{ moment(historical.holding_time).format('MM/DD') }}
               </p>
@@ -140,28 +167,56 @@
               </p>
             </div>
           </div>
-          <HoverCard>
-            <HoverCardTrigger>
-              <button class="mb-auto" @click="changeSaveConcertsMode(historical.id)">
-                <font-awesome-icon v-if="saveState?.some((item) => item.id === historical?.id)" icon="fa-solid fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
-                <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" />
+          <button v-if="AccessToken" @click="changeSaveConcertsMode(historical.id)">
+            <font-awesome-icon
+              v-if="saveState?.some((item) => item.id === historical?.id)"
+              class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]"
+              icon="fa-solid fa-bookmark" />
+            <font-awesome-icon v-else class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-regular fa-bookmark" />
+          </button>
+          <AlertDialog v-else>
+            <AlertDialogTrigger class="flex">
+              <button v-if="AccessToken === undefined">
+                <font-awesome-icon class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-regular fa-bookmark" />
               </button>
-            </HoverCardTrigger>
-            <!-- 辨識登入狀態，未登入才顯示提示框 -->
-            <HoverCardContent v-if="AccessToken === undefined"> 請登入開啟收藏功能 </HoverCardContent>
-          </HoverCard>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>登入才能收藏 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>取消</AlertDialogCancel>
+                <AlertDialogAction asChild>
+                  <router-link to="/login"> 前往登入 </router-link>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </template>
 
-      <div v-else class="concert-box border border-black-60 rounded-[25px] py-[10px] px-[9px] flex justify-center items-center lg:w-[70%] lg:mx-auto">目前沒有資料 ~ ~ ~</div>
-    </div>
+      <div v-else class="border border-black-60 rounded-[25px] px-[9px] py-[10px] flex justify-center items-center lg:w-[70%] lg:mx-auto text-[14px] sm:text-[17px] md:text-[21px]">
+        抱歉! 目前沒有資料
+      </div>
+    </section>
     <!-- 已結束(區塊五) end -->
-  </div>
+  </main>
 </template>
 
 <script setup>
 import TitleComponent from '@/components/custom/TitleComponent.vue';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
@@ -170,9 +225,6 @@ import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { loadingStore } from '@/stores/isLoading';
 
-// 引入hooks
-import useDarkAlert from '@/hooks/useDarkAlert';
-
 // 引入API方法
 import { getSingleArtist, getSavedConcerts, postSaveConcerts, deleteSaveConcerts } from '../../api/index';
 import moment from 'moment';
@@ -180,7 +232,6 @@ import { useArtistsStore } from '@/stores/artists';
 import { useToast } from '@/components/ui/toast/use-toast';
 const { setIsLoading } = loadingStore();
 const { toast } = useToast();
-const { swalWithStylingButtons } = useDarkAlert();
 
 export default {
   data() {
@@ -220,23 +271,7 @@ export default {
       }
     },
     // 追蹤功能
-    toggleFollowArtist(isfollow, id) {
-      // 未登入狀態
-      if (!this.AccessToken) {
-        swalWithStylingButtons
-          .fire({
-            title: '登入後才能用追蹤功能喔！',
-            showCancelButton: true,
-            confirmButtonText: '前往登入',
-          })
-          .then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = 'login#/login';
-            }
-          });
-        return;
-      }
-
+    toggleFollowSingleArtist(isfollow, id) {
       // 登入且未追蹤狀態
       if (!isfollow) {
         // 新增追蹤
@@ -248,30 +283,20 @@ export default {
     },
     // 收藏功能
     changeSaveConcertsMode(id) {
-      // 未登入
-      if (this.AccessToken === undefined) {
-        // 自訂alert樣式
-        swalWithStylingButtons
-          .fire({
-            title: '登入後才能用收藏功能喔！',
-            showCancelButton: true,
-            confirmButtonText: '前往登入',
-          })
-          .then((result) => {
-            if (result.isConfirmed) {
-              window.location.href = 'login#/login';
-            }
-          });
-        return;
-      }
+      // 確保已登入且存在 AccessToken
+      if (!this.AccessToken) return;
 
-      // 判別是否已收藏
-      if (this.savedConcertsData?.some((item) => item.id === id)) {
+      // 確保 savedConcertsData 存在並且是陣列
+      if (!Array.isArray(this.savedConcertsData)) return;
+
+      const concert = this.savedConcertsData.find((item) => item.id === id);
+
+      if (concert) {
         // 刪除收藏
-        this.handleSaveAction(id, '刪除', '已加入收藏');
+        this.handleSaveAction(id, '刪除', '已取消收藏');
       } else {
         // 新增收藏
-        this.handleSaveAction(id, '新增', '已取消收藏');
+        this.handleSaveAction(id, '新增', '已加入收藏');
       }
     },
     // 取得 收藏演唱會資料
@@ -287,7 +312,6 @@ export default {
     async postSaveConcertsData(id) {
       try {
         await postSaveConcerts(id);
-        // console.log(res);
       } catch (error) {
         console.error(error);
       }
@@ -347,6 +371,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .bg-artistName {
   font-weight: 900;
@@ -367,10 +392,6 @@ export default {
     font-size: 7rem;
     letter-spacing: calc(calc(7rem + 1vw) * -0.04);
   }
-}
-
-.song {
-  font-size: 11px;
 }
 
 // 區塊三
@@ -395,22 +416,6 @@ export default {
     .honors {
       top: 43px;
       left: -82px;
-    }
-  }
-
-  .concert-box {
-    padding: 9px 20px;
-    .concert-box-time {
-      margin-right: 30px;
-    }
-  }
-}
-
-@media screen and (min-width: 576px) {
-  .artist-honors-relative {
-    .honors {
-      top: 43px;
-      left: -81px;
     }
   }
 }
