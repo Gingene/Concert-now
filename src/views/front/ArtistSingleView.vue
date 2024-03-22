@@ -31,8 +31,7 @@
           :key="singleArtist?.id"
           class="basic-follow text-base"
           :class="singleArtist?.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
-          @click="toggleFollowSingleArtist(singleArtist.is_followed, singleArtist.id)"
-        >
+          @click="toggleFollowSingleArtist(singleArtist.is_followed, singleArtist.id)">
           {{ singleArtist?.is_followed ? 'Following' : 'Follow' }}
         </button>
       </div>
@@ -58,11 +57,7 @@
         <hr class="pb-10 md:pb-6" />
         <p class="hidden font-semibold pb-4">HITS</p>
         <div class="gap-3 flex flex-row md:flex-col flex-wrap items-center md:items-end">
-          <div 
-            v-for="(song, index) in singleArtist?.popular_songs" 
-            :key="index" 
-            class="text-[11px] border text-center rounded-2xl py-[8px] px-[11px]"
-          >
+          <div v-for="(song, index) in singleArtist?.popular_songs" :key="index" class="text-[11px] border text-center rounded-2xl py-[8px] px-[11px]">
             {{ song }}
           </div>
         </div>
@@ -91,8 +86,7 @@
         <div
           v-for="upcoming in singleArtist?.upcoming_concerts"
           :key="upcoming.id"
-          class="border border-black-60 rounded-[25px] py-[10px] px-[9px] xs:px-[26px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto"
-        >
+          class="border border-black-60 rounded-[25px] py-[10px] px-[9px] xs:px-[26px] mb-6 flex justify-between items-center lg:w-[70%] lg:mx-auto">
           <div class="flex items-center">
             <div class="text-black-20 mr-3.5 md:mr-[45px] xl:mr-[60px]">
               <p class="text-[12px] sm:text-[15px] md:text-[19px]">
@@ -112,16 +106,8 @@
             </div>
           </div>
           <button v-if="AccessToken" @click="changeSaveConcertsMode(upcoming.id)">
-            <font-awesome-icon 
-              v-if="saveState?.some((item) => item.id === upcoming?.id)" 
-              class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" 
-              icon="fa-solid fa-bookmark" 
-            />
-            <font-awesome-icon 
-              v-else 
-              class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" 
-              icon="fa-regular fa-bookmark" 
-            />
+            <font-awesome-icon v-if="saveState?.some((item) => item.id === upcoming?.id)" class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-solid fa-bookmark" />
+            <font-awesome-icon v-else class="text-xl md:text-3xl ml-4 text-[var(--pink)] hover:translate-y-[-.25rem]" icon="fa-regular fa-bookmark" />
           </button>
           <AlertDialog v-else>
             <AlertDialogTrigger class="flex">
@@ -326,7 +312,6 @@ export default {
     async postSaveConcertsData(id) {
       try {
         await postSaveConcerts(id);
-
       } catch (error) {
         console.error(error);
       }

@@ -19,8 +19,7 @@
           class="basic"
           :class="[activeFilterCountry === country.location ? 'pink-fill' : 'pink-outline']"
           @click="FilterByCountry(country.location)"
-          :key="country.id"
-        >
+          :key="country.id">
           {{ country.location }}
         </button>
       </div>
@@ -30,20 +29,11 @@
     <!-- 區塊四(表演者總覽 &follow) start -->
     <section>
       <!-- 搜尋不到文字 -->
-      <p 
-        v-if="!aristData.artists?.length" 
-        class="p-14 font-semibold tracking-tighter text-base lg:text-lg text-white text-center"
-      >
-        抱歉，搜尋不到相關資源
-      </p>
+      <p v-if="!aristData.artists?.length" class="p-14 font-semibold tracking-tighter text-base lg:text-lg text-white text-center">抱歉，搜尋不到相關資源</p>
 
       <!--  grid  -->
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        <li 
-          v-for="artist in aristData.artists" 
-          :key="artist.id" 
-          class="flex flex-row justify-between items-center px-4 py-3 md:border-2 border-black-80 rounded-2xl"
-        >
+        <li v-for="artist in aristData.artists" :key="artist.id" class="flex flex-row justify-between items-center px-4 py-3 md:border-2 border-black-80 rounded-2xl">
           <RouterLink :to="`/artists/${artist.id}`" class="w-[81%] flex items-center">
             <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
             <div class="ml-4">
@@ -57,12 +47,7 @@
           </RouterLink>
           <AlertDialog>
             <AlertDialogTrigger class="flex">
-              <button 
-                v-if="!AccessToken"
-                class="basic-follow tiffany-outline text-base hover:translate-y-[-.25rem]"
-              >
-                Follow
-              </button>
+              <button v-if="!AccessToken" class="basic-follow tiffany-outline text-base hover:translate-y-[-.25rem]">Follow</button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -82,8 +67,7 @@
             :key="artist?.id"
             class="basic-follow text-base hover:translate-y-[-.25rem]"
             :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
-            @click="toggleFollowArtists(artist.is_followed, artist.id)"
-          >
+            @click="toggleFollowArtists(artist.is_followed, artist.id)">
             {{ artist.is_followed ? 'Following' : 'Follow' }}
           </button>
         </li>
@@ -106,15 +90,8 @@
         <PaginationPrev @click="FilterByPage(aristData.pagination.current_page - 1)" />
 
         <template v-for="(item, index) in items">
-          <PaginationListItem 
-            v-if="item.type === 'page'" 
-            :key="index" :value="item.value" as-child
-          >
-            <Button 
-              class="w-10 h-10 p-0" 
-              :variant="item.value === page ? 'default' : 'outline'" 
-              @click="FilterByPage(item.value)" :disabled="item.value === page"
-            >
+          <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="FilterByPage(item.value)" :disabled="item.value === page">
               {{ item.value }}
             </Button>
           </PaginationListItem>
@@ -282,4 +259,3 @@ export default {
   },
 };
 </script>
-

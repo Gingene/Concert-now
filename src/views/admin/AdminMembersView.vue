@@ -148,7 +148,6 @@ export default {
       try {
         const res = await getAdminMembers(page);
         this.usersData = res.data.data;
-
       } catch (error) {
         console.error(error);
       }
@@ -157,7 +156,6 @@ export default {
       try {
         const res = await filterAdminMembers(this.searchText, this.selectStatus, page);
         this.usersData = res.data.data;
-
       } catch (error) {
         console.error(error);
       }
@@ -168,4 +166,3 @@ export default {
   },
 };
 </script>
-
