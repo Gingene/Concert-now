@@ -25,9 +25,6 @@
     </div>
   </div>
 
-  <!-- 會員人數 -->
-  <!-- <div class="mb-4 pl-2"><strong>會員人數: </strong> {{ filteredData.length }} 人</div> -->
-
   <!-- Table -->
   <Table class="w-[700px] lg:w-full overflow-x-auto bg-white rounded-lg text-md mb-10" v-show="filteredData?.length !== 0">
     <!-- <TableCaption>會員管理</TableCaption> -->
@@ -87,53 +84,6 @@ export default {
       selectStatus: '',
       selectTime: '',
       usersData: null,
-      // users: [
-      //   {
-      //     id: 1,
-      //     name: '小明',
-      //     email: '01@gamail.com',
-      //     status: '啟用中',
-      //     created_at: '2022-01-05',
-      //     warning_list: [],
-      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
-      //   },
-      //   {
-      //     id: 2,
-      //     name: '明明',
-      //     email: '02@gamail.com',
-      //     status: '停權中',
-      //     created_at: '2020-05-06',
-      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容', '不實評論', '不實評論'],
-      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
-      //   },
-      //   {
-      //     id: 3,
-      //     name: '小華',
-      //     email: '03@gamail.com',
-      //     status: '停權中',
-      //     created_at: '2020-03-06',
-      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
-      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
-      //   },
-      //   {
-      //     id: 4,
-      //     name: '小壯',
-      //     email: '04@gamail.com',
-      //     status: '停權中',
-      //     created_at: '2020-03-29',
-      //     warning_list: ['不實評論', '惡意評論', '腥羶色內容'],
-      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
-      //   },
-      //   {
-      //     id: 5,
-      //     name: '阿嬌',
-      //     email: '05@gamail.com',
-      //     status: '啟用中',
-      //     created_at: '2023-07-15',
-      //     warning_list: ['不實評論', '惡意評論'],
-      //     profile_image_url: 'https://blush.design/api/download?shareUri=QTNLvs-CcwoJ0ozN&c=Skin_0%7Eedb98a&w=800&h=800&fm=png',
-      //   },
-      // ],
       allstatus: [
         {
           id: 1,
@@ -197,9 +147,8 @@ export default {
     async getAdminMembersData(page = 1) {
       try {
         const res = await getAdminMembers(page);
-        // console.log(res.data.data)
         this.usersData = res.data.data;
-        // console.log(this.usersData);
+
       } catch (error) {
         console.error(error);
       }
@@ -208,7 +157,7 @@ export default {
       try {
         const res = await filterAdminMembers(this.searchText, this.selectStatus, page);
         this.usersData = res.data.data;
-        // console.log(this.usersData);
+
       } catch (error) {
         console.error(error);
       }
@@ -219,4 +168,4 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+
