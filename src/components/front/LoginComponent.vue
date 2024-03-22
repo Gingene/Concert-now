@@ -55,7 +55,7 @@
               </div>
 
               <!-- 下次改版預定 -->
-              <Button variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4 hidden">
+              <Button variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4">
                 <font-awesome-icon :icon="['fab', 'google']" />
                 <span>使用 Google 進行登入</span>
               </Button>
@@ -140,9 +140,7 @@ const handleGoogleAuthCodeLogin = () => {
     clientId: GOOGLE_CLIENT_ID,
   }).then((response) => {
     data.value = response;
-    const { access_token } = data.value;
     console.log(data.value);
-    console.log(access_token);
   });
 };
 
