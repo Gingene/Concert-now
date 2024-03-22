@@ -1,19 +1,23 @@
 <template>
   <section class="container relative">
+    <!-- 場地搜尋 -->
     <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchVenues">
       <template #mainTitle>VENUES</template>
     </BannerComponent>
 
+    <!-- 場地展示 -->
     <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="(e) => getVenuesByCity('', e)"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button variant="tiffany-outline" size="base" @click="(e) => getVenuesByCity(city, e)" class="city-button"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="handleGetVenuesByCity(city.value)" :class="{ active: activeCity === city.value, 'me-4': city.name === '全部' }">
+              {{ city.name }}
+            </Button>
           </template>
         </div>
       </div>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <p v-if="!venues.length" class="p-14 font-semibold tracking-tighter text-base lg:text-lg text-white text-center">抱歉，搜尋不到相關資源</p>
+      <ul v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="venue in venues" :key="venue.id">
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
@@ -66,6 +70,7 @@
       </Pagination>
     </main>
   </section>
+  <!-- 場地總覽 -->
   <section class="pt-[20px] md:pt-[58px] lg:pt-[117px] pb-[128px] lg:pb-[192px]">
     <div>
       <TitleComponent class="flex justify-center mb-8">
@@ -133,8 +138,30 @@ import 'aos/dist/aos.css';
 export default {
   data() {
     return {
-      cities: ['台北市', '新北市', '台中市', '高雄市'],
-      bannerInputPlaceholder: '輸入場地/縣市名稱',
+      activeCity: '',
+      cities: [
+        {
+          name: '全部',
+          value: '',
+        },
+        {
+          name: '台北市',
+          value: '台北市',
+        },
+        {
+          name: '新北市',
+          value: '新北市',
+        },
+        {
+          name: '台中市',
+          value: '台中市',
+        },
+        {
+          name: '高雄市',
+          value: '高雄市',
+        },
+      ],
+      bannerInputPlaceholder: '輸入場地',
       accordionItems: [
         {
           value: 'item-1',
@@ -216,6 +243,10 @@ export default {
         this.simulatorAccordionButtonHover(btn, 'mouseover');
       });
     },
+    handleGetVenuesByCity(city) {
+      this.getVenuesByCity(city);
+      this.activeCity = city;
+    },
     ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues', 'getVenuesByPage', 'resetState']),
   },
   computed: {
@@ -233,45 +264,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.marquee-type {
-  &:nth-child(odd) {
-    a {
-      @apply col-span-3;
-    }
-    p.marquee {
-      animation: marquee-negative 10s infinite linear;
-    }
-  }
-  &:nth-child(even) {
-    a {
-      @apply col-start-2 col-span-3;
-    }
-    .marquee-image {
-      @apply w-full;
-    }
-    p.marquee {
-      animation: marquee-positive 10s infinite linear;
-    }
-  }
-}
-
-@keyframes marquee-negative {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-(80%));
-  }
-}
-
-@keyframes marquee-positive {
-  0% {
-    transform: translateX(-80%);
-  }
-  100% {
-    transform: translateX((0%));
-  }
-}
-</style>

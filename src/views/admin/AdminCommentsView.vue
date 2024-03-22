@@ -17,7 +17,7 @@
       </Select>
     </div>
     <div class="flex col-span-2">
-      <Input type="text" placeholder="輸入會場、用戶名稱查詢..." @input="searchComment" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
+      <Input type="text" placeholder="輸入會場、用戶信箱查詢..." @input="searchComment" class="bg-white rounded-r-none border h-10 px-2 w-full focus-visible:ring-offset-0" />
       <Button class="rounded-l-none">
         <span class="material-symbols-outlined absolute"> search </span>
       </Button>
@@ -63,75 +63,77 @@
 
   <!-- Table -->
 
-  <Table class="bg-white rounded-lg text-md mb-10" v-show="filterDatas.length !== 0">
-    <TableCaption>評論管理控制面板</TableCaption>
-    <TableHeader>
-      <TableRow class="hover:bg-white" style="color: black !important">
-        <TableHead><Checkbox @click="allCheckList" /></TableHead>
-        <TableHead
-          ><Button variant="ghost" @click="sortCommentByReportNum"
-            >檢舉人數<span class="material-symbols-outlined" v-if="sortInitial"> stat_1 </span><span class="material-symbols-outlined" v-else> stat_minus_1 </span></Button
-          ></TableHead
-        >
-        <TableHead>評論內容</TableHead>
-        <TableHead>場地名稱</TableHead>
-        <TableHead>用戶名</TableHead>
-        <TableHead></TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody class="text-gray-600">
-      <TableRow class="py-8" v-for="comment in filterDatas" :key="comment.id">
-        <TableCell class="text-purple-primary">
-          <Checkbox :id="comment.id" @click="chagneCheckList(comment.id)" class="checkboxList" />
-          <label :for="comment.id" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
-        </TableCell>
-        <TableCell class="text-purple-primary text-center">{{ comment.report_num }}</TableCell>
-        <TableCell>{{ comment.comment }}</TableCell>
-        <TableCell>{{ comment.venueId.title }}</TableCell>
-        <TableCell>{{ comment.userId1.email }}</TableCell>
-        <TableCell class="space-x-4 flex">
-          <Button class="bg-gray-200" v-if="!comment.isReview" @click="checkReview(comment.id)">未審閱</Button>
-          <Button class="bg-lime-500 hover:bg-lime-700" v-else>已審閱</Button>
+  <main>
+    <Table class="bg-white rounded-lg text-md mb-10" v-show="filterDatas.length !== 0">
+      <TableCaption>評論管理控制面板</TableCaption>
+      <TableHeader>
+        <TableRow class="hover:bg-white" style="color: black !important">
+          <TableHead><Checkbox @click="allCheckList" /></TableHead>
+          <TableHead
+            ><Button variant="ghost" @click="sortCommentByReportNum"
+              >檢舉人數<span class="material-symbols-outlined" v-if="sortInitial"> stat_1 </span><span class="material-symbols-outlined" v-else> stat_minus_1 </span></Button
+            ></TableHead
+          >
+          <TableHead>評論內容</TableHead>
+          <TableHead>場地名稱</TableHead>
+          <TableHead>用戶名</TableHead>
+          <TableHead></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody class="text-gray-600">
+        <TableRow class="py-8" v-for="comment in filterDatas" :key="comment.id">
+          <TableCell class="text-purple-primary">
+            <Checkbox :id="comment.id" @click="chagneCheckList(comment.id)" class="checkboxList" />
+            <label :for="comment.id" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
+          </TableCell>
+          <TableCell class="text-purple-primary text-center">{{ comment.report_num }}</TableCell>
+          <TableCell>{{ comment.comment }}</TableCell>
+          <TableCell>{{ comment.venueId.title }}</TableCell>
+          <TableCell>{{ comment.userId1.email }}</TableCell>
+          <TableCell class="space-x-4 flex">
+            <Button class="bg-gray-200" v-if="!comment.isReview" @click="checkReview(comment.id)">未審閱</Button>
+            <Button class="bg-lime-500 hover:bg-lime-700" v-else>已審閱</Button>
 
-          <Dialog>
-            <DialogTrigger>
-              <Button variant="destructive">
-                <span class="material-symbols-outlined">delete</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle class="text-center">是否要警告使用者？</DialogTitle>
-                <DialogDescription>
-                  <Select v-model="warningReason">
-                    <SelectTrigger>
-                      <SelectValue placeholder="警告原因" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectLabel>警告原因</SelectLabel>
-                        <SelectItem value="不實評論"> 不實評論 </SelectItem>
-                        <SelectItem value="惡意評論"> 惡意評論 </SelectItem>
-                        <SelectItem value="腥羶色內容"> 腥羶色內容 </SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </DialogDescription>
-              </DialogHeader>
+            <Dialog>
+              <DialogTrigger>
+                <Button variant="destructive">
+                  <span class="material-symbols-outlined">delete</span>
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle class="text-center">是否要警告使用者？</DialogTitle>
+                  <DialogDescription>
+                    <Select v-model="warningReason">
+                      <SelectTrigger>
+                        <SelectValue placeholder="警告原因" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>警告原因</SelectLabel>
+                          <SelectItem value="不實評論"> 不實評論 </SelectItem>
+                          <SelectItem value="惡意評論"> 惡意評論 </SelectItem>
+                          <SelectItem value="腥羶色內容"> 腥羶色內容 </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </DialogDescription>
+                </DialogHeader>
 
-              <DialogFooter>
-                <DialogClose><Button class="bg-lime-500" @click="deleteComment(comment.id)">不警告</Button></DialogClose>
-                <DialogClose><Button variant="destructive" @click="warnUser(comment.id, comment.userId1)">送出警告</Button></DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        </TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
-  <div v-show="!filterDatas.length" class="flex justify-center py-12">
-    <h2>哇! 找不到資料~</h2>
-  </div>
+                <DialogFooter>
+                  <DialogClose><Button class="bg-lime-500" @click="deleteComment(comment.id)">不警告</Button></DialogClose>
+                  <DialogClose><Button variant="destructive" @click="warnUser(comment.id, comment.userId1)">送出警告</Button></DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+    <div v-show="!filterDatas.length" class="flex justify-center py-12">
+      <h2>哇! 找不到資料~</h2>
+    </div>
+  </main>
   <!-- Pagination -->
   <div class="flex justify-center">
     <Pagination v-slot="{ page }" :total="10" :sibling-count="1" show-edges :default-page="1">
@@ -213,6 +215,7 @@ export default {
   },
 };
 </script>
+
 <style>
 th,
 td {

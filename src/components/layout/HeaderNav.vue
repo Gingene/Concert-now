@@ -8,7 +8,7 @@
       <div class="hidden backdrop-blur-sm rounded-xl lg:block lg:col-span-2 xl:col-span-3 2xl:col-span-5 relative">
         <span class="absolute text-black-60 top-2 left-3">Search now</span>
         <Search class="absolute text-black-60 top-2 right-3" />
-        <Dialog :open="openSearchModal" @update:open="openModal">
+        <Dialog :open="isToggleSearchModal" @update:open="toggleModal">
           <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25 searchModal" @click="searchAll('')"> </DialogTrigger>
           <DialogContent class="max-w-[90%] p-8 rounded-md" :class="{ 'h-full': concertResults.length || artistResults.length || venueResults.length }">
             <DialogHeader>
@@ -18,7 +18,7 @@
                   v-model="searchText"
                   @keyup="searchAll"
                   class="bg-black-0 text-black-80 box-shadow-light1-hover focus-visible:outline-0 px-6 py-5 focus:opacity-100 searchButton focus-visible:ring-offset-0 focus-visible:ring-ring-transparent" />
-                <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4">沒有搜尋到任何資料</div>
+                <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4 text-center">沒有搜尋到任何資料</div>
               </DialogTitle>
               <DialogDescription></DialogDescription>
             </DialogHeader>
@@ -36,7 +36,7 @@
                 <Carousel class="w-[120px] md:w-[500px] lg:w-[90%] mt-16">
                   <CarouselContent>
                     <CarouselItem v-for="artist in artistResults" :key="artist.id" class="md:basis-1/2 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
-                      <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col justify-center items-center" @click="openModal(false)">
+                      <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col justify-center items-center" @click="toggleModal(false)">
                         <DialogDescription>
                           <img :src="artist.cover_urls.square" :alt="artist.name" class="size-[100px] md:size-[150px] lg:w-[150px] lg:h-[150px] rounded-full object-cover" />
                           <div class="text-base mt-2 text-center text-white">{{ artist.name }}</div>
@@ -58,7 +58,7 @@
                 <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
                   <CarouselContent>
                     <CarouselItem v-for="concert in concertResults" :key="concert.id" class="md:basis-1/2 lg:basis-1/4">
-                      <RouterLink :to="`/concerts/${concert.id}`" @click="openModal(false)">
+                      <RouterLink :to="`/concerts/${concert.id}`" @click="toggleModal(false)">
                         <DialogDescription class="mt-2 flex flex-col justify-center items-center">
                           <img
                             :src="concert.cover_urls.square"
@@ -86,7 +86,7 @@
                 <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
                   <CarouselContent>
                     <CarouselItem v-for="venue in venueResults" :key="venue.id" class="md:basis-1/2 lg:basis-1/3 2xl:basis-1/4">
-                      <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col justify-center items-center" @click="openModal(false)">
+                      <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col justify-center items-center" @click="toggleModal(false)">
                         <DialogDescription class="mt-2 flex flex-col justify-center items-center">
                           <img :src="venue.picture.square" :alt="venue.title" class="size-[100px] md:size-[200px] lg:w-[300px] lg:h-[300px] object-cover rounded-2xl" />
                           <div class="mt-2 flex flex-col">
@@ -166,7 +166,7 @@
           class="p-2 bg-transparent"
           @click="
             searchAll('');
-            openModal(true);
+            toggleModal(true);
           ">
           <Search />
         </Button>
@@ -335,7 +335,7 @@ export default {
       concertResults: [],
       venueResults: [],
       artistResults: [],
-      openSearchModal: false,
+      isToggleSearchModal: false,
     };
   },
   methods: {
@@ -353,7 +353,7 @@ export default {
         item.classList.remove('blur');
       });
       // console.log('remove');
-    }, 650),
+    }, 600),
     searchConcerts() {
       this.http
         .get(`${this.path.concerts}?q=${this.searchText}&page=1`)
@@ -396,8 +396,8 @@ export default {
       const scrollAreas = document.querySelectorAll('[data-radix-scroll-area-viewport]');
       scrollAreas[scrollAreas.length - 1].childNodes[0].style = 'display: block';
     },
-    openModal(val) {
-      this.openSearchModal = val;
+    toggleModal(val) {
+      this.isToggleSearchModal = val;
     },
     ...mapActions(useUserStore, ['logout']),
   },

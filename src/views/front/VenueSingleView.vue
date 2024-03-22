@@ -1,7 +1,9 @@
 <template>
+  <!-- 上方背景 -->
   <div
     class="w-full h-[400px] md:h-[460px] lg:h-[600px] 2xl:h-[700px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-bottom shadow"
     :style="`background-image: url(${venue.picture?.horizontal})`"></div>
+  <!-- 場地體驗 -->
   <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[460px] lg:pt-[600px] 2xl:pt-[700px] space-y-6 lg:space-y-10">
     <main class="space-y-6 lg:space-y-10">
       <div class="text-center">
@@ -22,9 +24,9 @@
       </TitleComponent>
 
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <!-- 場地點擊區 -->
         <article class="lg:order-2 lg:col-span-2 py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14 rounded-[40px] bg-shadow-trans-text venue-section">
           <!-- Venue Title -->
-          <!-- <h2 href="#" class="font-bold text-center text-xl xs:text-[36px] sm:text-xl 2xl:text-2xl pb-2">{{ venue.title }}</h2> -->
           <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
           <!-- Venue Seats -->
           <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
@@ -40,13 +42,14 @@
             </div>
           </div>
         </article>
+        <!-- 評論區 -->
         <div class="space-y-6 lg:space-y-10 box-shadow-light2 px-6 py-10 sm:p-10 rounded-btn2 lg:col-span-3">
           <div class="flex justify-between items-center">
             <Select v-model="seatArea">
               <!-- <SelectTrigger class="w-1/3 border-0 text-primary bg-pink box-shadow-pink-blur box-shadow-pink-blur-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1"> -->
               <SelectTrigger
                 class="w-2/3 sm:w-1/3 border-2 text-white border-black-40 hover:text-black hover:bg-white hover:box-shadow-light1-hover focus-visible:outline-0 h-10 p-4 md:py-4 md:px-6 rounded-btn1">
-                <SelectValue placeholder="座位區" />
+                <SelectValue placeholder="全部座位區" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -56,6 +59,7 @@
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <!-- 新增評論區 -->
             <div class="text-center">
               <template v-if="AccessToken === undefined">
                 <AlertDialog>
@@ -79,7 +83,7 @@
                 </AlertDialog>
               </template>
               <template v-else>
-                <Dialog :open="openCommentModal" @update:open="openModal">
+                <Dialog :open="isToggleCommentModal" @update:open="toggleModal">
                   <DialogTrigger as-child>
                     <Button variant="white-outline" class="rounded-full p-2 hover:bg-pink hover:text-primary hover:box-shadow-pink-blur-hover hover:border-pink hover:text-white">
                       <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
@@ -127,7 +131,7 @@
                       <div>
                         <div class="relative flex items-center mb-4">
                           <Label for="commentPictures" class="absolute text-white bg-black-85 border-black-85 border rounded-md pl-6 pr-20 -z-10 py-2 px-3">評論圖片</Label>
-                          <input id="commentPictures" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
+                          <input id="commentPictures" ref="commentPicturesInput" multiple class="hidden" type="file" accept="image/png, image/jpeg" @change="readURL" />
                           <Button type="button" class="ml-[7rem] border-white border w-[220px] md:w-full rounded-md justify-start text-sm px-3" @click="handleFileButton">
                             <span v-if="!images.length">未選擇任何檔案</span>
                             <span v-else>已選擇{{ images.length }}個檔案</span>
@@ -229,9 +233,10 @@
       </div>
     </main>
   </section>
+  <!-- 場地名稱跑馬燈 -->
   <div>
-    <div class="marquee-type bg-tiffany">
-      <div ref="marquee" class="flex text-[5rem] md:text-[6.5rem] lg:text-[8rem] font-black text-black tracking-[-1px] whitespace-nowrap overflow-x-auto scrollbar-none mb-6 lg:mb-10 leading-[1]">
+    <div class="bg-tiffany">
+      <div ref="marquee" class="flex text-[5rem] md:text-[6.5rem] lg:text-[8rem] font-black text-black tracking-[-1px] whitespace-nowrap overflow-hidden mb-6 lg:mb-10 leading-[1]">
         <p class="marquee space-x-4">
           <span>{{ venue.title }}</span>
           <span class="text-stroke-black font-display uppercase">{{ venue.eng_title }}</span>
@@ -247,15 +252,18 @@
       </div>
     </div>
   </div>
+  <!-- 交通方式 -->
   <section class="container">
     <TitleComponent class="overflow-x-hidden">
       <template #subTitle> TRANSPORT </template>
       <template #mainTitle> 交通方式 </template>
     </TitleComponent>
     <div class="mt-4 lg:mt-6">
+      <!-- 地圖 -->
       <div class="mb-4 lg:mb-6">
         <iframe :src="venue.map_link" frameborder="0" class="w-full h-[375px] md:h-[600px] rounded-md"></iframe>
       </div>
+      <!-- 查看交通方式 -->
       <div class="space-y-6 lg:space-y-10">
         <Accordion type="single" collapsible>
           <AccordionItem class="lg:relative border-b-4" v-for="method in transportation" :key="method.type" :value="method.value">
@@ -322,7 +330,7 @@ export default {
       commentContent: '',
       images: [],
       checkPolicy: true,
-      openCommentModal: false,
+      isToggleCommentModal: false,
       accordionItems: [],
     };
   },
@@ -332,24 +340,14 @@ export default {
     hoverTitle(e) {
       e.currentTarget.childNodes.forEach((element, index) => {
         if (index !== 1) {
-          element.classList.remove(...['hidden', 'collapse-left', 'collapse-right']);
-        }
-        if (index === 0) {
-          element.classList.add(...['collapse-left', 'show']);
-        } else if (index === 2) {
-          element.classList.add(...['collapse-right', 'show']);
+          element.classList.add('show');
         }
       });
     },
     removeHoverTitle(e) {
       e.currentTarget.childNodes.forEach((element, index) => {
         if (index !== 1) {
-          element.classList.remove(...['w-auto', 'collapse-left', 'collapse-right', 'show']);
-        }
-        if (index === 0) {
-          element.classList.add('collapse-left');
-        } else if (index === 2) {
-          element.classList.add('collapse-right');
+          element.classList.remove('show');
         }
       });
     },
@@ -374,7 +372,7 @@ export default {
             return;
           }
 
-          reader.onload = function (e) {
+          reader.onload = (e) => {
             // console.log(e);
             document.querySelector('#commentImage' + (i + 1)).setAttribute('src', e.target.result);
           };
@@ -386,7 +384,7 @@ export default {
       }
     },
     handleFileButton() {
-      document.querySelector('#commentPictures').click();
+      this.$refs.commentPicturesInput.click();
     },
     onSubmit(e) {
       e.preventDefault();
@@ -443,7 +441,7 @@ export default {
             description: '',
           });
           this.getVenue(this.$route.params.id);
-          this.openCommentModal = false;
+          this.isToggleCommentModal = false;
         })
         .catch((err) => {
           console.error(err);
@@ -464,24 +462,18 @@ export default {
         description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
       });
     },
-    openModal(val) {
-      this.openCommentModal = val;
+    toggleModal(val) {
+      this.isToggleCommentModal = val;
       if (val === false) {
         this.resetComment();
       }
     },
-    handleMarQuee() {
-      const marquee = this.$refs.marquee;
-      marquee.childNodes.forEach((item) => {
-        if (item.textContent.length <= 90 && item.textContent.length > 60) {
-          item.style.animationDuration = '80s';
-        } else if (item.textContent.length <= 120 && item.textContent.length > 90) {
-          item.style.animationDuration = '90s';
-        }
-      });
-    },
     activeArea(area) {
-      this.seatArea = area;
+      if (this.seatArea === area) {
+        this.seatArea = '';
+      } else {
+        this.seatArea = area;
+      }
     },
     ...mapActions(useVenuesStore, ['getVenue', 'reportUser']),
   },
@@ -495,35 +487,17 @@ export default {
       this.getVenue(newId);
       this.seatArea = '';
     },
-    concertId(newVal) {
-      // const concert = this.venue.concerts.find((item) => item.id === +newVal);
-      // console.log(concert.title.length);
-      // if (concert.title.length > 19) {
-      //   console.dir(this.$refs.modalForm);
-      //   this.$refs.modalForm.classList.add('w-3/5');
-      //   this.$refs.modalForm[2].style.width = '50%';
-      // } else if (concert.title.length > 39) {
-      //   this.$refs.modalForm[2].style.width = '40%';
-      // }
-    },
   },
   mounted() {
     this.getVenue(this.id);
     // AOS.init();
   },
-  updated() {
-    // document.title = this.venue.title;
-    // console.log(document.title);
-    const accordionButtons = document.querySelectorAll('.accordion-button');
-
-    accordionButtons.forEach((item) => {
-      if (item?.dataset?.state === 'open') {
-        item?.click();
-      }
-    });
+  unmounted() {
+    this.seatArea = '';
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .shadow {
   box-shadow: inset 0px 40px 150px rgba(0, 0, 0, 0.7);
@@ -532,6 +506,10 @@ export default {
 .text-stroke-black {
   color: transparent;
   -webkit-text-stroke: 1px #000;
+}
+
+.marquee {
+  @apply animate-[right-to-left_40s_linear_infinite];
 }
 
 .collapse-left.show {
@@ -595,68 +573,6 @@ export default {
   to {
     transform: translateX(-70%);
     opacity: 0;
-  }
-}
-
-.scrollbar-none {
-  scrollbar-width: none;
-}
-
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-}
-.marquee-text {
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll 80s linear infinite;
-}
-@keyframes scroll {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-
-.marquee-type {
-  &:nth-child(odd) {
-    // a {
-    //   @apply col-span-3;
-    // }
-    p.marquee {
-      animation: marquee-negative 40s infinite linear;
-    }
-  }
-  &:nth-child(even) {
-    // a {
-    //   @apply col-start-2 col-span-3;
-    // }
-    // .marquee-image {
-    //   @apply w-full;
-    // }
-    p.marquee {
-      animation: marquee-positive 90s infinite linear;
-    }
-  }
-}
-
-@keyframes marquee-negative {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
-
-@keyframes marquee-positive {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX((0%));
   }
 }
 </style>
