@@ -48,7 +48,7 @@
       </Dialog>
     </div>
     <!-- Right: Table -->
-    <div class="col-span-3 flex flex-col">
+    <main class="col-span-3 flex flex-col">
       <div class="flex">
         <!-- 新增成員 -->
         <Dialog>
@@ -216,7 +216,7 @@
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+    </main>
   </div>
 </template>
 

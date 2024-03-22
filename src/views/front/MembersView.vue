@@ -28,7 +28,7 @@
     </div>
   </section>
   <!-- Collection -->
-  <section 
+  <main 
     class="container lg:w-[1000px] xl:w-[1200px] grid lg:grid-cols-2 gap-2 lg:gap-6 pb-20 sm:pb-[14rem] overflow-hidden"
     >
     <!-- Artist -->
@@ -129,7 +129,7 @@
         </ScrollArea>
       </CardContent>
     </Card>
-  </section>
+  </main>
 </template>
 
 <script setup>

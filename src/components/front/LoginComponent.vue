@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-[80vh]">
+  <main class="min-h-[80vh]">
     <div class="absolute top-36 md:top-40 -z-10 w-full h-[450px] md:h-[500px] lg:h-[600px] bg-gradient-to-bl from-tiffany from-10% via-pink to-primary opacity-60 blur-[100px] rounded-full"></div>
     <Tabs :default-value="defaultPage" class="px-0 pt-16 xs:pt-28 pb-24 sm:py-32 lg:py-40 container w-[300px] xs:w-[400px] md:w-[500px] lg:w-[600px]">
       <!-- Trigger: Login / Sign Up -->
@@ -119,7 +119,7 @@
         </Card>
       </TabsContent>
     </Tabs>
-  </div>
+  </main>
 </template>
 
 <script setup>
