@@ -13,12 +13,11 @@
     </ul>
   </nav>
 </template>
-<script setup>
-import { ArrowDownRight } from 'lucide-vue-next';
-</script>
 
 <script>
+import { ArrowDownRight } from 'lucide-vue-next';
 export default {
+  components: { ArrowDownRight },
   data() {
     return {
       footNavList: [
@@ -47,6 +46,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .footer-nav {
   transition: border 0.3s ease;
