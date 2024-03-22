@@ -119,7 +119,7 @@ module.exports = {
         'right-to-left': {
           from: { transform: 'translateX(0%)' },
           to: { transform: 'translateX(-100%)' },
-        }
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',

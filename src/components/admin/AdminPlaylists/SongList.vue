@@ -3,6 +3,7 @@
     <span>{{ index + 1 }}. </span><span>{{ song.name }}</span>
   </h6>
 </template>
+
 <script>
 export default {
   props: ['concertSongs'],

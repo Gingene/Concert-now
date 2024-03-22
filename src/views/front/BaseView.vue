@@ -134,18 +134,13 @@
       <Button variant="white-blur" size="btn2"><span class="material-symbols-outlined"> arrow_back </span></Button>
     </div>
   </div>
-  <FormTest />
 </template>
+
 <script setup>
 import { Button } from '@/components/ui/button';
 import { ArrowDownRight, ArrowUpRight } from 'lucide-vue-next';
-import FormTest from '@/components/FormTest.vue';
-import TitleComponent from '@/components/custom/TitleComponent.vue';
-// import {Title} from '@/components/ui/title';
-</script>
 
-<script>
-export default {};
+import TitleComponent from '@/components/custom/TitleComponent.vue';
 </script>
 
 <style lang="scss">
