@@ -1,13 +1,13 @@
 <template>
   <div class="container space-y-[20px] md:space-y-[58px] lg:space-y-[117px] pb-[128px] lg:pb-[192px] pt-[60px] md:pt-[80px]">
-    <section class="flex flex-col gap-8">
+    <main class="flex flex-col gap-8">
       <div class="lg:flex lg:justify-between lg:gap-8">
         <div class="space-y-6 lg:flex lg:flex-col lg:justify-between lg:w-[100%]">
           <div class="flex space-x-4">
             <div class="bg-shadow-trans-text w-[90px] h-[90px] lg:w-[110px] lg:h-[110px] rounded-[20px] md:rounded-[30px] sm:p-2 flex flex-col justify-center items-center font-bold space-y-[-.5rem]">
-              <div class="text-sm">{{ moment(singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('ddd') }}.</div>
-              <div class="text-3xl">{{ moment(singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('DD') }}</div>
-              <div class="text-sm">{{ moment(singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('MMM YYYY') }}</div>
+              <div class="text-sm">{{ concertHoldingStamp.week }}.</div>
+              <div class="text-3xl">{{ concertHoldingStamp.day }}</div>
+              <div class="text-sm">{{ concertHoldingStamp.monthAndYear }}</div>
             </div>
             <h1 class="w-[80%] flex-auto text-lg md:text-xl lg:text-2xl font-bold">{{ singleConcert.title }}</h1>
             <Button size="base" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 flex lg:hidden">
@@ -15,7 +15,7 @@
               <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-3xl lg:hidden" style="color: var(--pink)" />
             </Button>
           </div>
-          <img :src="singleConcert.cover_urls?.straight" alt="" class="mx-auto rounded-[40px] lg:hidden" />
+          <img :src="singleConcert.cover_urls?.straight" alt="演唱會圖片" class="mx-auto rounded-[40px] lg:hidden" />
           <p class="leading-7 lg:bg-shadow-trans-text lg:rounded-[40px] lg:border-black-60 lg:px-10 lg:pt-10 lg:pb-6 lg:h-[100%] lg:overflow-y-hidden">
             演出時間: {{ singleConcert.holding_time }}<br />
             演出地點: {{ singleConcert.venue?.title }}<br />
@@ -25,15 +25,15 @@
             主辦單位: {{ singleConcert.organizers?.join('、') }}
           </p>
         </div>
-        <img :src="singleConcert.cover_urls?.straight" alt="" class="mx-auto lg:mx-0 rounded-[40px] lg:h-[400px] hidden lg:block xl:hidden" />
-        <img :src="singleConcert.cover_urls?.square" alt="" class="mx-0 rounded-[40px] w-[400px] h-[400px] object-cover hidden xl:block 2xl:hidden" />
-        <img :src="singleConcert.cover_urls?.horizontal" alt="" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
+        <img :src="singleConcert.cover_urls?.straight" alt="演唱會圖片" class="mx-auto lg:mx-0 rounded-[40px] lg:h-[400px] hidden lg:block xl:hidden" />
+        <img :src="singleConcert.cover_urls?.square" alt="演唱會圖片" class="mx-0 rounded-[40px] w-[400px] h-[400px] object-cover hidden xl:block 2xl:hidden" />
+        <img :src="singleConcert.cover_urls?.horizontal" alt="演唱會圖片" class="mx-0 rounded-[40px] w-[700px] h-[400px] object-cover hidden 2xl:block" />
       </div>
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
         <div v-if="!hasHold" class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
-          <p class="text-2xl font-bold relative">
-            <span class="text-base pr-2 absolute bottom-0 left-[-30%]">D-day</span>
-            {{ countdownTimer.days }} : {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
+          <p class="text-xl sm:text-2xl font-bold relative">
+            <span class="text-sm sm:text-base font-normal absolute bottom-1 left-[-16%]">倒數</span>
+            {{ countdownTimer.days }}<span class="pl-1 pr-3 text-sm sm:text-base font-normal">天</span> {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
             {{ countdownTimer.seconds }}
           </p>
         </div>
@@ -41,17 +41,42 @@
           <p class="text-lg font-bold relative px-4">已舉辦</p>
         </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
-          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60">
-            {{ singleConcert.artist?.name }}
+          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60 gap-1">
+            歌手 / {{ singleConcert.artist?.name }}
           </Button>
         </router-link>
-        <Button variant="white-outline" size="base3" @click="callSaveAction(singleConcert.id)" class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
+        <Button
+          variant="white-outline"
+          size="base3"
+          v-if="AccessToken !== undefined"
+          @click="callSaveAction(singleConcert.id)"
+          class="mx-auto lg:mx-0 border-[1px] border-black-60 lg:order-first hidden lg:flex">
           <font-awesome-icon v-if="isSaved.some((item) => item.id === singleConcert.id)" icon="fa-solid fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
           <font-awesome-icon v-else icon="fa-regular fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
           收藏
         </Button>
+        <AlertDialog>
+          <AlertDialogTrigger class="lg:order-first hidden lg:flex">
+            <Button variant="white-outline" size="base3" v-if="AccessToken === undefined" class="border-[1px] border-black-60">
+              <font-awesome-icon icon="fa-regular fa-bookmark" class="text-xl pr-2" style="color: var(--pink)" />
+              收藏
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>登入才能收藏 ᓫ(°⌑°)ǃ</AlertDialogTitle>
+              <AlertDialogDescription></AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>取消</AlertDialogCancel>
+              <AlertDialogAction asChild>
+                <router-link to="/login"> 前往登入 </router-link>
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
-    </section>
+    </main>
     <section>
       <TitleComponent class="mb-4">
         <template #subTitle>TICKETS</template>
@@ -111,7 +136,7 @@
           @onload="onYouTubeIframeAPIReady()"
           v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
-          <img :src="singleConcert.cover_urls?.square" alt="" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
+          <img :src="singleConcert.cover_urls?.square" alt="演唱會圖片" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
         </div>
         <div class="text-xl lg:text-2xl font-bold marquee-container w-[284px] sm:w-[336px]">
           <div class="marquee-text">{{ singleConcert.title?.repeat(4, ' ') }}</div>
@@ -319,11 +344,8 @@ export default {
   data() {
     return {
       ytId: '',
-      // 操控 Dialog 顯示，未登入時不能顯示
       isLogin: false,
-      // 是否已舉辦
       hasHold: false,
-      // 歌單是否有歌曲
       hadSong: false,
       // 新增歌單的欄位
       songs: [
@@ -340,15 +362,21 @@ export default {
           youtube_url: '',
         },
       ],
-      // 操控 Dialog
+      concertHoldingStamp: {
+        week: 'Mon',
+        day: '01',
+        monthAndYear: 'Jan 2024',
+      },
+      countdownTimer: {
+        days: '00',
+        hours: '00',
+        minutes: '00',
+        seconds: '00',
+      },
+      venueComments: [],
+      // 操控新增歌曲 Dialog 顯示
       open: false,
       openTwo: false,
-      // 歌單
-      // songList: [],
-      // countdown
-      countdownTimer: {},
-      // venue comments
-      venueComments: [],
     };
   },
   props: ['id'],
@@ -387,8 +415,6 @@ export default {
       http
         .post(`${path.songs}`, data)
         .then((res) => {
-          // 延後關閉時間
-          // setTimeout((this.openTwo = false), 1500);
           this.songs = [
             {
               name: '',
@@ -406,8 +432,6 @@ export default {
           this.getSingleConcert(this.$route.params.id);
         })
         .then(() => {
-          // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
-          // this.songList = this.singleConcert.songs;
           toast({
             title: '曲目新增成功',
             description: '',
@@ -459,10 +483,14 @@ export default {
   updated() {
     this.isLogin = this.AccessToken !== undefined;
 
+    // 時間戳記
+    this.concertHoldingStamp.week = moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('ddd');
+    this.concertHoldingStamp.day = moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('DD');
+    this.concertHoldingStamp.monthAndYear = moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').format('MMM YYYY');
+
     // 首次載入時 YT iframe 載入歌單第一首歌
     this.hadSong = this.singleConcert.songs?.length !== 0;
     if (this.singleConcert.songs?.length !== 0 && this.ytId === '') {
-      // this.songList = this.singleConcert.songs.sort((a, b) => b.up_votes - a.up_votes);
       this.changeYTplayer(this.songList[0]?.youtube_url);
     }
 
@@ -503,26 +531,5 @@ export default {
 }
 .btn-explore-icon-color:hover svg path {
   fill: #1e1e1e;
-}
-.gradient-border {
-  background-image: radial-gradient(circle at 100% 100%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to right, #ffffff, #d595f1),
-    radial-gradient(circle at 0% 100%, transparent 16px, #d595f1 16px, #d595f1 19px, transparent 19px), linear-gradient(to bottom, #d595f1, #ffffff),
-    radial-gradient(circle at 0% 0%, transparent 16px, #ffffff 16px, #ffffff 19px, transparent 19px), linear-gradient(to left, #ffffff, #42dfc8),
-    radial-gradient(circle at 100% 0%, transparent 16px, #42dfc8 16px, #42dfc8 19px, transparent 19px), linear-gradient(to top, #42dfc8, #ffffff);
-  background-size:
-    19px 19px,
-    calc(100% - 38px) 3px,
-    19px 19px,
-    3px calc(100% - 38px);
-  background-position:
-    top left,
-    top center,
-    top right,
-    center right,
-    bottom right,
-    bottom center,
-    bottom left,
-    center left;
-  background-repeat: no-repeat;
 }
 </style>

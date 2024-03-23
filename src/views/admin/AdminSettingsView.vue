@@ -10,11 +10,11 @@
       <!-- Reset Password -->
       <Dialog>
         <DialogTrigger as-child>
-          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">重設密碼</Button>
+          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"> 重設密碼 </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle class="text-center py-4">請輸入以下資料</DialogTitle>
+            <DialogTitle class="text-center py-4"> 請輸入以下資料 </DialogTitle>
           </DialogHeader>
           <div class="grid gap-4 py-4">
             <div class="grid grid-cols-4 items-center gap-4">
@@ -39,16 +39,16 @@
       </Dialog>
     </div>
     <!-- Right: Table -->
-    <div class="col-span-3 flex flex-col">
+    <main class="col-span-3 flex flex-col">
       <div class="flex">
         <!-- 新增成員 -->
         <Dialog>
           <DialogTrigger as-child>
-            <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">新增成員</Button>
+            <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"> 新增成員 </Button>
           </DialogTrigger>
           <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle class="text-center py-4">新增成員</DialogTitle>
+              <DialogTitle class="text-center py-4"> 新增成員 </DialogTitle>
             </DialogHeader>
             <div class="grid gap-4 py-4">
               <div class="grid grid-cols-4 items-center gap-4">
@@ -70,7 +70,7 @@
             </div>
             <DialogFooter>
               <DialogClose as-child>
-                <Button type="button" variant="secondary">捨棄編輯</Button>
+                <Button type="button" variant="secondary"> 捨棄編輯 </Button>
               </DialogClose>
               <!-- 不會真的送出資料，所以用 DialogClose -->
               <DialogClose as-child>
@@ -82,11 +82,11 @@
         <!-- 刪除多筆成員 -->
         <AlertDialog>
           <AlertDialogTrigger>
-            <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300">刪除成員</Button>
+            <Button class="ml-4 hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"> 刪除成員 </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>確定要刪除 N筆 成員嗎？</AlertDialogTitle>
+              <AlertDialogTitle>確定要刪除成員嗎？</AlertDialogTitle>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
@@ -120,11 +120,11 @@
             <TableCell>
               <Dialog>
                 <DialogTrigger as-child>
-                  <span class="material-symbols-outlined hover:text-[#D595F1] hover:cursor-pointer transition ease-in-out hover:-translate-y-1 duration-300">edit</span>
+                  <span class="material-symbols-outlined hover:text-[#D595F1] hover:cursor-pointer transition ease-in-out hover:-translate-y-1 duration-300"> edit </span>
                 </DialogTrigger>
                 <DialogContent class="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle class="text-center py-4">編輯成員</DialogTitle>
+                    <DialogTitle class="text-center py-4"> 編輯成員 </DialogTitle>
                   </DialogHeader>
                   <div class="grid gap-4 pb-4">
                     <!-- edit: photo -->
@@ -148,11 +148,11 @@
                   </div>
                   <DialogFooter>
                     <DialogClose as-child>
-                      <Button type="button" variant="secondary">捨棄編輯</Button>
+                      <Button type="button" variant="secondary"> 捨棄編輯 </Button>
                     </DialogClose>
                     <!-- 不會真的送出資料，所以用 DialogClose -->
                     <DialogClose as-child>
-                      <Button type="button">確認修改</Button>
+                      <Button type="button"> 確認修改 </Button>
                     </DialogClose>
                   </DialogFooter>
                 </DialogContent>
@@ -162,7 +162,7 @@
             <TableCell>
               <AlertDialog>
                 <AlertDialogTrigger>
-                  <span class="material-symbols-outlined hover:text-[#D595F1] transition ease-in-out hover:-translate-y-1 duration-300">delete</span>
+                  <span class="material-symbols-outlined hover:text-[#D595F1] transition ease-in-out hover:-translate-y-1 duration-300"> delete </span>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -178,46 +178,19 @@
           </TableRow>
         </TableBody>
       </Table>
-    </div>
+    </main>
   </div>
 </template>
 
 <script setup>
 import { Upload } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  // DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Table,
-  TableBody,
-  // TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  // AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 </script>
 
 <script>
@@ -264,5 +237,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style lang=""></style> -->

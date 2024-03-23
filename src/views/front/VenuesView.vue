@@ -1,24 +1,31 @@
 <template>
   <section class="container relative">
+    <!-- 場地搜尋 -->
     <BannerComponent :prop-placeholder="bannerInputPlaceholder" @searchMethod="searchVenues">
       <template #mainTitle>VENUES</template>
     </BannerComponent>
 
+    <!-- 場地展示 -->
     <main class="space-y-6 lg:space-y-14 pb-5 lg:pb-12 border-b-2 border-black-40">
       <div>
         <div class="space-y-4 space-x-4 space-x-reverse -m-1 p-1">
-          <Button variant="tiffany-outline" size="base" class="me-4 city-button active" @click="(e) => getVenuesByCity('', e)"> 全部 </Button>
           <template v-for="city in cities" :key="city.id">
-            <Button variant="tiffany-outline" size="base" @click="(e) => getVenuesByCity(city, e)" class="city-button"> {{ city }} </Button>
+            <Button variant="tiffany-outline" size="base" @click="handleGetVenuesByCity(city.value)" :class="{ active: activeCity === city.value, 'me-4': city.name === '全部' }">
+              {{ city.name }}
+            </Button>
           </template>
         </div>
       </div>
-      <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      <p v-if="!venues.length" class="p-14 font-semibold tracking-tighter text-base lg:text-lg text-white text-center">抱歉，搜尋不到相關資源</p>
+      <ul v-else class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         <li v-for="venue in venues" :key="venue.id">
           <Card class="border-black-80">
             <CardHeader class="rounded-t-2xl space-y-0 p-0">
               <RouterLink :to="`/venues/${venue.id}`">
-                <img :src="venue.picture.square" :alt="venue.title" class="brightness-90 aspect-square rounded-2xl h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] object-cover min-w-full" />
+                <img
+                  :src="venue.picture.square"
+                  :alt="venue.title"
+                  class="brightness-90 aspect-square rounded-2xl h-[18rem] xs:h-[26rem] sm:h-[20rem] md:h-[15rem] lg:h-[20rem] object-cover min-w-full" />
               </RouterLink>
               <CardTitle class="border-x-2 pt-6 px-6 border-black-80 text-base lg:text-lg">
                 <RouterLink :to="`/venues/${venue.id}`">
@@ -63,6 +70,7 @@
       </Pagination>
     </main>
   </section>
+  <!-- 場地總覽 -->
   <section class="pt-[20px] md:pt-[58px] lg:pt-[117px] pb-[128px] lg:pb-[192px]">
     <div>
       <TitleComponent class="flex justify-center mb-8">
@@ -103,29 +111,23 @@
             <img :src="venue.picture.horizontal" :alt="venue.title" class="w-[220px] h-[130px] md:w-[350px] md:h-[170px] object-cover rounded-md" />
           </div>
           <div class="border-t-4 border-t-white w-full border-b-4 border-b-black-100" />
-          <!-- <div class="flex flex-col justify-center items-center pt-4 gap-4 md:gap-2"></div>
-            <div class="text-lg sm:text-3xl">{{ venue.title }}</div>
-            <router-link :to="`/venues/${venue.id}`">
-              <img :src="venue.picture.horizontal" :alt="venue.title" class="w-[550px] h-[230px] object-cover rounded-md" />
-            </router-link>
-          </div> -->
         </div>
       </div>
       <div class="bg-black-400 h-[6px] relative z-10"></div>
     </div>
   </section>
 </template>
+
 <script setup>
 import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { ArrowRight, ArrowDownRight } from 'lucide-vue-next';
 import BannerComponent from '@/components/custom/BannerComponent.vue';
 import TitleComponent from '@/components/custom/TitleComponent.vue';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 </script>
+
 <script>
 import { mapActions, mapState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
@@ -136,8 +138,30 @@ import 'aos/dist/aos.css';
 export default {
   data() {
     return {
-      cities: ['台北市', '新北市', '台中市', '高雄市'],
-      bannerInputPlaceholder: '輸入場地/縣市名稱',
+      activeCity: '',
+      cities: [
+        {
+          name: '全部',
+          value: '',
+        },
+        {
+          name: '台北市',
+          value: '台北市',
+        },
+        {
+          name: '新北市',
+          value: '新北市',
+        },
+        {
+          name: '台中市',
+          value: '台中市',
+        },
+        {
+          name: '高雄市',
+          value: '高雄市',
+        },
+      ],
+      bannerInputPlaceholder: '輸入場地',
       accordionItems: [
         {
           value: 'item-1',
@@ -219,6 +243,10 @@ export default {
         this.simulatorAccordionButtonHover(btn, 'mouseover');
       });
     },
+    handleGetVenuesByCity(city) {
+      this.getVenuesByCity(city);
+      this.activeCity = city;
+    },
     ...mapActions(useVenuesStore, ['getVenues', 'getVenue', 'getVenuesByCity', 'searchVenues', 'getVenuesByPage', 'resetState']),
   },
   computed: {
@@ -236,53 +264,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-// .test {
-//   mix-blend-mode: difference;
-//   color: #000;
-//   filter: invert(100%);
-// }
-.scrollbar-none {
-  scrollbar-width: none;
-}
-
-.marquee-type {
-  &:nth-child(odd) {
-    a {
-      @apply col-span-3;
-    }
-    p.marquee {
-      animation: marquee-negative 10s infinite linear;
-    }
-  }
-  &:nth-child(even) {
-    a {
-      @apply col-start-2 col-span-3;
-    }
-    .marquee-image {
-      @apply w-full;
-    }
-    p.marquee {
-      animation: marquee-positive 10s infinite linear;
-    }
-  }
-}
-
-@keyframes marquee-negative {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-(80%));
-  }
-}
-
-@keyframes marquee-positive {
-  0% {
-    transform: translateX(-80%);
-  }
-  100% {
-    transform: translateX((0%));
-  }
-}
-</style>

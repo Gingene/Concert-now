@@ -1,6 +1,40 @@
 <template>
-  <!-- Header -->
+  <!-- Banner -->
   <section>
+    <div class="container pt-32 pb-[480px]">
+      <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">
+        尋找讓你
+        <br />難忘的演唱會， <br />前進每個感動的瞬間
+      </p>
+      <h1
+        class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light"
+        >
+        CONCERT NOW
+      </h1>
+      <!-- Search Now Button -->
+      <Button
+        @click="openModal"
+        variant="white-outline" 
+        size="base" 
+        class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent" 
+        >
+        <span class="font-bold text-base lg:text-lg">
+          SEARCH NOW
+        </span>
+        <svg 
+          class="pl-3"
+          width="400" 
+          height="16" 
+          viewBox="0 0 341 16" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          >
+          <path
+            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
+            fill="white" />
+        </svg>
+      </Button>
+    </div>
     <!-- Background -->
     <div
       class="shadow-[inset_0px_70px_150px_rgba(0,0,0,.7)] w-full h-[812px] md:h-[800px] lg:h-[750px] xl:h-[920px] bg-cover absolute top-0 -z-10 bg-center 2xl:bg-bottom"
@@ -14,39 +48,23 @@
             fill="white" />
         </svg>
       </div>
-    </div>
-    <div class="container pt-32 pb-[480px]">
-      <!-- 暫存區 -->
-      <!-- <div class="mb-8 absolute right-32 top-20">
-        <RouterLink to="/base" class="px-4">
-          <Button variant="btn1"> 設計稿基礎設定頁 </Button>
-        </RouterLink>
-        <RouterLink to="/loading" class="px-4">
-          <Button variant="btn1"> loading動畫 </Button>
-        </RouterLink>
+      <!-- 開發樣式參考暫存區 -->
+      <!-- <div class="absolute top-20 container">
+        <RouterLink to="/base" class="px-4"> 設計稿基礎設定頁 </RouterLink>
+        <RouterLink to="/loading" class="px-4"> loading動畫 </RouterLink>
       </div> -->
-      <!-- 小標題 -->
-      <p class="opacity-70 pt-5 text-[12px] md:text-[14px] xl:text-[16px] xl:ml-[8%]">尋找讓你 <br />難忘的演唱會， <br />前進每個感動的瞬間</p>
-      <!-- Concert Now -->
-      <h1
-        class="py-8 text-6xl xs:text-7xl md:text-[96px] lg:text-[130px] xl:text-[160px] md:text-nowrap md:text-center leading-[5rem] sm:leading-[7rem] lg:leading-[9rem] xl:leading-[12rem] font-lato font-black drop-shadow-light">
-        CONCERT NOW
-      </h1>
-      <!-- Search Now Button -->
-      <Button variant="white-outline" size="base" class="btn-explore-icon-color w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7 hover:border-transparent" @click="openModal">
-        <span class="font-bold text-base lg:text-lg">SEARCH NOW</span>
-        <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
-            fill="white" />
-        </svg>
-      </Button>
     </div>
   </section>
+
   <!-- Concerts -->
-  <section class="relative pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[400px] text-center concert-section overflow-hidden w-full">
-    <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato sm:mb-5">CONCERTS</h2>
-    <!-- Concert Swiper -->
+  <main 
+    class="relative pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[400px] text-center concert-section overflow-hidden w-full"
+    >
+    <h2 
+      class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato sm:mb-5"
+      >
+      CONCERTS
+    </h2>
     <swiper
       :effect="'cards'"
       :grabCursor="false"
@@ -71,17 +89,22 @@
         <img
           :src="`${concert.image}`"
           :class="{ 'concert-photo-show': isActive }"
-          class="w-[310px] xs:w-[400px] mt-10 h-[450px] xs:h-[520px] lg:h-[580px] grayscale brightness-[0.3] object-cover rounded-[40px]" />
+          class="w-[310px] xs:w-[400px] mt-10 h-[450px] xs:h-[520px] lg:h-[580px] grayscale brightness-[0.3] object-cover rounded-[40px]"
+          alt="演唱會海報圖" />
         <div class="hidden">{{ isActive ? (concertActive = concert) : '' }}</div>
       </swiper-slide>
-      <!-- Single Concert Card -->
-      <div
-        class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-5 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
-        <p class="pt-4 text-sm lg:text-lg">{{ concertActive.date }}</p>
-        <h3 class="text-xl md:text-2xl lg:text-3xl lg:py-4 pb-2 h-[10.5rem] xs:h-[6.5rem] xl:h-[9.5rem]">{{ concertActive.name }}</h3>
+      <!-- Single Concert Info -->
+      <article
+        class="z-10 -mt-32 xs:-mt-10 md:-mt-5 lg:mt-12 xl:-mt-20 py-6 sm:py-8 px-[8%] xs:px-[38px] md:px-[48px] lg:px-[60px] xl:px-[48px] container w-[90%] xs:w-[450px] sm:w-[530px] md:w-[600px] lg:w-[800px] xl:w-[520px] 2xl:w-[600px] xl:absolute xl:top-[500px] xl:right-24 font-bold bg-shadow-trans-text rounded-[40px] border-black-60 text-start col-span-3">
+        <time class="pt-4 text-sm lg:text-lg">
+          {{ concertActive.date }}
+        </time>
+        <h3 class="text-xl md:text-2xl lg:text-3xl lg:py-4 pb-2 h-[10.5rem] xs:h-[6.5rem] xl:h-[9.5rem]">
+          {{ concertActive.name }}
+        </h3>
         <router-link :to="`/concerts/${concertActive.id}`" class="w-full sm:w-[80%] xl:w-full 2xl:w-[80%] block">
           <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
-            <span class="font-bold text-base lg:text-lg">探索更多</span>
+            <span class="font-bold text-base lg:text-lg"> 探索更多 </span>
             <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -89,14 +112,14 @@
             </svg>
           </Button>
         </router-link>
-      </div>
+      </article>
     </swiper>
-  </section>
+  </main>
+
   <!-- Artist -->
   <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px] text-center relative">
-    <!-- Title -->
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato sm:mb-5 xl:-mb-20 xl:mr-[160px]">ARTISTS</h2>
-    <!-- Artist List -->
+    <!-- Mobile/Pad: Artist List -->
     <div class="xl:hidden">
       <swiper
         :effect="'coverflow'"
@@ -125,34 +148,54 @@
         <swiper-slide v-for="artist in artists" :key="artist.id">
           <router-link
             :to="`/artists/${artist.id}`"
-            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
-            :style="{ backgroundImage: `url(${artist.image})` }">
+            :style="{ backgroundImage: `url(${artist.image})` }"
+            class="w-[310px] xs:w-[400px] sm:w-[auto] h-[450px] xs:h-[520px] lg:h-[580px] container mx-auto relative block rounded-[40px] brightness-90 bg-center bg-cover shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]">
             <div class="absolute left-10 bottom-10 flex items-center opacity-75">
-              <p class="text-white font-black text-xl pr-3">{{ artist.name }}</p>
-              <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+              <p class="text-white font-black text-xl pr-3">
+                {{ artist.name }}
+              </p>
+              <p class="text-xs">
+                <Heart class="inline" size="18px" />
+                {{ artist.followers }} +
+              </p>
             </div>
           </router-link>
         </swiper-slide>
       </swiper>
     </div>
-    <!-- PC(xl:1280): Artist List -->
-    <div class="hidden xl:grid xl:grid-flow-col-dense xl:gap-4 container w-[90%]">
+    <!-- PC(xl:1280): Artist right-to-left_80s_linear_infinite" -->
+    <div class="hidden xl:flex xl:gap-4 container w-[90%]">
       <router-link
+        :id="`artist${artist.id}`"
+        @mouseenter="startTimer(`artist${artist.id}`)"
+        @mouseleave="clearTimer(`artist${artist.id}`)"
         v-for="artist in artists"
         :to="`/artists/${artist.id}`"
         :key="artist.id"
-        class="h-[580px] hover:col-span-4 relative opacity-50 hover:opacity-100 brightness-50 hover:brightness-90 grayscale hover:grayscale-0 transition ease-in-out delay-150 duration-300 bg-center bg-cover rounded-[40px] shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
-        :style="{ backgroundImage: `url(${artist.image})` }">
+        :style="{
+          'background-image': `url(${artist.image})`,
+          'background-size': 'cover',
+          'background-position': 'center',
+        }"
+        class="h-[580px] relative rounded-[40px] 
+          w-[calc((100%/6)*1)] opacity-50 brightness-50 grayscale
+          shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]"
+        >
         <div class="absolute bottom-5 left-5 text-start">
-          <p class="text-white font-black text-lg">{{ artist.name }}</p>
-          <p class="text-xs"><Heart class="inline" size="18px" /> {{ artist.followers }} +</p>
+          <p class="text-white font-black text-lg">
+            {{ artist.name }}
+          </p>
+          <p class="text-xs">
+            <Heart class="inline" size="18px" />
+            {{ artist.followers }} +
+          </p>
         </div>
       </router-link>
     </div>
-    <!-- 所有表演者總覽頁 Button -->
+    <!-- Mobile/Pad: 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
       <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
-        <span class="font-bold text-base lg:text-lg">探索更多</span>
+        <span class="font-bold text-base lg:text-lg"> 探索更多 </span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -163,7 +206,7 @@
     <!-- PC(xl:1280): 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="hidden xl:block w-[30%] mt-5 mb-8 mx-auto">
       <Button data-aos="fade-right" variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 ml-[250px] w-full hover:border-transparent btn-explore-icon-color">
-        <span class="font-bold text-base lg:text-lg">探索更多</span>
+        <span class="font-bold text-base lg:text-lg"> 探索更多 </span>
         <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -172,10 +215,10 @@
       </Button>
     </router-link>
   </section>
+
   <!-- Venue -->
   <section class="container px-[8%] xs:px-[38px] md:px-[64px] lg:w-[800px] xl:w-[1000px] pb-[180px] sm:pb-[230px] md:pb-[200px] lg:pb-[250px] xl:pb-[280px] text-center">
     <h2 class="font-black text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px] text-stroke font-lato">VENUES</h2>
-    <!-- Venue Swiper -->
     <swiper
       :cssMode="true"
       :navigation="true"
@@ -186,9 +229,10 @@
       :slidesPerView="1"
       :loop="false"
       class="mySwiper rounded-[40px] bg-shadow-trans-text venue-section">
-      <swiper-slide v-for="venue in venueInfo" class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14" :key="venue.id">
-        <!-- Venue Title -->
-        <h2 href="#" class="font-bold text-3xl lg:text-4xl pb-2">{{ venue.title }}</h2>
+      <swiper-slide v-for="venue in venueInfo" :key="venue.id" class="py-10 sm:py-14 px-7 xs:px-9 sm:px-12 lg:px-14">
+        <h2 href="#" class="font-bold text-3xl lg:text-4xl pb-2">
+          {{ venue.title }}
+        </h2>
         <p class="text-gray-500 text-base sm:text-xl lg:pt-5 font-lato text-center">_____ STAGE _____</p>
         <!-- Venue Seats -->
         <div class="h-[200px] sm:h-[300px] w-[80%] xl:w-[60%] text-sm sm:text-base grid grid-flow-row auto-row-max gap-2 md:gap-4 mx-auto my-3 lg:my-5">
@@ -208,7 +252,7 @@
           <!-- 所有場地總覽頁 Button -->
           <router-link :to="`/venues/${venue.id}`" class="block w-full mx-auto sm:w-[80%] xl:w-[40%]">
             <Button variant="white-outline" class="my-4 rounded-btn1 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
-              <span class="font-bold text-base lg:text-lg">探索更多</span>
+              <span class="font-bold text-base lg:text-lg"> 探索更多 </span>
               <svg class="pl-3" width="400" height="16" viewBox="0 0 341 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M340.707 8.70711C341.098 8.31658 341.098 7.68342 340.707 7.29289L334.343 0.928932C333.953 0.538408 333.319 0.538408 332.929 0.928932C332.538 1.31946 332.538 1.95262 332.929 2.34315L338.586 8L332.929 13.6569C332.538 14.0474 332.538 14.6805 332.929 15.0711C333.319 15.4616 333.953 15.4616 334.343 15.0711L340.707 8.70711ZM0 9H340V7H0V9Z"
@@ -220,6 +264,7 @@
       </swiper-slide>
     </swiper>
   </section>
+
   <!-- Songs -->
   <section class="container pb-[180px] sm:pb-[230px] md:pb-[250px] lg:pb-[300px] xl:pb-[300px]">
     <section class="pt-[10rem] relative flex">
@@ -233,11 +278,14 @@
         <!-- 主要內容區塊 -->
         <div
           class="tracking-normal text-base bg-shadow-trans-text rounded-[40px] px-8 py-12 flex flex-col items-center mx-auto w-auto max-w-[350px] sm:max-w-none sm:w-[350px] lg:w-[450px] gap-2 xl:mr-[20rem]">
-          <img class="w-[200px] h-[200px] lg:w-[306px] lg:h-[306px] object-cover object-top rounded-[20px]" src="https://i.kfs.io/playlist/global/77385678v1/cropresize/600x600.jpg" alt="" />
-          <div class="text-xl lg:text-2xl font-bold marquee-container w-[196px] sm:w-[286px] lg:w-[386px]">
-            <div class="marquee-text">Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北</div>
-            <div class="marquee-text">Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北</div>
-            <div class="marquee-text">Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北</div>
+          <img 
+            class="w-[200px] h-[200px] lg:w-[306px] lg:h-[306px] object-cover object-top rounded-[20px]" 
+            src="https://i.kfs.io/playlist/global/77385678v1/cropresize/600x600.jpg" 
+            alt="" />
+          <div class="text-xl lg:text-2xl font-bold flex overflow-hidden w-[196px] sm:w-[286px] lg:w-[386px]">
+            <div class="animate-[right-to-left_80s_linear_infinite] whitespace-nowrap inline-block">
+              Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北 Taylor Swift 2024 台北
+            </div>
           </div>
           <div class="flex justify-between items-center w-full">
             <div class="text-black-40">Taylor Swift</div>
@@ -252,8 +300,11 @@
             </Popover>
           </div>
           <ScrollArea class="h-[19rem] w-full pt-4">
-            <div v-for="(song, index) in songList" :key="song">
-              <div class="text-base flex justify-between items-center bg-trans">
+            <div 
+              v-for="(song, index) in songList" 
+              :key="song"
+              >
+              <div class="text-base flex justify-between items-center hover:bg-[#A5A5A5] hover:bg-opacity-10">
                 <div>{{ index + 1 }}</div>
                 <Popover>
                   <PopoverTrigger as-child>
@@ -355,8 +406,6 @@
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Heart } from 'lucide-vue-next';
-// import TitleComponent from '@/components/custom/TitleComponent.vue';
-// Swiper
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -377,6 +426,8 @@ import { useVenuesStore } from '@/stores/venues';
 export default {
   data() {
     return {
+      timer: {},
+      isAminationActive: false,
       modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       concertActive: {},
@@ -605,6 +656,33 @@ export default {
       const searchModal = document.querySelector('.searchModal');
       searchModal.click();
     },
+    startTimer(artistId) {
+      this.timer[artistId] = setTimeout(() => {
+        this.isAminationActive = true;
+        this.hoverAnimation(artistId);
+      }, 400);
+    },
+    clearTimer(artistId) {
+      if(this.isAminationActive){
+        this.isAminationActive = false;
+        this.leaveAnimation(artistId);
+      }
+      else{
+        clearTimeout(this.timer[artistId]);
+      };
+    },
+    hoverAnimation(artistId){
+      const id = document.querySelector(`#${artistId}`);
+      id.classList.add('animate-col-span-1-to-4');
+      if (id.classList.contains('animate-col-span-4-to-1')) {
+        id.classList.remove('animate-col-span-4-to-1');
+      };
+    },
+    leaveAnimation(artistId){
+      const id = document.querySelector(`#${artistId}`);
+      id.classList.add('animate-col-span-4-to-1');
+      id.classList.remove('animate-col-span-1-to-4');
+    },
     ...mapActions(useVenuesStore, ['getVenueInfo']),
   },
   computed: {
@@ -622,7 +700,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// 皆為首頁才會用到，無法用 tailwind 改寫的部分
 // -------------------------------------- General
+.btn-explore-icon-color:hover svg path {
+  fill: #1e1e1e;
+}
 :deep(.swiper-pagination-bullet) {
   border: solid 2px #fff;
 }
@@ -676,30 +758,5 @@ export default {
 :deep(.venue-section > .swiper-button-next::after) {
   right: 5px;
   color: #d595f1;
-}
-
-// -------------------------------------- Songs
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-}
-.marquee-text {
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll 80s linear infinite;
-}
-@keyframes scroll {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-}
-.bg-trans:hover {
-  background: rgba(165, 165, 165, 0.1);
-}
-.btn-explore-icon-color:hover svg path {
-  fill: #1e1e1e;
 }
 </style>
