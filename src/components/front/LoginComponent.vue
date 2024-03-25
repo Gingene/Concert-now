@@ -53,13 +53,12 @@
                   <PopoverContent class="w-80"> oops! 這是 demo 網頁，不許你忘記密碼喔 (´・Å・`) </PopoverContent>
                 </Popover>
               </div>
-
-              <!-- 下次改版預定 -->
-              <Button variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4">
-                <font-awesome-icon :icon="['fab', 'google']" />
-                <span>使用 Google 進行登入</span>
-              </Button>
             </form>
+            <!-- 下次改版預定 -->
+            <Button type="submit" variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4">
+              <font-awesome-icon :icon="['fab', 'google']" />
+              <span>使用 Google 進行登入</span>
+            </Button>
           </CardContent>
         </Card>
       </TabsContent>
@@ -115,6 +114,11 @@
               </FormField>
               <Button variant="white-outline" class="text-[12px] md:text-[14px] lg:text-[18px] px-6 md:py-6 lg:p-8 rounded-[40px] my-2 xs:mt-6 sm:mt-6 md:mt-8 lg:mt-10"> 確認送出 </Button>
             </form>
+            <!-- 下次改版預定 -->
+            <Button type="submit" variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4">
+              <font-awesome-icon :icon="['fab', 'google']" />
+              <span>使用 Google 進行登入</span>
+            </Button>
           </CardContent>
         </Card>
       </TabsContent>
@@ -131,16 +135,32 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { ref } from 'vue';
 import { googleTokenLogin } from 'vue3-google-login';
-const data = ref();
+import { http, path } from '@/api';
+import { useRouter } from 'vue-router';
+import { useToast } from '@/components/ui/toast/use-toast';
 
-const GOOGLE_CLIENT_ID = '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com';
+const authData = ref();
+const { toast } = useToast();
+const router = useRouter();
+const { VITE_CLIENT_ID } = import.meta.env;
 
 const handleGoogleAuthCodeLogin = () => {
   googleTokenLogin({
-    clientId: GOOGLE_CLIENT_ID,
+    clientId: VITE_CLIENT_ID,
   }).then((response) => {
-    data.value = response;
-    console.log(data.value);
+    authData.value = response;
+    http.post(path.auth, { token: authData.value.access_token }).then((res) => {
+      const data = res.data.data;
+      document.cookie = `AccessToken=${data.access_token}; path=/`;
+      localStorage.setItem('user', JSON.stringify(data.user));
+      toast({
+        title: '登入成功',
+        // description: `信箱${values.email}, 密碼${values.password}`,
+        // h function 是用來渲染html用的如果沒有需要產生DOM的話用上面的字串就可以了，沒有要讓使用者看到表單裡的資料的話callback的values也可以直接去掉
+        // description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
+      });
+      router.push('/member');
+    });
   });
 };
 

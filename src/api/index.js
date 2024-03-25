@@ -99,6 +99,7 @@ const path = {
   me: '/me',
   login: '/login',
   register: '/register',
+  auth: '/auth/google',
 };
 
 const adminPath = {
