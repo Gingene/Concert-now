@@ -32,18 +32,17 @@
       <div class="flex flex-col lg:flex-row gap-4 lg:gap-0 lg:justify-around">
         <div v-if="!hasHold" class="w-[100%] sm:w-[80%] md:w-[60%] lg:w-[40%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-4 lg:py-0 relative">
           <p class="text-xl sm:text-2xl font-bold relative">
-            <span class="text-sm sm:text-base font-normal absolute bottom-1 left-[-16%]">倒數</span>
-            {{ countdownTimer.days }}<span class="pl-1 pr-3 text-sm sm:text-base font-normal">天</span> {{ countdownTimer.hours }} : {{ countdownTimer.minutes }} :
-            {{ countdownTimer.seconds }}
+            <span class="text-sm sm:text-base font-normal absolute bottom-1 left-[-14%]">倒數</span>
+            {{ countdownTimer.days }}<span class="pl-1 pr-2 text-sm sm:text-base font-normal">天</span> {{ countdownTimer.hours }}<span class="pl-1 pr-2 text-sm sm:text-base font-normal">時</span
+            >{{ countdownTimer.minutes }}<span class="pl-1 pr-2 text-sm sm:text-base font-normal">分</span>{{ countdownTimer.seconds
+            }}<span class="pl-1 pr-3 text-sm sm:text-base font-normal">秒</span>
           </p>
         </div>
         <div v-else class="w-[50%] lg:w-[30%] mx-auto bg-shadow-trans-text rounded-[40px] flex flex-col sm:flex-row items-center justify-center py-3 lg:py-0 relative">
           <p class="text-lg font-bold relative px-4">已舉辦</p>
         </div>
         <router-link :to="`/artists/${singleConcert.artist?.id}`" class="text-center">
-          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60 gap-1">
-            歌手 / {{ singleConcert.artist?.name }}
-          </Button>
+          <Button variant="white-outline" size="base3" class="border-[1px] border-black-60 gap-1"> 歌手 / {{ singleConcert.artist?.name }} </Button>
         </router-link>
         <Button
           variant="white-outline"
@@ -448,6 +447,15 @@ export default {
         description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
       });
     },
+    countDownTimer(duration) {
+      this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
+      this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
+      this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
+      this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
+      setInterval(() => {
+        this.countDownTimer(duration);
+      }, 1000);
+    },
   },
   computed: {
     ...mapState(useConcertsStore, ['singleConcert']),
@@ -496,11 +504,7 @@ export default {
 
     // 倒數計時器
     const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
-
-    this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
-    this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
-    this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
-    this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
+    this.countDownTimer(duration);
 
     // 是否已舉辦，用於歌單切換與計時器
     this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
