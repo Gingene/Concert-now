@@ -19,8 +19,7 @@
         variant="white-outline" 
         size="base" 
         class="btn-explore-icon-color hover:border-transparent
-        w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] 
-        p-7 md:p-7 lg:p-7" 
+        w-full sm:w-[60%] xl:ml-[8%] xl:w-[50%] p-7 md:p-7 lg:p-7" 
         >
         <span class="font-bold text-base lg:text-lg">
           SEARCH NOW
