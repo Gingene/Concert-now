@@ -1,6 +1,12 @@
 # project Concert now for hexSchool
 
-This template should help get you started developing with Vue 3 in Vite.
+### 2023 六角學院 vue 專題班
+
+## 演唱會檢索網站 Concert now
+
+## 專案說明
+
+此專案使用了shadcn-vue作為 ui library 因此在 import 元件使用官方文件的 setup 語法糖，但是專案製作前是預計練習 optionsAPI ，所以會在此專案出現混和著 setup 與一般 script 標籤的 vue2 語法區塊，經過我們團隊的使用經驗，混用比較適合用此專案的情境，可以避免無謂的語法檢查出現問題與 shadcn-vue 套件的相容性問題，我們深知正常不會這樣使用，主要還是作為學習的作品。
 
 ## Project Setup
 
