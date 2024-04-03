@@ -6,6 +6,7 @@
   <FooterNav v-if="$route.meta.showFooterNav" />
   <FooterCopyRight />
 </template>
+
 <script>
 import HeaderNav from '@/components/layout/HeaderNav.vue';
 import FooterNav from '@/components/layout/FooterNav.vue';
@@ -20,4 +21,3 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
