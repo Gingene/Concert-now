@@ -23,9 +23,6 @@ const app = createApp(App);
 
 app.use(createPinia());
 app.use(router);
-// app.use(vue3GoogleLogin, {
-//   clientId: '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com',
-// });
 
 library.add(
   faInstagram,
