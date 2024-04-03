@@ -53,12 +53,6 @@
                   <PopoverContent class="w-80"> oops! 這是 demo 網頁，不許你忘記密碼喔 (´・Å・`) </PopoverContent>
                 </Popover>
               </div>
-
-              <!-- 下次改版預定 -->
-              <Button variant="white-outline" @click="handleGoogleAuthCodeLogin" class="mt-4 space-x-4 hidden">
-                <font-awesome-icon :icon="['fab', 'google']" />
-                <span>使用 Google 進行登入</span>
-              </Button>
             </form>
           </CardContent>
         </Card>
@@ -129,20 +123,6 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { ref } from 'vue';
-import { googleAuthCodeLogin } from 'vue3-google-login';
-const data = ref();
-
-const GOOGLE_CLIENT_ID = '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com';
-
-const handleGoogleAuthCodeLogin = () => {
-  googleAuthCodeLogin({
-    clientId: GOOGLE_CLIENT_ID,
-  }).then((response) => {
-    data.value = response;
-    // console.log(data.value);
-  });
-};
 
 defineProps(['defaultPage']);
 const emits = defineEmits(['method']);
