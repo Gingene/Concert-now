@@ -36,11 +36,6 @@
     <!-- 新增演唱會 -->
     <div class="lg:pt-5 mt-auto">
       <Form ref="form">
-        <!-- <Field name="field" rules="required" v-model="email" v-slot="{ errors, field }">
-          <input type="text" v-bind="field">
-          <span>{{ errors[0] }}</span>
-        </Field> -->
-
         <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
           <DialogTrigger as-child>
             <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增演唱會 </Button>
@@ -69,7 +64,7 @@
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>表演者</SelectLabel>
-                          <SelectItem :value="artist.id" v-for="artist in selectArtists" :key="artist.id">{{ artist.name }}</SelectItem>
+                          <SelectItem :value="artist.id" v-for="artist in artistOptions" :key="artist.id">{{ artist.name }}</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -86,7 +81,7 @@
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>場地</SelectLabel>
-                          <SelectItem :value="venue.id" v-for="venue in selectVenues" :key="venue.id">{{ venue.name }}</SelectItem>
+                          <SelectItem :value="venue.id" v-for="venue in venueOptions" :key="venue.id">{{ venue.title }}</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -353,82 +348,8 @@ export default {
       countryRanges: ['全部', '台灣', '日本', '韓國', '歐美', '其它'],
       searchText: '',
       // 表單選項
-      selectVenues: [
-        {
-          id: '1',
-          name: '台北國際會議中心',
-        },
-        {
-          id: '2',
-          name: 'Zepp New Taipei',
-        },
-        {
-          id: '3',
-          name: '台北流行音樂中心',
-        },
-        {
-          id: '4',
-          name: '高雄流行音樂中心',
-        },
-        {
-          id: '5',
-          name: 'Legacy Taichung',
-        },
-        {
-          id: '6',
-          name: '台北小巨蛋',
-        },
-      ],
-      selectArtists: [
-        {
-          id: '1',
-          name: 'Tom Jones',
-        },
-        {
-          id: '2',
-          name: 'Apink',
-        },
-        {
-          id: '3',
-          name: 'FTIsland',
-        },
-        {
-          id: '4',
-          name: '理想混蛋',
-        },
-        {
-          id: '5',
-          name: '溫蒂漫步',
-        },
-        {
-          id: '6',
-          name: 'Kodaline',
-        },
-        {
-          id: '7',
-          name: 'YOASOBI',
-        },
-        {
-          id: '8',
-          name: '原子邦妮',
-        },
-        {
-          id: '9',
-          name: 'HYBS',
-        },
-        {
-          id: '10',
-          name: '宇宙人',
-        },
-        {
-          id: '11',
-          name: 'Itzy',
-        },
-        {
-          id: '12',
-          name: 'King Gnu',
-        },
-      ],
+      venueOptions: [],
+      artistOptions: [],
       // 暫存待處理的資料
       tempConcert: {},
       // 操控 Dialog
@@ -485,12 +406,38 @@ export default {
       if (!result.valid) return;
       this.addNewConcert();
     },
+    getVenuesOptions() {
+      http
+        .get(adminPath.venues)
+        .then((res) => {
+          this.venueOptions = res.data.data.map((item) => {
+            return { id: item.id.toString(), title: item.title };
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getArtistOptions() {
+      http
+        .get(adminPath.artists)
+        .then((res) => {
+          this.artistOptions = res.data.data.map((item) => {
+            return { id: item.id.toString(), name: item.name };
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   computed: {
     ...mapState(useConcertsStore, ['adminConcerts', 'pagination']),
   },
   mounted() {
     this.getAllAdminConcerts();
+    this.getVenuesOptions();
+    this.getArtistOptions();
   },
 };
 </script>
