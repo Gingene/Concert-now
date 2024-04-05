@@ -35,113 +35,159 @@
     </div>
     <!-- 新增演唱會 -->
     <div class="lg:pt-5 mt-auto">
-      <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
-        <DialogTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增演唱會 </Button>
-        </DialogTrigger>
-        <DialogContent class="sm:max-w-[850px]">
-          <DialogHeader>
-            <DialogTitle class="text-center">新增演唱會</DialogTitle>
-            <DialogDescription>請新增演唱會</DialogDescription>
-          </DialogHeader>
-          <div class="grid grid-cols-2 place-items-start gap-8">
-            <div class="grid gap-4 py-4">
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="title" class="text-left"> 演唱會名稱 </Label>
-                <Input type="text" id="title" class="col-span-3" v-model="tempConcert.title" />
+      <Form ref="form">
+        <!-- <Field name="field" rules="required" v-model="email" v-slot="{ errors, field }">
+          <input type="text" v-bind="field">
+          <span>{{ errors[0] }}</span>
+        </Field> -->
+
+        <Dialog :open="openTwo" @update:open="(open) => (openTwo = open)">
+          <DialogTrigger as-child>
+            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增演唱會 </Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-[850px]">
+            <DialogHeader>
+              <DialogTitle class="text-center">新增演唱會</DialogTitle>
+              <DialogDescription>請新增演唱會</DialogDescription>
+            </DialogHeader>
+            <div class="grid grid-cols-2 place-items-start gap-8">
+              <div class="grid gap-4 py-4 w-full">
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="title" class="text-left"> 演唱會名稱 </Label>
+                  <Field name="title" rules="required" v-model="tempConcert.title" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">演唱會名稱必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="artist" class="text-left"> 表演者名稱 </Label>
+                  <Field name="artist" rules="required" v-model="tempConcert.artist_id" v-slot="{ errors, field }">
+                    <Select v-bind="field">
+                      <SelectTrigger class="w-full col-span-3">
+                        <SelectValue placeholder="表演者" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>表演者</SelectLabel>
+                          <SelectItem :value="artist.id" v-for="artist in selectArtists" :key="artist.id">{{ artist.name }}</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <span v-show="errors[0]" class="errorText">表演者必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="location" class="text-left"> 舉辦場地 </Label>
+                  <Field name="location" rules="required" v-model="tempConcert.venue_id" v-slot="{ errors, field }">
+                    <Select v-bind="field">
+                      <SelectTrigger class="w-full col-span-3">
+                        <SelectValue placeholder="場地" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>場地</SelectLabel>
+                          <SelectItem :value="venue.id" v-for="venue in selectVenues" :key="venue.id">{{ venue.name }}</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <span v-show="errors[0]" class="errorText">場地必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="price" class="text-left"> 演唱會價格 </Label>
+                  <Field name="price" rules="required" v-model="tempConcert.priceList" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">演唱會價格必填</span>
+                  </Field>
+                </div>
+                <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔</span>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="holdingDate" class="text-left"> 舉辦日期 </Label>
+                  <Field name="holdingDate" rules="required" v-model="tempConcert.holdingDate" v-slot="{ errors, field }">
+                    <Input type="date" class="col-span-3" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">舉辦日期必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="holdingTime" class="text-left"> 舉辦時間 </Label>
+                  <Field name="holdingTime" rules="required" v-model="tempConcert.holdingTime" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" placeholder="00:00" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">舉辦時間必填</span>
+                  </Field>
+                </div>
+                <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="salesDate" class="text-left"> 售票日期 </Label>
+                  <Field name="salesDate" rules="required" v-model="tempConcert.salesDate" v-slot="{ errors, field }">
+                    <Input type="date" class="col-span-3" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">售票日期必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="salesTime" class="text-left"> 售票時間 </Label>
+                  <Field name="salesTime" rules="required" v-model="tempConcert.salesTime" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" placeholder="00:00" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">售票時間必填</span>
+                  </Field>
+                </div>
+                <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="organizerList" class="text-left"> 主辦單位 </Label>
+                  <Field name="organizerList" rules="required" v-model="tempConcert.organizerList" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" placeholder="00:00" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">主辦單位必填</span>
+                  </Field>
+                </div>
+                <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔</span>
               </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="artist" class="text-left"> 表演者名稱 </Label>
-                <Select v-model="tempConcert.artist_id">
-                  <SelectTrigger class="w-full col-span-3">
-                    <SelectValue placeholder="表演者" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>表演者</SelectLabel>
-                      <SelectItem :value="artist.id" v-for="artist in selectArtists" :key="artist.id">{{ artist.name }}</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <div class="grid gap-4 py-4">
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
+                  <Field name="pictures-horizontal" rules="required" v-slot="{ errors, field }">
+                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'horizontal')" />
+                    <span v-show="errors[0]" class="errorText">圖片必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="pictures-square" class="text-left"> 圖片 - 方圖 </Label>
+                  <Field name="pictures-square" rules="required" v-slot="{ errors, field }">
+                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'square')" />
+                    <span v-show="errors[0]" class="errorText">圖片必填</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="pictures-straight" class="text-left"> 圖片 - 直圖 </Label>
+                  <Field name="pictures-straight" rules="required" v-slot="{ errors, field }">
+                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'straight')" />
+                    <span v-show="errors[0]" class="errorText">圖片必填</span>
+                  </Field>
+                </div>
+                <hr />
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="foreignUrl0" class="text-left"> 購票網站 1 </Label>
+                  <Field name="foreignUrl0" rules="required" v-model="tempConcert.foreignUrl0" v-slot="{ errors, field }">
+                    <Input type="text" class="col-span-3" v-bind="field" />
+                    <span v-show="errors[0]" class="errorText">必填1個購票網站</span>
+                  </Field>
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="foreignUrl1" class="text-left"> 購票網站 2 </Label>
+                  <Input type="text" class="col-span-3" v-model="tempConcert.foreignUrl1" />
+                </div>
+                <div class="grid grid-cols-4 items-center gap-x-3">
+                  <Label for="foreignUrl2" class="text-left"> 購票網站 3 </Label>
+                  <Input type="text" class="col-span-3" v-model="tempConcert.foreignUrl2" />
+                </div>
+                <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔購票網站名稱與網站連結</span>
               </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 舉辦場地 </Label>
-                <Select v-model="tempConcert.venue_id">
-                  <SelectTrigger class="w-full col-span-3">
-                    <SelectValue placeholder="場地" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>場地</SelectLabel>
-                      <SelectItem :value="venue.id" v-for="venue in selectVenues" :key="venue.id">{{ venue.name }}</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 演唱會價格 </Label>
-                <Input type="text" id="text" class="col-span-3" v-model="tempConcert.priceList" />
-              </div>
-              <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔</span>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="date" class="text-left"> 舉辦日期 </Label>
-                <Input type="date" id="date" class="col-span-3" v-model="tempConcert.holdingDate" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="date" class="text-left"> 舉辦時間 </Label>
-                <Input type="text" id="date" class="col-span-3" placeholder="00:00" v-model="tempConcert.holdingTime" />
-              </div>
-              <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 售票日期 </Label>
-                <Input type="date" id="text" class="col-span-3" v-model="tempConcert.salesDate" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="date" class="text-left"> 售票時間 </Label>
-                <Input type="text" id="date" class="col-span-3" placeholder="00:00" v-model="tempConcert.salesTime" />
-              </div>
-              <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 主辦單位 </Label>
-                <Input type="text" id="text" class="col-span-3" v-model="tempConcert.organizerList" />
-              </div>
-              <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔</span>
             </div>
-            <div class="grid gap-4 py-4">
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
-                <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" @change="readFile($event, 'horizontal')" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="pictures-square" class="text-left"> 圖片 - 方圖 </Label>
-                <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" @change="readFile($event, 'square')" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="pictures-straight" class="text-left"> 圖片 - 直圖 </Label>
-                <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" @change="readFile($event, 'straight')" />
-              </div>
-              <hr />
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 購票網站 1 </Label>
-                <Input type="text" id="text" class="col-span-3" v-model="tempConcert.foreignUrl0" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 購票網站 2 </Label>
-                <Input type="text" id="text" class="col-span-3" v-model="tempConcert.foreignUrl1" />
-              </div>
-              <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="location" class="text-left"> 購票網站 3 </Label>
-                <Input type="text" id="text" class="col-span-3" v-model="tempConcert.foreignUrl2" />
-              </div>
-              <span class="-mt-3 text-tiny text-black-60">※ 請以半形逗號區隔購票網站名稱與網站連結</span>
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
-            <Button type="button" @click="addNewConcert">新增</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter>
+              <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
+              <Button type="button" @click="validate">新增</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </Form>
     </div>
     <!-- 刪除多筆資料 -->
     <div class="lg:pt-5 mt-auto">
@@ -182,7 +228,7 @@
         </TableCell>
         <TableCell class="text-purple-primary">{{ concert.artist?.name }}</TableCell>
         <TableCell>{{ concert.title }}</TableCell>
-        <TableCell>{{ concert.holding_time }}</TableCell>
+        <TableCell>{{ concert.holding_time.slice(0, 16) }}</TableCell>
         <TableCell>{{ concert.venue?.title }}</TableCell>
         <TableCell>{{ ((concert.saver_count * 7) / 6) * 258 * (index + 4) }}</TableCell>
         <TableCell>
@@ -286,9 +332,18 @@ import {
 import { mapState, mapActions } from 'pinia';
 import { useConcertsStore } from '@/stores/concerts';
 import { http, adminPath } from '@/api';
+import { loadingStore } from '@/stores/isLoading';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { defineRule, Field, Form } from 'vee-validate';
+import * as AllRules from '@vee-validate/rules';
 
+const { setIsLoading } = loadingStore();
 const { toast } = useToast();
+
+// import all validate rules
+Object.keys(AllRules).forEach((rule) => {
+  defineRule(rule, AllRules[rule]);
+});
 
 export default {
   data() {
@@ -387,6 +442,7 @@ export default {
       this.tempConcert[`cover_${topic}`] = event.target.files[0];
     },
     addNewConcert() {
+      setIsLoading();
       this.tempConcert.price_list = this.tempConcert.priceList?.split(',');
       this.tempConcert.holding_time = `${this.tempConcert.holdingDate} ${this.tempConcert.holdingTime}:00`;
       this.tempConcert.sales_time = `${this.tempConcert.salesDate} ${this.tempConcert.salesTime}:00`;
@@ -419,7 +475,15 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
         });
+    },
+    validate: async function () {
+      const result = await this.$refs.form.validate();
+      if (!result.valid) return;
+      this.addNewConcert();
     },
   },
   computed: {
@@ -430,3 +494,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.errorText {
+  color: rgb(239 68 68);
+  font-size: 0.75rem;
+  grid-column: span 4 / span 12;
+  padding-top: 4px;
+  padding-left: 99px;
+}
+</style>
