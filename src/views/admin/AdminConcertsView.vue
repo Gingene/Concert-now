@@ -205,7 +205,7 @@
     </div>
     <!-- 刪除多筆資料 -->
     <div class="lg:pt-5 mt-auto">
-      <AlertDialog>
+      <!-- <AlertDialog>
         <AlertDialogTrigger as-child>
           <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
         </AlertDialogTrigger>
@@ -218,7 +218,13 @@
             <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog>
+      </AlertDialog> -->
+      <Popover>
+        <PopoverTrigger as-child>
+          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
+        </PopoverTrigger>
+        <PopoverContent>不開放此功能</PopoverContent>
+      </Popover>
     </div>
   </div>
   <!-- Table -->
@@ -259,10 +265,11 @@
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>確定要刪除該筆資料?</AlertDialogTitle>
+                <AlertDialogDescription></AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction>確定</AlertDialogAction>
+                <AlertDialogAction @click="deleteConcert(concert.id)">確定</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -275,28 +282,23 @@
 <script setup>
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
-// table
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-
-// Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-// Dialog
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  // AlertDialogDescription,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 </script>
 
 <script>
@@ -444,6 +446,23 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    deleteConcert(id) {
+      setIsLoading();
+      http
+        .delete(`${adminPath.concerts}/${id}`)
+        .then((res) => {
+          this.getAllAdminConcerts();
+          toast({
+            title: '已刪除演唱會',
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
         });
     },
   },
