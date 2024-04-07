@@ -114,9 +114,9 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="holdingTime" class="text-left"> 舉辦時間 </Label>
-                  <Field name="holdingTime" rules="required" v-slot="{ errors, field }" v-model="tempConcert.holdingTime">
+                  <Field name="holdingTime" rules="required|length:5" v-slot="{ errors, field }" v-model="tempConcert.holdingTime">
                     <Input type="text" class="col-span-3" placeholder="00:00" v-bind="field" v-model="tempConcert.holdingTime" />
-                    <span v-show="errors[0]" class="errorText">舉辦時間必填</span>
+                    <span v-show="errors[0]" class="errorText">舉辦時間必填，需為5碼</span>
                   </Field>
                 </div>
                 <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
@@ -125,13 +125,14 @@
                   <Field name="salesDate" rules="required" v-slot="{ errors, field }" v-model="tempConcert.salesDate">
                     <Input type="date" class="col-span-3" v-bind="field" v-model="tempConcert.salesDate" />
                     <span v-show="errors[0]" class="errorText">售票日期必填</span>
+                    <span v-show="tempConcert.salesDate >= tempConcert.holdingDate" class="errorText">售票日期不得於舉辦日期之後</span>
                   </Field>
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="salesTime" class="text-left"> 售票時間 </Label>
-                  <Field name="salesTime" rules="required" v-slot="{ errors, field }" v-model="tempConcert.salesTime">
+                  <Field name="salesTime" rules="required|length:5" v-slot="{ errors, field }" v-model="tempConcert.salesTime">
                     <Input type="text" class="col-span-3" placeholder="00:00" v-bind="field" v-model="tempConcert.salesTime" />
-                    <span v-show="errors[0]" class="errorText">售票時間必填</span>
+                    <span v-show="errors[0]" class="errorText">售票時間必填，需為5碼</span>
                   </Field>
                 </div>
                 <span class="-mt-3 text-tiny text-black-60">※ 請以此格式撰寫 19:00</span>
@@ -175,7 +176,7 @@
                     <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" @change="readFile($event, 'straight')" />
                   </Field>
                 </div>
-                <span v-if="dialogTopic === 'edit'" class="-mt-3 text-tiny text-black-60">※ 如需更換圖片再上傳檔案</span>
+                <span v-if="dialogTopic === 'edit'" class="-mt-3 text-tiny text-black-60">※ 需更換圖片，再上傳檔案</span>
                 <hr />
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="foreignUrl0" class="text-left"> 購票網站 1 </Label>
