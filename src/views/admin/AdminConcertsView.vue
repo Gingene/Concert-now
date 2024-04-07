@@ -277,6 +277,25 @@
       </TableRow>
     </TableBody>
   </Table>
+
+  <Pagination v-if="adminConcerts.length" v-slot="page" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+    <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
+      <PaginationFirst @click="getFilterAdminConcerts('', '', 1)" />
+      <PaginationPrev @click="getFilterAdminConcerts('', '', pagination2.current_page - 1)" />
+
+      <template v-for="(item, index) in items">
+        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+          <Button class="w-10 h-10 p-0" :variant="page === item.value ? 'default' : 'outline'" @click="getFilterAdminConcerts('', '', index + 1)" :disabled="pageFactor === item.value">
+            {{ item.value }}
+          </Button>
+        </PaginationListItem>
+        <PaginationEllipsis v-else :key="item.type" :index="index" />
+      </template>
+
+      <PaginationNext @click="getFilterAdminConcerts('', '', pagination2.current_page + 1)" />
+      <PaginationLast @click="getFilterAdminConcerts('', '', pagination2.total_pages)" />
+    </PaginationList>
+  </Pagination>
 </template>
 
 <script setup>
@@ -299,6 +318,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
 <script>
@@ -467,7 +487,10 @@ export default {
     },
   },
   computed: {
-    ...mapState(useConcertsStore, ['adminConcerts', 'pagination']),
+    ...mapState(useConcertsStore, ['adminConcerts', 'pagination', 'pageFactor']),
+    pagination2() {
+      return this.pagination;
+    },
   },
   mounted() {
     this.getAllAdminConcerts();
