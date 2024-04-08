@@ -376,6 +376,7 @@ export default {
       // 操控新增歌曲 Dialog 顯示
       open: false,
       openTwo: false,
+      interval: null,
     };
   },
   props: ['id'],
@@ -447,13 +448,16 @@ export default {
         description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
       });
     },
-    countDownTimer(duration) {
+    countTimer(duration) {
       this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
       this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
       this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
       this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
-      setInterval(() => {
-        this.countDownTimer(duration);
+    },
+    countDownTimer() {
+      this.interval = setInterval(() => {
+        const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
+        this.countTimer(duration);
       }, 1000);
     },
   },
@@ -481,7 +485,7 @@ export default {
     },
   },
   mounted() {
-    this.getSingleConcert(this.$route.params.id);
+    this.getSingleConcert(this.$route.params.id, this.countDownTimer);
 
     // 確認使用者已登入
     if (this.AccessToken !== undefined) {
@@ -502,12 +506,11 @@ export default {
       this.changeYTplayer(this.songList[0]?.youtube_url);
     }
 
-    // 倒數計時器
-    const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
-    this.countDownTimer(duration);
-
     // 是否已舉辦，用於歌單切換與計時器
     this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
+  },
+  unmounted() {
+    clearInterval(this.interval);
   },
 };
 </script>
