@@ -1,1 +1,0 @@
-.footer-nav{transition:border .3s ease;overflow:hidden}.footer-nav:hover{border-bottom:10px solid #fff}.footer-nav:hover .footer-nav-arrow{animation:translateDownUp .5s ease-in-out}@keyframes translateDownUp{0%{opacity:1;transform:translate(0)}30%{opacity:0;transform:translate(100%,100%)}70%{opacity:0;transform:translate(-20%,-20%)}to{opacity:1;transform:translate(0)}}
