@@ -60,13 +60,13 @@ export const useConcertsStore = defineStore('concerts', {
         this.pagination = data.pagination;
       });
     },
-    getSingleConcert(id) {
+    getSingleConcert(id, fn = null) {
       setIsLoading();
       http
         .get(`${path.concerts}/${id}`)
         .then((res) => {
-          // console.log(res);
           this.singleConcert = res.data.data;
+          if (fn) fn();
         })
         .catch((error) => {
           console.error(error);
