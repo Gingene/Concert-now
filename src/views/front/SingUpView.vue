@@ -1,5 +1,9 @@
 <template>
-  <LoginComponent :defaultPage="'signup'" @method="handleSignup" />
+  <LoginComponent :defaultPage="'signup'" @method="handleSignup">
+    <div>
+      <vue-turnstile size="compact" theme="dark" :site-key="VITE_SITE_KEY" v-model="token" />
+    </div>
+  </LoginComponent>
 </template>
 
 <script setup>
@@ -10,7 +14,13 @@ import * as z from 'zod';
 import { http, path } from '@/api';
 import { useRouter } from 'vue-router';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { ref } from 'vue';
+import VueTurnstile from 'vue-turnstile';
+const { VITE_SITE_KEY } = import.meta.env;
+
 const { toast } = useToast();
+
+const token = ref('');
 
 const router = useRouter();
 
@@ -34,8 +44,8 @@ const form = useForm({
 
 const signup = (user) => {
   http
-    .post(path.register, user)
-    .then((res) => {
+    .post(path.register, { ...user, token: token.value })
+    .then(() => {
       toast({
         title: '註冊成功！可以去登入了ヽ(●´∀`●)ﾉ',
       });

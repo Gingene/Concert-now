@@ -107,6 +107,7 @@
                   <FormMessage />
                 </FormItem>
               </FormField>
+              <slot></slot>
               <Button variant="white-outline" class="text-[12px] md:text-[14px] lg:text-[18px] px-6 md:py-6 lg:p-8 rounded-[40px] my-2 xs:mt-6 sm:mt-6 md:mt-8 lg:mt-10"> 確認送出 </Button>
             </form>
           </CardContent>

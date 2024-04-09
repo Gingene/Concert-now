@@ -44,6 +44,7 @@
     "vee-validate": "^4.12.5",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5",
+    "vue-turnstile": "^1.0.8",
     "zod": "^3.22.4"
   },
   "devDependencies": {
