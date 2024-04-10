@@ -1,11 +1,11 @@
 <template>
-  <section class="container flex justify-center items-center py-24 overflow-hidden min-h-[80vh]">
+  <main class="container flex justify-center items-center py-24 overflow-hidden min-h-[80vh]">
     <Tabs 
       :default-value="defaultPage" 
       class="w-full flex flex-col lg:flex-row justify-center items-center">
       <!-- Tabs: Login / Sign Up -->
       <TabsList class="relative w-full lg:w-[60px] h-full lg:h-[250px] bg-transparent">
-        <TabsTrigger 
+        <TabsTrigger
           @click="$router.push({ name: 'login' })"
           value="login" 
           class="items-end lg:items-center bg-black lg:h-[150px] lg:w-[60px] 
@@ -230,7 +230,7 @@
       <div class="-mb-8 text-white/10">HELLO</div>
     </div>
     <div 
-      class="opacity-40 hidden sm:inline rotate-0 -z-30 fixed top-0  font-lato-display2 text-[140px] md:text-[160px] lg:text-[200px] xl:text-[250px]" 
+      class="opacity-40 hidden sm:inline rotate-0 -z-30 fixed top-0 font-lato-display2 text-[140px] md:text-[160px] lg:text-[200px] xl:text-[250px]" 
       style="-webkit-text-stroke: 1px var(--black-85);">
       <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
       <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
@@ -241,7 +241,7 @@
       <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
       <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
     </div>
-  </section>
+  </main>
 </template>
 
 <script setup>

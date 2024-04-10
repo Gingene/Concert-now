@@ -120,12 +120,38 @@ module.exports = {
           from: { transform: 'translateX(0%)' },
           to: { transform: 'translateX(-100%)' },
         },
+        'col-span-1-to-4':{
+          '0%': { 
+            width: 'calc((100%/6)*1)',
+            opacity: 0.5,
+            filter: 'var(--tw-brightness) var(--tw-grayscale)',
+          },
+          '100%': { 
+            width: 'calc((100%/9)*5)',
+            opacity: 1,
+            filter: 'brightness(90%) grayscale(0%)',
+          },
+        },
+        'col-span-4-to-1':{
+          '0%': { 
+            width: 'calc((100%/9)*5)',
+            opacity: 1,
+            filter: 'brightness(90%) grayscale(0%)',
+          },
+          '100%': { 
+            width: 'calc((100%/6)*1)',
+            opacity: 0.5,
+            filter: 'var(--tw-brightness) var(--tw-grayscale)',
+          },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'collapsible-down': 'collapsible-down 0.2s ease-in-out',
         'collapsible-up': 'collapsible-up 0.2s ease-in-out',
+        'col-span-1-to-4': 'col-span-1-to-4 0.8s ease-in-out forwards',
+        'col-span-4-to-1': 'col-span-4-to-1 0.8s ease-in-out',
       },
     },
   },

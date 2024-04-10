@@ -1,6 +1,14 @@
-# project Concert now for hexSchool
+2023 六角學院 vue 專題班
 
-This template should help get you started developing with Vue 3 in Vite.
+# 演唱會檢索網站 Concert now
+
+現在台灣舉辦的音樂演唱會愈來愈多，不論是國際知名的歌手、韓團或台灣本地歌手，都紛紛在台灣開唱。然而，目前卻沒有一個能夠集結所有演唱會資訊的平台。現有的售票系統只提供部分演唱會資訊，而有些演出甚至只在特定售票系統上有售票。
+
+我們希望建立一個友善的平台，可以收集整理全台灣的演唱會資訊，讓大家不再需要辛苦查找各種資料，就能找到想看的演唱會資訊！
+
+## 專案說明
+
+此專案使用了shadcn-vue作為 ui library 因此在 import 元件使用官方文件的 setup 語法糖，但是專案製作前是預計練習 optionsAPI ，所以會在此專案出現混和著 setup 與一般 script 標籤的 vue2 語法區塊，經過我們團隊的使用經驗，混用比較適合用此專案的情境，可以避免無謂的語法檢查出現問題與 shadcn-vue 套件的相容性問題，我們深知正常不會這樣使用，主要還是作為學習的作品。
 
 ## Project Setup
 
