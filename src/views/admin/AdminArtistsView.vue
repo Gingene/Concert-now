@@ -1,83 +1,89 @@
 <template>
   <!-- Search/Command -->
-  <div class="flex gap-6 mb-8 relative">
-    <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
-      <Input type="text" placeholder="輸入表演者名稱" v-model="searchText" />
+  <div class="flex flex-wrap gap-x-5 gap-y-6 md:gap-6 mb-8 relative">
+    <!-- w-[36%] lg:w-[290px] -->
+    <div class="w-full xs:w-[290px] relative lg:pt-6">
+      <Input type="text" placeholder="輸入表演者名稱" v-model.trim="searchText" @keyup="searchInput" />
       <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
     </div>
     <!-- 國籍篩選 -->
-    <div class="w-[15%] lg:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
-      <Select>
+    <!-- w-[15%] lg:w-[200px] -->
+    <div class="w-full xs:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
+      <Select v-model="selectCountry">
         <SelectTrigger>
-          <SelectValue placeholder="國籍" />
+          <SelectValue placeholder="選擇表演者國籍" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel class="tracking-wide">表演者國籍</SelectLabel>
-            <SelectItem v-for="country in countryRanges" :key="country" :value="country" @click="getAdminConcerts('country', country)"> {{ country }} </SelectItem>
+            <SelectItem v-for="country in countryRanges" :key="country.id" :value="country.type">
+              {{ country.type }}
+            </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
     </div>
-    <!-- 新增表演者 -->
-    <div class="lg:pt-5 mt-auto">
-      <Dialog>
-        <DialogTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增表演者 </Button>
-        </DialogTrigger>
-        <DialogContent class="sm:max-w-[850px]">
-          <DialogHeader>
-            <DialogTitle class="text-center">新增表演者</DialogTitle>
-            <DialogDescription>請新增表演者</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
-            <Button type="button" @click="addNewConcert">新增</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
-    <!-- 刪除多筆資料 -->
-    <div class="lg:pt-5 mt-auto">
-      <AlertDialog>
-        <AlertDialogTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>確定要刪除資料?</AlertDialogTitle>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-            <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+    <div class="flex gap-6">
+      <!-- 新增表演者 button -->
+      <div class="lg:pt-5 mt-auto">
+        <Dialog>
+          <DialogTrigger as-child>
+            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增表演者 </Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-[850px]">
+            <DialogHeader>
+              <DialogTitle class="text-center">新增表演者</DialogTitle>
+              <DialogDescription>請新增表演者</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
+              <Button type="button" @click="addNewConcert">新增</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <!-- 刪除多筆資料 button -->
+      <div class="lg:pt-5 mt-auto">
+        <AlertDialog>
+          <AlertDialogTrigger as-child>
+            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>確定要刪除資料?</AlertDialogTitle>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
+              <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </div>
     </div>
   </div>
   <!-- Table -->
-  <Table class="bg-white rounded-lg text-md mb-10">
+  <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap">
     <TableHeader>
       <TableRow class="hover:bg-white text-nowrap" style="color: black !important">
         <TableHead></TableHead>
-        <TableHead>表演者名稱</TableHead>
-        <!-- <TableHead>表演者國籍</TableHead> -->
-        <TableHead>即將舉辦演唱會數</TableHead>
-        <TableHead>追蹤人數</TableHead>
-        <TableHead></TableHead>
+        <TableHead class="font-semibold">表演者名稱</TableHead>
+        <TableHead class="font-semibold">表演者國籍</TableHead>
+        <TableHead class="font-semibold">即將舉辦演唱會數</TableHead>
+        <TableHead class="font-semibold">追蹤人數</TableHead>
+        <TableHead class="w-[100px]"></TableHead>
       </TableRow>
     </TableHeader>
     <TableBody class="text-gray-600">
-      <TableRow v-for="artist in artists" :key="artist.id">
+      <TableRow v-for="artist in filteredData" :key="artist.id">
         <TableCell class="text-purple-primary">
           <Checkbox id="terms" />
           <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
-        <TableCell>{{ artist.concert_count }}</TableCell>
-        <TableCell>{{ artist.follower_count }}</TableCell>
-        <!-- <TableCell>{{ venue?.title }}</TableCell> -->
-        <TableCell class="text-right">
+        <TableCell class="pl-10">{{ artist.country }}</TableCell>
+        <TableCell class="pl-[70px]">{{ artist.concert_count }}</TableCell>
+        <TableCell class="pl-7">{{ artist.follower_count }}</TableCell>
+        <TableCell class="text-center">
           <Dialog>
             <DialogTrigger as-child>
               <Button variant="none" class="hover:text-[#6366f1]">
@@ -145,6 +151,11 @@
       </TableRow>
     </TableBody>
   </Table>
+
+  <!-- 找不到資料 -->
+  <div v-show="!filteredData?.length" class="flex justify-center py-12">
+    <h2>哇! 找不到資料~</h2>
+  </div>
 </template>
 
 <script setup>
@@ -175,42 +186,113 @@ import {
 </script>
 
 <script>
-import { http, path } from '@/api';
+// import { http, path } from '@/api';
+import { getAdminArtists, filterAdminArtists } from '@/api/admin/all';
+import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '@/stores/isLoading';
-
 const { setIsLoading } = loadingStore();
 
 export default {
   data() {
     return {
-      // 篩選選項
-      countryRanges: ['全部', '台灣', '日本', '韓國', '歐美', '其它'],
       searchText: '',
+      selectCountry: '',
+      // countryParam: '',
       // 暫存待處理的資料
       tempConcert: {},
-      artists: [],
+      adminArtists: [],
+      // 篩選選項
+      // countryRanges: ['全部', '台灣', '日本', '韓國', '歐美', '其它'],
+      countryRanges: [
+        {
+          id: 1,
+          type: '全部國籍',
+        },
+        {
+          id: 2,
+          type: '台灣',
+        },
+        {
+          id: 3,
+          type: '日本',
+        },
+        {
+          id: 4,
+          type: '韓國',
+        },
+        {
+          id: 5,
+          type: '歐美',
+        },
+        {
+          id: 6,
+          type: '其它',
+        },
+      ],
     };
   },
-  methods: {
-    getArtists() {
-      setIsLoading();
-      http
-        .get(`${path.artists}`)
-        .then((res) => {
-          // console.log(res);
-          this.artists = res.data.data;
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setIsLoading();
+  computed: {
+    filteredData() {
+      const filterCountry = this.selectCountry;
+
+      if (filterCountry === '全部國籍') {
+        return this.adminArtists;
+
+      } else {
+        return this.adminArtists?.filter((artist) => {
+          let filtered = true;
+
+          // 表演者國籍篩選
+          if (filterCountry !== undefined && filterCountry !== null && filterCountry.length > 0) {
+            filtered = artist.country === filterCountry;
+          }
+
+          return filtered;
         });
+      }
     },
   },
-  computed: {},
+  methods: {
+    async getAdminArtistData(page = 1) {
+      setIsLoading()
+
+      try {
+        const res = await getAdminArtists(page);
+        this.adminArtists = res.data.data;
+        setIsLoading()
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    searchInput: useDebounceFn(async function ( page = 1) {
+      try {
+        const res = await filterAdminArtists(this.searchText, page);
+        this.adminArtists = res.data.data;
+        console.log(this.adminArtists)
+
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300),
+    // getArtists() {
+    //   setIsLoading();
+    //   http
+    //     .get(`${path.artists}`)
+    //     .then((res) => {
+    //       // console.log(res);
+    //       this.artists = res.data.data;
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     })
+    //     .finally(() => {
+    //       setIsLoading();
+    //     });
+    // },
+  },
   mounted() {
-    this.getArtists();
+    this.getAdminArtistData();
   },
 };
 </script>
