@@ -254,12 +254,12 @@ export default {
   },
   methods: {
     async getAdminArtistData(page = 1) {
-      setIsLoading()
+      setIsLoading();
 
       try {
         const res = await getAdminArtists(page);
         this.adminArtists = res.data.data;
-        setIsLoading()
+        setIsLoading();
 
       } catch (error) {
         console.error(error);
@@ -269,7 +269,6 @@ export default {
       try {
         const res = await filterAdminArtists(this.searchText, page);
         this.adminArtists = res.data.data;
-        console.log(this.adminArtists)
 
       } catch (error) {
         console.error(error);
