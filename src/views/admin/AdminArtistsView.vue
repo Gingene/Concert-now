@@ -237,7 +237,6 @@ export default {
 
       if (filterCountry === '全部國籍') {
         return this.adminArtists;
-
       } else {
         return this.adminArtists?.filter((artist) => {
           let filtered = true;
@@ -260,16 +259,14 @@ export default {
         const res = await getAdminArtists(page);
         this.adminArtists = res.data.data;
         setIsLoading();
-
       } catch (error) {
         console.error(error);
       }
     },
-    searchInput: useDebounceFn(async function ( page = 1) {
+    searchInput: useDebounceFn(async function (page = 1) {
       try {
         const res = await filterAdminArtists(this.searchText, page);
         this.adminArtists = res.data.data;
-
       } catch (error) {
         console.error(error);
       }

@@ -133,7 +133,6 @@ export default {
 
       if (filterStatus === '全部') {
         return this.usersData;
-
       } else {
         return this.usersData?.filter((user) => {
           let filtered = true;
@@ -161,7 +160,6 @@ export default {
       try {
         const res = await filterAdminMembers(this.searchText, page);
         this.usersData = res.data.data;
-
       } catch (error) {
         console.error(error);
       }

@@ -1,7 +1,6 @@
 import { http } from '@/api/index';
 // const { VITE_APP_SERVICE_API } = import.meta.env;
 
-
 // 取得後台表演者頁面
 export const getAdminArtists = async (page) => {
   const url = `/admin/artists?page=${page}`;
@@ -10,7 +9,6 @@ export const getAdminArtists = async (page) => {
     const res = await http.get(url);
     return res;
   } catch (error) {
-
     console.error('[GetAdminArtists Failed]', error);
     throw new Error('error');
   }
@@ -33,7 +31,7 @@ export const filterAdminArtists = async (artist, page) => {
 // 取得後台會員管理頁面
 export const getAdminMembers = async (page) => {
   // const url = `${VITE_APP_SERVICE_API}/api/admin/users?page=${page}`;
-    const url = `/admin/users?page=${page}`;
+  const url = `/admin/users?page=${page}`;
 
   try {
     const res = await http.get(url);
