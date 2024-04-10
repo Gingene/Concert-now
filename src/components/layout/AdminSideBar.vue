@@ -1,15 +1,16 @@
 <template>
-  <div class="absolute pl-12 pt-12 lg:hidden">
+  <div class="absolute pl-6 pt-6 xl:hidden">
+    <!-- 手機版 -->
     <Sheet>
-      <SheetTrigger class="lg:hidden">
-        <span class="material-symbols-outlined lg:p-0"> menu </span>
+      <SheetTrigger class="xl:hidden">
+        <span class="material-symbols-outlined xl:p-0"> menu </span>
       </SheetTrigger>
       <SheetContent side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
-          <div class="w-[205px] font-semibold py-8 flex text-xl">CONCERT NOW.</div>
+          <div class="w-[205px] font-semibold mx-auto py-8 flex text-xl">CONCERT NOW.</div>
           <RouterLink to="/admin/concerts">
             <Button variant="side-bar" size="side-bar">
-              <span class="material-symbols-outlined pe-6"> location_on </span>
+              <span class="material-symbols-outlined pe-3"> location_on </span>
               演唱會資訊管理
             </Button>
           </RouterLink>
@@ -26,8 +27,10 @@
       </SheetContent>
     </Sheet>
   </div>
-  <nav class="hidden lg:flex lg:flex-col lg:space-x-0 lg:space-y-1">
-    <div class="w-[205px] font-semibold pl-5 py-8 flex text-xl">CONCERT NOW.</div>
+
+  <!-- 電腦版 -->
+  <nav class="hidden xl:flex xl:flex-col xl:space-x-0 xl:space-y-1">
+    <div class="w-[205px] font-semibold mx-auto py-8 flex text-xl">CONCERT NOW.</div>
     <RouterLink to="/admin/concerts">
       <Button variant="side-bar" size="side-bar">
         <span class="material-symbols-outlined pe-6"> location_on </span>

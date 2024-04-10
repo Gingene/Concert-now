@@ -18,9 +18,7 @@
         <p>Copyright © 2024</p>
       </div>
       <div class="lg:order-1">
-        <p>
-          本網站為作品集，僅用來學習，非商業用途。
-        </p>
+        <p>本網站為作品集，僅用來學習，非商業用途。</p>
       </div>
     </div>
   </footer>
