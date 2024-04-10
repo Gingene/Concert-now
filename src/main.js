@@ -24,7 +24,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 // app.use(vue3GoogleLogin, {
-//   clientId: '189352494963-n61sns5eaj2dtjtiq8afusejosuqvv60.apps.googleusercontent.com',
+//   clientId: '1025367409648-3obi0crdef5qos8cjpqnpm3l2se4j944.apps.googleusercontent.com',
 // });
 
 library.add(

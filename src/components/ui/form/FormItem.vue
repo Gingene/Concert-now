@@ -16,7 +16,7 @@ provide(FORM_ITEM_INJECTION_KEY, id);
 </script>
 
 <template>
-  <div :class="cn('space-y-2 mb-3 lg:space-y-4', props.class)">
+  <div :class="cn('relative flex items-end justify-between space-y-4', props.class)">
     <slot />
   </div>
 </template>
