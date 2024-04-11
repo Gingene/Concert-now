@@ -28,7 +28,7 @@ export const useConcertsStore = defineStore('concerts', {
   actions: {
     searchConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
-      this.getFilterConcerts();
+      this.getFilterFrontConcerts();
     }, 300),
     searchAdminConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
