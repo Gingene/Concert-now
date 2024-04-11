@@ -1,1 +1,0 @@
-import{o as r,c as t,P as o,C as c,y as n,U as l}from"./index-EVngkGWf.js";const u={__name:"CardFooter",props:{class:{type:String,default:""}},setup(s){const a=s;return(e,p)=>(r(),t("div",{class:c(n(l)("p-6 pt-0",a.class))},[o(e.$slots,"default")],2))}};export{u as _};
