@@ -194,9 +194,8 @@
                   <FormMessage />
                 </FormItem>
               </FormField>
-              <Button variant="white-outline" class="text-[12px] lg:text-[14px] px-6 rounded-[40px] mb-1 mt-6 ml-auto"> 
-                確認送出 
-              </Button>
+              <slot></slot>
+              <Button variant="white-outline" class="text-[12px] md:text-[14px] lg:text-[18px] px-6 md:py-6 lg:p-8 rounded-[40px] my-2 xs:mt-6 sm:mt-6 md:mt-8 lg:mt-10"> 確認送出 </Button>
             </form>
           </CardContent>
           <CardFooter class="w-[10px] p-3 sm:p-0 sm:-mr-2 sm:pl-4">
