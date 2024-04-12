@@ -1,1 +1,0 @@
-import{aq as e,ar as r,as as s}from"./index-7_isv80m.js";const c=e("artists",{state:()=>({}),actions:{async postFollowConcetsData(o){try{await r(o)}catch(t){console.error(t)}},async deleteFollowConcetsData(o){try{await s(o)}catch(t){console.error(t)}}}});export{c as u};
