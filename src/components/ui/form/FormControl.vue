@@ -6,7 +6,20 @@ const { error, formItemId, formDescriptionId, formMessageId } = useFormField();
 </script>
 
 <template>
-  <Slot class="focus-visible:ring-pink tracking-[.25em] bg-transparent md:py-6 md:px-5 lg:py-8 rounded-[40px] lg:text-[20px]" :id="formItemId" :aria-describedby="!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`" :aria-invalid="!!error">
+  <Slot 
+    :id="formItemId" 
+    :aria-describedby="!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`" 
+    :aria-invalid="!!error"
+    class="tracking-[3px] 
+    bg-transparent 
+    px-0
+    border-0 border-b 
+    rounded-none 
+    text-[12px] md:text-[14px] lg:text-[16px]
+    focus:border-b-2
+    focus:ring-0 
+    focus-visible:ring-0 
+    focus-visible:ring-offset-0">
     <slot />
   </Slot>
 </template>

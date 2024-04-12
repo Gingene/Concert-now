@@ -1,5 +1,5 @@
 <template>
-  <LoginComponent :defaultPage="'login'" @method="handleLogin" class="overflow-hidden" />
+  <LoginComponent :defaultPage="'login'" @method="handleLogin" />
 </template>
 
 <script setup>
@@ -16,7 +16,7 @@ const router = useRouter();
 // 錯誤訊息文字顏色可以直接在元件外改class或是改/ui/form/FormMessage.vue的text-destructive
 const formSchema = toTypedSchema(
   z.object({
-    email: z.string({ required_error: '必填' }),
+    email: z.string({ required_error: '必填' }).email('信箱格式不正確'),
     password: z.string({ required_error: '必填' }),
   }),
 );
