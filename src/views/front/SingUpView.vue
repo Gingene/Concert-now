@@ -1,7 +1,7 @@
 <template>
   <LoginComponent :defaultPage="'signup'" @method="handleSignup">
     <div>
-      <vue-turnstile size="compact" theme="dark" :site-key="VITE_SITE_KEY" v-model="token" />
+      <vue-turnstile theme="dark" :site-key="VITE_SITE_KEY" v-model="token" />
     </div>
   </LoginComponent>
 </template>
