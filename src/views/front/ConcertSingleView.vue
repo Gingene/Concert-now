@@ -238,11 +238,11 @@
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
               <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
                 <!-- 推與倒推按鈕 -->
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]" type="button" @click="activePush(song.id, 'up_votes')">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
                   <p>{{ song.up_votes }}</p>
                 </button>
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]" type="button" @click="activePush(song.id, 'down_votes')">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
                   <p>{{ song.down_votes }}</p>
                 </button>
@@ -373,6 +373,8 @@ export default {
         seconds: '00',
       },
       venueComments: [],
+      up_votesSongLists: [],
+      down_votesSongLists: [],
       // 操控新增歌曲 Dialog 顯示
       open: false,
       openTwo: false,
@@ -441,6 +443,26 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    activePush(id, act) {
+      this.songList.forEach((item, index) => {
+        if (item.id !== id) return;
+        const list = act === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
+        if (this[list].includes(item.id)) {
+          this.songList[index][act] -= 1;
+          this[list].splice(this[list].indexOf(item.id), 1);
+        } else {
+          this.songList[index][act] += 1;
+          this[list].push(item.id);
+        }
+        // when up & down vote both clicked
+        if (this.up_votesSongLists.includes(item.id) && this.down_votesSongLists.includes(item.id)) {
+          const firstAct = act === 'up_votes' ? 'down_votes' : 'up_votes';
+          const firstList = firstAct === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
+          this.songList[index][firstAct] -= 1;
+          this[firstList].splice(this[firstList].indexOf(item.id), 1);
+        }
+      });
     },
     showCommentPolicy() {
       toast({
