@@ -48,7 +48,7 @@
               新增演唱會
             </Button>
           </DialogTrigger>
-          <DialogContent class="sm:max-w-[850px]">
+          <DialogScrollContent class="sm:max-w-[850px]">
             <DialogHeader>
               <DialogTitle class="text-center" v-if="dialogTopic === 'edit'">編輯演唱會</DialogTitle>
               <DialogTitle class="text-center" v-else>新增演唱會</DialogTitle>
@@ -148,8 +148,8 @@
               <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-horizontal">
@@ -158,8 +158,8 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-square" class="text-left"> 圖片 - 方圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'square')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'square', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-square">
@@ -168,8 +168,8 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-straight" class="text-left"> 圖片 - 直圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'straight')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'straight', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-straight">
@@ -201,7 +201,7 @@
               <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
               <Button type="button" @click="validate">送出</Button>
             </DialogFooter>
-          </DialogContent>
+          </DialogScrollContent>
         </Dialog>
       </Form>
     </div>
@@ -306,7 +306,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogScrollContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -358,7 +358,8 @@ export default {
   },
   methods: {
     ...mapActions(useConcertsStore, ['getAllAdminConcerts', 'getFilterAdminConcerts', 'searchAdminConcerts']),
-    readFile(event, topic) {
+    readFile(event, topic, handleChange) {
+      if (handleChange) handleChange(event);
       if (event.target.files[0].size > 1048576 * 3) {
         toast({
           title: '圖片尺寸不得大於 3MB',
@@ -530,13 +531,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.errorText {
-  color: rgb(239 68 68);
-  font-size: 0.75rem;
-  grid-column: span 4 / span 12;
-  padding-top: 4px;
-  padding-left: 99px;
-}
-</style>
