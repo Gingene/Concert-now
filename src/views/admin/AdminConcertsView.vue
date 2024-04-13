@@ -48,7 +48,7 @@
               新增演唱會
             </Button>
           </DialogTrigger>
-          <DialogContent class="sm:max-w-[850px]">
+          <DialogScrollContent class="sm:max-w-[850px]">
             <DialogHeader>
               <DialogTitle class="text-center" v-if="dialogTopic === 'edit'">編輯演唱會</DialogTitle>
               <DialogTitle class="text-center" v-else>新增演唱會</DialogTitle>
@@ -201,7 +201,7 @@
               <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
               <Button type="button" @click="validate">送出</Button>
             </DialogFooter>
-          </DialogContent>
+          </DialogScrollContent>
         </Dialog>
       </Form>
     </div>
@@ -306,7 +306,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogScrollContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -530,13 +530,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.errorText {
-  color: rgb(239 68 68);
-  font-size: 0.75rem;
-  grid-column: span 4 / span 12;
-  padding-top: 4px;
-  padding-left: 99px;
-}
-</style>
