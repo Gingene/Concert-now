@@ -253,7 +253,7 @@
     </div>
   </div>
   <!-- 交通方式 -->
-  <section class="container">
+  <section class="container pb-[128px] lg:pb-[192px]">
     <TitleComponent class="overflow-x-hidden">
       <template #subTitle> TRANSPORT </template>
       <template #mainTitle> 交通方式 </template>
