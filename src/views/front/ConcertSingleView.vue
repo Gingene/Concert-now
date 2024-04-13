@@ -508,6 +508,9 @@ export default {
 
     // 是否已舉辦，用於歌單切換與計時器
     this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
+
+    // 單一演唱會標題
+    document.title = `Concert Now - ${this.singleConcert.title}`;
   },
   unmounted() {
     clearInterval(this.interval);

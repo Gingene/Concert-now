@@ -352,7 +352,6 @@ export default {
       });
     },
     readURL(input) {
-      // console.log(input.target.files);
       if (input.target.files && input.target.files[0]) {
         if (input.target.files.length > 3) {
           toast({
@@ -367,6 +366,14 @@ export default {
           if (input.target.files[i].size > 3 * 1024 ** 2) {
             toast({
               title: '圖片不得超過3MB',
+              description: '',
+            });
+            return;
+          }
+
+          if (input.target.files[i].type !== 'image/png' && input.target.files[i].type !== 'image/jpg' && input.target.files[i].type !== 'image/jpeg' && input.target.files[i].type !== 'image/webp') {
+            toast({
+              title: '圖片格式需為 png 或 jpg 或 webp',
               description: '',
             });
             return;
@@ -491,6 +498,10 @@ export default {
   mounted() {
     this.getVenue(this.id);
     // AOS.init();
+  },
+  updated() {
+    // 單一場地標題
+    document.title = `Concert Now - ${this.venue.title}`;
   },
   unmounted() {
     this.seatArea = '';

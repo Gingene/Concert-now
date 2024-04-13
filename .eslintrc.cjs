@@ -27,7 +27,7 @@ module.exports = {
       'error',
       {
         props: true,
-        ignorePropertyModificationsFor: ['e', 'ctx', 'context', 'state', 'config', 'item'],
+        ignorePropertyModificationsFor: ['e', 'ctx', 'context', 'state', 'config', 'item', 'to'],
       },
     ],
   },

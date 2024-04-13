@@ -14,10 +14,19 @@ import HeaderNav from '@/components/layout/HeaderNav.vue';
 import FooterNav from '@/components/layout/FooterNav.vue';
 import FooterCopyRight from '@/components/layout/FooterCopyRight.vue';
 import useTheme from '@/hooks/useTheme';
+import { useTitle } from '@vueuse/core';
 const { toggleDarkTheme, toggleTheme } = useTheme();
 
 export default {
   components: { HeaderNav, FooterNav, FooterCopyRight },
+  watch: {
+    '$route.path': {
+      handler() {
+        const title = useTitle();
+        title.value = `Concert Now - ${this.$route.meta.title ?? ''}`;
+      },
+    },
+  },
   mounted() {
     toggleDarkTheme(true);
     toggleTheme('theme-default');
