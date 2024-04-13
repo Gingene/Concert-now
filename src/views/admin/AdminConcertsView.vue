@@ -206,26 +206,27 @@
     </div>
     <!-- 刪除多筆資料 -->
     <div class="lg:pt-5 mt-auto">
-      <!-- <AlertDialog>
+      <AlertDialog>
         <AlertDialogTrigger as-child>
           <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>確定要刪除資料?</AlertDialogTitle>
+            <AlertDialogTitle>確定要刪除{{ deleteList.length }}資料?</AlertDialogTitle>
           </AlertDialogHeader>
+          <AlertDialogDescription></AlertDialogDescription>
           <AlertDialogFooter>
             <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-            <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
+            <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteConcert()">確定</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog> -->
-      <Popover>
+      </AlertDialog>
+      <!-- <Popover>
         <PopoverTrigger as-child>
           <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
         </PopoverTrigger>
         <PopoverContent>不開放此功能</PopoverContent>
-      </Popover>
+      </Popover> -->
     </div>
   </div>
   <!-- Table -->
@@ -244,15 +245,14 @@
     <TableBody class="text-gray-600">
       <TableRow v-for="(concert, index) in adminConcerts" :key="concert.id">
         <TableCell class="text-purple-primary">
-          <Checkbox id="terms" />
-          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
+          <Checkbox :id="'' + concert.id" @update:checked="changeDeleteList(concert.id)" />
+          <!-- <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label> -->
         </TableCell>
         <TableCell class="text-purple-primary">{{ concert.artist?.name }}</TableCell>
         <TableCell>{{ concert.title }}</TableCell>
         <TableCell>{{ concert.holding_time.slice(0, 16) }}</TableCell>
         <TableCell>{{ concert.venue?.title }}</TableCell>
         <TableCell>{{ ((concert.saver_count * 7) / 6) * 258 * (index + 4) }}</TableCell>
-        <!-- 編輯 -->
         <TableCell>
           <Button variant="none" class="hover:text-[#6366f1]" @click="openEditDialog(concert.id)">
             <span class="material-symbols-outlined">edit</span>
@@ -270,7 +270,13 @@
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction @click="deleteConcert(concert.id)">確定</AlertDialogAction>
+                <AlertDialogAction
+                  @click="
+                    changeDeleteList(concert.id);
+                    deleteConcert();
+                  "
+                  >確定</AlertDialogAction
+                >
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -318,7 +324,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
@@ -350,6 +355,7 @@ export default {
       // 暫存待處理的資料
       tempConcert: {},
       concert: {},
+      deleteList: [],
       // 操控 Dialog
       open: false,
       openAddDialog: false,
@@ -469,18 +475,41 @@ export default {
           console.error(error);
         });
     },
-    deleteConcert(id) {
+    changeDeleteList(id) {
+      if (this.deleteList.indexOf(id) !== -1) {
+        delete this.deleteList[this.deleteList.indexOf(id)];
+      } else this.deleteList.push(id);
+    },
+    deleteConcert() {
       setIsLoading();
+      const payload = {
+        ids: [...this.deleteList],
+        _method: 'delete',
+      };
       http
-        .delete(`${adminPath.concerts}/${id}`)
+        .post(`${adminPath.concerts}`, payload)
         .then((res) => {
           this.getAllAdminConcerts();
-          toast({
-            title: '已刪除演唱會',
-          });
+          if (this.deleteList.length === res.data.data.delete_count) {
+            toast({
+              title: `已刪除${res.data.data.delete_count}筆演唱會`,
+            });
+          } else {
+            toast({
+              title: `已刪除${res.data.data.delete_count}筆演唱會`,
+              description: `有${this.deleteList.length - res.data.data.delete_count}筆資料無法刪除，因該筆資料已有會員收藏或已建立歌單。`,
+            });
+          }
+          this.deleteList = [];
         })
         .catch((error) => {
           console.error(error);
+          if (error.response.data.message === '無法刪除演唱會') {
+            toast({
+              title: '演唱會刪除失敗',
+              description: '因該筆資料已有會員收藏或已建立歌單。',
+            });
+          }
         })
         .finally(() => {
           setIsLoading();
