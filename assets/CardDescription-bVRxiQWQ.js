@@ -1,1 +1,0 @@
-import{o as a,c as r,Q as o,C as n,y as c,V as l}from"./index-4vfiGRLw.js";const u={__name:"CardDescription",props:{class:{type:String,default:""}},setup(s){const e=s;return(t,p)=>(a(),r("p",{class:n(c(l)("text-sm text-muted-foreground",e.class))},[o(t.$slots,"default")],2))}};export{u as _};
