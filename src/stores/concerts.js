@@ -35,6 +35,9 @@ export const useConcertsStore = defineStore('concerts', {
       this.getFilterAdminConcerts();
     }, 300),
     getAllConcerts() {
+      this.timeFactor = '';
+      this.countryFactor = '';
+      this.textFactor = '';
       setIsLoading();
       http
         .get(path.concerts)
