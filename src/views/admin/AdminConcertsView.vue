@@ -148,8 +148,8 @@
               <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-horizontal">
@@ -158,8 +158,8 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-square" class="text-left"> 圖片 - 方圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'square')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'square', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-square">
@@ -168,8 +168,8 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-straight" class="text-left"> 圖片 - 直圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" v-bind="field" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'straight')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'straight', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-straight">
@@ -358,7 +358,8 @@ export default {
   },
   methods: {
     ...mapActions(useConcertsStore, ['getAllAdminConcerts', 'getFilterAdminConcerts', 'searchAdminConcerts']),
-    readFile(event, topic) {
+    readFile(event, topic, handleChange) {
+      if (handleChange) handleChange(event);
       if (event.target.files[0].size > 1048576 * 3) {
         toast({
           title: '圖片尺寸不得大於 3MB',
