@@ -401,7 +401,7 @@ export default {
       http
         .post(topicPath, { ...this.tempConcert })
         .then((res) => {
-          this.getAllAdminConcerts();
+          this.getFilterAdminConcerts();
           toast({
             title: `演唱會${this.dialogTopic === 'add' ? '新增' : '編輯'}成功`,
           });
