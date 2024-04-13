@@ -148,7 +148,7 @@
                         </div>
                         <!-- show seat areas -->
                         <div class="col-span-6 flex flex-wrap gap-x-1 gap-y-3" v-bind="field">
-                          <div v-for="(area,index) in tempVenue.seat_areas" key="index" class="relative me-4">
+                          <div v-for="(area,index) in tempVenue.seat_areas" :key="index" class="relative me-4">
                             <p class="rounded-full bg-secondary px-3 py-1 text-sm">
                               {{ area }}
                             </p>
@@ -258,32 +258,26 @@
                         <span>新增欄位</span> 
                       </Button>
                     </div>
-                    <div 
-                      v-for="(item, index) in inputGroup"
-                      :key="index"
+                    <div v-for="(item, index) in tempVenue.transportation" :key="index"
                       class="flex flex-col items-start gap-2 pt-3">
                       <!-- 交通方式：類型 -->
-                      <Label :for="`transportation_type_${index}`" class="text-left"> 
-                        類型
-                      </Label>
+                      <Label :for="`transportation_type_${index}`" class="text-left">類型</Label>
                       <Field :name="`transportation_type_${index}`" rules="required" v-slot="{ errors, field }" class="grid"
-                      :v-model="`${tempVenue?.transportation[index]?.type}`">
+                      v-model="tempVenue.transportation[index].type">
                         <Input 
                           type="text"
-                          :v-model="`${tempVenue?.transportation[index]?.type}`"
+                          v-model="tempVenue.transportation[index].type"
                           v-bind="field" />
                         <span v-show="errors[0]" class="errorText" style="padding-left: 0px !important;">必填欄位</span>
                       </Field>
                       <!-- 交通方式：內容 -->
-                      <Label :for="`transportation_info_${index}`" class="text-left"> 
-                        內容 
-                      </Label>
+                      <Label :for="`transportation_info_${index}`" class="text-left">內容</Label>
                       <Field :name="`transportation_info_${index}`" rules="required" v-slot="{ errors, field }" 
-                      :v-model="`${tempVenue?.transportation[index]?.info}`">
+                      v-model="tempVenue.transportation[index].info">
                         <textarea 
                           type="text" rows="3" cols="48"
                           class="border border-primary-foreground focus-visible:outline-black focus-visible:rounded-[10px] p-3 text-sm"
-                          :v-model="`${tempVenue?.transportation[index]?.info}`"
+                          v-model="tempVenue.transportation[index].info"
                           v-bind="field">
                         </textarea>
                         <span v-show="errors[0]" class="errorText" style="padding-left: 0px !important;">必填欄位</span>
@@ -456,7 +450,7 @@ export default {
         transportation: [
           {
             type: '',
-            info: [],
+            info: '',
           }
         ],
       },
@@ -469,19 +463,19 @@ export default {
   inject: ['http', 'path', 'adminPath'],
   methods: {
     readImg(event, type){
-      type === 'horizontal' ? 
-      (this.tempVenue.picture_horizontal = event.target.files[0], 
-      this.imageUrl[0] = URL.createObjectURL(this.tempVenue.picture_horizontal))
-      : type === 'square'? 
-      (this.tempVenue.picture_square = event.target.files[0],
-      this.imageUrl[1] = URL.createObjectURL(this.tempVenue.picture_square))
-      : type === 'seat'? 
-      (this.tempVenue.seat_picture = event.target.files[0],
-      this.imageUrl[2] = URL.createObjectURL(this.tempVenue.seat_picture))
-      : console.log(this.imageUrl);
+      if (type === 'horizontal'){
+        this.tempVenue.picture_horizontal = event.target.files[0];
+        this.imageUrl[0] = URL.createObjectURL(this.tempVenue.picture_horizontal);
+      }else if (type === 'square'){
+        this.tempVenue.picture_square = event.target.files[0];
+        this.imageUrl[1] = URL.createObjectURL(this.tempVenue.picture_square);
+      }else if (type === 'seat'){
+        this.tempVenue.seat_picture = event.target.files[0];
+        this.imageUrl[2] = URL.createObjectURL(this.tempVenue.seat_picture);
+      };
     },
     formCheck(){
-      console.log(this.tempVenue);
+      // console.log(this.tempVenue);
     },
     resetAddVenue(isOpen){
       if(!isOpen){
@@ -494,7 +488,7 @@ export default {
           transportation: [
             {
               type: '',
-              info: [],
+              info: '',
             }
           ],
         };
@@ -505,14 +499,14 @@ export default {
       this.tempSeatArea='';
     },
     editSeatOptions(){
-      this.canEditSeats? this.canEditSeats=false : this.canEditSeats=true;
+      this.canEditSeats? this.canEditSeats = false : this.canEditSeats = true;
     },
     removeSeat(id){
       this.tempVenue.seat_areas.splice(id, 1);
       if(this.tempVenue.seat_areas.length === 0) this.canEditSeats = false;
     },
     addInputGroup(){
-      this.inputGroup.push(this.inputGroup.length);
+      this.tempVenue.transportation.push({ type: '', info: '',});
     },
     ...mapActions(useVenuesStore, ['getAdminVenues','searchAdminVenues']),
   },
@@ -524,13 +518,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.errorText {
-  color: rgb(239 68 68);
-  font-size: 0.75rem;
-  grid-column: span 4 / span 12;
-  padding-top: 4px;
-  padding-left: 99px;
-};
-</style>
