@@ -23,7 +23,7 @@ export default {
     '$route.path': {
       handler() {
         const title = useTitle();
-        title.value = `Concert Now - ${this.$route.meta.title ?? ''}`;
+        title.value = `Concert now - ${this.$route.meta.title ?? ''}`;
       },
     },
   },
@@ -67,9 +67,6 @@ export default {
 </script>
 
 <style>
-body {
-  /* cursor: none; */
-}
 .cursor-dot {
   width: 5px;
   height: 5px;
