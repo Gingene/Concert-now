@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { http, path } from '@/api';
+import { http, path, adminPath } from '@/api';
 import { loadingStore } from '../stores/isLoading';
 import { useDebounceFn } from '@vueuse/core';
 import { toast } from '@/components/ui/toast';
@@ -10,6 +10,10 @@ export const useVenuesStore = defineStore('venues', {
     venueInfo: [],
     venues: [],
     venue: {},
+    adminVenues: [],
+    adminSearchText: '',
+    adminCity: '',
+    adminCityOptions: '',
     pagination: {},
     seatArea: '',
     searchText: '',
@@ -101,6 +105,34 @@ export const useVenuesStore = defineStore('venues', {
         description: '',
       });
     },
+    // 以下為 Admin Venue
+    getAdminVenues() {
+      setIsLoading();
+      http
+      .get(`${adminPath.venues}?page=1`)
+      .then((res) => {
+        this.adminVenues = res.data.data;
+        this.adminCityOptions = [...new Set(res.data.data.map(i => i.city))];
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading();
+      });
+    },
+    searchAdminVenues: useDebounceFn(function (searchText, city = '') {
+      this.adminSearchText = searchText;
+      this.adminCity = city;
+      http
+        .get(`${adminPath.venues}/?q=${searchText}&city=${this.adminCity}&page=1`)
+        .then((res) => {
+          this.adminVenues = res.data.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 300),
   },
   getters: {
     filterSeatComment() {
