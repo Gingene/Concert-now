@@ -133,6 +133,8 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           @onload="onYouTubeIframeAPIReady()"
+          referrerpolicy="strict-origin-when-cross-origin"
+          :key="ytId"
           v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
           <img :src="singleConcert.cover_urls?.square" alt="演唱會圖片" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
