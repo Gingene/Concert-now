@@ -135,7 +135,7 @@ export const useVenuesStore = defineStore('venues', {
     }, 300),
     deleteVenue(id, type){
       if(!id) return;
-      const venueImportant = [1,2,3,4,5];
+      const venueImportant = [1,2,3,4,5,6];
       const data = {
         _method: 'DELETE',
       };
