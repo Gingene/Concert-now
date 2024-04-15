@@ -5,7 +5,7 @@
       <span class="inline-block align-super">管理者</span>
     </div>
     <div class="space-x-4">
-      <Button class="ml-auto bg-slate-50 text-black hover:text-slate-50" @click="adminLogout"> <span class="material-symbols-outlined"> logout </span>登出 </Button>
+      <Button class="ml-auto bg-slate-50 text-black hover:text-slate-50" @click="logout"> <span class="material-symbols-outlined"> logout </span>登出 </Button>
       <RouterLink to="/">
         <Button class="ml-auto bg-slate-50 text-black hover:text-slate-50">
           <span class="material-symbols-outlined"> logout </span>
@@ -26,7 +26,7 @@ import { useUserStore } from '@/stores/user';
 
 export default {
   methods: {
-    ...mapActions(useUserStore, ['adminLogout']),
+    ...mapActions(useUserStore, ['logout']),
   },
 };
 </script>
