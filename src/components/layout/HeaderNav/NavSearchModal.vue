@@ -2,7 +2,7 @@
   <span class="absolute text-black-60 top-2 left-3">Search now</span>
   <Search class="absolute text-black-60 top-2 right-3" />
   <Dialog :open="isToggleSearchModal" @update:open="toggleModal">
-    <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25 searchModal" @click.once="searchAll(searchText)"> </DialogTrigger>
+    <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25 searchModal" @click.once="searchAll"> </DialogTrigger>
     <DialogScrollContent class="max-w-[90%] p-8 rounded-md">
       <DialogHeader>
         <DialogTitle>
@@ -15,7 +15,6 @@
         <DialogDescription class="hidden"></DialogDescription>
       </DialogHeader>
 
-      <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4"></div>
       <CarouselList :searchResults="artistResults" :carouselData="carouselData[0]" @closeModal="toggleModal" v-slot:default="{ image, imageClassName, searchItemName }">
         <img :src="image" :alt="searchItemName" :class="imageClassName" class="object-cover" />
         <div class="text-base mt-2 text-center text-white">{{ searchItemName }}</div>
@@ -81,7 +80,11 @@ export default {
       ],
     };
   },
-  props: ['isToggleSearchModal', 'toggleModal', 'isSearch'],
+  props: {
+    isToggleSearchModal: Boolean,
+    isSearch: Boolean,
+    toggleModal: Function,
+  },
   inject: ['http', 'path'],
   methods: {
     searchConcerts() {
@@ -124,11 +127,11 @@ export default {
     }, 500),
   },
   watch: {
-    searchText(val) {
-      this.searchAll(val);
+    searchText() {
+      this.searchAll();
     },
     isSearch() {
-      this.searchAll(this.searchText);
+      this.searchAll();
     },
   },
 };

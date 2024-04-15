@@ -33,7 +33,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 <script>
 export default {
-  props: ['searchResults', 'carouselData'],
+  props: {
+    searchResults: Array,
+    carouselData: Object,
+  },
   methods: {
     closeModal() {
       this.$emit('closeModal');
