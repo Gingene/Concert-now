@@ -64,13 +64,5 @@ export const useUserStore = defineStore('user', {
       });
       location.reload();
     },
-    adminLogout() {
-      const key = 'AccessToken';
-      document.cookie = key + '="";expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-      localStorage.removeItem('user');
-      this.AccessToken = '';
-      this.user = {};
-      location.href = '/';
-    },
   },
 });

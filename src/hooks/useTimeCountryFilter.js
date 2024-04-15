@@ -32,7 +32,6 @@ export default () => {
       http
         .get(lastPath)
         .then((res) => {
-          // console.log(res);
           state = res.data;
           resolve(state);
         })

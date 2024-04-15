@@ -133,6 +133,8 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           @onload="onYouTubeIframeAPIReady()"
+          referrerpolicy="strict-origin-when-cross-origin"
+          :key="ytId"
           v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
           <img :src="singleConcert.cover_urls?.square" alt="演唱會圖片" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
@@ -238,11 +240,11 @@
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
               <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
                 <!-- 推與倒推按鈕 -->
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]" type="button" @click="activePush(song.id, 'up_votes')">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
                   <p>{{ song.up_votes }}</p>
                 </button>
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]">
+                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]" type="button" @click="activePush(song.id, 'down_votes')">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
                   <p>{{ song.down_votes }}</p>
                 </button>
@@ -373,9 +375,12 @@ export default {
         seconds: '00',
       },
       venueComments: [],
+      up_votesSongLists: [],
+      down_votesSongLists: [],
       // 操控新增歌曲 Dialog 顯示
       open: false,
       openTwo: false,
+      interval: null,
     };
   },
   props: ['id'],
@@ -441,19 +446,42 @@ export default {
           console.error(error);
         });
     },
+    activePush(id, act) {
+      this.songList.forEach((item, index) => {
+        if (item.id !== id) return;
+        const list = act === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
+        if (this[list].includes(item.id)) {
+          this.songList[index][act] -= 1;
+          this[list].splice(this[list].indexOf(item.id), 1);
+        } else {
+          this.songList[index][act] += 1;
+          this[list].push(item.id);
+        }
+        // when up & down vote both clicked
+        if (this.up_votesSongLists.includes(item.id) && this.down_votesSongLists.includes(item.id)) {
+          const firstAct = act === 'up_votes' ? 'down_votes' : 'up_votes';
+          const firstList = firstAct === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
+          this.songList[index][firstAct] -= 1;
+          this[firstList].splice(this[firstList].indexOf(item.id), 1);
+        }
+      });
+    },
     showCommentPolicy() {
       toast({
         title: '評論規範',
         description: '(1)請勿留言不實評論 (2)請物留言惡意評論 (3)請勿留言腥羶色內容。請注意警告五次將被永久停權。',
       });
     },
-    countDownTimer(duration) {
+    countTimer(duration) {
       this.countdownTimer.days = duration.days().toFixed().length === 2 ? duration.days() : '0' + duration.days();
       this.countdownTimer.hours = duration.hours().toFixed().length === 2 ? duration.hours() : '0' + duration.hours();
       this.countdownTimer.minutes = duration.minutes().toFixed().length === 2 ? duration.minutes() : '0' + duration.minutes();
       this.countdownTimer.seconds = duration.seconds().toFixed().length === 2 ? duration.seconds() : '0' + duration.seconds();
-      setInterval(() => {
-        this.countDownTimer(duration);
+    },
+    countDownTimer() {
+      this.interval = setInterval(() => {
+        const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
+        this.countTimer(duration);
       }, 1000);
     },
   },
@@ -481,7 +509,7 @@ export default {
     },
   },
   mounted() {
-    this.getSingleConcert(this.$route.params.id);
+    this.getSingleConcert(this.$route.params.id, this.countDownTimer);
 
     // 確認使用者已登入
     if (this.AccessToken !== undefined) {
@@ -502,12 +530,14 @@ export default {
       this.changeYTplayer(this.songList[0]?.youtube_url);
     }
 
-    // 倒數計時器
-    const duration = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff());
-    this.countDownTimer(duration);
-
     // 是否已舉辦，用於歌單切換與計時器
     this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
+
+    // 單一演唱會標題
+    document.title = `Concert Now - ${this.singleConcert.title}`;
+  },
+  unmounted() {
+    clearInterval(this.interval);
   },
 };
 </script>

@@ -28,13 +28,16 @@ export const useConcertsStore = defineStore('concerts', {
   actions: {
     searchConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
-      this.getFilterConcerts();
+      this.getFilterFrontConcerts();
     }, 300),
     searchAdminConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
       this.getFilterAdminConcerts();
     }, 300),
     getAllConcerts() {
+      this.timeFactor = '';
+      this.countryFactor = '';
+      this.textFactor = '';
       setIsLoading();
       http
         .get(path.concerts)
@@ -49,7 +52,7 @@ export const useConcertsStore = defineStore('concerts', {
           setIsLoading();
         });
     },
-    getFilterConcerts(filterFactor, rangeFactor, page = 1) {
+    getFilterFrontConcerts(filterFactor, rangeFactor, page = 1) {
       // 全部按鈕帶空字串，其它按鈕帶該字
       if (filterFactor === 'time') rangeFactor === 'all' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
       if (filterFactor === 'country') rangeFactor === 'all' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
@@ -60,13 +63,13 @@ export const useConcertsStore = defineStore('concerts', {
         this.pagination = data.pagination;
       });
     },
-    getSingleConcert(id) {
+    getSingleConcert(id, fn = null) {
       setIsLoading();
       http
         .get(`${path.concerts}/${id}`)
         .then((res) => {
-          // console.log(res);
           this.singleConcert = res.data.data;
+          if (fn) fn();
         })
         .catch((error) => {
           console.error(error);
@@ -74,33 +77,6 @@ export const useConcertsStore = defineStore('concerts', {
         .finally(() => {
           setIsLoading();
         });
-    },
-    getAllAdminConcerts() {
-      setIsLoading();
-      http
-        .get(adminPath.concerts)
-        .then((res) => {
-          this.adminConcerts = res.data.data;
-          // console.log(this.adminConcerts);
-          this.pagination = res.data.pagination;
-        })
-        .catch((error) => {
-          console.error(error);
-        })
-        .finally(() => {
-          setIsLoading();
-        });
-    },
-    getFilterAdminConcerts(filterFactor, rangeFactor, page = 1) {
-      // 全部按鈕帶空字串，其它按鈕帶該字
-      if (filterFactor === 'time') rangeFactor === '全部' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
-      if (filterFactor === 'country') rangeFactor === '全部' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
-      this.pageFactor = page;
-
-      timeCountryFilter('admin', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
-        this.adminConcerts = [...data.data].sort((a, b) => b.id - a.id);
-        this.pagination = data.pagination;
-      });
     },
     callSaveAction(id) {
       // 每次調用callSaveAction，重新取得savedConcerts資料
@@ -133,6 +109,32 @@ export const useConcertsStore = defineStore('concerts', {
         .catch((error) => {
           console.error(error);
         });
+    },
+    getAllAdminConcerts() {
+      setIsLoading();
+      http
+        .get(adminPath.concerts)
+        .then((res) => {
+          this.adminConcerts = res.data.data.reverse();
+          this.pagination = res.data.pagination;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    },
+    getFilterAdminConcerts(filterFactor, rangeFactor, page = 1) {
+      // 全部按鈕帶空字串，其它按鈕帶該字
+      if (filterFactor === 'time') rangeFactor === '全部' ? (this.timeFactor = '') : (this.timeFactor = rangeFactor);
+      if (filterFactor === 'country') rangeFactor === '全部' ? (this.countryFactor = '') : (this.countryFactor = rangeFactor);
+      this.pageFactor = page;
+
+      timeCountryFilter('admin', this.timeFactor, this.countryFactor, this.textFactor, this.pageFactor).then((data) => {
+        this.adminConcerts = [...data.data].sort((a, b) => b.id - a.id);
+        this.pagination = data.pagination;
+      });
     },
   },
 });

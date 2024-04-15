@@ -5,6 +5,7 @@ import { useToast } from '@/components/ui/toast/use-toast';
 import { http, adminPath } from '@/api';
 
 const { toast } = useToast();
+
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPoistion) {
@@ -19,12 +20,13 @@ const router = createRouter({
           path: '',
           name: 'home',
           component: () => import('../views/front/HomeView.vue'),
-          meta: { showFooterNav: true },
+          meta: { showFooterNav: true, title: '首頁' },
         },
         {
           path: 'login',
           name: 'login',
           component: () => import('../views/front/LoginView.vue'),
+          meta: { showFooterNav: false, title: '登入' },
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (AccessToken) {
@@ -36,6 +38,7 @@ const router = createRouter({
           path: 'signup',
           name: 'signup',
           component: () => import('../views/front/SingUpView.vue'),
+          meta: { showFooterNav: false, title: '註冊' },
           beforeEnter: (to, from) => {
             const { AccessToken } = useUserStore();
             if (AccessToken) {
@@ -52,6 +55,7 @@ const router = createRouter({
           path: 'artists',
           name: 'artists',
           component: () => import('../views/front/ArtistsView.vue'),
+          meta: { showFooterNav: false, title: '表演者' },
         },
         {
           path: 'artists/:id',
@@ -63,6 +67,7 @@ const router = createRouter({
           path: 'concerts',
           name: 'concerts',
           component: () => import('../views/front/ConcertsView.vue'),
+          meta: { showFooterNav: false, title: '演唱會' },
         },
         {
           path: 'concerts/:id',
@@ -74,6 +79,7 @@ const router = createRouter({
           path: 'venues',
           name: 'venues',
           component: () => import('../views/front/VenuesView.vue'),
+          meta: { showFooterNav: false, title: '場地' },
         },
         {
           path: 'venues/:id',
@@ -85,16 +91,18 @@ const router = createRouter({
           path: 'about',
           name: 'about',
           component: () => import('../views/front/AboutUsView.vue'),
+          meta: { showFooterNav: false, title: '關於我們' },
         },
         {
           path: 'member',
           name: 'member',
           component: () => import('../views/front/MembersView.vue'),
           beforeEnter: (to, from) => {
-            const { AccessToken } = useUserStore();
+            const { AccessToken, user } = useUserStore();
             if (!AccessToken) {
               return { name: 'login' };
             }
+            to.meta.title = `${user.name}的頁面`;
           },
         },
         {
@@ -108,9 +116,7 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+      redirect: '/admin/concerts',
       component: () => import('../views/admin/AdminView.vue'),
       beforeEnter: (to, from) => {
         http
