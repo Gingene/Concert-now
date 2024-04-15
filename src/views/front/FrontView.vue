@@ -39,6 +39,11 @@ export default {
       const posX = e.clientX;
       const posY = e.clientY;
 
+      if( window.innerWidth < '1024' ){
+        cursorDot.style.display = 'none';
+        cursorOutline.style.display = 'none';
+      }
+
       cursorDot.style.left = `${posX}px`;
       cursorDot.style.top = `${posY}px`;
 
@@ -52,15 +57,6 @@ export default {
           fill: 'forwards',
         },
       );
-      // 偵測指向對象做樣式變動，目前的寫法有 bug
-      // if(e.target.matches('a, button, Button, input, [role="button"], [type="button"], [type="submit"], [class="swiper-button-prev"], [class="swiper-button-next"], [data-icon="fa-bookmark"]')){
-      //   cursorOutline.style.width = '50px';
-      //   cursorOutline.style.height = '50px';
-      // }
-      // else{
-      //   cursorOutline.style.width = '30px';
-      //   cursorOutline.style.height = '30px';
-      // };
     });
   },
 };
