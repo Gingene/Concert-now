@@ -133,6 +133,44 @@ export const useVenuesStore = defineStore('venues', {
           console.error(err);
         });
     }, 300),
+    deleteVenue(id, type){
+      if(!id) return;
+      const venueImportant = [1,2,3,4,5];
+      const data = {
+        _method: 'DELETE',
+      };
+
+      if(type === 'multiple'){
+        if(id.some(i => venueImportant.includes(i))){
+          toast({
+            title: '重要的場地不允許刪除',
+          });
+          return;
+        };
+        data.ids = id;
+      }else if(type === 'single'){
+        if(id<=6){
+          toast({
+            title: '重要的場地不允許刪除',
+          });
+          return;
+        };
+        data.ids = [id];
+      }
+      http
+      .post(adminPath.venues, data)
+      .then(()=>{
+        toast({
+          title: '刪除成功',
+        });
+        this.getAdminVenues();
+      })
+      .catch(()=>{
+        toast({
+          title: '刪除失敗',
+        });
+      });
+    },
   },
   getters: {
     filterSeatComment() {
