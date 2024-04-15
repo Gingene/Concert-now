@@ -50,24 +50,17 @@
             </div>
             <!-- 一般登入 -->
             <form @submit="method">
-              <FormField v-slot="{ componentField }" name="email">
-                <FormItem>
-                  <FormLabel>信箱</FormLabel>
-                  <FormControl>
-                    <Input type="email" v-bind="componentField" autocomplete="email" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-              <FormField v-slot="{ componentField }" name="password">
-                <FormItem>
-                  <FormLabel>密碼</FormLabel>
-                  <FormControl>
-                    <Input type="password" v-bind="componentField" autocomplete="current-password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
+              <template v-for="input in loginInputs" :key="input.name">
+                <FormField v-slot="{ componentField }" :name="input.name">
+                  <FormItem>
+                    <FormLabel>{{ input.label }}</FormLabel>
+                    <FormControl>
+                      <Input :type="input.type" v-bind="componentField" :autocomplete="input.autocomplete" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </template>
               <div class="flex justify-between items-end mt-6 sm:mt-10 md:mt-8 lg:mt-10 space-y-3">
                 <Popover>
                   <PopoverTrigger class="text-[12px] lg:text-[14px] underline decoration-solid underline-offset-8 self-end bg-transparent hover:-translate-y-1 px-0 mb-1"> 忘記密碼 </PopoverTrigger>
@@ -79,19 +72,10 @@
           </CardContent>
           <CardFooter class="w-[10px] p-3 sm:p-0 sm:-mr-2 sm:pl-4">
             <div class="flex justify-start items-end sm:rotate-90 space-x-3 -ml-7 text-[12px]">
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
-              <span class="text-nowrap">LOGIN</span>
-              <span class="text-nowrap">登入</span>
+              <template v-for="item in 8" :key="item">
+                <span class="whitespace-nowrap">登入</span>
+                <span class="whitespace-nowrap">LOGIN</span>
+              </template>
             </div>
           </CardFooter>
         </Card>
@@ -124,42 +108,17 @@
             </div>
             <!-- 一般註冊 -->
             <form @submit="method" class="flex flex-col">
-              <FormField v-slot="{ componentField }" name="name">
-                <FormItem>
-                  <FormLabel>名稱</FormLabel>
-                  <FormControl>
-                    <Input type="text" v-bind="componentField" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-              <FormField v-slot="{ componentField }" name="email">
-                <FormItem>
-                  <FormLabel>信箱</FormLabel>
-                  <FormControl>
-                    <Input type="email" v-bind="componentField" autocomplete="email" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-              <FormField v-slot="{ componentField }" name="password">
-                <FormItem>
-                  <FormLabel>密碼</FormLabel>
-                  <FormControl>
-                    <Input type="password" v-bind="componentField" autocomplete="new-password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
-              <FormField v-slot="{ componentField }" name="confirm">
-                <FormItem>
-                  <FormLabel>確認密碼</FormLabel>
-                  <FormControl>
-                    <Input type="password" v-bind="componentField" autocomplete="new-password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              </FormField>
+              <template v-for="input in signupInputs" :key="input.name">
+                <FormField v-slot="{ componentField }" :name="input.name">
+                  <FormItem>
+                    <FormLabel>{{ input.label }}</FormLabel>
+                    <FormControl>
+                      <Input :type="input.type" v-bind="componentField" :autocomplete="input.autocomplete" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                </FormField>
+              </template>
               <div class="my-2 mt-4 sm:mt-6">
                 <slot></slot>
                 <div class="flex justify-end">
@@ -170,18 +129,10 @@
           </CardContent>
           <CardFooter class="w-[10px] p-3 sm:p-0 sm:-mr-2 sm:pl-4">
             <div class="flex justify-start items-end sm:rotate-90 space-x-3 -ml-7 text-[12px]">
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
-              <span class="text-nowrap">註冊</span>
-              <span class="text-nowrap">SIGNUP</span>
+              <template v-for="item in 8" :key="item">
+                <span class="whitespace-nowrap">註冊</span>
+                <span class="whitespace-nowrap">SIGNUP</span>
+              </template>
             </div>
           </CardFooter>
         </Card>
@@ -189,26 +140,18 @@
     </Tabs>
     <!-- Decoration -->
     <div class="opacity-40 sm:hidden rotate-0 -z-30 fixed top-0 font-lato-display2 text-[150px]" style="-webkit-text-stroke: 1px var(--black-85)">
-      <div class="-mb-8 text-transparent">HELLO</div>
-      <div class="-mb-8 text-white/10">HELLO</div>
-      <div class="-mb-8 text-transparent">HELLO</div>
-      <div class="-mb-8 text-white/10">HELLO</div>
-      <div class="-mb-8 text-transparent">HELLO</div>
-      <div class="-mb-8 text-white/10">HELLO</div>
-      <div class="-mb-8 text-transparent">HELLO</div>
-      <div class="-mb-8 text-white/10">HELLO</div>
+      <template v-for="item in 4" :key="item">
+        <div class="-mb-8 text-transparent">HELLO</div>
+        <div class="-mb-8 text-white/10">HELLO</div>
+      </template>
     </div>
     <div
       class="opacity-40 hidden sm:inline rotate-0 -z-30 fixed top-0 font-lato-display2 text-[140px] md:text-[160px] lg:text-[200px] xl:text-[250px]"
       style="-webkit-text-stroke: 1px var(--black-85)">
-      <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
-      <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
+      <template v-for="item in 4" :key="item">
+        <div class="-mb-8 lg:-mb-20 text-transparent">WELCOME</div>
+        <div class="-mb-8 lg:-mb-20 text-white/10">WELCOME</div>
+      </template>
     </div>
   </main>
 </template>
@@ -257,4 +200,46 @@ const emits = defineEmits(['method']);
 const method = (values) => {
   emits('method', values);
 };
+
+const loginInputs = [
+  {
+    name: 'email',
+    label: '信箱',
+    type: 'email',
+    autocomplete: 'email',
+  },
+  {
+    name: 'password',
+    label: '密碼',
+    type: 'password',
+    autocomplete: 'current-password',
+  },
+];
+
+const signupInputs = [
+  {
+    name: 'name',
+    label: '名稱',
+    type: 'text',
+    autocomplete: 'on',
+  },
+  {
+    name: 'email',
+    label: '信箱',
+    type: 'email',
+    autocomplete: 'email',
+  },
+  {
+    name: 'password',
+    label: '密碼',
+    type: 'password',
+    autocomplete: 'new-password',
+  },
+  {
+    name: 'confirm',
+    label: '確認密碼',
+    type: 'password',
+    autocomplete: 'new-password',
+  },
+];
 </script>
