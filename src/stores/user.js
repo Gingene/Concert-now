@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useToast } from '@/components/ui/toast/use-toast';
-import { http, path } from '@/api';
+import { useDebounceFn } from '@vueuse/core';
+import { http, path, adminPath } from '@/api';
 import { loadingStore } from '../stores/isLoading';
 
 const cookies = useCookies();
@@ -15,6 +16,12 @@ export const useUserStore = defineStore('user', {
     // 收藏與追蹤列表
     savedConcerts: [],
     followedArtists: [],
+    // 後台會員管理頁面
+    adminMembers: {},
+    searchText: '',
+    selectStatus: '',
+    page : 1,
+    pageTotal : 1,
   }),
   actions: {
     getUserDynamic() {
@@ -64,5 +71,34 @@ export const useUserStore = defineStore('user', {
       });
       location.reload();
     },
+    // admin
+    // 取得後台會員管理資料
+    getAdminMembers(searchText = '', status = '', page = 1){
+      const { setIsLoading } = loadingStore();
+      setIsLoading();
+      http
+      .get(`${adminPath.users}?q=${searchText}&status=${status}&page=${page}`)
+      .then(res=>{
+        this.adminMembers = res.data.data;
+        this.page = res.data.pagination.current_page;
+        this.pageTotal = res.data.pagination.total;
+        console.log(this.page, this.pageTotal, '1');
+      })
+      .catch (()=>{
+        toast({ title: '無法取得會員列表'});
+      })
+      .finally(() => {
+        setIsLoading();
+      });
+    },
+    // 後台會員管理篩選 (email & 啟用中/停權中)
+    filterAdminMembers: useDebounceFn(async function(type){
+      let status = '';
+      this.selectStatus === '全部'? status = '' : status = this.selectStatus;
+      let page = 1;
+      if (type === 'page' ) page = this.page;
+      await this.getAdminMembers(this.searchText, status, page);
+      console.log(this.page, this.pageTotal, '2');
+    },300),
   },
 });
