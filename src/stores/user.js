@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
+import { loadingStore } from '../stores/isLoading';
 import { useCookies } from '@vueuse/integrations/useCookies';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useDebounceFn } from '@vueuse/core';
 import { http, path, adminPath } from '@/api';
-import { loadingStore } from '../stores/isLoading';
 
 const cookies = useCookies();
 const { toast } = useToast();
@@ -18,6 +18,7 @@ export const useUserStore = defineStore('user', {
     followedArtists: [],
     // 後台會員管理頁面
     adminMembers: {},
+    allstatus: ['全部','啟用中','停權中'],
     searchText: '',
     selectStatus: '',
     page : 1,
@@ -71,18 +72,25 @@ export const useUserStore = defineStore('user', {
       });
       location.reload();
     },
-    // admin
-    // 取得後台會員管理資料
-    getAdminMembers(searchText = '', status = '', page = 1){
+    // 後台會員管理頁
+    getAdminMembers: useDebounceFn(function(type, current_page){
+      let status = '';
+      this.selectStatus === '全部'? status = '' : status = this.selectStatus;
+
+      let page = 1;
+      if (type === 'page' ) page = current_page;
+
       const { setIsLoading } = loadingStore();
       setIsLoading();
+
       http
-      .get(`${adminPath.users}?q=${searchText}&status=${status}&page=${page}`)
+      .get(`${adminPath.users}?q=${this.searchText}&status=${status}&page=${page}`)
       .then(res=>{
         this.adminMembers = res.data.data;
+        // 如何一次取得所有資料？
+        this.adminMembers.sort((a, b) => a.warning_list.length - b.warning_list.length);
         this.page = res.data.pagination.current_page;
         this.pageTotal = res.data.pagination.total;
-        console.log(this.page, this.pageTotal, '1');
       })
       .catch (()=>{
         toast({ title: '無法取得會員列表'});
@@ -90,15 +98,7 @@ export const useUserStore = defineStore('user', {
       .finally(() => {
         setIsLoading();
       });
-    },
-    // 後台會員管理篩選 (email & 啟用中/停權中)
-    filterAdminMembers: useDebounceFn(async function(type){
-      let status = '';
-      this.selectStatus === '全部'? status = '' : status = this.selectStatus;
-      let page = 1;
-      if (type === 'page' ) page = this.page;
-      await this.getAdminMembers(this.searchText, status, page);
-      console.log(this.page, this.pageTotal, '2');
-    },300),
+
+    },500),
   },
 });

@@ -4,7 +4,7 @@
     <div class="flex flex-wrap gap-6 mb-8 relative">
       <!-- 關鍵字搜尋 -->
       <div class="w-full xs:w-[290px] relative">
-        <Input type="text" placeholder="請輸入信箱查詢" v-model="searchText" @keyup="filterAdminMembers('search')" />
+        <Input type="text" placeholder="請輸入信箱查詢" v-model="searchText" />
         <span class="material-symbols-outlined absolute top-1 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
       <!-- 會員狀態選單 -->
@@ -27,8 +27,8 @@
   </div>
 
   <!-- Table -->
+  <TableCaption class="block py-2 text-start">搜尋結果：{{ pageTotal }} 筆資料</TableCaption>
   <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="adminMembers?.length !== 0">
-    <TableCaption></TableCaption>
     <TableHeader>
       <TableRow>
         <TableHead class="font-semibold w-[200px]"> 名稱 </TableHead>
@@ -63,28 +63,24 @@
   </Table>
 
   <!-- Pagination -->
-  <Pagination v-slot="{ page }" v-model:page="page" :itemsPerPage="15" :total="pageTotal" :sibling-count="1" show-edges :default-page="1">
+  <Pagination v-if="pageTotal" v-slot="{ page }" :page="page" :itemsPerPage="15" :total="pageTotal" :sibling-count="1" show-edges :default-page="1" :disabled="pageTotal <= 15" class="flex justify-center py-6">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-      <PaginationFirst />
-      <PaginationPrev />
+      <PaginationFirst @click="getAdminMembers('page',1)" />
+      <PaginationPrev @click="getAdminMembers('page',page-1)" />
 
       <template v-for="(item, index) in items">
         <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-          <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="filterAdminMembers('page')">
+          <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getAdminMembers('page',item.value)">
             {{ item.value }}
           </Button>
         </PaginationListItem>
         <PaginationEllipsis v-else :key="item.type" :index="index" />
       </template>
 
-      <PaginationNext />
-      <PaginationLast />
+      <PaginationNext @click="getAdminMembers('page',page+1)" />
+      <PaginationLast @click="getAdminMembers('page',items.length)" />
     </PaginationList>
   </Pagination>
-  <!-- 找不到資料 -->
-  <div v-show="!adminMembers?.length" class="flex justify-center py-12">
-    <h2>哇! 找不到資料~</h2>
-  </div>
 </template>
 
 <script setup>
@@ -100,21 +96,19 @@ import { mapState, mapActions, mapWritableState } from 'pinia';
 import { useUserStore } from '@/stores/user';
 
 export default {
-  data() {
-    return {
-      allstatus: ['全部','啟用中','停權中']
-    };
-  },
   methods: {
-    ...mapActions(useUserStore,['getAdminMembers','filterAdminMembers'] ),
+    ...mapActions(useUserStore,['getAdminMembers'] ),
   },
   computed: {
-    ...mapState(useUserStore, ['adminMembers']),
+    ...mapState(useUserStore, ['adminMembers','allstatus']),
     ...mapWritableState(useUserStore, ['searchText', 'selectStatus', 'page', 'pageTotal']),
   },
   watch: {
-    selectStatus: function(newSelectStatus) {
-      this.filterAdminMembers('select', newSelectStatus);
+    searchText: function(search) {
+      this.getAdminMembers('search', search);
+    },
+    selectStatus: function(status) {
+      this.getAdminMembers('select', status);
     },
   },
   mounted() {
@@ -122,6 +116,7 @@ export default {
   },
   unmounted() {
     this.selectStatus = '';
+    this.searchText = '';
   },
 };
 </script>
