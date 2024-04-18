@@ -27,7 +27,9 @@
   </div>
 
   <!-- Table -->
-  <TableCaption class="block py-2 text-start">搜尋結果：{{ pageTotal }} 筆資料</TableCaption>
+  <TableCaption class="block py-2 text-start">
+    搜尋結果：{{ pageTotal }} 筆資料
+  </TableCaption>
   <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="adminMembers?.length !== 0">
     <TableHeader>
       <TableRow>
@@ -104,12 +106,8 @@ export default {
     ...mapWritableState(useUserStore, ['searchText', 'selectStatus', 'page', 'pageTotal']),
   },
   watch: {
-    searchText: function(search) {
-      this.getAdminMembers('search', search);
-    },
-    selectStatus: function(status) {
-      this.getAdminMembers('select', status);
-    },
+    searchText: 'getAdminMembers',
+    selectStatus: 'getAdminMembers',
   },
   mounted() {
     this.getAdminMembers();

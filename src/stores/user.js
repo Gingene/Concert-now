@@ -22,7 +22,7 @@ export const useUserStore = defineStore('user', {
     searchText: '',
     selectStatus: '',
     page : 1,
-    pageTotal : 1,
+    pageTotal : 0,
   }),
   actions: {
     getUserDynamic() {
@@ -73,22 +73,23 @@ export const useUserStore = defineStore('user', {
       location.reload();
     },
     // 後台會員管理頁
-    getAdminMembers: useDebounceFn(function(type, current_page){
-      let status = '';
-      this.selectStatus === '全部'? status = '' : status = this.selectStatus;
-
-      let page = 1;
-      if (type === 'page' ) page = current_page;
+    getAdminMembers: useDebounceFn(async function(type, currentPage){
+      const { searchText, selectStatus } = this;
+      const params = {
+        q: searchText || '',
+        status: selectStatus && selectStatus !== '全部' ? selectStatus : '',
+        page: type === 'page' ? currentPage : 1,
+      };
+      const queryParams = new URLSearchParams(params).toString();
+      const url = `${adminPath.users}?${queryParams}`;
 
       const { setIsLoading } = loadingStore();
-      setIsLoading();
+      setIsLoading();   
 
-      http
-      .get(`${adminPath.users}?q=${this.searchText}&status=${status}&page=${page}`)
+      await http
+      .get(url)
       .then(res=>{
         this.adminMembers = res.data.data;
-        // 如何一次取得所有資料？
-        this.adminMembers.sort((a, b) => a.warning_list.length - b.warning_list.length);
         this.page = res.data.pagination.current_page;
         this.pageTotal = res.data.pagination.total;
       })
@@ -99,6 +100,6 @@ export const useUserStore = defineStore('user', {
         setIsLoading();
       });
 
-    },500),
+    },300),
   },
 });
