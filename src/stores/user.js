@@ -73,9 +73,11 @@ export const useUserStore = defineStore('user', {
     },
     // admin
     // 取得後台會員管理資料
-    getAdminMembers(searchText = '', status = '', page = 1){
+    getAdminMembers(searchText = '', status = '', page = 1, callback){
+      console.log('test');
       const { setIsLoading } = loadingStore();
       setIsLoading();
+
       http
       .get(`${adminPath.users}?q=${searchText}&status=${status}&page=${page}`)
       .then(res=>{
@@ -83,6 +85,7 @@ export const useUserStore = defineStore('user', {
         this.page = res.data.pagination.current_page;
         this.pageTotal = res.data.pagination.total;
         console.log(this.page, this.pageTotal, '1');
+        if (callback) callback();
       })
       .catch (()=>{
         toast({ title: '無法取得會員列表'});
@@ -98,7 +101,7 @@ export const useUserStore = defineStore('user', {
       let page = 1;
       if (type === 'page' ) page = this.page;
       await this.getAdminMembers(this.searchText, status, page);
-      console.log(this.page, this.pageTotal, '2');
+
     },300),
   },
 });
