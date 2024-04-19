@@ -2,24 +2,22 @@
   <!-- Search/Command -->
   <div>
     <div class="flex flex-wrap gap-6 mb-8 relative">
-      <!-- w-[36%] lg:w-[290px] -->
+      <!-- 關鍵字搜尋 -->
       <div class="w-full xs:w-[290px] relative">
-        <Input type="text" placeholder="請輸入信箱查詢" v-model.trim="searchText" @keyup="searchInput" />
+        <Input type="text" placeholder="請輸入信箱查詢" v-model="searchText" />
         <span class="material-symbols-outlined absolute top-1 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
-      <!-- flex flex-col items-center lg:flex-row lg:justify-center lg:pt-5 -->
-      <!-- w-[20%] lg:w-[250px] -->
+      <!-- 會員狀態選單 -->
       <div class="w-full xs:w-[250px]">
         <Select v-model="selectStatus">
-          <!-- <label for="status" class="pb-2 font-semibold lg:w-[50%]"> 會員狀態 </label> -->
           <SelectTrigger>
             <SelectValue placeholder="選擇會員狀態" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">會員狀態</SelectLabel>
-              <SelectItem v-for="status in allstatus" :key="status.id" :value="status.type">
-                {{ status.type }}
+              <SelectItem v-for="(status,index) in allstatus" :key="index" :value="status">
+                {{ status }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
@@ -29,8 +27,10 @@
   </div>
 
   <!-- Table -->
-  <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="filteredData?.length !== 0">
-    <TableCaption>會員管理</TableCaption>
+  <TableCaption class="block py-2 text-start">
+    搜尋結果：{{ pageTotal }} 筆資料
+  </TableCaption>
+  <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="adminMembers?.length !== 0">
     <TableHeader>
       <TableRow>
         <TableHead class="font-semibold w-[200px]"> 名稱 </TableHead>
@@ -42,7 +42,7 @@
       </TableRow>
     </TableHeader>
     <TableBody>
-      <TableRow v-for="user in filteredData" :key="user.id">
+      <TableRow v-for="user in adminMembers" :key="user.id">
         <TableCell class="font-medium w-[200px]">
           <div class="flex items-center mr-2">
             <img class="size-[56px] border-2 rounded-full bg-white p-1" :src="user?.profile_image_url" alt="使用者大頭貼" />
@@ -64,116 +64,57 @@
     </TableBody>
   </Table>
 
-  <!-- 找不到資料 -->
-  <div v-show="!filteredData?.length" class="flex justify-center py-12">
-    <h2>哇! 找不到資料~</h2>
-  </div>
+  <!-- Pagination -->
+  <Pagination v-if="pageTotal" v-slot="{ page }" :page="page" :itemsPerPage="15" :total="pageTotal" :sibling-count="1" show-edges :default-page="1" :disabled="pageTotal <= 15" class="flex justify-center py-6">
+    <PaginationList v-slot="{ items }" class="flex items-center gap-1">
+      <PaginationFirst @click="getAdminMembers('page',1)" />
+      <PaginationPrev @click="getAdminMembers('page',page-1)" />
+
+      <template v-for="(item, index) in items">
+        <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+          <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getAdminMembers('page',item.value)">
+            {{ item.value }}
+          </Button>
+        </PaginationListItem>
+        <PaginationEllipsis v-else :key="item.type" :index="index" />
+      </template>
+
+      <PaginationNext @click="getAdminMembers('page',page+1)" />
+      <PaginationLast @click="getAdminMembers('page',items.length)" />
+    </PaginationList>
+  </Pagination>
 </template>
 
 <script setup>
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-// table
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev} from '@/components/ui/pagination';
 </script>
 
 <script>
-// 引入api
-import { getAdminMembers, filterAdminMembers } from '@/api/admin/all';
-import { useDebounceFn } from '@vueuse/core';
+import { mapState, mapActions, mapWritableState } from 'pinia';
+import { useUserStore } from '@/stores/user';
 
 export default {
-  data() {
-    return {
-      searchText: '',
-      selectStatus: '',
-      selectTime: '',
-      usersData: null,
-      allstatus: [
-        {
-          id: 1,
-          type: '全部',
-        },
-        {
-          id: 2,
-          type: '啟用中',
-        },
-        {
-          id: 3,
-          type: '停權中',
-        },
-      ],
-      jointimes: [
-        {
-          id: 1,
-          time: '2023/01-2023/02',
-        },
-        {
-          id: 2,
-          time: '2023/02-2023/03',
-        },
-        {
-          id: 3,
-          time: '2023/03-2023/04',
-        },
-        {
-          id: 4,
-          time: '2023/04-2023/05',
-        },
-        {
-          id: 5,
-          time: '2023/05-2023/06',
-        },
-      ],
-    };
+  methods: {
+    ...mapActions(useUserStore,['getAdminMembers'] ),
   },
   computed: {
-    filteredData() {
-      const filterStatus = this.selectStatus;
-
-      if (filterStatus === '全部') {
-        return this.usersData;
-      } else {
-        return this.usersData?.filter((user) => {
-          let filtered = true;
-
-          // 會員身分篩選
-          if (filterStatus !== undefined && filterStatus !== null && filterStatus.length > 0) {
-            filtered = user.status === filterStatus;
-          }
-
-          return filtered;
-        });
-      }
-    },
+    ...mapState(useUserStore, ['adminMembers','allstatus']),
+    ...mapWritableState(useUserStore, ['searchText', 'selectStatus', 'page', 'pageTotal']),
   },
-  methods: {
-    async getAdminMembersData(page = 1) {
-      try {
-        const res = await getAdminMembers(page);
-        this.usersData = res.data.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    searchInput: useDebounceFn(async function (page = 1) {
-      try {
-        const res = await filterAdminMembers(this.searchText, page);
-        this.usersData = res.data.data;
-      } catch (error) {
-        console.error(error);
-      }
-    }, 300),
+  watch: {
+    searchText: 'getAdminMembers',
+    selectStatus: 'getAdminMembers',
   },
   mounted() {
-    this.getAdminMembersData();
+    this.getAdminMembers();
+  },
+  unmounted() {
+    this.selectStatus = '';
+    this.searchText = '';
   },
 };
 </script>
-
-<!-- <style>
-th,
-td {
-  white-space: nowrap;
-}
-</style> -->

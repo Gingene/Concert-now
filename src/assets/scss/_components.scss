@@ -191,5 +191,10 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
 
   .error-text {
     @apply block text-error mt-1 pl-[105px];
+
+  // 表單樣式
+  .form-field {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+
   }
 }

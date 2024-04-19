@@ -48,7 +48,7 @@
               新增演唱會
             </Button>
           </DialogTrigger>
-          <DialogContent class="sm:max-w-[850px]">
+          <DialogScrollContent class="sm:max-w-[850px]">
             <DialogHeader>
               <DialogTitle class="text-center" v-if="dialogTopic === 'edit'">編輯演唱會</DialogTitle>
               <DialogTitle class="text-center" v-else>新增演唱會</DialogTitle>
@@ -148,8 +148,8 @@
               <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'horizontal')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-horizontal">
@@ -158,8 +158,8 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-square" class="text-left"> 圖片 - 方圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'square')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-square" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-square" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'square', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-square">
@@ -168,15 +168,16 @@
                 </div>
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="pictures-straight" class="text-left"> 圖片 - 直圖 </Label>
-                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, field }">
-                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" v-bind="field" @change="readFile($event, 'straight')" />
+                  <Field v-if="dialogTopic === 'add'" name="pictures-straight" rules="required" v-slot="{ errors, handleChange }">
+                    <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'straight', handleChange)" />
                     <span v-show="errors[0]" class="errorText">圖片必填</span>
                   </Field>
                   <Field v-else name="pictures-straight">
                     <Input type="file" id="pictures-straight" class="col-span-3 hover:bg-accent" @change="readFile($event, 'straight')" />
                   </Field>
                 </div>
-                <span v-if="dialogTopic === 'edit'" class="-mt-3 text-tiny text-black-60">※ 需更換圖片，再上傳檔案</span>
+                <span class="-mt-3 text-tiny text-black-60">※ 圖片尺寸不得大於3MB，僅接受 .jpg/.png/.webp 格式</span>
+                <span v-if="dialogTopic === 'edit'" class="-mt-3 text-tiny text-black-60">※ 如需更換圖片，再上傳檔案</span>
                 <hr />
                 <div class="grid grid-cols-4 items-center gap-x-3">
                   <Label for="foreignUrl0" class="text-left"> 購票網站 1 </Label>
@@ -200,32 +201,27 @@
               <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
               <Button type="button" @click="validate">送出</Button>
             </DialogFooter>
-          </DialogContent>
+          </DialogScrollContent>
         </Dialog>
       </Form>
     </div>
     <!-- 刪除多筆資料 -->
     <div class="lg:pt-5 mt-auto">
-      <!-- <AlertDialog>
+      <AlertDialog>
         <AlertDialogTrigger as-child>
           <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>確定要刪除資料?</AlertDialogTitle>
+            <AlertDialogTitle>確定要刪除{{ deleteList.length }}資料?</AlertDialogTitle>
           </AlertDialogHeader>
+          <AlertDialogDescription></AlertDialogDescription>
           <AlertDialogFooter>
             <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-            <AlertDialogAction class="text-black-100 bg-tiffany">確定</AlertDialogAction>
+            <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteConcert()">確定</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
-      </AlertDialog> -->
-      <Popover>
-        <PopoverTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
-        </PopoverTrigger>
-        <PopoverContent>不開放此功能</PopoverContent>
-      </Popover>
+      </AlertDialog>
     </div>
   </div>
   <!-- Table -->
@@ -244,15 +240,13 @@
     <TableBody class="text-gray-600">
       <TableRow v-for="(concert, index) in adminConcerts" :key="concert.id">
         <TableCell class="text-purple-primary">
-          <Checkbox id="terms" />
-          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
+          <Checkbox :id="'' + concert.id" @update:checked="changeDeleteList(concert.id)" />
         </TableCell>
         <TableCell class="text-purple-primary">{{ concert.artist?.name }}</TableCell>
         <TableCell>{{ concert.title }}</TableCell>
         <TableCell>{{ concert.holding_time.slice(0, 16) }}</TableCell>
         <TableCell>{{ concert.venue?.title }}</TableCell>
         <TableCell>{{ ((concert.saver_count * 7) / 6) * 258 * (index + 4) }}</TableCell>
-        <!-- 編輯 -->
         <TableCell>
           <Button variant="none" class="hover:text-[#6366f1]" @click="openEditDialog(concert.id)">
             <span class="material-symbols-outlined">edit</span>
@@ -270,7 +264,13 @@
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction @click="deleteConcert(concert.id)">確定</AlertDialogAction>
+                <AlertDialogAction
+                  @click="
+                    changeDeleteList(concert.id);
+                    deleteConcert();
+                  "
+                  >確定</AlertDialogAction
+                >
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -306,7 +306,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogClose, DialogScrollContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -318,7 +318,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
@@ -350,6 +349,7 @@ export default {
       // 暫存待處理的資料
       tempConcert: {},
       concert: {},
+      deleteList: [],
       // 操控 Dialog
       open: false,
       openAddDialog: false,
@@ -358,7 +358,14 @@ export default {
   },
   methods: {
     ...mapActions(useConcertsStore, ['getAllAdminConcerts', 'getFilterAdminConcerts', 'searchAdminConcerts']),
-    readFile(event, topic) {
+    readFile(event, topic, handleChange) {
+      if (handleChange) handleChange(event);
+      if (event.target.files[0].size > 1048576 * 3) {
+        toast({
+          title: '圖片尺寸不得大於 3MB',
+        });
+        return;
+      }
       this.tempConcert[`cover_${topic}`] = event.target.files[0];
     },
     submitConcert() {
@@ -394,7 +401,7 @@ export default {
       http
         .post(topicPath, { ...this.tempConcert })
         .then((res) => {
-          this.getAllAdminConcerts();
+          this.getFilterAdminConcerts();
           toast({
             title: `演唱會${this.dialogTopic === 'add' ? '新增' : '編輯'}成功`,
           });
@@ -469,18 +476,42 @@ export default {
           console.error(error);
         });
     },
-    deleteConcert(id) {
+    changeDeleteList(id) {
+      if (this.deleteList.indexOf(id) !== -1) {
+        delete this.deleteList[this.deleteList.indexOf(id)];
+      } else this.deleteList.push(id);
+    },
+    deleteConcert() {
       setIsLoading();
+      const payload = {
+        ids: [...this.deleteList],
+        _method: 'delete',
+      };
       http
-        .delete(`${adminPath.concerts}/${id}`)
+        .post(`${adminPath.concerts}`, payload)
         .then((res) => {
           this.getAllAdminConcerts();
-          toast({
-            title: '已刪除演唱會',
-          });
+          if (this.deleteList.length === res.data.data.delete_count) {
+            toast({
+              title: `已刪除${res.data.data.delete_count}筆演唱會`,
+            });
+          } else {
+            toast({
+              title: `已刪除${res.data.data.delete_count}筆演唱會`,
+              description: `有${this.deleteList.length - res.data.data.delete_count}筆資料無法刪除，因該筆資料已有會員收藏或已建立歌單。`,
+            });
+          }
+          this.deleteList = [];
         })
         .catch((error) => {
           console.error(error);
+          if (error.response.data.message === '無法刪除演唱會') {
+            toast({
+              title: '演唱會刪除失敗',
+              description: '因該筆資料已有會員收藏或已建立歌單。',
+            });
+          }
+          this.deleteList = [];
         })
         .finally(() => {
           setIsLoading();
@@ -500,13 +531,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.errorText {
-  color: rgb(239 68 68);
-  font-size: 0.75rem;
-  grid-column: span 4 / span 12;
-  padding-top: 4px;
-  padding-left: 99px;
-}
-</style>

@@ -6,105 +6,7 @@
         <RouterLink to="/" class="font-black leading-display"> CONCERT NOW. </RouterLink>
       </div>
       <div class="hidden backdrop-blur-sm rounded-xl lg:block lg:col-span-2 xl:col-span-3 2xl:col-span-5 relative">
-        <span class="absolute text-black-60 top-2 left-3">Search now</span>
-        <Search class="absolute text-black-60 top-2 right-3" />
-        <Dialog :open="isToggleSearchModal" @update:open="toggleModal">
-          <DialogTrigger class="w-full bg-black-0 text-black-60 opacity-10 px-6 py-5 rounded-2xl hover:opacity-25 searchModal" @click="searchAll('')"> </DialogTrigger>
-          <DialogContent class="max-w-[90%] p-8 rounded-md" :class="{ 'h-full': concertResults.length || artistResults.length || venueResults.length }">
-            <DialogHeader>
-              <DialogTitle>
-                <Input
-                  placeholder="Search now"
-                  v-model="searchText"
-                  @keyup="searchAll"
-                  class="bg-black-0 text-black-80 box-shadow-light1-hover focus-visible:outline-0 px-6 py-5 focus:opacity-100 searchButton focus-visible:ring-offset-0 focus-visible:ring-ring-transparent" />
-                <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4 text-center">沒有搜尋到任何資料</div>
-              </DialogTitle>
-              <DialogDescription></DialogDescription>
-            </DialogHeader>
-
-            <div v-if="!concertResults.length && !artistResults.length && !venueResults.length" class="mt-4"></div>
-
-            <ScrollArea class="rounded-md border-0 -ml-8 sm:ml-0 sm:p-4">
-              <div v-if="artistResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
-                <h3 class="absolute top-2 left-0 text-2xl text-black-20 drop-shadow-light">表演者</h3>
-                <RouterLink to="/artists" class="absolute top-3 right-0">
-                  <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
-                  </DialogClose>
-                </RouterLink>
-                <Carousel class="w-[120px] md:w-[500px] lg:w-[90%] mt-16">
-                  <CarouselContent>
-                    <CarouselItem v-for="artist in artistResults" :key="artist.id" class="md:basis-1/2 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6">
-                      <RouterLink :to="`/artists/${artist.id}`" class="flex flex-col justify-center items-center" @click="toggleModal(false)">
-                        <DialogDescription>
-                          <img :src="artist.cover_urls.square" :alt="artist.name" class="size-[100px] md:size-[150px] lg:w-[150px] lg:h-[150px] rounded-full object-cover" />
-                          <div class="text-base mt-2 text-center text-white">{{ artist.name }}</div>
-                        </DialogDescription>
-                      </RouterLink>
-                    </CarouselItem>
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </div>
-              <div v-if="concertResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
-                <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">演唱會</h3>
-                <RouterLink to="/concerts" class="absolute top-5 right-0">
-                  <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
-                  </DialogClose>
-                </RouterLink>
-                <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
-                  <CarouselContent>
-                    <CarouselItem v-for="concert in concertResults" :key="concert.id" class="md:basis-1/2 lg:basis-1/4">
-                      <RouterLink :to="`/concerts/${concert.id}`" @click="toggleModal(false)">
-                        <DialogDescription class="mt-2 flex flex-col justify-center items-center">
-                          <img
-                            :src="concert.cover_urls.square"
-                            :alt="concert.title"
-                            class="size-[100px] md:size-[200px] lg:w-[250px] lg:h-[250px] xl:w-[300px] xl:h-[300px] object-cover rounded-2xl" />
-                          <div class="flex flex-col items-center mt-2">
-                            <span class="text-sm sm:text-base text-center text-white">{{ concert.title }}</span>
-                            <span class="text-sm sm:text-base text-center text-border-60">{{ concert.holding_time }}</span>
-                          </div>
-                        </DialogDescription>
-                      </RouterLink>
-                    </CarouselItem>
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </div>
-              <div v-if="venueResults.length > 0" class="flex justify-center relative mt-10 ml-8 xl:ml-6 2xl:ml-10 xl:w-[95%]">
-                <h3 class="absolute top-4 left-0 text-2xl text-black-20 drop-shadow-light">場地</h3>
-                <RouterLink to="/venues" class="absolute top-5 right-0">
-                  <DialogClose as-child>
-                    <Button variant="white-outline" size="base" class="text-sm sm:text-base">查看更多</Button>
-                  </DialogClose>
-                </RouterLink>
-                <Carousel class="w-[150px] md:w-[500px] lg:w-[90%] pt-16">
-                  <CarouselContent>
-                    <CarouselItem v-for="venue in venueResults" :key="venue.id" class="md:basis-1/2 lg:basis-1/3 2xl:basis-1/4">
-                      <RouterLink :to="`/venues/${venue.id}`" class="flex flex-col justify-center items-center" @click="toggleModal(false)">
-                        <DialogDescription class="mt-2 flex flex-col justify-center items-center">
-                          <img :src="venue.picture.square" :alt="venue.title" class="size-[100px] md:size-[200px] lg:w-[300px] lg:h-[300px] object-cover rounded-2xl" />
-                          <div class="mt-2 flex flex-col">
-                            <span class="text-sm sm:text-base text-center text-white">{{ venue.title }}</span>
-                            <span class="text-sm sm:text-base text-center text-border-60">{{ venue.city }}</span>
-                          </div>
-                        </DialogDescription>
-                      </RouterLink>
-                    </CarouselItem>
-                  </CarouselContent>
-                  <CarouselPrevious />
-                  <CarouselNext />
-                </Carousel>
-              </div>
-            </ScrollArea>
-          </DialogContent>
-          <DialogFooter class="hidden"> </DialogFooter>
-        </Dialog>
+        <NavSearchModal :isToggleSearchModal="isToggleSearchModal" :toggleModal="toggleModal" :isSearch="isSearch" />
       </div>
 
       <!-- 電腦版導覽列 -->
@@ -162,12 +64,7 @@
       </div>
       <!-- 手機版導覽列 -->
       <div class="lg:hidden">
-        <Button
-          class="p-2 bg-transparent"
-          @click="
-            searchAll('');
-            toggleModal(true);
-          ">
+        <Button class="p-2 bg-transparent" @click="handleMobileSearch">
           <Search />
         </Button>
         <Sheet>
@@ -268,9 +165,7 @@
 import { VisuallyHidden } from 'radix-vue';
 import { ArrowDownRight, AlignJustify, Search, UsersRound } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Sheet, SheetClose, SheetHeader, SheetTitle, SheetDescription, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '@/components/ui/navigation-menu';
 import {
   AlertDialog,
@@ -283,16 +178,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import { ScrollArea } from '@/components/ui/scroll-area';
 </script>
 
 <script>
 import { mapState, mapActions } from 'pinia';
 import { useUserStore } from '@/stores/user';
 import { useDebounceFn } from '@vueuse/core';
+import { NavSearchModal } from './HeaderNav/';
 
 export default {
+  components: { NavSearchModal },
   inject: ['http', 'path'],
   data() {
     return {
@@ -331,11 +226,8 @@ export default {
           auth: false,
         },
       ],
-      searchText: '',
-      concertResults: [],
-      venueResults: [],
-      artistResults: [],
       isToggleSearchModal: false,
+      isSearch: false,
     };
   },
   methods: {
@@ -354,62 +246,20 @@ export default {
       });
       // console.log('remove');
     }, 600),
-    searchConcerts() {
-      this.http
-        .get(`${this.path.concerts}?q=${this.searchText}&page=1`)
-        .then((res) => {
-          this.concertResults = [...res.data.data];
-          // console.log('concertResults', this.concertResults);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    searchArtists() {
-      this.http
-        .get(`${this.path.artists}?q=${this.searchText}&page=1`)
-        .then((res) => {
-          this.artistResults = [...res.data.data];
-          // console.log('artistResults', this.artistResults);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    searchVenues() {
-      this.http
-        .get(`${this.path.venues}?q=${this.searchText}&page=1`)
-        .then((res) => {
-          this.venueResults = [...res.data.data];
-          // console.log('venueResults', this.venueResults);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    searchAll: useDebounceFn(function () {
-      this.searchConcerts();
-      this.searchArtists();
-      this.searchVenues();
-    }, 500),
-    modalScrollAreaDisplay() {
-      const scrollAreas = document.querySelectorAll('[data-radix-scroll-area-viewport]');
-      scrollAreas[scrollAreas.length - 1].childNodes[0].style = 'display: block';
-    },
     toggleModal(val) {
       this.isToggleSearchModal = val;
+    },
+    handleMobileSearch() {
+      this.toggleModal(true);
+      if (!this.isSearch) {
+        this.isSearch = true;
+      }
     },
     ...mapActions(useUserStore, ['logout']),
   },
   computed: {
     ...mapState(useUserStore, ['user']),
   },
-  watch: {
-    concertResults(newVal) {
-      this.modalScrollAreaDisplay();
-    },
-  },
-  updated() {},
 };
 </script>
 

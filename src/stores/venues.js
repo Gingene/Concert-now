@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { http, path } from '@/api';
+import { http, path, adminPath } from '@/api';
 import { loadingStore } from '../stores/isLoading';
 import { useDebounceFn } from '@vueuse/core';
 import { toast } from '@/components/ui/toast';
@@ -10,6 +10,10 @@ export const useVenuesStore = defineStore('venues', {
     venueInfo: [],
     venues: [],
     venue: {},
+    adminVenues: [],
+    adminSearchText: '',
+    adminCity: '',
+    adminCityOptions: '',
     pagination: {},
     seatArea: '',
     searchText: '',
@@ -99,6 +103,72 @@ export const useVenuesStore = defineStore('venues', {
       toast({
         title: `已檢舉該使用者${name}`,
         description: '',
+      });
+    },
+    // 以下為 Admin Venue
+    getAdminVenues() {
+      setIsLoading();
+      http
+      .get(`${adminPath.venues}?page=1`)
+      .then((res) => {
+        this.adminVenues = res.data.data;
+        this.adminCityOptions = [...new Set(res.data.data.map(i => i.city))];
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setIsLoading();
+      });
+    },
+    searchAdminVenues: useDebounceFn(function (searchText, city = '') {
+      this.adminSearchText = searchText;
+      this.adminCity = city;
+      http
+        .get(`${adminPath.venues}/?q=${searchText}&city=${this.adminCity}&page=1`)
+        .then((res) => {
+          this.adminVenues = res.data.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }, 300),
+    deleteVenue(id, type){
+      if(!id) return;
+      const venueImportant = [1,2,3,4,5,6];
+      const data = {
+        _method: 'DELETE',
+      };
+
+      if(type === 'multiple'){
+        if(id.some(i => venueImportant.includes(i))){
+          toast({
+            title: '重要的場地不允許刪除',
+          });
+          return;
+        };
+        data.ids = id;
+      }else if(type === 'single'){
+        if(id<=6){
+          toast({
+            title: '重要的場地不允許刪除',
+          });
+          return;
+        };
+        data.ids = [id];
+      }
+      http
+      .post(adminPath.venues, data)
+      .then(()=>{
+        toast({
+          title: '刪除成功',
+        });
+        this.getAdminVenues();
+      })
+      .catch(()=>{
+        toast({
+          title: '刪除失敗',
+        });
       });
     },
   },

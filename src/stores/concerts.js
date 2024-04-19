@@ -28,13 +28,16 @@ export const useConcertsStore = defineStore('concerts', {
   actions: {
     searchConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
-      this.getFilterConcerts();
+      this.getFilterFrontConcerts();
     }, 300),
     searchAdminConcerts: useDebounceFn(function (searchText) {
       this.textFactor = searchText;
       this.getFilterAdminConcerts();
     }, 300),
     getAllConcerts() {
+      this.timeFactor = '';
+      this.countryFactor = '';
+      this.textFactor = '';
       setIsLoading();
       http
         .get(path.concerts)

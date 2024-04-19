@@ -133,6 +133,8 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen
           @onload="onYouTubeIframeAPIReady()"
+          referrerpolicy="strict-origin-when-cross-origin"
+          :key="ytId"
           v-if="ytId && hasHold"></iframe>
         <div v-else class="flex justify-center items-center text-center text-sm">
           <img :src="singleConcert.cover_urls?.square" alt="演唱會圖片" class="rounded-[20px] w-[336px] h-[336px] object-cover" />
@@ -236,15 +238,23 @@
               <div>{{ index + 1 }}</div>
               <!-- 點擊更換YT iframe影片 -->
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
-              <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
+              <div class="flex pr-4 justify-between h-14 w-[7.5rem]">
                 <!-- 推與倒推按鈕 -->
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]">
+                <button
+                  class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)] w-10"
+                  :class="{ 'text-[var(--tiffany)]': song.status === 'up' }"
+                  type="button"
+                  @click="activePush(song.id, 'up')">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
-                  <p>{{ song.up_votes }}</p>
+                  <p>{{ song.up_votes + (song.status === 'up' ? 1 : 0) }}</p>
                 </button>
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]">
+                <button
+                  class="flex items-center text-sm gap-1 hover:text-[var(--pink)] w-10"
+                  :class="{ 'text-[var(--pink)]': song.status === 'down' }"
+                  type="button"
+                  @click="activePush(song.id, 'down')">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
-                  <p>{{ song.down_votes }}</p>
+                  <p>{{ song.down_votes + (song.status === 'down' ? 1 : 0) }}</p>
                 </button>
               </div>
             </div>
@@ -442,6 +452,17 @@ export default {
           console.error(error);
         });
     },
+    activePush(id, act) {
+      // 用原始狀態判斷要做的行為，相同的話取消行為，不同的話就是新狀態
+      this.songList.forEach((item, index) => {
+        if (item.id !== id) return;
+        if (item.status !== act) {
+          this.songList[index].status = act;
+        } else {
+          delete this.songList[index].status;
+        }
+      });
+    },
     showCommentPolicy() {
       toast({
         title: '評論規範',
@@ -508,6 +529,9 @@ export default {
 
     // 是否已舉辦，用於歌單切換與計時器
     this.hasHold = moment.duration(moment(this.singleConcert.holding_time, 'YYYY-MM-DD hh:mm:ss').diff()).minutes() <= 0;
+
+    // 單一演唱會標題
+    document.title = `Concert Now - ${this.singleConcert.title}`;
   },
   unmounted() {
     clearInterval(this.interval);

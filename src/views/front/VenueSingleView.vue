@@ -34,7 +34,7 @@
               @click="activeArea(area)"
               v-for="(area, index) in venue.seat_areas"
               :key="`${index + 123}`"
-              class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform hover:-translate-x-1 hover:-translate-y-1 cursor-pointer"
+              class="text-[12px] md:text-base lg:text-lg gradient-border flex justify-center items-center transition-transform xl:hover:-translate-x-1 xl:hover:-translate-y-1 cursor-pointer"
               :class="area === seatArea ? 'active' : ''">
               <p>
                 {{ area }}
@@ -89,7 +89,7 @@
                       <font-awesome-icon icon="fa-solid fa-plus" class="text-xl size-6" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent class="max-w-sm md:max-w-3xl">
+                  <DialogScrollContent class="max-w-sm md:max-w-3xl">
                     <DialogHeader class="mb-6">
                       <DialogTitle>留下評論</DialogTitle>
                       <DialogDescription>
@@ -162,7 +162,7 @@
                         </div>
                       </DialogFooter>
                     </form>
-                  </DialogContent>
+                  </DialogScrollContent>
                 </Dialog>
               </template>
             </div>
@@ -253,7 +253,7 @@
     </div>
   </div>
   <!-- 交通方式 -->
-  <section class="container">
+  <section class="container pb-[128px] lg:pb-[192px]">
     <TitleComponent class="overflow-x-hidden">
       <template #subTitle> TRANSPORT </template>
       <template #mainTitle> 交通方式 </template>
@@ -296,7 +296,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogScrollContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from '@/components/ui/dialog';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -352,7 +352,6 @@ export default {
       });
     },
     readURL(input) {
-      // console.log(input.target.files);
       if (input.target.files && input.target.files[0]) {
         if (input.target.files.length > 3) {
           toast({
@@ -367,6 +366,14 @@ export default {
           if (input.target.files[i].size > 3 * 1024 ** 2) {
             toast({
               title: '圖片不得超過3MB',
+              description: '',
+            });
+            return;
+          }
+
+          if (input.target.files[i].type !== 'image/png' && input.target.files[i].type !== 'image/jpg' && input.target.files[i].type !== 'image/jpeg' && input.target.files[i].type !== 'image/webp') {
+            toast({
+              title: '圖片格式需為 png 或 jpg 或 webp',
               description: '',
             });
             return;
@@ -491,6 +498,10 @@ export default {
   mounted() {
     this.getVenue(this.id);
     // AOS.init();
+  },
+  updated() {
+    // 單一場地標題
+    document.title = `Concert Now - ${this.venue.title}`;
   },
   unmounted() {
     this.seatArea = '';

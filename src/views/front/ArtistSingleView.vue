@@ -369,6 +369,10 @@ export default {
       this.getSavedConcertsData();
     }
   },
+  updated() {
+    // 單一表演者標題
+    document.title = `Concert Now - ${this.singleArtist.name}`;
+  },
 };
 </script>
 
