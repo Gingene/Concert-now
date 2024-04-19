@@ -170,20 +170,26 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
   }
 
   // vee驗證-input樣式
-  .vee-input {
-    @apply flex h-10 w-full rounded-md outline outline-1 outline-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50
+  .correct-input {
+    @apply flex h-10 w-full rounded-md outline outline-1 outline-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
-  .vee-textrea {
-    @apply flex h-16 w-full rounded-md outline outline-1 outline-input bg-background px-3 py-2 resize-none text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50
+  .correct-textrea {
+    @apply flex h-16 w-full rounded-md outline outline-1 outline-input bg-background px-3 py-2 resize-none text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   // vee驗證-錯誤提示
   .error-input {
-    @apply flex h-10 w-full rounded-md outline outline-1 outline-error bg-background px-3 py-2 text-sm focus-visible:outline-none
+    @apply flex h-10 w-full rounded-md outline outline-1 outline-error bg-background px-3 py-2 text-sm focus-visible:outline-none;
+  }
+
+  .error-textrea {
+    @apply flex h-16 w-full rounded-md outline outline-1
+    outline-error bg-background px-3 py-2 resize-none text-sm
+    focus-visible:outline-none;
   }
 
   .error-text {
-    @apply block text-error mt-1 pl-[105px]
+    @apply block text-error mt-1 pl-[105px];
   }
 }
