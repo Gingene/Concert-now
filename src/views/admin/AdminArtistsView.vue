@@ -162,7 +162,7 @@
                         <label for="songFive" class="text-left mr-6">
                           <span>主打歌 5</span>
                         </label>
-                        <Field id="songFive" name="主打歌 4" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[4]" class="correct-input" rules="required" />
+                        <Field id="songFive" name="主打歌 5" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[4]" class="correct-input" rules="required" />
                       </div>
                     </div>
                   </div>

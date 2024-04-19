@@ -18,11 +18,11 @@ export const useUserStore = defineStore('user', {
     followedArtists: [],
     // 後台會員管理頁面
     adminMembers: {},
-    allstatus: ['全部','啟用中','停權中'],
+    allstatus: ['全部', '啟用中', '停權中'],
     searchText: '',
     selectStatus: '',
-    page : 1,
-    pageTotal : 0,
+    page: 1,
+    pageTotal: 0,
   }),
   actions: {
     getUserDynamic() {
@@ -73,7 +73,7 @@ export const useUserStore = defineStore('user', {
       location.reload();
     },
     // 後台會員管理頁
-    getAdminMembers: useDebounceFn(async function(type, currentPage){
+    getAdminMembers: useDebounceFn(async function (type, currentPage) {
       const { searchText, selectStatus } = this;
       const params = {
         q: searchText || '',
@@ -84,22 +84,21 @@ export const useUserStore = defineStore('user', {
       const url = `${adminPath.users}?${queryParams}`;
 
       const { setIsLoading } = loadingStore();
-      setIsLoading();   
+      setIsLoading();
 
       await http
-      .get(url)
-      .then(res=>{
-        this.adminMembers = res.data.data;
-        this.page = res.data.pagination.current_page;
-        this.pageTotal = res.data.pagination.total;
-      })
-      .catch (()=>{
-        toast({ title: '無法取得會員列表'});
-      })
-      .finally(() => {
-        setIsLoading();
-      });
-
-    },300),
+        .get(url)
+        .then((res) => {
+          this.adminMembers = res.data.data;
+          this.page = res.data.pagination.current_page;
+          this.pageTotal = res.data.pagination.total;
+        })
+        .catch(() => {
+          toast({ title: '無法取得會員列表' });
+        })
+        .finally(() => {
+          setIsLoading();
+        });
+    }, 300),
   },
 });

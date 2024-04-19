@@ -191,6 +191,7 @@ $font-display-2xl: calc($font-display-size3 + 5.5vw);
 
   .error-text {
     @apply block text-error mt-1 pl-[105px];
+  }
 
   // 表單樣式
   .form-field {

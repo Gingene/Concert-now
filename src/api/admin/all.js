@@ -29,29 +29,29 @@ export const filterAdminArtists = async (artist, page) => {
 };
 
 // 取得後台會員管理頁面
-// export const getAdminMembers = async (page) => {
-//   // const url = `${VITE_APP_SERVICE_API}/api/admin/users?page=${page}`;
-//   const url = `/admin/users?page=${page}`;
+export const getAdminMembers = async (page) => {
+  // const url = `${VITE_APP_SERVICE_API}/api/admin/users?page=${page}`;
+  const url = `/admin/users?page=${page}`;
 
-//   try {
-//     const res = await http.get(url);
-//     return res;
-//   } catch (error) {
-//     console.error('[GetAdminMembers Failed]', error);
-//     throw new Error('error');
-//   }
-// };
+  try {
+    const res = await http.get(url);
+    return res;
+  } catch (error) {
+    console.error('[GetAdminMembers Failed]', error);
+    throw new Error('error');
+  }
+};
 
 // // 後台會員管理篩選 (email & 啟用中/停權中)
-// export const filterAdminMembers = async (email, page) => {
-//   // const url = `${VITE_APP_SERVICE_API}/api/admin/users?q=${email}&status=&page=${page}`;
-//   const url = `/admin/users?q=${email}&status=&page=${page}`;
+export const filterAdminMembers = async (email, page) => {
+  // const url = `${VITE_APP_SERVICE_API}/api/admin/users?q=${email}&status=&page=${page}`;
+  const url = `/admin/users?q=${email}&status=&page=${page}`;
 
-//   try {
-//     const res = await http.get(url);
-//     return res;
-//   } catch (error) {
-//     console.error('[FilterAdminMembers Failed]', error);
-//     throw new Error('error');
-//   }
-// };
+  try {
+    const res = await http.get(url);
+    return res;
+  } catch (error) {
+    console.error('[FilterAdminMembers Failed]', error);
+    throw new Error('error');
+  }
+};
