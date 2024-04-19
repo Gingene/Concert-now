@@ -39,7 +39,7 @@ export default {
       const posX = e.clientX;
       const posY = e.clientY;
 
-      if( window.innerWidth < '1024' ){
+      if (window.innerWidth < '1024') {
         cursorDot.style.display = 'none';
         cursorOutline.style.display = 'none';
       }

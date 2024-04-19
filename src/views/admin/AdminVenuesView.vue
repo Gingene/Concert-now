@@ -4,14 +4,8 @@
     <nav class="flex gap-6 mb-8 relative">
       <!-- 關鍵字搜尋 -->
       <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
-        <Input 
-          type="text" 
-          placeholder="輸入場地名稱" 
-          v-model="searchText" 
-          @keyup="searchAdminVenues(searchText, adminCity)" />
-        <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> 
-          search 
-        </span>
+        <Input type="text" placeholder="輸入場地名稱" v-model="searchText" @keyup="searchAdminVenues(searchText, adminCity)" />
+        <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
       </div>
       <!-- 地區篩選 -->
       <div class="w-[15%] lg:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
@@ -22,12 +16,8 @@
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">地區</SelectLabel>
-              <SelectItem value="全部" @click="searchAdminVenues(adminSearchText)">
-                全部
-              </SelectItem>
-              <SelectItem v-for="city in adminCityOptions" :key="city" :value="city"
-                @click="searchAdminVenues(adminSearchText, city)"> {{ city }} 
-              </SelectItem>
+              <SelectItem value="全部" @click="searchAdminVenues(adminSearchText)"> 全部 </SelectItem>
+              <SelectItem v-for="city in adminCityOptions" :key="city" :value="city" @click="searchAdminVenues(adminSearchText, city)"> {{ city }} </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -36,9 +26,7 @@
       <div class="lg:pt-5 mt-auto">
         <Dialog :open="isModalOpen" @update:open="handelModel">
           <DialogTrigger as-child>
-            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 
-              新增場地 
-            </Button>
+            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增場地 </Button>
           </DialogTrigger>
           <DialogScrollContent class="sm:max-w-[850px]">
             <DialogHeader>
@@ -78,12 +66,8 @@
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel class="tracking-wide">地區</SelectLabel>
-                              <SelectItem 
-                                v-for="city in adminCityOptions" 
-                                :key="city" 
-                                :value="city"> {{ city }} 
-                              </SelectItem>
-                            </SelectGroup>
+                            <SelectItem v-for="city in adminCityOptions" :key="city" :value="city"> {{ city }} </SelectItem>
+                          </SelectGroup>
                         </SelectContent>
                       </Select>
                       <ErrorMessage name="city" class="errorText" />
@@ -93,48 +77,28 @@
                   <div class="grid grid-cols-4 items-start gap-x-3">
                     <Label for="seat_areas" class="text-left py-2">座位區分類</Label>
                     <div class="col-span-3 grid grid-cols-6 gap-3">
-                        <Input
-                          v-model="tempSeatArea"
-                          :disabled="canEditSeats"
-                          type="text"
-                          class="col-span-4" />
-                        <div class="col-span-2 flex justify-start px-1">
-                          <!-- add seat area -->
-                          <Button 
-                            type="button"
-                            variant="none" 
-                            :disabled="!tempSeatArea" 
-                            class="w-10 hover:text-[#6366f1]"
-                            @click="addSeatArea(tempSeatArea)" >
-                            <span class="material-symbols-outlined hover:scale-110" >add_circle</span>
-                          </Button>
-                          <!-- edit seat area -->
-                          <Button
-                            type="button"
-                            v-if="tempVenue.seat_areas.length !== 0"
-                            variant="none"
-                            class="w-10 hover:text-[#6366f1]"
-                            @click="editSeatOptions">
-                            <span class="material-symbols-outlined hover:scale-110 ">edit</span>
-                          </Button>
-                        </div>
-                        <ErrorMessage name="seat_areas" class="errorText" style="padding: 0px;" />
-                        <!-- show seat areas -->
-                        <Field name="seat_areas" rules="required" v-slot="{ field }" v-model="tempVenue.seat_areas">
-                          <div v-bind="field" :value="tempVenue.seat_areas" class="col-span-6 flex flex-wrap gap-x-1 gap-y-3" >
-                            <div 
-                            v-for="(area,index) in tempVenue.seat_areas" :key="index" class="relative me-4">
-                              <p class="rounded-full bg-secondary px-3 py-1 text-sm">{{ area }}</p>
-                              <Button
-                                type="button"
-                                v-if="canEditSeats"
-                                variant="none"
-                                class="w-10 h-10 absolute -top-3 -right-5 motion-safe:animate-bounce"
-                                @click="removeSeat(index)">
-                                <span class="material-symbols-outlined">do_not_disturb_on</span>
-                              </Button>
-                            </div>
+                      <Input v-model="tempSeatArea" :disabled="canEditSeats" type="text" class="col-span-4" />
+                      <div class="col-span-2 flex justify-start px-1">
+                        <!-- add seat area -->
+                        <Button type="button" variant="none" :disabled="!tempSeatArea" class="w-10 hover:text-[#6366f1]" @click="addSeatArea(tempSeatArea)">
+                          <span class="material-symbols-outlined hover:scale-110">add_circle</span>
+                        </Button>
+                        <!-- edit seat area -->
+                        <Button type="button" v-if="tempVenue.seat_areas.length !== 0" variant="none" class="w-10 hover:text-[#6366f1]" @click="editSeatOptions">
+                          <span class="material-symbols-outlined hover:scale-110">edit</span>
+                        </Button>
+                      </div>
+                      <ErrorMessage name="seat_areas" class="errorText" style="padding: 0px" />
+                      <!-- show seat areas -->
+                      <Field name="seat_areas" rules="required" v-slot="{ field }" v-model="tempVenue.seat_areas">
+                        <div v-bind="field" :value="tempVenue.seat_areas" class="col-span-6 flex flex-wrap gap-x-1 gap-y-3">
+                          <div v-for="(area, index) in tempVenue.seat_areas" :key="index" class="relative me-4">
+                            <p class="rounded-full bg-secondary px-3 py-1 text-sm">{{ area }}</p>
+                            <Button type="button" v-if="canEditSeats" variant="none" class="w-10 h-10 absolute -top-3 -right-5 motion-safe:animate-bounce" @click="removeSeat(index)">
+                              <span class="material-symbols-outlined">do_not_disturb_on</span>
+                            </Button>
                           </div>
+                        </div>
                       </Field>
                     </div>
                   </div>
@@ -157,58 +121,31 @@
                   <div class="grid grid-cols-4 items-center gap-x-3">
                     <Label for="picture_horizontal" class="text-left"> 圖片 - 橫圖 </Label>
                     <Field name="picture_horizontal">
-                      <Input
-                      id="picture_horizontal"
-                      type="file"
-                      accept="image/png, image/jpeg, image/webp"
-                      class="col-span-3 hover:bg-accent"
-                      @change="readImg($event, 'horizontal')" />
+                      <Input id="picture_horizontal" type="file" accept="image/png, image/jpeg, image/webp" class="col-span-3 hover:bg-accent" @change="readImg($event, 'horizontal')" />
                       <span v-show="imageSize[0]" class="errorText">{{ sizeError }}</span>
                     </Field>
                   </div>
-                  <img 
-                    v-if="imageUrl[0]" 
-                    :src="imageUrl[0]" 
-                    alt="Preview Image" 
-                    class="max-w-[150px] max-h-[150px]">
+                  <img v-if="imageUrl[0]" :src="imageUrl[0]" alt="Preview Image" class="max-w-[150px] max-h-[150px]" />
                   <span v-else class="-mt-3 text-tiny text-black-60">※ 圖片不能超過 3MB、圖片寬度必須大於 1800 像素</span>
                   <!-- 圖片：方的 -->
                   <div class="grid grid-cols-4 items-center gap-x-3">
                     <Label for="picture_square" class="text-left"> 圖片 - 方圖 </Label>
                     <Field name="picture_square">
-                      <Input 
-                      id="picture_square"
-                      type="file" 
-                      accept="image/png, image/jpeg, image/webp"
-                      class="col-span-3 hover:bg-accent"
-                      @change="readImg($event, 'square')" />
+                      <Input id="picture_square" type="file" accept="image/png, image/jpeg, image/webp" class="col-span-3 hover:bg-accent" @change="readImg($event, 'square')" />
                       <span v-show="imageSize[1]" class="errorText">{{ sizeError }}</span>
                     </Field>
                   </div>
-                  <img 
-                    v-if="imageUrl[1]" 
-                    :src="imageUrl[1]" 
-                    alt="Preview Image" 
-                    class="max-w-[150px] max-h-[150px]">
+                  <img v-if="imageUrl[1]" :src="imageUrl[1]" alt="Preview Image" class="max-w-[150px] max-h-[150px]" />
                   <span v-else class="-mt-3 text-tiny text-black-60">※ 圖片不能超過 3MB</span>
                   <!-- 圖片：座位圖 -->
                   <div class="grid grid-cols-4 items-center gap-x-3">
                     <Label for="seat_picture" class="text-left"> 座位圖 </Label>
                     <Field name="seat_picture">
-                      <Input 
-                      id="seat_picture"
-                      type="file" 
-                      accept="image/png, image/jpeg, image/webp"
-                      class="col-span-3 hover:bg-accent"
-                      @change="readImg($event, 'seat')" />
+                      <Input id="seat_picture" type="file" accept="image/png, image/jpeg, image/webp" class="col-span-3 hover:bg-accent" @change="readImg($event, 'seat')" />
                       <span v-show="imageSize[2]" class="errorText">{{ sizeError }}</span>
                     </Field>
                   </div>
-                  <img 
-                    v-if="imageUrl[2]" 
-                    :src="imageUrl[2]" 
-                    alt="Preview Image" 
-                    class="max-w-[150px] max-h-[150px]">
+                  <img v-if="imageUrl[2]" :src="imageUrl[2]" alt="Preview Image" class="max-w-[150px] max-h-[150px]" />
                   <span v-else class="-mt-3 text-tiny text-black-60">※ 圖片不能超過 3MB</span>
                   <!-- 交通方式 -->
                   <div class="flex flex-col item-start gap-x-3">
@@ -216,39 +153,26 @@
                       <p class="text-sm border-b-2 border-primary p-2 me-4">交通方式</p>
                       <!-- 新增欄位-->
                       <Button
-                        :disabled="!tempVenue.transportation[tempVenue.transportation.length-1].type || !tempVenue.transportation[tempVenue.transportation.length-1].info"
-                        variant="none" 
-                        class="text-sm rounded-[10px] hover:scale-105 hover:text-[#6366f1]" 
+                        :disabled="!tempVenue.transportation[tempVenue.transportation.length - 1].type || !tempVenue.transportation[tempVenue.transportation.length - 1].info"
+                        variant="none"
+                        class="text-sm rounded-[10px] hover:scale-105 hover:text-[#6366f1]"
                         @click="addInputGroup">
-                        <span class="material-symbols-outlined me-2" >add_circle</span>
-                        <span>新增欄位</span> 
+                        <span class="material-symbols-outlined me-2">add_circle</span>
+                        <span>新增欄位</span>
                       </Button>
                     </div>
-                    <div v-for="(item, index) in tempVenue.transportation" :key="index"
-                      class="flex flex-col items-start gap-2 pt-3">
+                    <div v-for="(item, index) in tempVenue.transportation" :key="index" class="flex flex-col items-start gap-2 pt-3">
                       <!-- 交通方式：類型 -->
                       <Label :for="`transportation_type_${index}`" class="text-left">類型</Label>
-                      <Field 
-                        type="text" rules="required" class="form-field"
-                        v-model="tempVenue.transportation[index].type"
-                        :name="`transportation_type_${index}`" />
-                      <ErrorMessage 
-                        :name="`transportation_type_${index}`" 
-                        class="errorText" 
-                        style="padding-left: 0px !important;" />
+                      <Field type="text" rules="required" class="form-field" v-model="tempVenue.transportation[index].type" :name="`transportation_type_${index}`" />
+                      <ErrorMessage :name="`transportation_type_${index}`" class="errorText" style="padding-left: 0px !important" />
                       <!-- 交通方式：內容 -->
                       <Label :for="`transportation_info_${index}`" class="text-left">內容</Label>
                       <Field :name="`transportation_info_${index}`" rules="required" v-slot="{ field }" v-model="tempVenue.transportation[index].info">
-                        <textarea 
-                          type="text" rows="3" cols="48"
-                          class="border border-primary-foreground focus-visible:outline-black focus-visible:rounded-[10px] p-3 text-sm"
-                          v-bind="field" />
+                        <textarea type="text" rows="3" cols="48" class="border border-primary-foreground focus-visible:outline-black focus-visible:rounded-[10px] p-3 text-sm" v-bind="field" />
                       </Field>
-                      <ErrorMessage 
-                        :name="`transportation_info_${index}`" 
-                        class="errorText" 
-                        style="padding-left: 0px !important;" />
-                      <span v-if="index+1 !== tempVenue.transportation.length" class="my-3">/</span>
+                      <ErrorMessage :name="`transportation_info_${index}`" class="errorText" style="padding-left: 0px !important" />
+                      <span v-if="index + 1 !== tempVenue.transportation.length" class="my-3">/</span>
                     </div>
                   </div>
                 </section>
@@ -276,16 +200,14 @@
             <div v-for="(title, index) in deleteTitle" :key="index" class="text-black">{{ title }}</div>
             <AlertDialogFooter>
               <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-              <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteVenue(deleteArray,'multiple')">確定</AlertDialogAction>
+              <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteVenue(deleteArray, 'multiple')">確定</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
       </div>
     </nav>
     <!-- 搜尋不到資料 -->
-    <p v-if="adminVenues.length === 0" class="text-primary tracking-wider text-lg">
-      oops! 搜尋不到相關資料 ╮(′～‵〞)╭
-    </p>
+    <p v-if="adminVenues.length === 0" class="text-primary tracking-wider text-lg">oops! 搜尋不到相關資料 ╮(′～‵〞)╭</p>
     <!-- Table -->
     <Table v-else class="bg-white rounded-lg text-md mb-10">
       <TableHeader>
@@ -300,7 +222,7 @@
       <TableBody class="text-gray-600">
         <TableRow v-for="venue in adminVenues" :key="venue.id">
           <TableCell class="text-purple-primary">
-            <Checkbox id="venueItem" @click="handelCheckList(venue.id, venue.title)"/>
+            <Checkbox id="venueItem" @click="handelCheckList(venue.id, venue.title)" />
             <label for="venueItem" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
           </TableCell>
           <TableCell class="text-purple-primary">{{ venue.title }}</TableCell>
@@ -328,7 +250,7 @@
             <!-- 刪除單一演唱會 -->
             <AlertDialog>
               <AlertDialogTrigger as-child>
-                <Button variant="none" class="hover:text-[#6366f1]" :disabled="venue.id<=6">
+                <Button variant="none" class="hover:text-[#6366f1]" :disabled="venue.id <= 6">
                   <span class="material-symbols-outlined">delete</span>
                 </Button>
               </AlertDialogTrigger>
@@ -347,8 +269,6 @@
         </TableRow>
       </TableBody>
     </Table>
-
-
   </main>
 </template>
 
@@ -359,8 +279,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogClose,DialogScrollContent, DialogFooter, DialogHeader, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
+import { Dialog, DialogClose, DialogScrollContent, DialogFooter, DialogHeader, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 </script>
 
@@ -389,7 +318,7 @@ configure({
       alphaDash: '須為英數、破折號及底線的組合',
       numeric: '須為數字',
       url: '須為有效的連結',
-      width: '圖片寬度必須大於 1800 像素'
+      width: '圖片寬度必須大於 1800 像素',
     },
   }),
   validateOnInput: true,
@@ -413,88 +342,88 @@ export default {
           {
             type: '',
             info: '',
-          }
+          },
         ],
       },
     };
   },
   methods: {
-    handelModel(val){
+    handelModel(val) {
       this.isModalOpen = val;
       if (val === false) {
         this.resetAddVenue();
       }
-    }, 
-    handelCheckList(id, title){
+    },
+    handelCheckList(id, title) {
       const index = this.deleteArray.indexOf(id);
       if (index !== -1) {
-          this.deleteArray.splice(index, 1); 
-          this.deleteTitle.splice(title, 1);
+        this.deleteArray.splice(index, 1);
+        this.deleteTitle.splice(title, 1);
       } else {
-          this.deleteArray.push(id);
-          this.deleteTitle.push(title);
+        this.deleteArray.push(id);
+        this.deleteTitle.push(title);
       }
-    }, 
-    readImg(event, type){
-      if(event.target.files[0].size > 3 * 1024 ** 2){
-        if (type === 'horizontal'){
+    },
+    readImg(event, type) {
+      if (event.target.files[0].size > 3 * 1024 ** 2) {
+        if (type === 'horizontal') {
           this.imageSize[0] = true;
           document.getElementById('picture_horizontal').value = '';
-        }else if (type === 'square'){
+        } else if (type === 'square') {
           this.imageSize[1] = true;
           document.getElementById('square').value = '';
-        }else if (type === 'seat'){
+        } else if (type === 'seat') {
           this.imageSize[2] = true;
           document.getElementById('seat').value = '';
-        };
+        }
         return;
       }
 
-      if (type === 'horizontal'){
+      if (type === 'horizontal') {
         this.tempVenue.picture_horizontal = event.target.files[0];
         this.imageUrl[0] = URL.createObjectURL(this.tempVenue.picture_horizontal);
         this.imageSize[0] = false;
-      }else if (type === 'square'){
+      } else if (type === 'square') {
         this.tempVenue.picture_square = event.target.files[0];
         this.imageUrl[1] = URL.createObjectURL(this.tempVenue.picture_square);
         this.imageSize[1] = false;
-      }else if (type === 'seat'){
+      } else if (type === 'seat') {
         this.tempVenue.seat_picture = event.target.files[0];
         this.imageUrl[2] = URL.createObjectURL(this.tempVenue.seat_picture);
         this.imageSize[2] = false;
-      };
+      }
     },
-    resetAddVenue(){
+    resetAddVenue() {
       this.imageUrl = [];
       this.tempSeatArea = '';
       this.canEditSeats = false;
-      this.imageSize= [false,false, false];
+      this.imageSize = [false, false, false];
       this.tempVenue = {
         seat_areas: [],
         transportation: [
           {
             type: '',
             info: '',
-          }
+          },
         ],
       };
     },
-    addSeatArea(seat){
+    addSeatArea(seat) {
       this.tempVenue.seat_areas.push(seat);
-      this.tempSeatArea='';
+      this.tempSeatArea = '';
     },
-    editSeatOptions(){
-      this.canEditSeats? this.canEditSeats = false : this.canEditSeats = true;
+    editSeatOptions() {
+      this.canEditSeats ? (this.canEditSeats = false) : (this.canEditSeats = true);
     },
-    removeSeat(id){
+    removeSeat(id) {
       this.tempVenue.seat_areas.splice(id, 1);
-      if(this.tempVenue.seat_areas.length === 0) this.canEditSeats = false;
+      if (this.tempVenue.seat_areas.length === 0) this.canEditSeats = false;
     },
-    addInputGroup(){
-      this.tempVenue.transportation.push({ type: '', info: '',});
+    addInputGroup() {
+      this.tempVenue.transportation.push({ type: '', info: '' });
     },
     onSubmit(values) {
-      if(this.imageUrl.length !== 3){
+      if (this.imageUrl.length !== 3) {
         toast({
           title: '請確認所有圖檔都上傳了',
         });
@@ -516,13 +445,13 @@ export default {
         transportation: [],
       };
 
-      this.tempVenue.transportation.forEach( (i, index)=>{
-        payload.transportation[index] = { 'type': i.type, 'info': i.info };
+      this.tempVenue.transportation.forEach((i, index) => {
+        payload.transportation[index] = { type: i.type, info: i.info };
       });
 
       http
         .post(adminPath.venues, payload)
-        .then(()=>{
+        .then(() => {
           toast({
             title: '新增成功',
           });
@@ -530,16 +459,16 @@ export default {
           this.resetAddVenue();
           this.getAdminVenues();
         })
-        .catch(()=>{
+        .catch(() => {
           toast({
             title: '新增失敗',
           });
         });
     },
-    ...mapActions(useVenuesStore, ['getAdminVenues','searchAdminVenues','deleteVenue']),
+    ...mapActions(useVenuesStore, ['getAdminVenues', 'searchAdminVenues', 'deleteVenue']),
   },
   computed: {
-    ...mapState(useVenuesStore, ['adminVenues','adminCity','adminSearchText','adminCityOptions']),
+    ...mapState(useVenuesStore, ['adminVenues', 'adminCity', 'adminSearchText', 'adminCityOptions']),
   },
   mounted() {
     this.getAdminVenues();

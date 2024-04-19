@@ -90,9 +90,9 @@ export default {
       selectTime: '',
       usersData: null,
       allstatus: [
-        {  id: 1, type: '全部'   },
-        {  id: 2, type: '啟用中' },
-        {  id: 3, type: '停權中' },
+        { id: 1, type: '全部' },
+        { id: 2, type: '啟用中' },
+        { id: 3, type: '停權中' },
       ],
     };
   },
@@ -103,7 +103,6 @@ export default {
       if (filterStatus === '全部') {
         return this.usersData;
       } else {
-        
         return this.usersData?.filter((user) => {
           let filtered = true;
 

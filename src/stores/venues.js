@@ -109,17 +109,17 @@ export const useVenuesStore = defineStore('venues', {
     getAdminVenues() {
       setIsLoading();
       http
-      .get(`${adminPath.venues}?page=1`)
-      .then((res) => {
-        this.adminVenues = res.data.data;
-        this.adminCityOptions = [...new Set(res.data.data.map(i => i.city))];
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setIsLoading();
-      });
+        .get(`${adminPath.venues}?page=1`)
+        .then((res) => {
+          this.adminVenues = res.data.data;
+          this.adminCityOptions = [...new Set(res.data.data.map((i) => i.city))];
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading();
+        });
     },
     searchAdminVenues: useDebounceFn(function (searchText, city = '') {
       this.adminSearchText = searchText;
@@ -133,43 +133,43 @@ export const useVenuesStore = defineStore('venues', {
           console.error(err);
         });
     }, 300),
-    deleteVenue(id, type){
-      if(!id) return;
-      const venueImportant = [1,2,3,4,5,6];
+    deleteVenue(id, type) {
+      if (!id) return;
+      const venueImportant = [1, 2, 3, 4, 5, 6];
       const data = {
         _method: 'DELETE',
       };
 
-      if(type === 'multiple'){
-        if(id.some(i => venueImportant.includes(i))){
+      if (type === 'multiple') {
+        if (id.some((i) => venueImportant.includes(i))) {
           toast({
             title: '重要的場地不允許刪除',
           });
           return;
-        };
+        }
         data.ids = id;
-      }else if(type === 'single'){
-        if(id<=6){
+      } else if (type === 'single') {
+        if (id <= 6) {
           toast({
             title: '重要的場地不允許刪除',
           });
           return;
-        };
+        }
         data.ids = [id];
       }
       http
-      .post(adminPath.venues, data)
-      .then(()=>{
-        toast({
-          title: '刪除成功',
+        .post(adminPath.venues, data)
+        .then(() => {
+          toast({
+            title: '刪除成功',
+          });
+          this.getAdminVenues();
+        })
+        .catch(() => {
+          toast({
+            title: '刪除失敗',
+          });
         });
-        this.getAdminVenues();
-      })
-      .catch(()=>{
-        toast({
-          title: '刪除失敗',
-        });
-      });
     },
   },
   getters: {
