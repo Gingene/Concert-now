@@ -4,8 +4,27 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { http, path, adminPath } from './api';
 
+// vee-validate
+import { Form, Field, ErrorMessage, defineRule, configure } from 'vee-validate';
+import * as AllRules from '@vee-validate/rules';
+import { localize, setLocale } from '@vee-validate/i18n';
+import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json';
+
 import App from './App.vue';
 import router from './router';
+
+Object.keys(AllRules).forEach((rule) => {
+  defineRule(rule, AllRules[rule]);
+});
+
+configure({
+  generateMessage: localize({ zh_TW: zhTW }), // 載入繁體中文語系
+  validateOnInput: true, // 當輸入任何內容直接進行驗證
+});
+
+// 設定預設語系
+setLocale('zh_TW');
+
 
 // google oauth
 // import vue3GoogleLogin from 'vue3-google-login';
@@ -20,6 +39,9 @@ import { faBookmark as faBookmarkRegular } from '@fortawesome/free-regular-svg-i
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const app = createApp(App);
+
+// 創建一個名為 `$errors` 的屬性並將其設置為空對象
+// app.config.globalProperties.$errors = {};
 
 app.use(createPinia());
 app.use(router);
@@ -46,6 +68,9 @@ library.add(
 );
 
 app.component('font-awesome-icon', FontAwesomeIcon); // 使用kebab-case
+app.component('Form', Form)
+app.component('Field', Field)
+app.component('ErrorMessage', ErrorMessage);
 
 app.provide('http', http);
 app.provide('path', path);
