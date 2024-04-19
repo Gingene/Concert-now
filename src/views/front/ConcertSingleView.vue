@@ -238,15 +238,23 @@
               <div>{{ index + 1 }}</div>
               <!-- 點擊更換YT iframe影片 -->
               <button @click="changeYTplayer(song.youtube_url)" class="ml-4 mr-auto py-3 max-w-[110px] sm:max-w-[160px] lg:max-w-[208px] overflow-x-hidden text-nowrap">{{ song.name }}</button>
-              <div class="flex pr-4 gap-4 sm:gap-6 h-14 w-[7rem]">
+              <div class="flex pr-4 justify-between h-14 w-[7.5rem]">
                 <!-- 推與倒推按鈕 -->
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)]" type="button" @click="activePush(song.id, 'up_votes')">
+                <button
+                  class="flex items-center text-sm gap-1 hover:text-[var(--tiffany)] w-10"
+                  :class="{ 'text-[var(--tiffany)]': song.status === 'up' }"
+                  type="button"
+                  @click="activePush(song.id, 'up')">
                   <font-awesome-icon icon="fa-solid fa-chevron-up" />
-                  <p>{{ song.up_votes }}</p>
+                  <p>{{ song.up_votes + (song.status === 'up' ? 1 : 0) }}</p>
                 </button>
-                <button class="flex items-center text-sm gap-1 hover:text-[var(--pink)]" type="button" @click="activePush(song.id, 'down_votes')">
+                <button
+                  class="flex items-center text-sm gap-1 hover:text-[var(--pink)] w-10"
+                  :class="{ 'text-[var(--pink)]': song.status === 'down' }"
+                  type="button"
+                  @click="activePush(song.id, 'down')">
                   <font-awesome-icon icon="fa-solid fa-chevron-down" />
-                  <p>{{ song.down_votes }}</p>
+                  <p>{{ song.down_votes + (song.status === 'down' ? 1 : 0) }}</p>
                 </button>
               </div>
             </div>
@@ -375,8 +383,6 @@ export default {
         seconds: '00',
       },
       venueComments: [],
-      up_votesSongLists: [],
-      down_votesSongLists: [],
       // 操控新增歌曲 Dialog 顯示
       open: false,
       openTwo: false,
@@ -447,22 +453,13 @@ export default {
         });
     },
     activePush(id, act) {
+      // 用原始狀態判斷要做的行為，相同的話取消行為，不同的話就是新狀態
       this.songList.forEach((item, index) => {
         if (item.id !== id) return;
-        const list = act === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
-        if (this[list].includes(item.id)) {
-          this.songList[index][act] -= 1;
-          this[list].splice(this[list].indexOf(item.id), 1);
+        if (item.status !== act) {
+          this.songList[index].status = act;
         } else {
-          this.songList[index][act] += 1;
-          this[list].push(item.id);
-        }
-        // when up & down vote both clicked
-        if (this.up_votesSongLists.includes(item.id) && this.down_votesSongLists.includes(item.id)) {
-          const firstAct = act === 'up_votes' ? 'down_votes' : 'up_votes';
-          const firstList = firstAct === 'up_votes' ? 'up_votesSongLists' : 'down_votesSongLists';
-          this.songList[index][firstAct] -= 1;
-          this[firstList].splice(this[firstList].indexOf(item.id), 1);
+          delete this.songList[index].status;
         }
       });
     },

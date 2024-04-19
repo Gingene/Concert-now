@@ -90,40 +90,9 @@ export default {
       selectTime: '',
       usersData: null,
       allstatus: [
-        {
-          id: 1,
-          type: '全部',
-        },
-        {
-          id: 2,
-          type: '啟用中',
-        },
-        {
-          id: 3,
-          type: '停權中',
-        },
-      ],
-      jointimes: [
-        {
-          id: 1,
-          time: '2023/01-2023/02',
-        },
-        {
-          id: 2,
-          time: '2023/02-2023/03',
-        },
-        {
-          id: 3,
-          time: '2023/03-2023/04',
-        },
-        {
-          id: 4,
-          time: '2023/04-2023/05',
-        },
-        {
-          id: 5,
-          time: '2023/05-2023/06',
-        },
+        { id: 1, type: '全部' },
+        { id: 2, type: '啟用中' },
+        { id: 3, type: '停權中' },
       ],
     };
   },
@@ -170,10 +139,3 @@ export default {
   },
 };
 </script>
-
-<!-- <style>
-th,
-td {
-  white-space: nowrap;
-}
-</style> -->

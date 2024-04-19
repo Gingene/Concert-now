@@ -57,6 +57,7 @@ module.exports = {
         'black-20': 'var(--black-20)',
         tiffany: 'var(--tiffany)',
         pink: 'var(--pink)',
+        error: 'var(--error)',
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         primary: {
@@ -120,25 +121,25 @@ module.exports = {
           from: { transform: 'translateX(0%)' },
           to: { transform: 'translateX(-100%)' },
         },
-        'col-span-1-to-4':{
-          '0%': { 
+        'col-span-1-to-4': {
+          '0%': {
             width: 'calc((100%/6)*1)',
             opacity: 0.5,
             filter: 'var(--tw-brightness) var(--tw-grayscale)',
           },
-          '100%': { 
+          '100%': {
             width: 'calc((100%/9)*5)',
             opacity: 1,
             filter: 'brightness(90%) grayscale(0%)',
           },
         },
-        'col-span-4-to-1':{
-          '0%': { 
+        'col-span-4-to-1': {
+          '0%': {
             width: 'calc((100%/9)*5)',
             opacity: 1,
             filter: 'brightness(90%) grayscale(0%)',
           },
-          '100%': { 
+          '100%': {
             width: 'calc((100%/6)*1)',
             opacity: 0.5,
             filter: 'var(--tw-brightness) var(--tw-grayscale)',
