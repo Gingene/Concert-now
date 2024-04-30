@@ -1,5 +1,4 @@
 import { http } from '@/api/index';
-// const { VITE_APP_SERVICE_API } = import.meta.env;
 
 // 取得後台表演者頁面
 export const getAdminArtists = async (page) => {
@@ -16,7 +15,6 @@ export const getAdminArtists = async (page) => {
 
 // 後台表演者資訊管理篩選(表演者名稱 & 表演者國籍 );
 export const filterAdminArtists = async (artist, page) => {
-  // const url = `${VITE_APP_SERVICE_API}/api/admin/users?q=${email}&status=&page=${page}`;
   const url = `/admin/artists?q=${artist}&country=&page=${page}`;
 
   try {
@@ -30,7 +28,6 @@ export const filterAdminArtists = async (artist, page) => {
 
 // 取得後台會員管理頁面
 export const getAdminMembers = async (page) => {
-  // const url = `${VITE_APP_SERVICE_API}/api/admin/users?page=${page}`;
   const url = `/admin/users?page=${page}`;
 
   try {
@@ -44,7 +41,6 @@ export const getAdminMembers = async (page) => {
 
 // // 後台會員管理篩選 (email & 啟用中/停權中)
 export const filterAdminMembers = async (email, page) => {
-  // const url = `${VITE_APP_SERVICE_API}/api/admin/users?q=${email}&status=&page=${page}`;
   const url = `/admin/users?q=${email}&status=&page=${page}`;
 
   try {
