@@ -16,7 +16,7 @@
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">會員狀態</SelectLabel>
-              <SelectItem v-for="(status,index) in allstatus" :key="index" :value="status">
+              <SelectItem v-for="(status, index) in allstatus" :key="index" :value="status">
                 {{ status }}
               </SelectItem>
             </SelectGroup>
@@ -27,9 +27,7 @@
   </div>
 
   <!-- Table -->
-  <TableCaption class="block py-2 text-start">
-    搜尋結果：{{ pageTotal }} 筆資料
-  </TableCaption>
+  <TableCaption class="block py-2 text-start"> 搜尋結果：{{ pageTotal }} 筆資料 </TableCaption>
   <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="adminMembers?.length !== 0">
     <TableHeader>
       <TableRow>
@@ -65,22 +63,32 @@
   </Table>
 
   <!-- Pagination -->
-  <Pagination v-if="pageTotal" v-slot="{ page }" :page="page" :itemsPerPage="15" :total="pageTotal" :sibling-count="1" show-edges :default-page="1" :disabled="pageTotal <= 15" class="flex justify-center py-6">
+  <Pagination
+    v-if="pageTotal"
+    v-slot="{ page }"
+    :page="page"
+    :itemsPerPage="15"
+    :total="pageTotal"
+    :sibling-count="1"
+    show-edges
+    :default-page="1"
+    :disabled="pageTotal <= 15"
+    class="flex justify-center py-6">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
-      <PaginationFirst @click="getAdminMembers('page',1)" />
-      <PaginationPrev @click="getAdminMembers('page',page-1)" />
+      <PaginationFirst @click="getAdminMembers('page', 1)" />
+      <PaginationPrev @click="getAdminMembers('page', page - 1)" />
 
       <template v-for="(item, index) in items">
         <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-          <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getAdminMembers('page',item.value)">
+          <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getAdminMembers('page', item.value)">
             {{ item.value }}
           </Button>
         </PaginationListItem>
         <PaginationEllipsis v-else :key="item.type" :index="index" />
       </template>
 
-      <PaginationNext @click="getAdminMembers('page',page+1)" />
-      <PaginationLast @click="getAdminMembers('page',items.length)" />
+      <PaginationNext @click="getAdminMembers('page', page + 1)" />
+      <PaginationLast @click="getAdminMembers('page', items.length)" />
     </PaginationList>
   </Pagination>
 </template>
@@ -90,7 +98,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev} from '@/components/ui/pagination';
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
 <script>
@@ -99,10 +107,10 @@ import { useUserStore } from '@/stores/user';
 
 export default {
   methods: {
-    ...mapActions(useUserStore,['getAdminMembers'] ),
+    ...mapActions(useUserStore, ['getAdminMembers']),
   },
   computed: {
-    ...mapState(useUserStore, ['adminMembers','allstatus']),
+    ...mapState(useUserStore, ['adminMembers', 'allstatus']),
     ...mapWritableState(useUserStore, ['searchText', 'selectStatus', 'page', 'pageTotal']),
   },
   watch: {

@@ -53,8 +53,8 @@
                     <div>
                       <div class="flex items-center gap-5 whitespace-nowrap">
                         <label for="country" class="text-left mr-[52px]"> 國籍 </label>
-                        <Field id="country" name="國籍" class="correct-input" rules="required">
-                          <Select v-model.trim="tempArtist.country" class="text-input">
+                        <Field id="country" v-slot="{ field }" name="國籍" class="correct-input" rules="required">
+                          <Select v-model.trim="tempArtist.country" v-bind="field" class="text-input">
                             <SelectTrigger class="w-full col-span-3">
                               <SelectValue placeholder="請選擇表演者國籍" />
                             </SelectTrigger>
@@ -69,7 +69,7 @@
                           </Select>
                         </Field>
                       </div>
-                      <ErrorMessage name="國籍" class="error-text text-xs" />
+                      <ErrorMessage v-if="!isNew" name="國籍" class="error-text text-xs" />
                     </div>
 
                     <!-- 表演者介紹 -->
@@ -152,7 +152,7 @@
                     <div>
                       <div class="flex items-center gap-5 whitespace-nowrap">
                         <label for="songFour" class="text-left mr-6"> 主打歌 4 </label>
-                        <Field id="songFour" name="主打歌 4" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[3]" class="correct-input" rules="required" />
+                        <Field id="songFour" name="主打歌 4" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[3]" class="correct-input" />
                       </div>
                     </div>
 
@@ -162,7 +162,7 @@
                         <label for="songFive" class="text-left mr-6">
                           <span>主打歌 5</span>
                         </label>
-                        <Field id="songFive" name="主打歌 5" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[4]" class="correct-input" rules="required" />
+                        <Field id="songFive" name="主打歌 5" type="text" placeholder="請輸入主打歌" v-model.trim="tempArtist.songs[4]" class="correct-input" />
                       </div>
                     </div>
                   </div>
@@ -208,7 +208,7 @@
                         <label for="imgTwo" class="text-left mr-4"> 圖片-橫圖 </label>
                         <Field id="imgTwo" name="橫圖" type="file" class="correct-input" accept="image/png, image/jpeg ,image/webp" @change="onFileUpload($event, 0, 'horizontal')" rules="required" />
                       </div>
-                      <ErrorMessage name="橫圖" class="error-text text-xs" />
+                      <ErrorMessage v-if="isNew" name="橫圖" class="error-text text-xs" />
 
                       <!-- 橫圖預覽 -->
                       <div class="pt-3" v-if="imgUrls[0]">
@@ -225,7 +225,7 @@
                         <label for="imgTwo" class="text-left mr-4"> 圖片-方圖 </label>
                         <Field id="imgTwo" name="方圖" type="file" class="correct-input" accept="image/png, image/jpeg" @change="onFileUpload($event, 1, 'square')" rules="required" />
                       </div>
-                      <ErrorMessage name="方圖" class="error-text text-xs" />
+                      <ErrorMessage v-if="isNew" name="方圖" class="error-text text-xs" />
 
                       <!-- 方圖預覽 -->
                       <div class="pt-3" v-if="imgUrls[1]">
@@ -247,127 +247,21 @@
             </DialogContent>
           </Dialog>
         </Form>
-
-        <!-- 原本的 -->
-        <!-- <Dialog>
-          <DialogTrigger as-child>
-            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增表演者 </Button>
-          </DialogTrigger>
-          <DialogContent class="sm:max-w-[850px] grid-rows-[auto_minmax(0,1fr)_auto] max-h-[90dvh]">
-            <Form ref="form" v-slot="{ errors }">
-              <DialogHeader>
-                <DialogTitle class="text-center mb-3">新增表演者</DialogTitle>
-                <DialogDescription></DialogDescription>
-              </DialogHeader>
-              <div class="grid grid-cols-2 gap-8 overflow-y-auto h-[300dvh]"> -->
-        <!-- 第一欄 -->
-        <!-- <div class="flex flex-col space-y-5 py-4"> -->
-        <!-- 表演者名稱 -->
-        <!-- <div>
-                    <div class="flex items-center gap-5 whitespace-nowrap">
-                      <label for="name" class="text-left">表演者名稱</label>
-                      <Field id="name" name="表演者名稱" type="text" placeholder="請輸入表演者名稱" v-model="tempArtist.name" class="vee-input" rules="required" />
-                    </div>
-                    <ErrorMessage name="表演者名稱" class="error-text text-xs" />
-                  </div> -->
-
-        <!-- 表演者國籍 -->
-        <!-- <div>
-                    <div class="flex items-center gap-5 whitespace-nowrap">
-                      <label for="country" class="text-left">表演者國籍</label>
-                      <Field id="country" name="表演者國籍" class="vee-input" rules="required">
-                        <Select v-model="tempArtist.country" class="text-input">
-                          <SelectTrigger class="w-full col-span-3">
-                            <SelectValue placeholder="請選擇表演者" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              <SelectLabel>表演者</SelectLabel>
-                              <SelectItem v-for="country in countryRanges" :key="country.id" :value="country.type">
-                                {{ country.type }}
-                              </SelectItem>
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
-                      </Field>
-                    </div>
-                    <ErrorMessage name="表演者國籍" class="error-text text-xs" />
-                  </div> -->
-
-        <!-- 表演者介紹 -->
-        <!-- <div>
-                    <div class="flex items-start gap-5 whitespace-nowrap">
-                      <label for="description" class="text-left">表演者介紹</label>
-                      <Field v-slot="{ field }" v-model="tempArtist.description" name="表演者介紹" rules="required|max:250">
-                        <textarea v-bind="field" maxlength="250" name="表演者介紹" placeholder="請輸入表演者介紹" class="vee-textrea"></textarea>
-                      </Field>
-                    </div>
-                    <ErrorMessage name="表演者介紹" class="error-text text-xs" />
-                  </div> -->
-
-        <!-- 表演者獲獎經歷 -->
-        <!-- <div>
-                    <div class="flex items-center gap-5 whitespace-nowrap">
-                      <label for="name" class="flex flex-col text-left mr-4">
-                        <span>表演者</span>
-                        <span>獲獎經歷</span>
-                      </label>
-                      <Field
-                        id="hornors"
-                        name="表演者獲獎經歷"
-                        type="text"
-                        placeholder="請輸入表演者獲獎經歷"
-                        v-model="tempArtist.honors"
-                        :class="[errors[0] ? 'error-input' : 'vee-input']"
-                        rules="required" />
-                    </div>
-                    <ErrorMessage name="表演者獲獎經歷" class="error-text text-xs" />
-                  </div> -->
-
-        <!-- chatgpt -->
-        <!-- <div>
-                    <div class="flex items-center gap-5 whitespace-nowrap">
-                      <label for="description" class="text-left">表演者介紹</label>
-                      <textarea
-                        id="description"
-                        name="description"
-                        v-model="tempArtist.description"
-                        placeholder="請輸入表演者介紹"
-                        :class="{ error: $errors.has('description') }"
-                        required></textarea>
-                    </div>
-                    <span 
-                      v-if="$errors.has('description')" 
-                      class="error-text text-xs"
-                    >
-                      表演者介紹必填
-                    </span>
-                  </div> -->
-        <!-- </div> -->
-        <!-- </div>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline" class="px-6">取消</Button>
-                </DialogClose>
-                <Button type="submit">送出</Button>
-              </DialogFooter>
-            </Form>
-          </DialogContent>
-        </Dialog> -->
       </div>
       <!-- 刪除多筆資料 button -->
       <div class="lg:pt-5 mt-auto">
         <AlertDialog>
           <AlertDialogTrigger as-child>
-            <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
+            <Button variant="outline" :disabled="selectIdBoolean.length === 0" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>確定要刪除資料?</AlertDialogTitle>
             </AlertDialogHeader>
+            <AlertDialogDescription> </AlertDialogDescription>
             <AlertDialogFooter>
               <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-              <AlertDialogAction class="text-black-100 bg-tiffany"> 確定 </AlertDialogAction>
+              <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteSelectedItems()"> 確定 </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -389,7 +283,7 @@
     <TableBody class="text-gray-600">
       <TableRow v-for="artist in filteredData" :key="artist.id">
         <TableCell class="text-purple-primary">
-          <Checkbox id="terms" />
+          <Checkbox id="terms" :checked="checkedMap[artist.id]" @update:checked="updateChecked(artist.id, $event)" />
           <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
@@ -400,67 +294,20 @@
           <Button variant="none" @click="openDialog('編輯', artist.id)" class="hover:text-[#6366f1]">
             <span class="material-symbols-outlined">edit</span>
           </Button>
-          <!-- <Dialog>
-            <DialogTrigger as-child>
-              <Button variant="none" class="hover:text-[#6366f1]">
-                <span class="material-symbols-outlined">edit</span>
-              </Button>
-            </DialogTrigger>
-            <DialogContent class="sm:max-w-[850px]">
-              <DialogHeader>
-                <DialogTitle class="text-center">編輯演唱會</DialogTitle>
-                <DialogDescription>請編輯演唱會</DialogDescription>
-              </DialogHeader>
-              <div class="grid grid-cols-2 place-items-start gap-4">
-                <div class="grid gap-4 py-4">
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="title" class="text-left"> 演唱會標題 </Label>
-                    <Input type="text" id="title" class="col-span-3" />
-                  </div>
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="artist" class="text-left"> 表演者名稱 </Label>
-                    <Input id="artist" class="col-span-3" />
-                  </div>
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="date" class="text-left"> 演唱會日期 </Label>
-                    <Input id="date" class="col-span-3" />
-                  </div>
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="location" class="text-left"> 演唱會地點 </Label>
-                    <Input id="location" class="col-span-3" />
-                  </div>
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="address" class="text-left"> 演唱會地址 </Label>
-                    <Input id="address" class="col-span-3" />
-                  </div>
-                </div>
-                <div class="grid gap-4 py-4">
-                  <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="pictures" class="text-left"> 演唱會圖片 </Label>
-                    <Input type="file" id="pictures" class="col-span-3 hover:bg-accent" />
-                  </div>
-                </div>
-              </div>
-              <DialogFooter>
-                <DialogClose><Button variant="outline" class="px-6">取消</Button></DialogClose>
-                <Button type="submit">儲存資料</Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog> -->
           <AlertDialog>
             <AlertDialogTrigger as-child>
               <Button variant="none" class="hover:text-[#6366f1]">
-                <span class="material-symbols-outlined">delete</span>
+                <span class="material-symbols-outlined"> delete </span>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>確定要刪除該筆資料?</AlertDialogTitle>
-                <AlertDialogDescription></AlertDialogDescription>
+                <AlertDialogDescription> </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction @click="deleteAdminArtist(artist.id)">確定</AlertDialogAction>
+                <AlertDialogAction @click="deleteItem(artist.id)"> 確定 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -468,6 +315,28 @@
       </TableRow>
     </TableBody>
   </Table>
+
+  <!-- Pagination -->
+  <div class="flex justify-center">
+    <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <PaginationList v-slot="{ items }" class="flex items-center md:gap-1">
+        <PaginationFirst @click="FilterByPage(1)" />
+        <PaginationPrev @click="FilterByPage(pagination.current_page - 1)" />
+
+        <template v-for="item in items">
+          <PaginationListItem v-if="item.type === 'page'" :key="item" :value="item.value" as-child>
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'" @click="FilterByPage(item.value)">
+              {{ item.value }}
+            </Button>
+          </PaginationListItem>
+          <PaginationEllipsis v-else :key="item.type" :index="index" class="hidden sm:flex" />
+        </template>
+
+        <PaginationNext @click="FilterByPage(pagination.current_page + 1)" />
+        <PaginationLast @click="FilterByPage(pagination.total_pages)" />
+      </PaginationList>
+    </Pagination>
+  </div>
 
   <!-- 找不到資料 -->
   <div v-show="!filteredData?.length" class="flex justify-center py-12">
@@ -486,6 +355,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 // Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 
+// pagination
+import { Pagination, PaginationEllipsis, PaginationFirst, PaginationList, PaginationLast, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
+
 // Dialog
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
@@ -503,7 +375,7 @@ import {
 
 <script>
 import { http, getSingleArtist } from '@/api';
-import { getAdminArtists, filterAdminArtists } from '@/api/admin/all';
+import { getAdminArtists, filterAdminArtists } from '@/api/admin/adminApi';
 import { useDebounceFn } from '@vueuse/core';
 import { loadingStore } from '@/stores/isLoading';
 import { useToast } from '@/components/ui/toast/use-toast';
@@ -534,6 +406,10 @@ export default {
       searchText: '',
       selectCountry: '',
       // countryParam: '',
+      searchPage: 1,
+      selectIdBoolean: [],
+      checkedMap: {},
+      pagination: {},
       adminArtists: [],
       imgUrls: [],
       isNew: false, // 切換新增&編輯模式
@@ -591,26 +467,64 @@ export default {
     },
   },
   methods: {
+    searchInput: useDebounceFn(async function (page = 1) {
+      this.searchPage = page;
+
+      try {
+        const res = await filterAdminArtists(this.searchText, page);
+        this.adminArtists = res.data.data;
+        this.pagination = res.data.pagination;
+
+        res.data.data.forEach((item) => {
+          this.checkedMap[`${item.id}`] = false;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300),
+    FilterByPage(page) {
+      setIsLoading();
+      this.searchInput(page);
+
+      setTimeout(() => {
+        setIsLoading();
+      }, 500);
+    },
     async getAdminArtistData(page = 1) {
+      this.searchPage = page;
       setIsLoading(true);
 
       try {
         const res = await getAdminArtists(page);
         this.adminArtists = res.data.data;
+        this.pagination = res.data.pagination;
+
+        res.data.data.forEach((item) => {
+          this.checkedMap[`${item.id}`] = false;
+        });
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoading(false);
       }
     },
-    searchInput: useDebounceFn(async function (page = 1) {
+    async getOnSubmitData(url, data) {
+      setIsLoading();
+
       try {
-        const res = await filterAdminArtists(this.searchText, page);
-        this.adminArtists = res.data.data;
+        const res = await http.post(url, data);
+        const successMsg = res.data.message;
+        this.getAdminArtistData();
+        this.toastMsg(successMsg);
+
+        // 關閉 dialog
+        this.dialogOpen = false;
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading();
       }
-    }, 300),
+    },
     onFileUpload(event, index, imgType) {
       const file = event.target.files[0];
       const fileTypes = ['image/jpeg', 'image/png', 'image/webp'];
@@ -633,21 +547,11 @@ export default {
 
       this.tempArtist.coverUrl[`${imgType}`] = file;
       this.imgUrls[index] = URL.createObjectURL(this.tempArtist.coverUrl[`${imgType}`]);
-
-      // 方法二
-      // const reader = new FileReader();
-      // reader.onload = function (e) {
-      //   const imgData = e.target.result
-      //   document.querySelector(`#${imgType}`).src = imgData
-      // }
-      // reader.readAsDataURL(file)
-      // this.imgUrls[index] = file
     },
     async openDialog(state, id) {
       if (state === '新增') {
         // 新增模式
         this.isNew = true;
-
         this.tempArtist = {
           // 暫存的資料
           name: '',
@@ -662,21 +566,19 @@ export default {
           },
         };
       } else {
+        // 先清空上一筆資料
+        this.resetTempArtist();
+        // 清空上一筆 imgUrls
+        this.imgUrls = [];
         // 編輯模式
         this.isNew = false;
-
         // 打開 dialog
         this.dialogOpen = true;
-        // console.log('編輯表演者 open狀態1', this.dialogOpen);
 
-        setIsLoading();
         // 取得該表演者資料
         try {
           const res = await getSingleArtist(id);
-          // console.log('res', res);
-
           const artist = res.data.data;
-
           this.changeId = artist.id;
 
           this.tempArtist = {
@@ -688,24 +590,22 @@ export default {
             keywords: artist.keywords,
           };
 
-          // console.log('編輯模式 this.tempArtist', this.tempArtist)
-
           this.imgUrls[0] = artist.cover_urls.horizontal;
           this.imgUrls[1] = artist.cover_urls.square;
         } catch (error) {
           console.error(error);
-        } finally {
-          setIsLoading();
         }
       }
     },
     // 點擊送出
     async onSubmit() {
       const veeRes = await this.$refs.form.validate();
-      if (!veeRes.valid) {
-        this.toastMsg('請填寫必填欄位');
 
-        return;
+      if (this.isNew) {
+        if (!veeRes.valid) {
+          this.toastMsg('請填寫必填欄位');
+          return;
+        }
       }
 
       // 過濾陣列中非必填欄位的空字串
@@ -713,15 +613,9 @@ export default {
       const songsClear = this.tempArtist.songs.filter((song) => song.trim().length > 0);
       const keywordsClear = this.tempArtist.keywords.filter((keyword) => keyword.trim().length > 0);
 
-      // console.log('honorsClear', honorsClear);
-      // console.log('songsClear', songsClear);
-      // console.log('keywordsClear', keywordsClear);
-
       const data = {
         name: this.tempArtist.name,
         country: this.tempArtist.country,
-        // cover_horizontal: this.tempArtist.coverUrl.horizontal,
-        // cover_square: this.tempArtist.coverUrl.square,
         description: this.tempArtist.description,
         honors: honorsClear,
         popular_songs: songsClear,
@@ -736,65 +630,60 @@ export default {
         data.cover_square = this.tempArtist.coverUrl.square;
       }
 
-      // 新增表演者
-      const url = '/admin/artists';
-
+      // 新增表演者 API
+      let url = '/admin/artists';
       // 編輯表演者 - 暫時開發
-      // if (!this.isNew) {
-      //   url = `/admin/artists/${this.changeId}`
-      //   data._method = 'PUT'
-      //   console.log('編輯 connect data', data);
-      // }
-
-      setIsLoading();
-
-      // 串接新增表演者API
-      try {
-        const res = await http.post(url, data);
-        const successMsg = res.data.message;
-        this.getAdminArtistData();
-        this.toastMsg(successMsg);
-
-        // 關閉 dialog
-        this.dialogOpen = false;
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading();
+      if (!this.isNew) {
+        url = `/admin/artists/${this.changeId}`;
+        data._method = 'PUT';
       }
-
+      // 取得新增或編輯表演者API資料
+      this.getOnSubmitData(url, data);
       // 清除form資料
       this.resetTempArtist();
-      // console.log('clearform data', this.tempArtist);
-
       // 清空 imgUrls
       this.imgUrls = [];
-      // console.log('清空 imgUrls', this.imgUrls);
     },
-    async deleteAdminArtist(id) {
-      const url = '/admin/artists';
-      const idArray = [id];
+    updateChecked(id, checked = true) {
+      this.checkedMap[`${id}`] = checked;
 
+      this.selectIdBoolean = Object.keys(this.checkedMap).filter((id) => this.checkedMap[id]);
+      // .map((id) => parseInt(id));  // 將字串型別轉換為數字型別
+    },
+    async deleteSelectedItems() {
+      const url = '/admin/artists';
       const data = {
-        ids: idArray,
+        ids: [...this.selectIdBoolean],
         _method: 'DELETE',
       };
+
+      this.selectIdBoolean.forEach((id) => {
+        delete this.checkedMap[id];
+      });
 
       try {
         const res = await http.post(url, data);
         const result = res.data.success;
 
         if (result) {
-          this.getAdminArtistData();
+          this.getAdminArtistData(this.searchPage);
 
           setTimeout(() => {
             this.toastMsg('表演者已刪除');
           }, 1000);
+          this.selectIdBoolean = [];
         }
       } catch (error) {
         console.error(error);
-        this.toastMsg('表演者刪除失敗');
+        const errorMsg = error.response.data.message;
+        if (errorMsg) {
+          this.toastMsg('因表演者資料有其他資料，不能刪除');
+        }
       }
+    },
+    async deleteItem(id) {
+      this.updateChecked(id);
+      this.deleteSelectedItems();
     },
     resetTempArtist() {
       this.tempArtist = {
