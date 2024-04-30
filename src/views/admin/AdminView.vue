@@ -1,8 +1,11 @@
 <template>
   <div class="grid grid-cols-5 gap-0 min-h-screen">
-    <!-- <div class="col-span-1"> -->
+    <!-- 脫離頁面流 -->
     <AdminSideBar />
-    <!-- </div> -->
+
+    <!-- 取代AdminSideBar 佔據其空間 -->
+    <div></div>
+
     <div class="col-span-5 xl:col-span-4 p-6 xl:p-12 bg-primary-foreground">
       <AdminNav />
       <RouterView />
