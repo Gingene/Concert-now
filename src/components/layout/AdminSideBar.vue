@@ -1,11 +1,10 @@
 <template>
   <div class="absolute pl-6 pt-6 xl:hidden">
-    
     <!-- 手機版 -->
     <Sheet :open="isSheetOpen" @update:open="isSheetOpen = $event">
-      <SheetTrigger>
+      <SheetTrigger class="xl:hidden">
         <span class="material-symbols-outlined xl:p-0"> menu </span>
-      </SheetTrigger class="xl:hidden">
+      </SheetTrigger>
       <SheetContent class="overflow-y-scroll" side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
           <div class="w-[205px] font-semibold mx-auto py-8 flex text-xl">CONCERT NOW.</div>
@@ -43,15 +42,7 @@
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 </script>
 
 <script>
@@ -96,13 +87,10 @@ export default {
     };
   },
   methods: {
-    openSheet() {
-      console.log(this.isSheetOpen)
-    },
     closeSheet() {
-      this.isSheetOpen = false
-    }
-  },  
+      this.isSheetOpen = false;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

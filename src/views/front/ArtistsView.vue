@@ -33,17 +33,9 @@
 
       <!--  grid  -->
       <ul class="w-[100%] mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-        <li 
-          v-for="artist in aristData.artists" 
-          :key="artist.id" 
-          class="flex flex-row justify-between items-center px-4 py-3 md:border-2 border-black-80 rounded-2xl"
-        >
+        <li v-for="artist in aristData.artists" :key="artist.id" class="flex flex-row justify-between items-center px-4 py-3 md:border-2 border-black-80 rounded-2xl">
           <RouterLink :to="`/artists/${artist.id}`" class="w-[81%] flex items-center">
-            <img 
-              class="size-[70px] object-cover rounded-full" 
-              :src="artist.cover_urls.square" 
-              :alt="artist.name" 
-            />
+            <img class="size-[70px] object-cover rounded-full" :src="artist.cover_urls.square" :alt="artist.name" />
             <div class="ml-4">
               <p class="text-base lg:text-lg">{{ artist.name }}</p>
               <div class="flex gap-3">
@@ -55,12 +47,7 @@
           </RouterLink>
           <AlertDialog>
             <AlertDialogTrigger class="flex">
-              <button 
-                v-if="!AccessToken" 
-                class="basic-follow tiffany-outline text-base"
-              >
-                Follow
-              </button>
+              <button v-if="!AccessToken" class="basic-follow tiffany-outline text-base">Follow</button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -97,23 +84,14 @@
       :sibling-count="1"
       show-edges
       :default-page="1"
-      class="flex justify-center my-5 lg:my-12 pt-16"
-    >
+      class="flex justify-center my-5 lg:my-12 pt-16">
       <PaginationList v-slot="{ items }" class="flex items-center gap-1">
         <PaginationFirst @click="FilterByPage(1)" />
         <PaginationPrev @click="FilterByPage(aristData.pagination.current_page - 1)" />
 
         <template v-for="item in items">
-          <PaginationListItem 
-            v-if="item.type === 'page'" 
-            :key="item" 
-            :value="item.value" as-child
-          >
-            <Button 
-              class="w-10 h-10 p-0" 
-              :variant="item.value === page ? 'default' : 'outline'" 
-              @click="FilterByPage(item.value)" :disabled="item.value === page"
-            >
+          <PaginationListItem v-if="item.type === 'page'" :key="item" :value="item.value" as-child>
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="FilterByPage(item.value)" :disabled="item.value === page">
               {{ item.value }}
             </Button>
           </PaginationListItem>
@@ -175,12 +153,12 @@ export default {
         param: '',
       },
       countries: [
-        {  id: 1, location: '全部' },
-        {  id: 2, location: '台灣' },
-        {  id: 3, location: '日本' },
-        {  id: 4, location: '韓國' },
-        {  id: 5, location: '歐美' },
-        {  id: 6, location: '其它' },
+        { id: 1, location: '全部' },
+        { id: 2, location: '台灣' },
+        { id: 3, location: '日本' },
+        { id: 4, location: '韓國' },
+        { id: 5, location: '歐美' },
+        { id: 6, location: '其它' },
       ],
     };
   },
@@ -205,7 +183,6 @@ export default {
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
-
       } catch (error) {
         console.error(error);
       }
@@ -238,7 +215,6 @@ export default {
 
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
-
       } catch (error) {
         console.error(error);
       }

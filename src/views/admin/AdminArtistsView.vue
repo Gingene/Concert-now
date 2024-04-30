@@ -28,13 +28,7 @@
         <Form ref="form">
           <Dialog :open="dialogOpen" @update:open="dialogOpen = $event">
             <DialogTrigger as-child>
-              <Button 
-                variant="outline" 
-                @click="openDialog('新增')" 
-                class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"
-              > 
-                新增表演者 
-              </Button>
+              <Button variant="outline" @click="openDialog('新增')" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增表演者 </Button>
             </DialogTrigger>
             <DialogContent class="sm:max-w-[900px] grid-rows-[auto_minmax(0,1fr)_auto] p-0 max-h-[90dvh]">
               <DialogHeader class="p-6 pb-0">
@@ -50,15 +44,7 @@
                     <div>
                       <div class="flex items-center gap-5 whitespace-nowrap">
                         <label for="name" class="text-left mr-[52px]">名稱</label>
-                        <Field 
-                          id="name" 
-                          name="名稱" 
-                          type="text" 
-                          placeholder="請輸入表演者名稱" 
-                          v-model.trim="tempArtist.name" 
-                          class="correct-input" 
-                          rules="required" 
-                        />
+                        <Field id="name" name="名稱" type="text" placeholder="請輸入表演者名稱" v-model.trim="tempArtist.name" class="correct-input" rules="required" />
                       </div>
                       <ErrorMessage name="名稱" class="error-text text-xs" />
                     </div>
@@ -66,16 +52,8 @@
                     <!-- 表演者國籍 -->
                     <div>
                       <div class="flex items-center gap-5 whitespace-nowrap">
-                        <label for="country" class="text-left mr-[52px]">
-                           國籍 
-                        </label>
-                        <Field 
-                          id="country"
-                          v-slot="{ field }" 
-                          name="國籍" 
-                          class="correct-input" 
-                          rules="required"
-                        >
+                        <label for="country" class="text-left mr-[52px]"> 國籍 </label>
+                        <Field id="country" v-slot="{ field }" name="國籍" class="correct-input" rules="required">
                           <Select v-model.trim="tempArtist.country" v-bind="field" class="text-input">
                             <SelectTrigger class="w-full col-span-3">
                               <SelectValue placeholder="請選擇表演者國籍" />
@@ -83,11 +61,7 @@
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>表演者</SelectLabel>
-                                <SelectItem 
-                                  v-for="country in countryTypes" 
-                                  :key="country.id" 
-                                  :value="country.type"
-                                >
+                                <SelectItem v-for="country in countryTypes" :key="country.id" :value="country.type">
                                   {{ country.type }}
                                 </SelectItem>
                               </SelectGroup>
@@ -102,20 +76,8 @@
                     <div>
                       <div class="flex items-start gap-5 whitespace-nowrap">
                         <label for="description" class="text-left mr-[52px]"> 介紹 </label>
-                        <Field 
-                          v-slot="{ field }"
-                          name="介紹" 
-                          v-model.trim="tempArtist.description" 
-                          rules="required|max:300"
-                        >
-                          <textarea 
-                            v-bind="field" 
-                            name="介紹" 
-                            maxlength="300" 
-                            placeholder="請輸入表演者介紹" 
-                            class="correct-textrea"
-                          > 
-                          </textarea>
+                        <Field v-slot="{ field }" name="介紹" v-model.trim="tempArtist.description" rules="required|max:300">
+                          <textarea v-bind="field" name="介紹" maxlength="300" placeholder="請輸入表演者介紹" class="correct-textrea"> </textarea>
                         </Field>
                       </div>
                       <ErrorMessage name="介紹" class="error-text text-xs" />
@@ -290,13 +252,7 @@
       <div class="lg:pt-5 mt-auto">
         <AlertDialog>
           <AlertDialogTrigger as-child>
-            <Button 
-              variant="outline" 
-              :disabled="selectIdBoolean.length === 0"
-              class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"
-            > 
-              刪除資料 
-            </Button>
+            <Button variant="outline" :disabled="selectIdBoolean.length === 0" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -305,12 +261,7 @@
             <AlertDialogDescription> </AlertDialogDescription>
             <AlertDialogFooter>
               <AlertDialogCancel class="bg-black-60">取消</AlertDialogCancel>
-              <AlertDialogAction 
-                class="text-black-100 bg-tiffany" 
-                @click="deleteSelectedItems()"
-              > 
-                確定 
-              </AlertDialogAction>
+              <AlertDialogAction class="text-black-100 bg-tiffany" @click="deleteSelectedItems()"> 確定 </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
@@ -332,11 +283,7 @@
     <TableBody class="text-gray-600">
       <TableRow v-for="artist in filteredData" :key="artist.id">
         <TableCell class="text-purple-primary">
-          <Checkbox 
-            id="terms" 
-            :checked="checkedMap[artist.id]" 
-            @update:checked="updateChecked(artist.id, $event)" 
-          />
+          <Checkbox id="terms" :checked="checkedMap[artist.id]" @update:checked="updateChecked(artist.id, $event)" />
           <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
         </TableCell>
         <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
@@ -344,37 +291,26 @@
         <TableCell class="pl-[70px]">{{ artist.concert_count }}</TableCell>
         <TableCell class="pl-7">{{ artist.follower_count }}</TableCell>
         <TableCell class="text-center">
-          <Button 
-            variant="none" 
-            @click="openDialog('編輯', artist.id)" class="hover:text-[#6366f1]"
-          >
+          <Button variant="none" @click="openDialog('編輯', artist.id)" class="hover:text-[#6366f1]">
             <span class="material-symbols-outlined">edit</span>
           </Button>
           <AlertDialog>
             <AlertDialogTrigger as-child>
               <Button variant="none" class="hover:text-[#6366f1]">
-                <span class="material-symbols-outlined">
-                  delete
-                </span>
+                <span class="material-symbols-outlined"> delete </span>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>確定要刪除該筆資料?</AlertDialogTitle>
-                <AlertDialogDescription>
-                </AlertDialogDescription>
+                <AlertDialogDescription> </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction 
-                  @click="deleteItem(artist.id)"
-                >
-                  確定
-                </AlertDialogAction>
+                <AlertDialogAction @click="deleteItem(artist.id)"> 確定 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-
         </TableCell>
       </TableRow>
     </TableBody>
@@ -389,10 +325,7 @@
 
         <template v-for="item in items">
           <PaginationListItem v-if="item.type === 'page'" :key="item" :value="item.value" as-child>
-            <Button 
-              class="w-10 h-10 p-0" 
-              :variant="item.value === page ? 'default' : 'page'" @click="FilterByPage(item.value)"
-            >
+            <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'page'" @click="FilterByPage(item.value)">
               {{ item.value }}
             </Button>
           </PaginationListItem>
@@ -404,9 +337,8 @@
       </PaginationList>
     </Pagination>
   </div>
-  
-  
-    <!-- 找不到資料 -->
+
+  <!-- 找不到資料 -->
   <div v-show="!filteredData?.length" class="flex justify-center py-12">
     <h2>哇! 找不到資料~</h2>
   </div>
@@ -438,7 +370,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>
@@ -535,46 +467,43 @@ export default {
     },
   },
   methods: {
-    searchInput: useDebounceFn(async function ( page = 1) {
-       this.searchPage = page
+    searchInput: useDebounceFn(async function (page = 1) {
+      this.searchPage = page;
 
       try {
         const res = await filterAdminArtists(this.searchText, page);
         this.adminArtists = res.data.data;
-        this.pagination = res.data.pagination
+        this.pagination = res.data.pagination;
 
-        res.data.data.forEach(item => {
-          this.checkedMap[`${item.id}`] = false
+        res.data.data.forEach((item) => {
+          this.checkedMap[`${item.id}`] = false;
         });
-
       } catch (error) {
         console.error(error);
       }
     }, 300),
     FilterByPage(page) {
       setIsLoading();
-      this.searchInput(page)
+      this.searchInput(page);
 
       setTimeout(() => {
         setIsLoading();
       }, 500);
     },
     async getAdminArtistData(page = 1) {
-      this.searchPage = page
+      this.searchPage = page;
       setIsLoading(true);
 
       try {
         const res = await getAdminArtists(page);
         this.adminArtists = res.data.data;
-        this.pagination = res.data.pagination
+        this.pagination = res.data.pagination;
 
-        res.data.data.forEach(item => {
-          this.checkedMap[`${item.id}`] = false
+        res.data.data.forEach((item) => {
+          this.checkedMap[`${item.id}`] = false;
         });
-
       } catch (error) {
         console.error(error);
-
       } finally {
         setIsLoading(false);
       }
@@ -590,10 +519,8 @@ export default {
 
         // 關閉 dialog
         this.dialogOpen = false;
-
       } catch (error) {
         console.error(error);
-
       } finally {
         setIsLoading();
       }
@@ -639,9 +566,8 @@ export default {
           },
         };
       } else {
-
         // 先清空上一筆資料
-        this.resetTempArtist()
+        this.resetTempArtist();
         // 清空上一筆 imgUrls
         this.imgUrls = [];
         // 編輯模式
@@ -666,10 +592,9 @@ export default {
 
           this.imgUrls[0] = artist.cover_urls.horizontal;
           this.imgUrls[1] = artist.cover_urls.square;
-
         } catch (error) {
           console.error(error);
-        } 
+        }
       }
     },
     // 點擊送出
@@ -678,7 +603,6 @@ export default {
 
       if (this.isNew) {
         if (!veeRes.valid) {
-          console.log('進入veeRes.valid', veeRes)
           this.toastMsg('請填寫必填欄位');
           return;
         }
@@ -688,7 +612,6 @@ export default {
       const honorsClear = this.tempArtist.honors.filter((honor) => honor.trim().length > 0);
       const songsClear = this.tempArtist.songs.filter((song) => song.trim().length > 0);
       const keywordsClear = this.tempArtist.keywords.filter((keyword) => keyword.trim().length > 0);
-
 
       const data = {
         name: this.tempArtist.name,
@@ -711,39 +634,35 @@ export default {
       let url = '/admin/artists';
       // 編輯表演者 - 暫時開發
       if (!this.isNew) {
-        url = `/admin/artists/${this.changeId}`
-        data._method = 'PUT'
-        console.log('編輯 connect data 1', data);
+        url = `/admin/artists/${this.changeId}`;
+        data._method = 'PUT';
       }
       // 取得新增或編輯表演者API資料
-      this.getOnSubmitData(url, data)
+      this.getOnSubmitData(url, data);
       // 清除form資料
       this.resetTempArtist();
       // 清空 imgUrls
       this.imgUrls = [];
     },
     updateChecked(id, checked = true) {
-      this.checkedMap[`${id}`] = checked
+      this.checkedMap[`${id}`] = checked;
 
-      this.selectIdBoolean = Object.keys(this.checkedMap)
-        .filter((id) => this.checkedMap[id])
-        // .map((id) => parseInt(id));  // 將字串型別轉換為數字型別
-      
+      this.selectIdBoolean = Object.keys(this.checkedMap).filter((id) => this.checkedMap[id]);
+      // .map((id) => parseInt(id));  // 將字串型別轉換為數字型別
     },
     async deleteSelectedItems() {
       const url = '/admin/artists';
       const data = {
-        ids: [ ...this.selectIdBoolean ],
+        ids: [...this.selectIdBoolean],
         _method: 'DELETE',
       };
 
-       this.selectIdBoolean.forEach((id) => {
-        delete this.checkedMap[id]
-      })
+      this.selectIdBoolean.forEach((id) => {
+        delete this.checkedMap[id];
+      });
 
       try {
         const res = await http.post(url, data);
-        console.log('delete res', res)
         const result = res.data.success;
 
         if (result) {
@@ -752,20 +671,19 @@ export default {
           setTimeout(() => {
             this.toastMsg('表演者已刪除');
           }, 1000);
-          this.selectIdBoolean = []
+          this.selectIdBoolean = [];
         }
       } catch (error) {
         console.error(error);
-        const errorMsg = error.response.data.message
-        if ( errorMsg ) {
+        const errorMsg = error.response.data.message;
+        if (errorMsg) {
           this.toastMsg('因表演者資料有其他資料，不能刪除');
         }
       }
-
     },
     async deleteItem(id) {
-      this.updateChecked(id)
-      this.deleteSelectedItems()
+      this.updateChecked(id);
+      this.deleteSelectedItems();
     },
     resetTempArtist() {
       this.tempArtist = {
