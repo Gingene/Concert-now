@@ -10,15 +10,40 @@ export const useVenuesStore = defineStore('venues', {
     venueInfo: [],
     venues: [],
     venue: {},
-    adminVenues: [],
-    adminSearchText: '',
-    adminCity: '',
-    adminCityOptions: '',
     pagination: {},
     seatArea: '',
     searchText: '',
     city: '',
     searchPage: 1,
+    // 以下為 Admin Venue 頁面
+    adminVenues: [],
+    adminSearchText: '',
+    adminCity: '',
+    adminCityOptions: '',
+    imageUrl: [],
+    isModalOpen: false,
+    isNew: false,
+    // 以下為 Admin Venue 新稱/編輯的表單內容
+    tempAdminVenue: {
+      title: '',
+      eng_title: '',
+      address: '',
+      city: '',
+      picture: {
+        horizontal: '',
+        square: '',
+      },
+      map_link: '',
+      seat_picture: '',
+      seat_areas: [],
+      seat_amount: 0,
+      transportation: [
+        {
+          type: '',
+          info: '',
+        },
+      ],
+    },
   }),
   actions: {
     getVenueInfo() {
@@ -106,33 +131,42 @@ export const useVenuesStore = defineStore('venues', {
       });
     },
     // 以下為 Admin Venue
-    getAdminVenues() {
+    getAdminVenues: useDebounceFn(async function () {
+      const { adminSearchText, adminCity } = this;
+      const params = {
+        q: adminSearchText || '',
+        city: adminCity && adminCity !== '全部' ? adminCity : '',
+        page: 1,
+      };
+      const queryParams = new URLSearchParams(params).toString();
+      const url = `${adminPath.venues}?${queryParams}`;
       setIsLoading();
+
+      try {
+        const res = await http.get(url);
+        this.adminVenues = res.data.data;
+        this.adminCityOptions = [...new Set(res.data.data.map((i) => i.city))];
+      } catch (error) {
+        toast({ title: '無法取得會員列表' });
+      } finally {
+        setIsLoading();
+      }
+    }, 150),
+    getAdminSingleVenue(id) {
       http
-        .get(`${adminPath.venues}?page=1`)
+        .get(`${path.venues}/${id}`)
         .then((res) => {
-          this.adminVenues = res.data.data;
-          this.adminCityOptions = [...new Set(res.data.data.map((i) => i.city))];
+          this.tempAdminVenue = res.data.data;
+          const { picture } = this.tempAdminVenue;
+          this.imageUrl = [picture.horizontal, picture.square, this.tempAdminVenue.seat_picture];
+          delete this.tempAdminVenue.picture.horizontal;
+          delete this.tempAdminVenue.picture.square;
+          delete this.tempAdminVenue.seat_picture;
         })
         .catch((err) => {
           console.error(err);
-        })
-        .finally(() => {
-          setIsLoading();
         });
     },
-    searchAdminVenues: useDebounceFn(function (searchText, city = '') {
-      this.adminSearchText = searchText;
-      this.adminCity = city;
-      http
-        .get(`${adminPath.venues}/?q=${searchText}&city=${this.adminCity}&page=1`)
-        .then((res) => {
-          this.adminVenues = res.data.data;
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }, 300),
     deleteVenue(id, type) {
       if (!id) return;
       const venueImportant = [1, 2, 3, 4, 5, 6];
