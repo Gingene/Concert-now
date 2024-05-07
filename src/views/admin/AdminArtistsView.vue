@@ -92,7 +92,8 @@
                         </div>
                         <ErrorMessage name="榮譽獎項 1" class="error-text text-xs" />
                       </div>
-                      <p class="text-cyan-400 mt-1">範例: 2010 Mnet 亞洲音樂 (MAMA) 最佳樂隊獎</p>
+                      <!-- text-cyan-400 -->
+                      <p class="mt-1 text-tiny text-black-60">※範例: 2010 Mnet 亞洲音樂 (MAMA) 最佳樂隊獎</p>
                     </div>
 
                     <!-- 表演者得獎經歷2 -->
@@ -178,7 +179,7 @@
                         </div>
                         <ErrorMessage name="關鍵字 1" class="error-text text-xs" />
                       </div>
-                      <p class="text-cyan-400 mt-1">範例: YOASOBI，關鍵字: 日本、J-POP、Vocaloid</p>
+                      <p class="mt-1 text-tiny text-black-60">※範例: YOASOBI，關鍵字: 日本、J-POP、Vocaloid</p>
                     </div>
 
                     <!-- 表演者關鍵字2 -->
@@ -530,7 +531,10 @@ export default {
       const fileTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
       // 檢查是否有檔案
-      if (!file) return;
+      if (!file) {
+        this.toastMsg('請選擇圖片');
+        return;
+      }
 
       // 檢查圖片是否符合 jpg & png
       if (!fileTypes.includes(file.type)) {
@@ -546,12 +550,13 @@ export default {
       }
 
       this.tempArtist.coverUrl[`${imgType}`] = file;
-      this.imgUrls[index] = URL.createObjectURL(this.tempArtist.coverUrl[`${imgType}`]);
+      this.imgUrls[index] = URL.createObjectURL(file);
     },
     async openDialog(state, id) {
       if (state === '新增') {
         // 新增模式
         this.isNew = true;
+        this.imgUrls = [];
         this.tempArtist = {
           // 暫存的資料
           name: '',
@@ -588,6 +593,10 @@ export default {
             honors: artist.honors,
             songs: artist.popular_songs,
             keywords: artist.keywords,
+            coverUrl: {
+              horizontal: null,
+              square: null,
+            },
           };
 
           this.imgUrls[0] = artist.cover_urls.horizontal;
