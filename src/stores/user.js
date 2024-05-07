@@ -96,7 +96,6 @@ export const useUserStore = defineStore('user', {
       } finally {
         setIsLoading();
       }
-      
     }, 300),
   },
 });

@@ -533,8 +533,8 @@ export default {
       // 檢查是否有檔案
       if (!file) {
         this.toastMsg('請選擇圖片');
-        return 
-      };
+        return;
+      }
 
       // 檢查圖片是否符合 jpg & png
       if (!fileTypes.includes(file.type)) {
@@ -556,7 +556,7 @@ export default {
       if (state === '新增') {
         // 新增模式
         this.isNew = true;
-        this.imgUrls = []
+        this.imgUrls = [];
         this.tempArtist = {
           // 暫存的資料
           name: '',
