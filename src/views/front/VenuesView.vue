@@ -50,14 +50,14 @@
           </Card>
         </li>
       </ul>
-      <Pagination v-slot="{ page }" :page="searchPage" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination v-slot="{ page }" :page="searchPage" :total="pagination.total_pages * 4" :itemsPerPage="4" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getVenuesByPage(1)" />
           <PaginationPrev @click="getVenuesByPage(pagination.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getVenuesByPage(item.value, page)" :disabled="item.value === page">
+              <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="getVenuesByPage(item.value)" :disabled="item.value === page">
                 {{ item.value }}
               </Button>
             </PaginationListItem>

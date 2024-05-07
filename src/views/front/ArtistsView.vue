@@ -47,7 +47,7 @@
           </RouterLink>
           <AlertDialog>
             <AlertDialogTrigger class="flex">
-              <button v-if="!AccessToken" class="basic-follow tiffany-outline text-base hover:translate-y-[-.25rem]">Follow</button>
+              <button v-if="!AccessToken" class="basic-follow tiffany-outline text-base">Follow</button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
@@ -65,7 +65,7 @@
           <button
             v-if="AccessToken"
             :key="artist?.id"
-            class="basic-follow text-base hover:translate-y-[-.25rem]"
+            class="basic-follow text-base"
             :class="artist.is_followed ? 'tiffany-follow' : 'tiffany-outline'"
             @click="toggleFollowArtists(artist.is_followed, artist.id)">
             {{ artist.is_followed ? 'Following' : 'Follow' }}
@@ -89,8 +89,8 @@
         <PaginationFirst @click="FilterByPage(1)" />
         <PaginationPrev @click="FilterByPage(aristData.pagination.current_page - 1)" />
 
-        <template v-for="(item, index) in items">
-          <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
+        <template v-for="item in items">
+          <PaginationListItem v-if="item.type === 'page'" :key="item" :value="item.value" as-child>
             <Button class="w-10 h-10 p-0" :variant="item.value === page ? 'default' : 'outline'" @click="FilterByPage(item.value)" :disabled="item.value === page">
               {{ item.value }}
             </Button>
@@ -153,30 +153,12 @@ export default {
         param: '',
       },
       countries: [
-        {
-          id: 1,
-          location: '全部',
-        },
-        {
-          id: 2,
-          location: '台灣',
-        },
-        {
-          id: 3,
-          location: '日本',
-        },
-        {
-          id: 4,
-          location: '韓國',
-        },
-        {
-          id: 5,
-          location: '歐美',
-        },
-        {
-          id: 6,
-          location: '其它',
-        },
+        { id: 1, location: '全部' },
+        { id: 2, location: '台灣' },
+        { id: 3, location: '日本' },
+        { id: 4, location: '韓國' },
+        { id: 5, location: '歐美' },
+        { id: 6, location: '其它' },
       ],
     };
   },
@@ -219,6 +201,7 @@ export default {
     FilterByPage(page) {
       setIsLoading();
       this.searchArtists(this.aristData.searchWord, page);
+
       setTimeout(() => {
         setIsLoading();
       }, 500);

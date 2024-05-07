@@ -86,19 +86,16 @@ export const useUserStore = defineStore('user', {
       const { setIsLoading } = loadingStore();
       setIsLoading();
 
-      await http
-        .get(url)
-        .then((res) => {
-          this.adminMembers = res.data.data;
-          this.page = res.data.pagination.current_page;
-          this.pageTotal = res.data.pagination.total;
-        })
-        .catch(() => {
-          toast({ title: '無法取得會員列表' });
-        })
-        .finally(() => {
-          setIsLoading();
-        });
+      try {
+        const res = await http.get(url);
+        this.adminMembers = res.data.data;
+        this.page = res.data.pagination.current_page;
+        this.pageTotal = res.data.pagination.total;
+      } catch (error) {
+        toast({ title: '無法取得會員列表' });
+      } finally {
+        setIsLoading();
+      }
     }, 300),
   },
 });

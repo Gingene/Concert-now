@@ -375,10 +375,6 @@ export default {
       this.tempConcert.sales_time = `${this.tempConcert.salesDate} ${this.tempConcert.salesTime}:00`;
       this.tempConcert.organizers = this.tempConcert.organizerList?.split(',');
 
-      ['priceList', 'holdingDate', 'holdingTime', 'salesDate', 'salesTime', 'organizerList'].forEach((item) => {
-        delete this.tempConcert[item];
-      });
-
       if (this.tempConcert.foreignUrl0 || this.tempConcert.foreignUrl1 || this.tempConcert.foreignUrl2) {
         this.tempConcert.foreign_urls = [];
         for (let i = 0; i < 3; i++) {
@@ -388,7 +384,6 @@ export default {
               url: this.tempConcert[`foreignUrl${i}`]?.split(',')[1],
             });
           }
-          delete this.tempConcert[`foreignUrl${i}`];
         }
       }
 
