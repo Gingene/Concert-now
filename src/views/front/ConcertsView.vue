@@ -111,14 +111,14 @@
           </Card>
         </li>
       </ul>
-      <Pagination v-if="concerts.length" v-slot="page" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
+      <Pagination v-if="concerts.length" v-slot="{ page }" :page="pageFactor" :total="pagination2.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
         <PaginationList v-slot="{ items }" class="flex items-center justify-center gap-1 pt-16">
           <PaginationFirst @click="getFilterFrontConcerts('', '', 1)" />
           <PaginationPrev @click="getFilterFrontConcerts('', '', pagination2.current_page - 1)" />
 
           <template v-for="(item, index) in items">
             <PaginationListItem v-if="item.type === 'page'" :key="index" :value="item.value" as-child>
-              <Button class="w-10 h-10 p-0" :variant="page === item.value ? 'default' : 'outline'" @click="getFilterFrontConcerts('', '', index + 1)" :disabled="pageFactor === item.value">
+              <Button class="w-10 h-10 p-0" :variant="page === item.value ? 'default' : 'outline'" @click="getFilterFrontConcerts('', '', index + 1)" :disabled="item.value === page">
                 {{ item.value }}
               </Button>
             </PaginationListItem>

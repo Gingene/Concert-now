@@ -12,6 +12,28 @@
 
 ![cover](https://i.imgur.com/qAzsqih.png)
 
+## 如何使用此網站?
+
+### 登入流程示範
+
+![login](public/readme/login.gif)
+
+### 搜尋您喜愛的表演者、演唱會或場地(需進行登入)
+
+打開搜尋列並輸入您要找的藝人、演唱會或場地並到達目的頁面。
+您可以
+
+1. 追蹤藝人
+2. 將演唱會加入最愛並幫忙記錄歌單
+3. 在參加過演唱會的場地留下您的評論
+
+![feature](public/readme/features.gif)
+
+### 後台流程示範(需要管理員身分)
+
+**管理員可以新增、編輯、刪除演唱會、表演者與場地，以及管理會員、評論和歌單還有查看報表**
+![admin](public/readme/admin.gif)
+
 ## Project Setup
 
 ```sh

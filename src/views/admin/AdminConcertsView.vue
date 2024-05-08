@@ -209,7 +209,7 @@
     <div class="lg:pt-5 mt-auto">
       <AlertDialog>
         <AlertDialogTrigger as-child>
-          <Button variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
+          <Button :disabled="deleteList.length === 0" variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -473,7 +473,7 @@ export default {
     },
     changeDeleteList(id) {
       if (this.deleteList.indexOf(id) !== -1) {
-        delete this.deleteList[this.deleteList.indexOf(id)];
+        this.deleteList.splice(this.deleteList.indexOf(id),1);
       } else this.deleteList.push(id);
     },
     deleteConcert() {
