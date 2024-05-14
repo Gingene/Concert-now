@@ -1,12 +1,13 @@
 <!-- 此頁為寫死的靜態資料，沒有串API，也不會存資料 -->
 <template>
-  <div class="grid grid-cols-4 grid-flow-col gap-4 px-12">
+  <div class="grid grid-cols-1 lg:grid-cols-4 lg:grid-flow-col gap-4">
     <!-- Left: Profile -->
-    <div class="col-span-1">
+    <section class="flex lg:flex-col justify-center lg:justify-start">
       <!-- ! 圖片未綁 -->
-      <img class="mb-5 border-2 rounded-full w-[150px] h-[150px]" :src="user.profile_image_url" />
-      <h2 class="font-bold">{{ user.name }}</h2>
-      <p class="pb-6">{{ user.email }}</p>
+      <img class="border-2 rounded-full w-[130px] h-[140px]" :src="user.profile_image_url" />
+      <div class="ms-6 lg:ms-0">
+        <h2 class="font-bold">{{ user.name }}</h2>
+        <p class="pb-3 lg:pb-6">{{ user.email }}</p>
       <!-- Reset Password -->
       <Dialog>
         <DialogTrigger as-child>
@@ -38,8 +39,9 @@
         </DialogContent>
       </Dialog>
     </div>
+    </section>
     <!-- Right: Table -->
-    <main class="col-span-3 flex flex-col">
+    <main class="lg:col-span-3 flex flex-col">
       <div class="flex">
         <!-- 新增成員 -->
         <Dialog>
@@ -99,11 +101,11 @@
       <Table class="my-6 bg-white text-base text-gray-800 rounded-lg">
         <TableHeader>
           <TableRow class="hover:bg-inherit">
-            <TableHead class="w-[100px]">選取</TableHead>
+            <TableHead class="w-[100px]"></TableHead>
             <TableHead>姓名</TableHead>
             <TableHead>信箱</TableHead>
-            <TableHead>編輯</TableHead>
-            <TableHead>刪除</TableHead>
+            <TableHead></TableHead>
+            <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
