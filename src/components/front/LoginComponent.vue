@@ -120,7 +120,7 @@
                 </FormField>
               </template>
               <div class="my-2 mt-4 sm:mt-6">
-                <slot></slot>
+                <slot style="width: 100% !important"></slot>
                 <div class="flex justify-end">
                   <Button variant="white-outline" class="text-[12px] lg:text-[14px] px-6 rounded-[40px] mb-1 mt-6 ml-auto"> 確認送出 </Button>
                 </div>
