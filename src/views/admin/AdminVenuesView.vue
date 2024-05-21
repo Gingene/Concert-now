@@ -1,18 +1,16 @@
 <template>
   <main>
     <!-- Search/Command -->
-    <nav class="flex gap-6 mb-8 relative">
+    <nav class="grid grid-cols-4 gap-2 mb-6">
       <!-- 關鍵字搜尋 -->
-      <div class="w-[36%] lg:w-[290px] relative lg:pt-6">
+      <div class="col-span-4 sm:col-span-2 md:col-span-1 relative">
         <Input type="text" placeholder="輸入場地名稱" v-model="adminSearchText" />
-        <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
+        <span class="material-symbols-outlined absolute top-0 right-0 pe-3 py-1 text-gray-600"> search </span>
       </div>
       <!-- 地區篩選 -->
-      <div class="w-[15%] lg:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
+      <div class="col-span-4 xs:col-span-2 md:col-span-1">
         <Select v-model="adminCity">
-          <SelectTrigger>
-            <SelectValue placeholder="地區" />
-          </SelectTrigger>
+          <SelectTrigger><SelectValue placeholder="地區" /></SelectTrigger>
           <SelectContent>
             <SelectGroup>
               <SelectLabel class="tracking-wide">地區</SelectLabel>
@@ -22,20 +20,18 @@
           </SelectContent>
         </Select>
       </div>
-      <!-- 新增場地 -->
-      <div class="lg:pt-5 mt-auto">
+      <div class="flex gap-2">
+        <!-- 新增場地 -->
         <Dialog :open="isModalOpen" @update:open="isModalOpen = $event">
           <DialogTrigger as-child>
-            <Button variant="outline" @click="openDialog()" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 新增場地 </Button>
+            <Button variant="outline" @click="openDialog()" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white text-sm"> 新增場地 </Button>
           </DialogTrigger>
           <VenueModal />
         </Dialog>
-      </div>
-      <!-- 刪除多筆資料 -->
-      <div class="lg:pt-5 mt-auto">
+        <!-- 刪除多筆資料 -->
         <AlertDialog>
           <AlertDialogTrigger as-child>
-            <Button :disabled="deleteArray.length === 0" variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除多筆資料 </Button>
+            <Button :disabled="deleteArray.length === 0" variant="outline" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white text-sm"> 刪除多筆資料 </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -54,7 +50,7 @@
     <!-- 搜尋不到資料 -->
     <p v-if="adminVenues.length === 0" class="text-primary tracking-wider text-lg">oops! 搜尋不到相關資料 ╮(′～‵〞)╭</p>
     <!-- Table -->
-    <Table v-else class="bg-white rounded-lg text-md mb-10">
+    <Table v-else class="bg-white rounded-lg text-md mb-3">
       <TableHeader>
         <TableRow class="hover:bg-white text-nowrap" style="color: black !important">
           <TableHead></TableHead>
@@ -104,23 +100,13 @@
 </template>
 
 <script setup>
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+  import { Button } from '@/components/ui/button';
+  import { Checkbox } from '@/components/ui/checkbox';
+  import { Input } from '@/components/ui/input';
+  import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+  import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+  import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+  import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 </script>
 
 <script>
