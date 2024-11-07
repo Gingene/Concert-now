@@ -1,6 +1,6 @@
 <template>
   <!-- absolute -->
-  <div class="w-[350px] pl-6 pt-6 xl:hidden">
+  <div class="fixed z-10 bg-primary-foreground h-[18%] w-[350px] pl-6 pt-9 xl:hidden">
     
     <!-- 手機版 -->
     <Sheet :open="isSheetOpen" @update:open="isSheetOpen = $event">

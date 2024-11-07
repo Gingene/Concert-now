@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- Search/Command -->
-    <nav class="grid grid-cols-4 gap-2 mb-6">
+    <nav class="grid grid-cols-4 gap-2 mt-32 mb-6">
       <!-- 關鍵字搜尋 -->
       <div class="col-span-4 sm:col-span-2 md:col-span-1 relative">
         <Input type="text" placeholder="輸入場地名稱" v-model="adminSearchText" />
