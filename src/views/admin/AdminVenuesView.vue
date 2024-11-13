@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- Search/Command -->
-    <nav class="grid grid-cols-4 gap-2 mb-6">
+    <nav class="grid grid-cols-4 gap-2 mt-36 mb-6">
       <!-- 關鍵字搜尋 -->
       <div class="col-span-4 sm:col-span-2 md:col-span-1 relative">
         <Input type="text" placeholder="輸入場地名稱" v-model="adminSearchText" />
@@ -100,13 +100,23 @@
 </template>
 
 <script setup>
-  import { Button } from '@/components/ui/button';
-  import { Checkbox } from '@/components/ui/checkbox';
-  import { Input } from '@/components/ui/input';
-  import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-  import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-  import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-  import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 </script>
 
 <script>

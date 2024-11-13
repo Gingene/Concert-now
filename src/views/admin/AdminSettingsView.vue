@@ -1,6 +1,6 @@
 <!-- 此頁為寫死的靜態資料，沒有串API，也不會存資料 -->
 <template>
-  <div class="grid grid-cols-1 lg:grid-cols-4 lg:grid-flow-col gap-4">
+  <div class="grid grid-cols-1 mt-36 lg:grid-cols-4 lg:grid-flow-col gap-4">
     <!-- Left: Profile -->
     <section class="flex lg:flex-col justify-center lg:justify-start">
       <!-- ! 圖片未綁 -->
@@ -8,37 +8,37 @@
       <div class="ms-6 lg:ms-0">
         <h2 class="font-bold">{{ user.name }}</h2>
         <p class="pb-3 lg:pb-6">{{ user.email }}</p>
-      <!-- Reset Password -->
-      <Dialog>
-        <DialogTrigger as-child>
-          <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"> 重設密碼 </Button>
-        </DialogTrigger>
-        <DialogContent class="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle class="text-center py-4"> 請輸入以下資料 </DialogTitle>
-          </DialogHeader>
-          <div class="grid gap-4 py-4">
-            <div class="grid grid-cols-4 items-center gap-4">
-              <Label for="old-password">舊密碼</Label>
-              <Input id="old-password" type="password" class="col-span-3" />
+        <!-- Reset Password -->
+        <Dialog>
+          <DialogTrigger as-child>
+            <Button class="hover:bg-[#D595F1] text-white transition ease-in-out hover:-translate-y-1 duration-300"> 重設密碼 </Button>
+          </DialogTrigger>
+          <DialogContent class="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle class="text-center py-4"> 請輸入以下資料 </DialogTitle>
+            </DialogHeader>
+            <div class="grid gap-4 py-4">
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="old-password">舊密碼</Label>
+                <Input id="old-password" type="password" class="col-span-3" />
+              </div>
+              <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="new-password">新密碼</Label>
+                <Input id="new-password" type="password" class="col-span-3" />
+              </div>
             </div>
-            <div class="grid grid-cols-4 items-center gap-4">
-              <Label for="new-password">新密碼</Label>
-              <Input id="new-password" type="password" class="col-span-3" />
-            </div>
-          </div>
-          <DialogFooter>
-            <DialogClose as-child>
-              <Button type="button" variant="secondary">放棄變更</Button>
-            </DialogClose>
-            <!-- 不會真的送出資料，所以用 DialogClose -->
-            <DialogClose>
-              <Button type="button">確認送出</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    </div>
+            <DialogFooter>
+              <DialogClose as-child>
+                <Button type="button" variant="secondary">放棄變更</Button>
+              </DialogClose>
+              <!-- 不會真的送出資料，所以用 DialogClose -->
+              <DialogClose>
+                <Button type="button">確認送出</Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </div>
     </section>
     <!-- Right: Table -->
     <main class="lg:col-span-3 flex flex-col">

@@ -1,12 +1,11 @@
 <template>
   <!-- absolute -->
-  <div class="w-[350px] pl-6 pt-6 xl:hidden">
-    
+  <div class="fixed z-10 bg-primary-foreground h-[18%] w-[350px] pl-6 pt-9 xl:hidden">
     <!-- 手機版 -->
     <Sheet :open="isSheetOpen" @update:open="isSheetOpen = $event">
-      <SheetTrigger>
+      <SheetTrigger class="xl:hidden">
         <span class="material-symbols-outlined xl:p-0"> menu </span>
-      </SheetTrigger class="xl:hidden">
+      </SheetTrigger>
       <SheetContent class="overflow-y-scroll" side="left">
         <nav class="flex flex-col space-x-0 space-y-1">
           <div class="w-[205px] font-semibold mx-auto py-8 flex text-xl">CONCERT NOW.</div>
@@ -33,28 +32,20 @@
     <div class="text-center font-semibold py-8 text-xl">CONCERT NOW.</div>
     <div class="w-[256px] xl:flex xl:flex-col justify-between">
       <template v-for="item in sidebarNavItems" :key="item.title">
-      <RouterLink :to="item.href">
-        <Button variant="side-bar" size="side-bar">
-          <span class="material-symbols-outlined pe-6"> location_on </span>
-          <span> {{ item.title }} </span>
-        </Button>
-      </RouterLink>
-    </template>
+        <RouterLink :to="item.href">
+          <Button variant="side-bar" size="side-bar">
+            <span class="material-symbols-outlined pe-6"> location_on </span>
+            <span> {{ item.title }} </span>
+          </Button>
+        </RouterLink>
+      </template>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 </script>
 
 <script>
@@ -100,9 +91,9 @@ export default {
   },
   methods: {
     closeSheet() {
-      this.isSheetOpen = false
-    }
-  },  
+      this.isSheetOpen = false;
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
