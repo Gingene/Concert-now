@@ -6,7 +6,7 @@
     <!-- 取代AdminSideBar 佔據其空間 -->
     <div></div>
 
-    <div class="col-span-5 xl:col-span-4 p-6 xl:p-12 bg-primary-foreground">
+    <div class="col-span-5 xl:col-span-4 p-6 pt-0 xl:p-12 xl:pt-0 bg-primary-foreground">
       <AdminNav />
       <RouterView />
     </div>
