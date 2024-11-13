@@ -1,6 +1,6 @@
 <template>
   <!-- Search/Command -->
-  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-32 mb-8 lg:pt-6">
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 mt-36 mb-8 lg:pt-6">
     <div class="col-span-2 lg:col-span-1">
       <Select v-model="selectReview">
         <SelectTrigger>

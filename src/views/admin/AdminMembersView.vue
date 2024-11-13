@@ -1,7 +1,7 @@
 <template lang="">
   <!-- Search/Command -->
   <div>
-    <div class="flex flex-wrap gap-6 mt-32 mb-8 relative">
+    <div class="flex flex-wrap gap-6 mt-36 mb-8 relative">
       <!-- 關鍵字搜尋 -->
       <div class="w-full xs:w-[290px] relative">
         <Input type="text" placeholder="請輸入信箱查詢" v-model="searchText" />

@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- Search/Command -->
-    <nav class="grid grid-cols-6 gap-2 mt-32 mb-6">
+    <nav class="grid grid-cols-6 gap-2 mt-36 mb-6">
       <div class="col-span-6 md:col-span-2 relative">
         <Input type="text" placeholder="輸入演唱會名稱" v-model="searchText" @keyup="searchAdminConcerts(searchText)" />
         <span class="material-symbols-outlined absolute top-0 right-0 pe-3 py-1 text-gray-600"> search </span>

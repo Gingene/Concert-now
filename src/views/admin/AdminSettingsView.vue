@@ -1,6 +1,6 @@
 <!-- 此頁為寫死的靜態資料，沒有串API，也不會存資料 -->
 <template>
-  <div class="grid grid-cols-1 mt-32 lg:grid-cols-4 lg:grid-flow-col gap-4">
+  <div class="grid grid-cols-1 mt-36 lg:grid-cols-4 lg:grid-flow-col gap-4">
     <!-- Left: Profile -->
     <section class="flex lg:flex-col justify-center lg:justify-start">
       <!-- ! 圖片未綁 -->

@@ -1,6 +1,6 @@
 <template>
   <!-- Search/Command -->
-  <div class="flex flex-wrap gap-x-5 gap-y-6 mt-32 mb-8 relative md:gap-6">
+  <div class="flex flex-wrap gap-x-5 gap-y-6 mt-36 mb-8 relative md:gap-6">
     <div class="w-full xs:w-[290px] relative lg:pt-6">
       <Input type="text" placeholder="請輸入表演者名稱" v-model.trim="searchText" @keyup="searchInput" />
       <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
