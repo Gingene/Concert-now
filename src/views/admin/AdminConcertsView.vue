@@ -150,7 +150,12 @@
                   <div class="grid grid-cols-4 items-center gap-x-3">
                     <Label for="pictures-horizontal" class="text-left"> 圖片 - 橫圖 </Label>
                     <Field v-if="dialogTopic === 'add'" name="pictures-horizontal" rules="required" v-slot="{ errors, handleChange }">
-                      <Input type="file" id="pictures-horizontal" class="col-span-3 hover:bg-accent" accept="image/png, image/jpeg, image/webp" @change="readFile($event, 'horizontal', handleChange)" />
+                      <Input
+                        type="file"
+                        id="pictures-horizontal"
+                        class="col-span-3 hover:bg-accent"
+                        accept="image/png, image/jpeg, image/webp"
+                        @change="readFile($event, 'horizontal', handleChange)" />
                       <span v-show="errors[0]" class="errorText">圖片必填</span>
                     </Field>
                     <Field v-else name="pictures-horizontal">
@@ -221,7 +226,7 @@
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
-    </div>
+      </div>
     </nav>
     <!-- Table -->
     <Table class="bg-white rounded-lg text-md mb-10">
@@ -307,7 +312,17 @@ import { Label } from '@/components/ui/label';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogClose, DialogScrollContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
 </script>
 
@@ -463,7 +478,7 @@ export default {
     },
     changeDeleteList(id) {
       if (this.deleteList.indexOf(id) !== -1) {
-        this.deleteList.splice(this.deleteList.indexOf(id),1);
+        this.deleteList.splice(this.deleteList.indexOf(id), 1);
       } else this.deleteList.push(id);
     },
     deleteConcert() {
