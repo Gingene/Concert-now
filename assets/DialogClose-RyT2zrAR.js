@@ -1,1 +1,0 @@
-import{o as r,f as o,w as t,Q as l,R as n,S as p,z as u,bG as c}from"./index-MW900vQq.js";const d={__name:"DialogClose",props:{asChild:{type:Boolean,required:!1},as:{type:null,required:!1}},setup(e){const a=e;return(s,i)=>(r(),o(u(c),n(p(a)),{default:t(()=>[l(s.$slots,"default")]),_:3},16))}};export{d as _};
