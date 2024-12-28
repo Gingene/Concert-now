@@ -52,6 +52,7 @@
       :cardsEffect="{
         perSlideOffset: 16,
         perSlideRotate: 12,
+        slideShadows: false,
       }"
       :modules="modules"
       class="mySwiper concert-section xs:w-[90%] xl:w-[80%]">
@@ -136,8 +137,8 @@
     </div>
     <!-- PC(xl:1280): Artist" -->
     <div class="hidden xl:flex xl:gap-4 container w-min my-auto">
-      <details 
-        name="artists-carousel" 
+      <details
+        name="artists-carousel"
         v-for="(artist, index) in artists"
         :key="artist.id"
         :id="`artist${artist.id}`"
@@ -145,20 +146,18 @@
         @mouseenter="openArtist(`artist${artist.id}`)"
         class="w-[130px] h-[580px] relative z-0 text-start rounded-[40px] opacity-50 brightness-50 grayscale overflow-hidden">
         <summary class="w-full h-full">
-          <router-link 
-            :to="`/artists/${artist.id}`" 
-            class="w-full h-full p-6 flex flex-col justify-end shadow-[inset_0px_-190px_50px_rgba(0,0,0,.7)]">
+          <router-link :to="`/artists/${artist.id}`" class="w-full h-full p-6 flex flex-col justify-end shadow-[inset_0px_-190px_50px_rgba(0,0,0,.7)]">
             <h3 class="text-white font-black text-lg">{{ artist.name }}</h3>
             <p class="text-xs">
               <Heart class="inline" size="18px" />
               {{ artist.followers }} +
             </p>
-            <img :src="artist.image" :alt="artist.name" class="-z-10 w-full h-full absolute top-0 left-0 object-cover">
-            </router-link>
+            <img :src="artist.image" :alt="artist.name" class="-z-10 w-full h-full absolute top-0 left-0 object-cover" />
+          </router-link>
         </summary>
         <p class="m-6 line-clamp-3 tracking-wider opacity-60">{{ artist.intro }}</p>
       </details>
-    </div>  
+    </div>
     <!-- Mobile/Pad: 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
       <Button variant="white-outline" class="rounded-btn1 my-4 p-6 xs:p-7 w-full hover:border-transparent btn-explore-icon-color">
@@ -461,16 +460,16 @@ export default {
   }
 }
 //-------------------------------------- Artists
-details{
-	::marker {
-		content: '';
-	}
+details {
+  ::marker {
+    content: '';
+  }
   transition: all 0.8s ease;
-  &[open] { 
+  &[open] {
     opacity: 0.8;
     width: 400px;
     filter: brightness(1) grayscale(0);
-  };
+  }
 }
 /* Content Animation */
 details {
