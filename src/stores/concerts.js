@@ -15,6 +15,68 @@ export const useConcertsStore = defineStore('concerts', {
   state: () => {
     return {
       concerts: [],
+      // 首頁選定的，圖片和資料庫不一樣
+      selectedConcerts: [
+        {
+          id: 10,
+          show: 'false',
+          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
+          date: '2024-04-06 (六) 19:00',
+          image: 'https://i.imgur.com/ZbzHz0X.jpg',
+        },
+        {
+          id: 7,
+          show: 'false',
+          name: '原子邦妮「明明早點放棄就沒事了」',
+          date: '2024-04-20 (六) 19:30',
+          image: 'https://i.imgur.com/CDtPlHG.png',
+        },
+        {
+          id: 4,
+          show: 'true',
+          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/kPcCvf8.jpg',
+        },
+
+        {
+          id: 5,
+          show: 'false',
+          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
+          date: '2024-01-27 (六) 19:00',
+          image: 'https://i.imgur.com/FlEOLfm.jpg',
+        },
+
+        {
+          id: 6,
+          show: 'false',
+          name: 'YOASOBI演唱會2024台北站',
+          date: '2024-01-21 (日) 19:00',
+          image: 'https://i.imgur.com/E6JbF0S.jpg',
+        },
+        {
+          id: 3,
+          show: 'false',
+          name: 'FTISLAND演唱會2024台北站',
+          date: '2024-02-18 (六) 17:00',
+          image: 'https://i.imgur.com/2VtzkiT.png',
+        },
+        {
+          id: 12,
+          show: 'false',
+          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
+          date: '2024-07-20 (六) 18:00',
+          image: 'https://i.imgur.com/GWg5REN.png',
+        },
+
+        {
+          id: 11,
+          show: 'false',
+          name: '宇宙人《α：回到未來》20週年演唱會',
+          date: '2024-04-27 (六) 19:30',
+          image: 'https://i.imgur.com/TkXaaeF.png',
+        },
+      ],
       adminConcerts: [],
       singleConcert: {},
       pagination: {},

@@ -46,9 +46,7 @@
     <h2 class="font-black text-stroke font-lato sm:mb-5 text-[60px] xs:text-[88px] sm:text-[110px] md:text-[120px] lg:text-[160px]">CONCERTS</h2>
     <swiper
       :effect="'cards'"
-      :grabCursor="false"
       :freeMode="true"
-      :loop="true"
       :initialSlide="1"
       :navigation="true"
       :cardsEffect="{
@@ -58,13 +56,8 @@
       }"
       :modules="modules"
       class="mySwiper concert-section xs:w-[90%] xl:w-[80%]">
-      <swiper-slide
-        v-slot="{ isActive }"
-        v-for="concert in concerts"
-        :key="concert.id + 123"
-        class="pl-4 lg:pl-40 bg-transparent ml-[5%] sm:ml-[8%] xl:ml-0 -my-10 sm:-my-5"
-        style="z-index: -1"
-        :style="`height: 700px;`">
+      <!-- More: :loop="true" :grabCursor="true" -->
+      <swiper-slide v-slot="{ isActive }" v-for="concert in selectedConcerts" :key="`concert ${concert.id}`" class="-z-10 pl-4 lg:pl-40 bg-transparent" :style="`height: 700px;`">
         <img
           :src="`${concert.image}`"
           :class="{ 'concert-photo-show': isActive }"
@@ -143,30 +136,27 @@
       </swiper>
     </div>
     <!-- PC(xl:1280): Artist" -->
-    <div class="hidden xl:flex xl:gap-4 container w-[90%]">
-      <router-link
-        v-for="artist in artists"
+    <div class="hidden xl:flex xl:gap-4 container w-min my-auto">
+      <details
+        name="artists-carousel"
+        v-for="(artist, index) in artists"
         :key="artist.id"
-        :to="`/artists/${artist.id}`"
         :id="`artist${artist.id}`"
-        @mouseenter="startTimer(`artist${artist.id}`)"
-        @mouseleave="clearTimer(`artist${artist.id}`)"
-        :style="{
-          'background-image': `url(${artist.image})`,
-          'background-size': 'cover',
-          'background-position': 'center',
-        }"
-        class="relative rounded-[40px] opacity-50 brightness-50 grayscale w-[calc((100%/6)*1)] h-[580px] shadow-[inset_0px_-90px_50px_rgba(0,0,0,.7)]">
-        <div class="absolute bottom-5 left-5 text-start">
-          <p class="text-white font-black text-lg">
-            {{ artist.name }}
-          </p>
-          <p class="text-xs">
-            <Heart class="inline" size="18px" />
-            {{ artist.followers }} +
-          </p>
-        </div>
-      </router-link>
+        :open="index === 3"
+        @mouseenter="openArtist(`artist${artist.id}`)"
+        class="w-[130px] h-[580px] relative z-0 text-start rounded-[40px] opacity-50 brightness-50 grayscale overflow-hidden">
+        <summary class="w-full h-full">
+          <router-link :to="`/artists/${artist.id}`" class="w-full h-full p-6 flex flex-col justify-end shadow-[inset_0px_-190px_50px_rgba(0,0,0,.7)]">
+            <h3 class="text-white font-black text-lg">{{ artist.name }}</h3>
+            <p class="text-xs">
+              <Heart class="inline" size="18px" />
+              {{ artist.followers }} +
+            </p>
+            <img :src="artist.image" :alt="artist.name" class="-z-10 w-full h-full absolute top-0 left-0 object-cover" />
+          </router-link>
+        </summary>
+        <p class="m-6 line-clamp-3 tracking-wider opacity-60">{{ artist.intro }}</p>
+      </details>
     </div>
     <!-- Mobile/Pad: 所有表演者總覽頁 Button -->
     <router-link :to="`/artists`" class="block xl:hidden w-[300px] xs:w-[390px] sm:w-[70%] md:w-[60%] xl:w-[40%] mx-auto xl:ml-auto mt-5 xs:mt-8 sm:mt-12 lg:mt-16 mb-8">
@@ -392,6 +382,8 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { mapActions, mapState } from 'pinia';
 import { useVenuesStore } from '@/stores/venues';
+import { useArtistsStore } from '@/stores/artists';
+import { useConcertsStore } from '@/stores/concerts';
 
 export default {
   data() {
@@ -401,223 +393,6 @@ export default {
       modules: [Navigation, Pagination, Mousewheel, Keyboard, FreeMode, EffectCoverflow, EffectCards],
       songList: ['Cruel Summer', '...Ready For It?', 'Lover', 'Love Story', 'Shake It Off'],
       concertActive: {},
-      concerts: [
-        {
-          id: 10,
-          show: 'false',
-          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
-          date: '2024-04-06 (六) 19:00',
-          image: 'https://i.imgur.com/ZbzHz0X.jpg',
-        },
-        {
-          id: 7,
-          show: 'false',
-          name: '原子邦妮「明明早點放棄就沒事了」',
-          date: '2024-04-20 (六) 19:30',
-          image: 'https://i.imgur.com/CDtPlHG.png',
-        },
-        {
-          id: 4,
-          show: 'true',
-          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/kPcCvf8.jpg',
-        },
-
-        {
-          id: 5,
-          show: 'false',
-          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/FlEOLfm.jpg',
-        },
-
-        {
-          id: 6,
-          show: 'false',
-          name: 'YOASOBI演唱會2024台北站',
-          date: '2024-01-21 (日) 19:00',
-          image: 'https://i.imgur.com/E6JbF0S.jpg',
-        },
-        {
-          id: 3,
-          show: 'false',
-          name: 'FTISLAND演唱會2024台北站',
-          date: '2024-02-18 (六) 17:00',
-          image: 'https://i.imgur.com/2VtzkiT.png',
-        },
-        {
-          id: 12,
-          show: 'false',
-          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
-          date: '2024-07-20 (六) 18:00',
-          image: 'https://i.imgur.com/GWg5REN.png',
-        },
-
-        {
-          id: 11,
-          show: 'false',
-          name: '宇宙人《α：回到未來》20週年演唱會',
-          date: '2024-04-27 (六) 19:30',
-          image: 'https://i.imgur.com/TkXaaeF.png',
-        },
-        {
-          id: 10,
-          show: 'false',
-          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
-          date: '2024-04-06 (六) 19:00',
-          image: 'https://i.imgur.com/ZbzHz0X.jpg',
-        },
-        {
-          id: 7,
-          show: 'false',
-          name: '原子邦妮「明明早點放棄就沒事了」',
-          date: '2024-04-20 (六) 19:30',
-          image: 'https://i.imgur.com/CDtPlHG.png',
-        },
-        {
-          id: 4,
-          show: 'true',
-          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/kPcCvf8.jpg',
-        },
-
-        {
-          id: 5,
-          show: 'false',
-          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/FlEOLfm.jpg',
-        },
-
-        {
-          id: 6,
-          show: 'false',
-          name: 'YOASOBI演唱會2024台北站',
-          date: '2024-01-21 (日) 19:00',
-          image: 'https://i.imgur.com/E6JbF0S.jpg',
-        },
-        {
-          id: 3,
-          show: 'false',
-          name: 'FTISLAND演唱會2024台北站',
-          date: '2024-02-18 (六) 17:00',
-          image: 'https://i.imgur.com/2VtzkiT.png',
-        },
-        {
-          id: 12,
-          show: 'false',
-          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
-          date: '2024-07-20 (六) 18:00',
-          image: 'https://i.imgur.com/GWg5REN.png',
-        },
-
-        {
-          id: 11,
-          show: 'false',
-          name: '宇宙人《α：回到未來》20週年演唱會',
-          date: '2024-04-27 (六) 19:30',
-          image: 'https://i.imgur.com/TkXaaeF.png',
-        },
-        {
-          id: 10,
-          show: 'false',
-          name: 'King Gnu Asia Tour『THE GREATEST UNKNOWN』in Taipei',
-          date: '2024-04-06 (六) 19:00',
-          image: 'https://i.imgur.com/ZbzHz0X.jpg',
-        },
-        {
-          id: 7,
-          show: 'false',
-          name: '原子邦妮「明明早點放棄就沒事了」',
-          date: '2024-04-20 (六) 19:30',
-          image: 'https://i.imgur.com/CDtPlHG.png',
-        },
-        {
-          id: 4,
-          show: 'true',
-          name: '理想混蛋【奇異點 BESTRANGE】演唱會 高雄場',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/kPcCvf8.jpg',
-        },
-
-        {
-          id: 5,
-          show: 'false',
-          name: '溫蒂漫步 Wendy Wander 2024 Tour “Midnight Wandering 午夜漫遊“',
-          date: '2024-01-27 (六) 19:00',
-          image: 'https://i.imgur.com/FlEOLfm.jpg',
-        },
-
-        {
-          id: 6,
-          show: 'false',
-          name: 'YOASOBI演唱會2024台北站',
-          date: '2024-01-21 (日) 19:00',
-          image: 'https://i.imgur.com/E6JbF0S.jpg',
-        },
-        {
-          id: 3,
-          show: 'false',
-          name: 'FTISLAND演唱會2024台北站',
-          date: '2024-02-18 (六) 17:00',
-          image: 'https://i.imgur.com/2VtzkiT.png',
-        },
-        {
-          id: 12,
-          show: 'false',
-          name: 'ITZY 2ND WORLD TOUR <BORN TO BE> in TAIPEI',
-          date: '2024-07-20 (六) 18:00',
-          image: 'https://i.imgur.com/GWg5REN.png',
-        },
-
-        {
-          id: 11,
-          show: 'false',
-          name: '宇宙人《α：回到未來》20週年演唱會',
-          date: '2024-04-27 (六) 19:30',
-          image: 'https://i.imgur.com/TkXaaeF.png',
-        },
-      ],
-      artists: [
-        {
-          id: 11,
-          name: 'Itzy',
-          image: 'https://i.imgur.com/yxpSEBX.jpeg',
-          followers: 40192,
-        },
-        {
-          id: 5,
-          name: '溫蒂漫步',
-          image: 'https://i.imgur.com/1w27w5u.jpeg',
-          followers: 3927,
-        },
-        {
-          id: 2,
-          name: 'Apink',
-          image: 'https://i.imgur.com/BxG8f6P.jpeg',
-          followers: 49270,
-        },
-        {
-          id: 7,
-          name: 'YOASOBI',
-          image: 'https://i.imgur.com/miVeAVr.jpeg',
-          followers: 52380,
-        },
-        {
-          id: 12,
-          name: '理想混蛋',
-          image: 'https://i.imgur.com/dKHPtCY.jpeg',
-          followers: 14702,
-        },
-        {
-          id: 9,
-          name: 'HYBS',
-          image: 'https://i.imgur.com/UGVUsOq.jpg',
-          followers: 21092,
-        },
-      ],
     };
   },
   inject: ['http', 'path'],
@@ -626,36 +401,16 @@ export default {
       const searchModal = document.querySelector('.searchModal');
       searchModal.click();
     },
-    startTimer(artistId) {
-      this.timer[artistId] = setTimeout(() => {
-        this.isAminationActive = true;
-        this.hoverAnimation(artistId);
-      }, 400);
-    },
-    clearTimer(artistId) {
-      if (this.isAminationActive) {
-        this.isAminationActive = false;
-        this.leaveAnimation(artistId);
-      } else {
-        clearTimeout(this.timer[artistId]);
-      }
-    },
-    hoverAnimation(artistId) {
-      const id = document.querySelector(`#${artistId}`);
-      id.classList.add('animate-col-span-1-to-4');
-      if (id.classList.contains('animate-col-span-4-to-1')) {
-        id.classList.remove('animate-col-span-4-to-1');
-      }
-    },
-    leaveAnimation(artistId) {
-      const id = document.querySelector(`#${artistId}`);
-      id.classList.add('animate-col-span-4-to-1');
-      id.classList.remove('animate-col-span-1-to-4');
+    openArtist(artistId) {
+      const id = document.getElementById(artistId);
+      id.setAttribute('open', true);
     },
     ...mapActions(useVenuesStore, ['getVenueInfo']),
   },
   computed: {
     ...mapState(useVenuesStore, ['venueInfo']),
+    ...mapState(useArtistsStore, ['artists']),
+    ...mapState(useConcertsStore, ['selectedConcerts']),
   },
   mounted() {
     this.getVenueInfo();
@@ -702,6 +457,34 @@ export default {
     box-shadow: inset 0 0 20px #fff;
     color: #fff;
     top: -150px;
+  }
+}
+//-------------------------------------- Artists
+details {
+  ::marker {
+    content: '';
+  }
+  transition: all 0.8s ease;
+  &[open] {
+    opacity: 0.8;
+    width: 400px;
+    filter: brightness(1) grayscale(0);
+  }
+}
+/* Content Animation */
+details {
+  &::details-content {
+    position: absolute;
+    bottom: 12%;
+    background: transparent;
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: all 1s ease;
+  }
+  &[open]::details-content {
+    width: 380px;
+    opacity: 1;
+    transform: none;
   }
 }
 // -------------------------------------- Venues
