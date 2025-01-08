@@ -1,12 +1,12 @@
 <template>
   <!-- Search/Command -->
-  <div class="flex flex-wrap gap-x-5 gap-y-6 mt-36 mb-8 relative md:gap-6">
-    <div class="w-full xs:w-[290px] relative lg:pt-6">
+  <div class="flex flex-wrap gap-x-5 gap-y-6 mt-[120px] mb-8 md:gap-6 relative">
+    <div class="w-full xs:w-[290px] relative">
       <Input type="text" placeholder="請輸入表演者名稱" v-model.trim="searchText" @keyup="searchInput" />
-      <span class="material-symbols-outlined absolute top-7 right-2.5 cursor-pointer hidden lg:block"> search </span>
+      <span class="material-symbols-outlined absolute top-1 right-2.5 cursor-pointer hidden lg:block"> search </span>
     </div>
     <!-- 國籍篩選 -->
-    <div class="w-full xs:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center lg:pt-5">
+    <div class="w-full xs:w-[200px] flex flex-col items-end lg:flex-row lg:justify-center">
       <Select v-model="selectCountry">
         <SelectTrigger>
           <SelectValue placeholder="請選擇表演者國籍" />
@@ -23,7 +23,7 @@
     </div>
     <div class="flex flex-row gap-6">
       <!-- 新增表演者 button -->
-      <div class="lg:pt-5 mt-auto">
+      <div class=" mt-auto">
         <!-- 滾輪 -->
         <Form ref="form">
           <Dialog :open="dialogOpen" @update:open="dialogOpen = $event">
@@ -250,7 +250,7 @@
         </Form>
       </div>
       <!-- 刪除多筆資料 button -->
-      <div class="lg:pt-5 mt-auto">
+      <div class="mt-auto">
         <AlertDialog>
           <AlertDialogTrigger as-child>
             <Button variant="outline" :disabled="selectIdBoolean.length === 0" class="bg-primary text-white hover:bg-[#6366f1] hover:text-white"> 刪除資料 </Button>
@@ -270,55 +270,58 @@
     </div>
   </div>
   <!-- Table -->
-  <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap">
-    <TableHeader>
-      <TableRow class="hover:bg-white text-nowrap" style="color: black !important">
-        <TableHead></TableHead>
-        <TableHead class="font-semibold">表演者名稱</TableHead>
-        <TableHead class="font-semibold">表演者國籍</TableHead>
-        <TableHead class="font-semibold">即將舉辦演唱會數</TableHead>
-        <TableHead class="font-semibold">追蹤人數</TableHead>
-        <TableHead class="w-[100px]"></TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody class="text-gray-600">
-      <TableRow v-for="artist in filteredData" :key="artist.id">
-        <TableCell class="text-purple-primary">
-          <Checkbox id="terms" :checked="checkedMap[artist.id]" @update:checked="updateChecked(artist.id, $event)" />
-          <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
-        </TableCell>
-        <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
-        <TableCell class="pl-10">{{ artist.country }}</TableCell>
-        <TableCell class="pl-[70px]">{{ artist.concert_count }}</TableCell>
-        <TableCell class="pl-7">{{ artist.follower_count }}</TableCell>
-        <TableCell class="text-center">
-          <Button variant="none" @click="openDialog('編輯', artist.id)" class="hover:text-[#6366f1]">
-            <span class="material-symbols-outlined">edit</span>
-          </Button>
-          <AlertDialog>
-            <AlertDialogTrigger as-child>
-              <Button variant="none" class="hover:text-[#6366f1]">
-                <span class="material-symbols-outlined"> delete </span>
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>確定要刪除該筆資料?</AlertDialogTitle>
-                <AlertDialogDescription> </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>取消</AlertDialogCancel>
-                <AlertDialogAction @click="deleteItem(artist.id)"> 確定 </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
+  <TableCaption class="block py-2 text-start"> 搜尋結果：{{ pagination.total }} 筆資料 </TableCaption>
+  <ScrollArea v-if="filteredData?.length" class="h-[380px]">
+    <Table class="bg-white rounded-lg text-md whitespace-nowrap">
+      <TableHeader class="sticky top-0">
+        <TableRow class="text-nowrap">
+          <TableHead class="bg-slate-600"></TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white">表演者名稱</TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white">表演者國籍</TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white">即將舉辦演唱會數</TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white">追蹤人數</TableHead>
+          <TableHead class="w-[100px] bg-slate-600"></TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody class="text-gray-600">
+        <TableRow v-for="artist in filteredData" :key="artist.id">
+          <TableCell class="text-purple-primary">
+            <Checkbox id="terms" :checked="checkedMap[artist.id]" @update:checked="updateChecked(artist.id, $event)" />
+            <label for="terms" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"> </label>
+          </TableCell>
+          <TableCell class="text-purple-primary">{{ artist?.name }}</TableCell>
+          <TableCell class="pl-10">{{ artist.country }}</TableCell>
+          <TableCell class="pl-[70px]">{{ artist.concert_count }}</TableCell>
+          <TableCell class="pl-7">{{ artist.follower_count }}</TableCell>
+          <TableCell class="text-center">
+            <Button variant="none" @click="openDialog('編輯', artist.id)" class="hover:text-[#6366f1]">
+              <span class="material-symbols-outlined">edit</span>
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger as-child>
+                <Button variant="none" class="hover:text-[#6366f1]">
+                  <span class="material-symbols-outlined"> delete </span>
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>確定要刪除該筆資料?</AlertDialogTitle>
+                  <AlertDialogDescription> </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>取消</AlertDialogCancel>
+                  <AlertDialogAction @click="deleteItem(artist.id)"> 確定 </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </ScrollArea>
 
   <!-- Pagination -->
-  <div class="flex justify-center">
+  <div v-if="filteredData?.length" class="flex justify-center mt-10">
     <Pagination v-slot="{ page }" :total="pagination.total_pages * 10" :sibling-count="1" show-edges :default-page="1">
       <PaginationList v-slot="{ items }" class="flex items-center md:gap-1">
         <PaginationFirst @click="FilterByPage(1)" />
@@ -340,8 +343,8 @@
   </div>
 
   <!-- 找不到資料 -->
-  <div v-show="!filteredData?.length" class="flex justify-center py-12">
-    <h2>哇! 找不到資料~</h2>
+  <div v-else class="flex justify-center py-12">
+    <h2>哇!  找不到資料~</h2>
   </div>
 </template>
 
@@ -349,9 +352,10 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 // table
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCaption,TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 // Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';

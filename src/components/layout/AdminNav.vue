@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed right-5 z-10 bg-primary-foreground w-[78%] h-[18%] pt-1 xs:flex items-center justify-end space-x-4 text-end mb-8">
+  <div class="fixed top-0 right-0 z-10 bg-primary-foreground w-[78%] h-[15%] pt-2 pr-6 xl:pr-12 xs:flex items-center justify-end space-x-4 text-end">
     <div class="inline-block mt-[2px] mb-3 xs:mt-0 xs:mb-0">
       <span class="material-symbols-outlined mr-px"> account_circle </span>
       <span class="inline-block align-super">管理者</span>
