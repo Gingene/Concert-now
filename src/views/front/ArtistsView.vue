@@ -183,9 +183,6 @@ export default {
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
-
-        // console.log('artists', this.aristData.artists);
-        // console.log('pagination', this.aristData.pagination);
       } catch (error) {
         console.error(error);
       }
@@ -227,9 +224,8 @@ export default {
 
       followAction(id)
         .then(() => {
-          // this.getArtistsData()
+          // 不能使用 this.getArtistsData()
           this.FilterByCountry(this.activeFilterCountry);
-          // FilterByCountry(country = '全部')
         })
         .then(() => {
           // 延遲顯示 toastMsg，等待 getArtistsData 完成後

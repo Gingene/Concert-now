@@ -1,7 +1,7 @@
 <template lang="">
   <!-- Search/Command -->
   <div>
-    <div class="flex flex-wrap gap-6 mt-36 mb-8 relative">
+    <div class="flex flex-wrap gap-6 mt-[115px] mb-8 relative">
       <!-- 關鍵字搜尋 -->
       <div class="w-full xs:w-[290px] relative">
         <Input type="text" placeholder="請輸入信箱查詢" v-model="searchText" />
@@ -28,43 +28,45 @@
 
   <!-- Table -->
   <TableCaption class="block py-2 text-start"> 搜尋結果：{{ pageTotal }} 筆資料 </TableCaption>
-  <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap" v-show="adminMembers?.length !== 0">
-    <TableHeader>
-      <TableRow>
-        <TableHead class="font-semibold w-[200px]"> 名稱 </TableHead>
-        <TableHead class="font-semibold">信箱</TableHead>
-        <TableHead class="font-semibold pl-6">會員狀態</TableHead>
-        <TableHead class="font-semibold"> 警告次數 </TableHead>
-        <TableHead class="font-semibold"> 會員編號 </TableHead>
-        <TableHead class="font-semibold"> 加入會員日期 </TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      <TableRow v-for="user in adminMembers" :key="user.id">
-        <TableCell class="font-medium w-[200px]">
-          <div class="flex items-center mr-2">
-            <img class="size-[56px] border-2 rounded-full bg-white p-1" :src="user?.profile_image_url" alt="使用者大頭貼" />
-            <p class="ml-3">{{ user?.name }}</p>
-          </div>
-        </TableCell>
-        <TableCell>{{ user?.email }}</TableCell>
-        <TableCell>
-          <div class="flex items-center">
-            <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
-            <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
-            {{ user.status }}
-          </div>
-        </TableCell>
-        <TableCell class="pl-10">{{ user?.warning_list.length }}</TableCell>
-        <TableCell class="pl-10">{{ user?.id }}</TableCell>
-        <TableCell>{{ user?.created_at }}</TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
+  <ScrollArea v-if="adminMembers?.length" class="h-[380px]">
+    <Table class="bg-white rounded-lg text-md mb-10 whitespace-nowrap">
+      <TableHeader class="sticky top-0">
+        <TableRow>
+          <TableHead class="font-semibold bg-slate-600 text-white w-[200px]"> 名稱 </TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white">信箱</TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white pl-6">會員狀態</TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white"> 警告次數 </TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white"> 會員編號 </TableHead>
+          <TableHead class="font-semibold bg-slate-600 text-white"> 加入會員日期 </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow v-for="user in adminMembers" :key="user.id">
+          <TableCell class="font-medium w-[200px]">
+            <div class="flex items-center mr-2">
+              <img class="size-[56px] border-2 rounded-full bg-white p-1" :src="user?.profile_image_url" alt="使用者大頭貼" />
+              <p class="ml-3">{{ user?.name }}</p>
+            </div>
+          </TableCell>
+          <TableCell>{{ user?.email }}</TableCell>
+          <TableCell>
+            <div class="flex items-center">
+              <span v-if="user.status === '啟用中'" class="material-symbols-outlined mr-1"> check_circle </span>
+              <span v-else class="material-symbols-outlined mr-1 text-violet-800"> warning </span>
+              {{ user.status }}
+            </div>
+          </TableCell>
+          <TableCell class="pl-10">{{ user?.warning_list.length }}</TableCell>
+          <TableCell class="pl-10">{{ user?.id }}</TableCell>
+          <TableCell>{{ user?.created_at }}</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </ScrollArea>
 
   <!-- Pagination -->
   <Pagination
-    v-if="pageTotal"
+    v-if="adminMembers?.length"
     v-slot="{ page }"
     :page="page"
     :itemsPerPage="15"
@@ -73,7 +75,7 @@
     show-edges
     :default-page="1"
     :disabled="pageTotal <= 15"
-    class="flex justify-center py-6">
+    class="flex justify-center mt-10">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
       <PaginationFirst @click="getAdminMembers('page', 1)" />
       <PaginationPrev @click="getAdminMembers('page', page - 1)" />
@@ -91,11 +93,17 @@
       <PaginationLast @click="getAdminMembers('page', items.length)" />
     </PaginationList>
   </Pagination>
+
+  <!-- 找不到資料 -->
+  <div v-else class="flex justify-center py-12">
+    <h2>哇! 找不到資料~</h2>
+  </div>
 </template>
 
 <script setup>
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationEllipsis, PaginationFirst, PaginationLast, PaginationList, PaginationListItem, PaginationNext, PaginationPrev } from '@/components/ui/pagination';
