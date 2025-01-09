@@ -75,8 +75,7 @@
     show-edges
     :default-page="1"
     :disabled="pageTotal <= 15"
-    class="flex justify-center mt-10"
-  >
+    class="flex justify-center mt-10">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
       <PaginationFirst @click="getAdminMembers('page', 1)" />
       <PaginationPrev @click="getAdminMembers('page', page - 1)" />
@@ -97,7 +96,7 @@
 
   <!-- 找不到資料 -->
   <div v-else class="flex justify-center py-12">
-    <h2>哇!  找不到資料~</h2>
+    <h2>哇! 找不到資料~</h2>
   </div>
 </template>
 

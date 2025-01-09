@@ -23,7 +23,7 @@
     </div>
     <div class="flex flex-row gap-6">
       <!-- 新增表演者 button -->
-      <div class=" mt-auto">
+      <div class="mt-auto">
         <!-- 滾輪 -->
         <Form ref="form">
           <Dialog :open="dialogOpen" @update:open="dialogOpen = $event">
@@ -344,7 +344,7 @@
 
   <!-- 找不到資料 -->
   <div v-else class="flex justify-center py-12">
-    <h2>哇!  找不到資料~</h2>
+    <h2>哇! 找不到資料~</h2>
   </div>
 </template>
 
@@ -352,10 +352,10 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 // table
-import { Table, TableBody, TableCaption,TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 // Select
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';

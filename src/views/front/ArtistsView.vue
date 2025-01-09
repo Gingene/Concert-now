@@ -183,7 +183,6 @@ export default {
         const res = await getArtists(page);
         this.aristData.artists = res.data.data;
         this.aristData.pagination = res.data.pagination;
-
       } catch (error) {
         console.error(error);
       }
