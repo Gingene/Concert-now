@@ -35,14 +35,15 @@ export default {
     const cursorDot = document.querySelector('[data-cursor-dot]');
     const cursorOutline = document.querySelector('[data-cursor-outline]');
 
+    if (window.innerWidth < 1024) {
+      cursorDot.style.display = 'none';
+      cursorOutline.style.display = 'none';
+      return;
+    }
+
     window.addEventListener('mousemove', (e) => {
       const posX = e.clientX;
       const posY = e.clientY;
-
-      if (window.innerWidth < '1024') {
-        cursorDot.style.display = 'none';
-        cursorOutline.style.display = 'none';
-      }
 
       cursorDot.style.left = `${posX}px`;
       cursorDot.style.top = `${posY}px`;
