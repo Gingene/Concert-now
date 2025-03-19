@@ -1,8 +1,8 @@
 <template>
   <!-- 上方背景 -->
-  <div
-    class="w-full h-[400px] md:h-[460px] lg:h-[600px] 2xl:h-[700px] bg-no-repeat bg-cover absolute top-0 -z-10 bg-bottom shadow"
-    :style="`background-image: url(${venue.picture?.horizontal})`"></div>
+  <div class="relative">
+    <img class="w-full h-[400px] md:h-[460px] lg:h-[600px] 2xl:h-[700px] bg-no-repeat bg-cover absolute top-[-64px] -z-10 bg-bottom shadow" :src="venue?.picture?.horizontal" :alt="venue?.title" />
+  </div>
   <!-- 場地體驗 -->
   <section class="container pb-20 lg:pb-32 pt-[400px] md:pt-[460px] lg:pt-[600px] 2xl:pt-[700px] space-y-6 lg:space-y-10">
     <main class="space-y-6 lg:space-y-10">

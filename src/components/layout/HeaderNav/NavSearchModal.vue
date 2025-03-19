@@ -63,7 +63,7 @@ export default {
           title: '表演者',
           link: '/artists',
           carouselClassName: 'md:basis-1/2 lg:basis-1/4 xl:basis-1/5 2xl:basis-1/6',
-          imageClassName: 'size-[100px] md:size-[150px] lg:size-[150px] rounded-full',
+          imageClassName: 'size-[100px] md:size-[150px]  rounded-full',
         },
         {
           title: '演唱會',

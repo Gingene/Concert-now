@@ -169,8 +169,8 @@ export default {
           title: '台北國際會議中心TICC',
           city: '台北市',
           picture: {
-            horizontal: 'https://www.ticc.com.tw/wSite/xslgip/style1/images/sp13/section_14.jpg',
-            square: 'https://lh3.googleusercontent.com/p/AF1QipPsHmLZ2gTtSxCtqT4HGPFRNloBKRqX0q6rtpzy=w1080-h608-p-no-v0',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/4G0VmCtQhI0q1IBVqoqBniUGDKge3BCe9Vtrhb6D.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/x7t2TNldnrALIfQ4Krqimf8GVIo3Qu8YsZCmRtF6.jpg',
           },
         },
         {
@@ -179,8 +179,8 @@ export default {
           title: 'Zepp New Taipei',
           city: '新北市',
           picture: {
-            horizontal: 'https://www.richhonour.com/images/project/commercial/c22/3.jpg',
-            square: 'https://www.heavenraven.com/wp-content/uploads/2020/10/Zepp-New-Taipei-director-%E6%9C%AC%E5%A4%9A%E7%9C%9F%E4%B8%80%E9%83%8E-interview-13.jpg',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/YssjqVn7jlTkQElGNJM9IvfjzROFEjQzH3ZhVKmk.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/f2z1KB60vpiv7M1xphnAl0L9IRRQFUfuxcQSCfeF.jpg',
           },
         },
         {
@@ -189,8 +189,8 @@ export default {
           title: '台北流行音樂中心',
           city: '台北市',
           picture: {
-            horizontal: 'https://tmc.taipei/wp-content/uploads/2022/01/DSC05413.jpg',
-            square: 'https://www.travel.taipei/image/193182',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/IcZc3FP5e7CwPKaWeEyHL5EpnTuCeMV7hk241bjK.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/GHpEx8CcCZ4SZO18tPomTCaHjNKeSmn2AB9RiuRW.jpg',
           },
         },
         {
@@ -199,8 +199,8 @@ export default {
           title: 'Legacy Taichung',
           city: '台中市',
           picture: {
-            horizontal: 'https://res.klook.com/image/upload/x_0,y_5,w_1042,h_678,c_crop/events/hubpage/etskq5ygkmrgugmur71w.jpg',
-            square: 'https://live.staticflickr.com/4663/25588455987_993fd71bb0_b.jpg',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/fcUFAVWn9rzakpXzUb5gHOaCj8VYPoddqcabHPLU.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/aBUV8cELaUtRHEK1IW9I2ugjf8nYMUzoTOKrv5yB.jpg',
           },
         },
         {
@@ -209,8 +209,8 @@ export default {
           title: '高雄流行音樂中心',
           city: '高雄市',
           picture: {
-            horizontal: 'https://www.musicmusic.com.tw/domain/www/upload/file/210420172132f2710.jpg',
-            square: 'https://www.habitech.com.tw/storage/2022/02/MAI_4137.jpg',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/FONNEovraS9yd367KINWDTVqsahuGYxJA32TSZb5.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/2VWev9zMXKPyzxJcwNwo8OprEx0oK6YBZIC2Vf1m.jpg',
           },
         },
         {
@@ -219,8 +219,8 @@ export default {
           title: '台北小巨蛋',
           city: '台北市',
           picture: {
-            horizontal: 'https://s3.beautimode.com/upload/media/9019eeb78c5c4a27f44317e3d804750b.jpg',
-            square: 'https://i.imgur.com/VTeXfKF.jpeg',
+            horizontal: 'https://concert-now.dewed.one/storage/venue/horizontal/gvgWtYJLkAtgSflqjrIQb84XBDI29yMGhMw22Io8.jpg',
+            square: 'https://concert-now.dewed.one/storage/venue/square/tAf2fkalOQjyHSjy2h1jA1s4OygICJdtOeEriIEW.jpg',
           },
         },
       ],

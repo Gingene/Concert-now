@@ -11,8 +11,8 @@
 
       <!-- 電腦版導覽列 -->
       <nav class="hidden lg:block lg:col-span-5 xl:col-span-4">
-        <ul class="flex justify-between items-center">
-          <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" ref="linkItems" @mouseover="addBlurEffect(index, $event)" @mouseleave="removeBlurEffect">
+        <ul class="flex justify-between items-center" @mouseover="handleNavHover" @mouseleave="resetBlurEffect">
+          <li v-for="(item, index) in navList" class="transition-blur" :key="item.title" :data-index="index" ref="linkItems">
             <RouterLink :to="item.href" class="py-5 lg:px-2 2xl:px-5 inline-block whitespace-nowrap"> {{ hoveredIndex === index ? item.title : item.enTitle }}</RouterLink>
           </li>
         </ul>
@@ -231,21 +231,31 @@ export default {
     };
   },
   methods: {
-    addBlurEffect(index, e) {
+    handleNavHover: useDebounceFn(function (e) {
+      // 確保事件從 li 元素觸發
+      const liElement = e.target.closest('li');
+      if (!liElement) return;
+
+      const index = parseInt(liElement.dataset.index, 10);
+      if (isNaN(index)) return;
+      liElement.style.width = `${liElement.offsetWidth}px`;
+
+      // 設置當前懸停索引
       this.hoveredIndex = index;
+
+      // 添加模糊效果到所有元素，然後移除當前元素的模糊
       this.$refs.linkItems.forEach((item) => {
         item.classList.add('blur');
       });
-      e.currentTarget.classList.remove('blur');
-      // console.log('hover');
-    },
-    removeBlurEffect: useDebounceFn(function () {
+      liElement.classList.remove('blur');
+    }, 50), // mouseover 事件添加短時間防抖（50ms），保持互動靈敏度
+    resetBlurEffect: useDebounceFn(function () {
       this.hoveredIndex = -1;
       this.$refs.linkItems.forEach((item) => {
         item.classList.remove('blur');
+        item.style.width = 'auto';
       });
-      // console.log('remove');
-    }, 600),
+    }, 500), // 保留 mouseleave 的較長防抖時間（500ms），防止意外觸發
     toggleModal(val) {
       this.isToggleSearchModal = val;
     },
@@ -266,5 +276,11 @@ export default {
 <style lang="scss" scoped>
 .transition-blur {
   transition: all 0.3s ease;
+}
+
+/* 為導航欄添加更好的交互體驗 */
+nav ul {
+  position: relative;
+  z-index: 1;
 }
 </style>
